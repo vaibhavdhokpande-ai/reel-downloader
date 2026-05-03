@@ -6,7 +6,7 @@
 <title>GrabVD – Grab Every Idea, Build Every Skill</title>
 <meta name="description" content="GrabVD – Download Reels, use free tools & mini apps. Built by Vaibhav Dhokpande.">
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4874098877826635" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -277,23 +277,25 @@
 
   .apps-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 14px; margin-top: 44px;
   }
 
   .app-card {
     background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 26px 18px;
-    text-align: center; text-decoration: none; color: var(--text);
-    display: flex; flex-direction: column; align-items: center; gap: 11px;
+    border-radius: 12px; padding: 24px 18px 18px;
+    text-align: center; color: var(--text);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
     transition: border-color 0.2s, transform 0.2s, background 0.2s;
-    cursor: pointer; position: relative; overflow: hidden;
+    position: relative;
   }
   .app-card::before {
     content: '';
     position: absolute; inset: 0;
     background: radial-gradient(circle at 50% 0%, rgba(249,115,22,0.07), transparent 60%);
     opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+    border-radius: 12px;
   }
   .app-card:hover::before { opacity: 1; }
   .app-card:hover { border-color: var(--accent); transform: translateY(-4px); }
@@ -305,7 +307,41 @@
     font-size: 28px; flex-shrink: 0;
   }
   .app-card h3 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin: 0; }
-  .app-card p { font-size: 11px; color: var(--muted); margin: 0; line-height: 1.45; font-weight: 300; }
+  .app-card .app-desc { font-size: 11px; color: var(--muted); margin: 0; line-height: 1.45; font-weight: 300; }
+
+  /* TWO BUTTON ROW */
+  .app-actions {
+    display: flex; gap: 8px; width: 100%; margin-top: 4px;
+    position: relative; z-index: 2;
+  }
+  .app-btn {
+    flex: 1; padding: 7px 6px; border-radius: 6px;
+    font-size: 11px; font-weight: 700; font-family: 'Syne', sans-serif;
+    text-decoration: none; text-align: center;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    transition: transform 0.15s, opacity 0.2s, background 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    border: none; cursor: pointer;
+  }
+  .app-btn:hover { transform: translateY(-1px); opacity: 0.88; }
+  .app-btn.open {
+    background: rgba(249,115,22,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(249,115,22,0.3);
+  }
+  .app-btn.open:hover { background: rgba(249,115,22,0.25); }
+  .app-btn.dl {
+    background: var(--accent);
+    color: #000;
+  }
+  .app-btn.dl:hover { background: var(--accent3); }
+  .app-btn.soon-btn {
+    background: rgba(122,122,114,0.1);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    cursor: not-allowed;
+  }
+  .app-btn.soon-btn:hover { transform: none; opacity: 1; }
 
   .app-badge {
     font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px;
@@ -566,108 +602,147 @@
   <div class="apps-grid">
 
     <!-- Calculator -->
-    <a href="calculator.html" class="app-card" target="_blank">
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.25);">🧮</div>
       <h3>Calculator</h3>
-      <p>Smart & minimal calculator</p>
-      <span class="app-badge live">Open App</span>
-    </a>
+      <p class="app-desc">Smart & minimal calculator</p>
+      <div class="app-actions">
+        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/calculator.html" class="app-btn open" target="_blank">🌐 Open</a>
+        <a href="https://github.com/vaibhavdhokpande-ai/reel-downloader/releases/download/v2.0.0/calculator.apk" class="app-btn dl" download>⬇ Download</a>
+      </div>
+    </div>
 
-    <!-- GrabVD Downloader -->
-    <a href="#download" class="app-card" style="border-color:rgba(249,115,22,0.4);">
+    <!-- GrabVD -->
+    <div class="app-card" style="border-color:rgba(249,115,22,0.4);">
       <div class="app-icon" style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.25);">⬇️</div>
       <h3>GrabVD</h3>
-      <p>Download Reels in HD</p>
-      <span class="app-badge">Download</span>
-    </a>
+      <p class="app-desc">Download Reels in HD</p>
+      <div class="app-actions">
+        <a href="#download" class="app-btn open">🌐 Open</a>
+        <a href="https://github.com/vaibhavdhokpande-ai/reel-downloader/releases/download/v1.0.0/app-release.apk" class="app-btn dl" download>⬇ Download</a>
+      </div>
+    </div>
 
-    <!-- YouTube Video Downloader -->
-    <a href="yt-downloader.html" class="app-card" target="_blank">
+    <!-- YouTube Downloader -->
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);">▶️</div>
       <h3>YT Downloader</h3>
-      <p>Download YouTube videos</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Download YouTube videos</p>
+      <div class="app-actions">
+        <a href="yt-downloader.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="yt-downloader.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
-    <!-- Facebook Reel Downloader -->
-    <a href="fb-downloader.html" class="app-card" target="_blank">
+    <!-- Facebook Reels -->
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);">📘</div>
       <h3>FB Reels</h3>
-      <p>Facebook reel downloader</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Facebook reel downloader</p>
+      <div class="app-actions">
+        <a href="fb-downloader.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="fb-downloader.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
-    <!-- Instagram Reel Downloader -->
-    <a href="ig-downloader.html" class="app-card" target="_blank">
+    <!-- Instagram Reels -->
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(236,72,153,0.12);border:1px solid rgba(236,72,153,0.25);">📸</div>
       <h3>IG Reels</h3>
-      <p>Instagram reel downloader</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Instagram reel downloader</p>
+      <div class="app-actions">
+        <a href="ig-downloader.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="ig-downloader.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
     <!-- Unit Converter -->
-    <a href="unit-converter.html" class="app-card" target="_blank">
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);">📐</div>
       <h3>Unit Converter</h3>
-      <p>Length, Weight, Temp & more</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Length, Weight, Temp & more</p>
+      <div class="app-actions">
+        <a href="unit-converter.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="unit-converter.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
     <!-- Timer / Stopwatch -->
-    <a href="timer.html" class="app-card" target="_blank">
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);">⏱️</div>
       <h3>Timer & Stopwatch</h3>
-      <p>Countdown & stopwatch tool</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Countdown & stopwatch tool</p>
+      <div class="app-actions">
+        <a href="timer.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="timer.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
     <!-- Color Picker -->
-    <a href="color-picker.html" class="app-card" target="_blank">
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(168,85,247,0.12);border:1px solid rgba(168,85,247,0.25);">🎨</div>
       <h3>Color Picker</h3>
-      <p>Pick HEX, RGB & HSL colors</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Pick HEX, RGB & HSL colors</p>
+      <div class="app-actions">
+        <a href="color-picker.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="color-picker.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
     <!-- Age Calculator -->
-    <a href="age-calculator.html" class="app-card" target="_blank">
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(20,184,166,0.12);border:1px solid rgba(20,184,166,0.25);">🎂</div>
       <h3>Age Calculator</h3>
-      <p>Know your exact age in days</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Know your exact age in days</p>
+      <div class="app-actions">
+        <a href="age-calculator.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="age-calculator.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
     <!-- Tip Calculator -->
-    <a href="tip-calculator.html" class="app-card" target="_blank">
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.25);">💳</div>
       <h3>Tip Calculator</h3>
-      <p>Split bills & calculate tips</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Split bills & calculate tips</p>
+      <div class="app-actions">
+        <a href="tip-calculator.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="tip-calculator.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
     <!-- To-Do List -->
-    <a href="todo.html" class="app-card" target="_blank">
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);">✅</div>
       <h3>To-Do List</h3>
-      <p>Plan tasks, stay productive</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Plan tasks, stay productive</p>
+      <div class="app-actions">
+        <a href="todo.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="todo.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
     <!-- BMI Calculator -->
-    <a href="bmi-calculator.html" class="app-card" target="_blank">
+    <div class="app-card">
       <div class="app-icon" style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);">⚖️</div>
       <h3>BMI Calculator</h3>
-      <p>Check your body mass index</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">Check your body mass index</p>
+      <div class="app-actions">
+        <a href="bmi-calculator.html" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="bmi-calculator.html" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
-    <!-- Coming Soon placeholder -->
-    <a href="#" class="app-card disabled">
+    <!-- More Coming -->
+    <div class="app-card disabled">
       <div class="app-icon" style="background:rgba(122,122,114,0.08);border:1px solid var(--border);">📦</div>
       <h3>More Coming</h3>
-      <p>New apps in development</p>
-      <span class="app-badge soon">Soon</span>
-    </a>
+      <p class="app-desc">New apps in development</p>
+      <div class="app-actions">
+        <a href="#" class="app-btn open soon-btn">🌐 Open</a>
+        <a href="#" class="app-btn dl soon-btn">⬇ Download</a>
+      </div>
+    </div>
 
   </div>
 </section>
