@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +7,6 @@
 <title>Calculator – by VD</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<!-- Google AdSense – Replace with your Publisher ID -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
 <style>
@@ -68,18 +68,18 @@
     height: 60px;
     display: flex; align-items: center; justify-content: center;
     color: var(--muted); font-size: 11px;
-    margin: 16px auto 0;
+    margin: 10px auto 0;
   }
 
   /* ── WRAPPER ── */
   .wrapper {
     width: 100%;
     max-width: 420px;
-    padding: 20px 16px 32px;
+    padding: 10px 16px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 10px;
     flex: 1;
   }
 
@@ -88,17 +88,17 @@
     width: 100%;
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 28px;
+    border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.08);
   }
 
   /* ── DISPLAY ── */
   .display {
-    padding: 28px 28px 20px;
+    padding: 16px 24px 14px;
     background: linear-gradient(180deg, #0e0e18 0%, #111118 100%);
     border-bottom: 1px solid var(--border);
-    min-height: 140px;
+    min-height: 100px;
     display: flex; flex-direction: column; justify-content: flex-end;
     position: relative;
     overflow: hidden;
@@ -111,16 +111,16 @@
   }
   .expr {
     font-family: var(--display-font);
-    font-size: 15px;
+    font-size: 14px;
     color: var(--muted);
     text-align: right;
-    min-height: 22px;
+    min-height: 20px;
     letter-spacing: 0.02em;
     transition: opacity .2s;
   }
   .number {
     font-family: var(--display-font);
-    font-size: 60px;
+    font-size: 54px;
     font-weight: 400;
     color: var(--text);
     text-align: right;
@@ -129,7 +129,7 @@
     transition: font-size .15s;
     word-break: break-all;
   }
-  .number.shrink { font-size: 36px; }
+  .number.shrink { font-size: 34px; }
 
   /* ── BUTTON GRID ── */
   .grid {
@@ -146,7 +146,7 @@
     font-family: var(--display-font);
     font-size: 22px;
     font-weight: 400;
-    height: 80px;
+    height: 72px;
     cursor: pointer;
     transition: background .12s, transform .08s;
     display: flex; align-items: center; justify-content: center;
@@ -161,51 +161,44 @@
     background: white;
     opacity: 0;
     transition: opacity .15s;
-    border-radius: 0;
   }
   .btn:active::after { opacity: 0.06; }
   .btn:active { transform: scale(0.96); }
 
-  /* Utility — green */
   .btn.util {
     color: #4ade80;
     background: rgba(58,155,111,0.08);
-    font-size: 18px;
+    font-size: 17px;
     font-family: var(--ui-font);
     font-weight: 600;
     letter-spacing: 0.03em;
   }
   .btn.util:hover { background: rgba(58,155,111,0.15); }
 
-  /* Operator — blue */
   .btn.op {
     color: var(--blue);
     background: rgba(108,142,245,0.08);
-    font-size: 26px;
+    font-size: 24px;
   }
   .btn.op:hover { background: rgba(108,142,245,0.15); }
 
-  /* Equals — accent */
   .btn.eq {
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     color: #fff;
-    font-size: 28px;
+    font-size: 26px;
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
   }
   .btn.eq:hover { filter: brightness(1.1); }
 
-  /* Zero spans 2 cols */
   .btn.zero {
     grid-column: span 2;
     justify-content: flex-start;
-    padding-left: 32px;
-    letter-spacing: 0;
+    padding-left: 28px;
   }
 
-  /* Bottom corners */
-  .btn:nth-last-child(1) { border-radius: 0 0 28px 0; }
+  .btn:nth-last-child(1) { border-radius: 0 0 24px 0; }
   .btn:nth-last-child(2) { border-radius: 0; }
-  .btn.zero { border-radius: 0 0 0 28px; }
+  .btn.zero { border-radius: 0 0 0 24px; }
 
   /* ── AD BOTTOM ── */
   .ad-bottom {
@@ -213,7 +206,7 @@
     background: var(--surface);
     border: 1px dashed var(--border);
     border-radius: 8px;
-    height: 100px;
+    height: 90px;
     display: flex; align-items: center; justify-content: center;
     color: var(--muted); font-size: 11px;
   }
@@ -221,26 +214,31 @@
   /* ── FOOTER ── */
   footer {
     font-size: 12px; color: var(--muted);
-    padding-bottom: 20px;
+    padding-bottom: 12px;
     letter-spacing: 0.05em;
   }
   footer a { color: var(--accent2); text-decoration: none; }
 
   @media (max-width: 420px) {
-    .btn { height: 70px; font-size: 20px; }
-    .number { font-size: 52px; }
+    .btn { height: 64px; font-size: 20px; }
+    .number { font-size: 46px; }
+    .display { padding: 12px 18px 12px; min-height: 88px; }
+    .wrapper { padding: 8px 12px 12px; gap: 8px; }
   }
 </style>
+
 </head>
 <body>
 
 <!-- NAV -->
+
 <nav>
   <a href="index.html" class="nav-logo">Grab<span>VD</span></a>
   <a href="index.html" class="nav-back">← Back to Home</a>
 </nav>
 
 <!-- TOP AD -->
+
 <div class="wrapper" style="padding-bottom:0; gap:0;">
   <ins class="adsbygoogle ad-top"
        style="display:block"
@@ -252,52 +250,43 @@
 </div>
 
 <!-- CALCULATOR -->
+
 <div class="wrapper">
   <div class="calc-shell">
-
-    <!-- Display -->
     <div class="display">
       <div class="expr" id="expr"></div>
       <div class="number" id="display">0</div>
     </div>
-
-    <!-- Buttons -->
     <div class="grid">
-      <!-- Row 1 -->
       <button class="btn util" data-val="AC">AC</button>
       <button class="btn util" data-val="+/-">+/−</button>
       <button class="btn util" data-val="%">%</button>
       <button class="btn op"   data-val="÷">÷</button>
-      <!-- Row 2 -->
       <button class="btn" data-val="7">7</button>
       <button class="btn" data-val="8">8</button>
       <button class="btn" data-val="9">9</button>
       <button class="btn op" data-val="×">×</button>
-      <!-- Row 3 -->
       <button class="btn" data-val="4">4</button>
       <button class="btn" data-val="5">5</button>
       <button class="btn" data-val="6">6</button>
       <button class="btn op" data-val="−">−</button>
-      <!-- Row 4 -->
       <button class="btn" data-val="1">1</button>
       <button class="btn" data-val="2">2</button>
       <button class="btn" data-val="3">3</button>
       <button class="btn op" data-val="+">+</button>
-      <!-- Row 5 -->
       <button class="btn zero" data-val="0">0</button>
       <button class="btn" data-val=".">.</button>
       <button class="btn eq"  data-val="=">=</button>
     </div>
-
   </div>
 
-  <!-- BOTTOM AD -->
-  <ins class="adsbygoogle ad-bottom"
-       style="display:block"
-       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-       data-ad-slot="5555555555"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
+<ins class="adsbygoogle ad-bottom"
+style="display:block"
+data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+data-ad-slot="5555555555"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
   <footer>Made with ♥ by <a href="index.html">Vaibhav Dhokpande</a></footer>
@@ -315,8 +304,7 @@
   function fmt(n) {
     if (isNaN(n) || !isFinite(n)) return 'Error';
     if (n === Math.trunc(n) && Math.abs(n) < 1e12) return String(Math.trunc(n));
-    let s = parseFloat(n.toPrecision(10)).toString();
-    return s;
+    return parseFloat(n.toPrecision(10)).toString();
   }
 
   function updateDisplay(val) {
@@ -370,7 +358,6 @@
       updateDisplay(current);
       return;
     }
-    // digit
     if (replace || current === '0') { current = val; replace = false; }
     else if (current.length < 12) current += val;
     updateDisplay(current);
@@ -380,7 +367,6 @@
     btn.addEventListener('click', () => press(btn.dataset.val));
   });
 
-  // Keyboard support
   document.addEventListener('keydown', e => {
     const map = {
       '0':'0','1':'1','2':'2','3':'3','4':'4',
@@ -391,5 +377,6 @@
     if (map[e.key]) { e.preventDefault(); press(map[e.key]); }
   });
 </script>
+
 </body>
 </html>
