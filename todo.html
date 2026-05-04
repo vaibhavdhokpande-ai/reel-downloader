@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TodoVD – To-Do List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--border:#2a2a3a;--accent:#7c3aed;--accent2:#a855f7;--glow:rgba(124,58,237,0.25);--text:#f0f0f8;--muted:#8888aa;--green:#22c55e;--red:#ef4444;--orange:#f97316;--yellow:#eab308;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+  h1,h2,h3,.logo{font-family:'Rajdhani',sans-serif;letter-spacing:0.02em;}
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .logo{font-size:22px;font-weight:700;color:var(--text);text-decoration:none;}.logo span{color:var(--accent2);}
+  nav ul{list-style:none;display:flex;gap:24px;}
+  nav ul a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s;}
+  nav ul a:hover,nav ul a.active{color:var(--accent2);}
+  .hero{text-align:center;padding:50px 24px 30px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.15) 0%,transparent 70%);}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.4);border-radius:99px;padding:6px 16px;font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:16px;}
+  .hero h1{font-size:clamp(30px,5vw,52px);font-weight:700;margin-bottom:8px;}.hero h1 span{color:var(--accent2);}
+  .main{max-width:760px;margin:0 auto;padding:32px 24px 80px;}
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;}
+  .stat-num{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--accent2);}
+  .stat-lbl{font-size:12px;color:var(--muted);margin-top:2px;}
+  .add-form{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:20px;}
+  .add-row{display:flex;gap:12px;margin-bottom:14px;}
+  .add-input{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:13px 18px;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:16px;outline:none;transition:border-color 0.2s;}
+  .add-input:focus{border-color:var(--accent2);}.add-input::placeholder{color:var(--muted);}
+  .add-btn{background:var(--accent);color:#fff;border:none;padding:13px 24px;border-radius:12px;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+  .add-btn:hover{background:var(--accent2);transform:translateY(-1px);}
+  .meta-row{display:flex;gap:10px;flex-wrap:wrap;}
+  select{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:pointer;-webkit-appearance:none;}
+  .date-input{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;color-scheme:dark;}
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+  .filter-btn{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:7px 16px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;}
+  .filter-btn:hover{border-color:var(--accent);color:var(--text);}
+  .filter-btn.active{background:rgba(124,58,237,0.2);border-color:var(--accent2);color:var(--accent2);}
+  .todo-list{display:flex;flex-direction:column;gap:10px;}
+  .todo-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px;transition:all 0.2s;}
+  .todo-item:hover{border-color:var(--accent);}
+  .todo-item.done{opacity:0.55;}.todo-item.done .todo-text{text-decoration:line-through;color:var(--muted);}
+  .check-btn{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:transparent;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;margin-top:2px;}
+  .check-btn:hover{border-color:var(--green);}.check-btn.checked{background:var(--green);border-color:var(--green);}
+  .todo-body{flex:1;}.todo-text{font-size:15px;font-weight:500;margin-bottom:4px;}
+  .todo-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .priority-badge{font-size:11px;font-weight:600;padding:2px 10px;border-radius:99px;}
+  .p-high{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.3);}
+  .p-med{background:rgba(249,115,22,0.12);color:var(--orange);border:1px solid rgba(249,115,22,0.3);}
+  .p-low{background:rgba(34,197,94,0.12);color:var(--green);border:1px solid rgba(34,197,94,0.3);}
+  .cat-badge{font-size:11px;padding:2px 10px;border-radius:99px;background:rgba(124,58,237,0.1);color:var(--accent2);border:1px solid rgba(124,58,237,0.2);}
+  .due-badge{font-size:11px;color:var(--muted);}.due-badge.overdue{color:var(--red);}
+  .todo-actions{display:flex;gap:8px;flex-shrink:0;}
+  .action-btn{width:30px;height:30px;background:transparent;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;color:var(--muted);}
+  .action-btn:hover{border-color:var(--accent2);color:var(--accent2);}.action-btn.del:hover{border-color:var(--red);color:var(--red);}
+  .empty{text-align:center;padding:48px 24px;color:var(--muted);}.empty-icon{font-size:48px;margin-bottom:12px;}
+  .progress-bar{background:var(--surface);border-radius:99px;height:6px;margin-bottom:20px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width 0.4s;}
+  footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
+  .footer-logo{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;}.footer-logo span{color:var(--accent2);}
+  footer p{font-size:13px;color:var(--muted);}
+  .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
+  .footer-links a{color:var(--accent2);text-decoration:none;font-size:13px;}
+  @media(max-width:600px){nav ul{display:none;}.stats-row{grid-template-columns:1fr 1fr;}.add-row{flex-direction:column;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Grab<span>VD</span></a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="unit-converter.html">Converter</a></li>
+    <li><a href="timer.html">Timer</a></li>
+    <li><a href="color-picker.html">Colors</a></li>
+    <li><a href="age-calculator.html">Age</a></li>
+    <li><a href="tip-calculator.html">Tip</a></li>
+    <li><a href="todo.html" class="active">To-Do</a></li>
+    <li><a href="bmi-calculator.html">BMI</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="badge">✅ Priority • Categories • Due Dates</div>
+  <h1>To-Do <span>List</span></h1>
+</section>
+<div class="main">
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num" id="stTotal">0</div><div class="stat-lbl">Total</div></div>
+    <div class="stat"><div class="stat-num" id="stActive" style="color:var(--orange)">0</div><div class="stat-lbl">Active</div></div>
+    <div class="stat"><div class="stat-num" id="stDone" style="color:var(--green)">0</div><div class="stat-lbl">Done</div></div>
+    <div class="stat"><div class="stat-num" id="stOver" style="color:var(--red)">0</div><div class="stat-lbl">Overdue</div></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="add-form">
+    <div class="add-row">
+      <input class="add-input" id="taskInput" placeholder="Add a new task..." onkeydown="if(event.key==='Enter')addTask()">
+      <button class="add-btn" onclick="addTask()">+ Add</button>
+    </div>
+    <div class="meta-row">
+      <select id="priority"><option value="high">🔴 High</option><option value="med" selected>🟠 Medium</option><option value="low">🟢 Low</option></select>
+      <select id="category"><option value="work">💼 Work</option><option value="personal">👤 Personal</option><option value="health">❤️ Health</option><option value="shopping">🛒 Shopping</option><option value="study">📚 Study</option><option value="other">📌 Other</option></select>
+      <input class="date-input" type="date" id="dueDate" title="Due date">
+    </div>
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('active',this)">Active</button>
+    <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
+    <button class="filter-btn" onclick="setFilter('high',this)">🔴 High</button>
+    <button class="filter-btn" onclick="setFilter('overdue',this)">⚠️ Overdue</button>
+    <button class="filter-btn" onclick="clearDone()" style="margin-left:auto;color:var(--red);">Clear Done</button>
+  </div>
+  <div class="todo-list" id="todoList"></div>
+</div>
+<footer>
+  <div class="footer-logo">Grab<span>VD</span></div>
+  <div class="footer-links"><a href="index.html">Home</a><a href="index.html#privacy">Privacy</a></div>
+  <p>Made with ♥ by Vaibhav Dhokpande • © 2025 GrabVD</p>
+</footer>
+<script>
+let tasks=JSON.parse(localStorage.getItem('grabvd-tasks')||'[]');
+let filter='all';
+const catIcons={work:'💼',personal:'👤',health:'❤️',shopping:'🛒',study:'📚',other:'📌'};
+const pLabels={high:'High',med:'Medium',low:'Low'};
+function save(){localStorage.setItem('grabvd-tasks',JSON.stringify(tasks));}
+function setFilter(f,el){filter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
+function clearDone(){tasks=tasks.filter(t=>!t.done);save();render();}
+function addTask(){
+  const text=document.getElementById('taskInput').value.trim();
+  if(!text)return;
+  tasks.unshift({id:Date.now(),text,priority:document.getElementById('priority').value,category:document.getElementById('category').value,due:document.getElementById('dueDate').value,done:false,created:new Date().toISOString()});
+  document.getElementById('taskInput').value='';save();render();
+}
+function toggleDone(id){const t=tasks.find(x=>x.id===id);if(t)t.done=!t.done;save();render();}
+function deleteTask(id){tasks=tasks.filter(x=>x.id!==id);save();render();}
+function isOverdue(t){return t.due&&!t.done&&new Date(t.due)<new Date(new Date().toDateString());}
+function render(){
+  let filtered=tasks;
+  if(filter==='active')filtered=tasks.filter(t=>!t.done);
+  else if(filter==='done')filtered=tasks.filter(t=>t.done);
+  else if(filter==='high')filtered=tasks.filter(t=>t.priority==='high'&&!t.done);
+  else if(filter==='overdue')filtered=tasks.filter(isOverdue);
+  const total=tasks.length,done=tasks.filter(t=>t.done).length,active=total-done,over=tasks.filter(isOverdue).length;
+  document.getElementById('stTotal').textContent=total;
+  document.getElementById('stActive').textContent=active;
+  document.getElementById('stDone').textContent=done;
+  document.getElementById('stOver').textContent=over;
+  document.getElementById('progressFill').style.width=total?Math.round(done/total*100)+'%':'0%';
+  if(!filtered.length){document.getElementById('todoList').innerHTML='<div class="empty"><div class="empty-icon">✅</div><p>No tasks here!</p></div>';return;}
+  document.getElementById('todoList').innerHTML=filtered.map(t=>{
+    const over=isOverdue(t);
+    const dueStr=t.due?'<span class="due-badge '+(over?'overdue':'')+'">'+(over?'⚠️ Overdue: ':' 📅 ')+new Date(t.due).toLocaleDateString()+'</span>':'';
+    return '<div class="todo-item '+(t.done?'done':'')+'"><button class="check-btn '+(t.done?'checked':'')+'" onclick="toggleDone('+t.id+')">'+(t.done?'✓':'')+'</button><div class="todo-body"><div class="todo-text">'+t.text+'</div><div class="todo-meta"><span class="priority-badge p-'+t.priority+'">'+pLabels[t.priority]+'</span><span class="cat-badge">'+catIcons[t.category]+' '+t.category+'</span>'+dueStr+'</div></div><div class="todo-actions"><button class="action-btn del" onclick="deleteTask('+t.id+')">🗑</button></div></div>';
+  }).join('');
+}
+render();
+</script>
+</body>
+</html>

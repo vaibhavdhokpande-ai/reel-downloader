@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimerVD – Timer & Stopwatch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--border:#2a2a3a;--accent:#7c3aed;--accent2:#a855f7;--glow:rgba(124,58,237,0.25);--text:#f0f0f8;--muted:#8888aa;--green:#22c55e;--red:#ef4444;--orange:#f97316;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+  h1,h2,h3,.logo{font-family:'Rajdhani',sans-serif;letter-spacing:0.02em;}
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .logo{font-size:22px;font-weight:700;color:var(--text);text-decoration:none;}.logo span{color:var(--accent2);}
+  nav ul{list-style:none;display:flex;gap:24px;}
+  nav ul a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s;}
+  nav ul a:hover,nav ul a.active{color:var(--accent2);}
+  .hero{text-align:center;padding:50px 24px 30px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.15) 0%,transparent 70%);}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.4);border-radius:99px;padding:6px 16px;font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:16px;}
+  .hero h1{font-size:clamp(30px,5vw,52px);font-weight:700;margin-bottom:8px;}.hero h1 span{color:var(--accent2);}
+  .main{max-width:800px;margin:0 auto;padding:32px 24px 80px;}
+  .mode-tabs{display:flex;gap:0;margin-bottom:32px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:4px;}
+  .mode-tab{flex:1;padding:12px;text-align:center;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:10px;transition:all 0.2s;}
+  .mode-tab.active{background:var(--accent);color:#fff;}
+  .panel{display:none;}.panel.active{display:block;}
+  .clock-face{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:48px 24px;text-align:center;margin-bottom:24px;position:relative;overflow:hidden;}
+  .clock-face::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(124,58,237,0.08) 0%,transparent 60%);pointer-events:none;}
+  .time-display{font-family:'Rajdhani',sans-serif;font-size:clamp(52px,12vw,96px);font-weight:700;color:var(--text);letter-spacing:0.04em;line-height:1;}
+  .ms-display{font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:600;color:var(--accent2);margin-top:8px;}
+  .ctrl-btns{display:flex;gap:14px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;}
+  .ctrl-btn{padding:14px 32px;border-radius:12px;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;letter-spacing:0.05em;border:none;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;}
+  .btn-start{background:var(--green);color:#fff;}.btn-start:hover{filter:brightness(1.15);transform:translateY(-2px);}
+  .btn-pause{background:var(--orange);color:#fff;}.btn-pause:hover{filter:brightness(1.15);transform:translateY(-2px);}
+  .btn-reset{background:var(--surface);color:var(--text);border:1px solid var(--border);}.btn-reset:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .btn-lap{background:rgba(124,58,237,0.2);color:var(--accent2);border:1px solid rgba(124,58,237,0.4);}.btn-lap:hover{background:rgba(124,58,237,0.3);transform:translateY(-2px);}
+  .laps-box{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+  .laps-header{padding:16px 20px;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;}
+  .laps-list{max-height:280px;overflow-y:auto;}
+  .lap-item{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(42,42,58,0.5);font-size:15px;}
+  .lap-item:last-child{border-bottom:none;}
+  .lap-num{color:var(--muted);font-size:13px;}
+  .lap-time{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:600;color:var(--text);}
+  .lap-item.fastest .lap-time{color:var(--green);}.lap-item.slowest .lap-time{color:var(--red);}
+  .empty-laps{padding:32px;text-align:center;color:var(--muted);font-size:14px;}
+  .timer-setup{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:24px;}
+  .time-inputs{display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:28px;}
+  .time-unit{text-align:center;}
+  .time-unit label{display:block;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .time-unit input{width:90px;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px;border-radius:10px;text-align:center;font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;outline:none;transition:border-color 0.2s;}
+  .time-unit input:focus{border-color:var(--accent2);}
+  .time-sep{font-family:'Rajdhani',sans-serif;font-size:40px;font-weight:700;color:var(--border);padding-bottom:8px;}
+  .presets{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:8px;}
+  .preset{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:7px 16px;border-radius:99px;font-size:13px;cursor:pointer;transition:all 0.2s;}
+  .preset:hover{border-color:var(--accent2);color:var(--accent2);}
+  .timer-display{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px 24px;text-align:center;margin-bottom:24px;}
+  .progress-ring{width:200px;height:200px;margin:0 auto 20px;}
+  .progress-ring svg{transform:rotate(-90deg);}
+  .ring-bg{fill:none;stroke:var(--surface);stroke-width:8;}
+  .ring-fill{fill:none;stroke:var(--accent2);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 0.5s;stroke-dasharray:565;stroke-dashoffset:0;}
+  .timer-time{font-family:'Rajdhani',sans-serif;font-size:clamp(40px,10vw,72px);font-weight:700;color:var(--text);}
+  .timer-time.done{color:var(--green);}
+  .timer-label{font-size:14px;color:var(--muted);margin-top:8px;}
+  @keyframes ring{0%,100%{transform:rotate(0)}10%,30%,50%,70%,90%{transform:rotate(-8deg)}20%,40%,60%,80%{transform:rotate(8deg)}}
+  .ringing{animation:ring 0.5s infinite;}
+  footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
+  .footer-logo{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;}.footer-logo span{color:var(--accent2);}
+  footer p{font-size:13px;color:var(--muted);}
+  .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
+  .footer-links a{color:var(--accent2);text-decoration:none;font-size:13px;}
+  @media(max-width:600px){nav ul{display:none;}.time-unit input{width:70px;font-size:28px;}.time-sep{font-size:30px;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Grab<span>VD</span></a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="unit-converter.html">Converter</a></li>
+    <li><a href="timer.html" class="active">Timer</a></li>
+    <li><a href="color-picker.html">Colors</a></li>
+    <li><a href="age-calculator.html">Age</a></li>
+    <li><a href="tip-calculator.html">Tip</a></li>
+    <li><a href="todo.html">To-Do</a></li>
+    <li><a href="bmi-calculator.html">BMI</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="badge">⏱️ Stopwatch + ⏲️ Countdown Timer</div>
+  <h1>Timer & <span>Stopwatch</span></h1>
+</section>
+<div class="main">
+  <div class="mode-tabs">
+    <div class="mode-tab active" onclick="switchMode('sw',this)">⏱ Stopwatch</div>
+    <div class="mode-tab" onclick="switchMode('timer',this)">⏲ Countdown</div>
+  </div>
+  <div class="panel active" id="swPanel">
+    <div class="clock-face">
+      <div class="time-display" id="swTime">00:00:00</div>
+      <div class="ms-display" id="swMs">.000</div>
+    </div>
+    <div class="ctrl-btns">
+      <button class="ctrl-btn btn-start" id="swStartBtn" onclick="swToggle()">▶ Start</button>
+      <button class="ctrl-btn btn-lap" onclick="addLap()">⚑ Lap</button>
+      <button class="ctrl-btn btn-reset" onclick="swReset()">↺ Reset</button>
+    </div>
+    <div class="laps-box">
+      <div class="laps-header"><span>Laps</span><span id="lapCount">0 laps</span></div>
+      <div class="laps-list" id="lapsList"><div class="empty-laps">No laps recorded yet</div></div>
+    </div>
+  </div>
+  <div class="panel" id="timerPanel">
+    <div class="timer-setup" id="timerSetup">
+      <div class="time-inputs">
+        <div class="time-unit"><label>Hours</label><input type="number" id="tHr" value="0" min="0" max="23"></div>
+        <div class="time-sep">:</div>
+        <div class="time-unit"><label>Minutes</label><input type="number" id="tMin" value="5" min="0" max="59"></div>
+        <div class="time-sep">:</div>
+        <div class="time-unit"><label>Seconds</label><input type="number" id="tSec" value="0" min="0" max="59"></div>
+      </div>
+      <div class="presets">
+        <div class="preset" onclick="setPreset(0,1,0)">1 min</div>
+        <div class="preset" onclick="setPreset(0,3,0)">3 min</div>
+        <div class="preset" onclick="setPreset(0,5,0)">5 min</div>
+        <div class="preset" onclick="setPreset(0,10,0)">10 min</div>
+        <div class="preset" onclick="setPreset(0,15,0)">15 min</div>
+        <div class="preset" onclick="setPreset(0,25,0)">25 min</div>
+        <div class="preset" onclick="setPreset(0,30,0)">30 min</div>
+        <div class="preset" onclick="setPreset(1,0,0)">1 hr</div>
+      </div>
+    </div>
+    <div class="timer-display">
+      <div class="progress-ring">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <circle class="ring-bg" cx="100" cy="100" r="90"/>
+          <circle class="ring-fill" id="ringFill" cx="100" cy="100" r="90"/>
+        </svg>
+        <div style="margin-top:-130px;">
+          <div class="timer-time" id="timerDisplay">05:00</div>
+          <div class="timer-label" id="timerLabel">Ready to start</div>
+        </div>
+      </div>
+    </div>
+    <div class="ctrl-btns">
+      <button class="ctrl-btn btn-start" id="timerStartBtn" onclick="timerToggle()">▶ Start</button>
+      <button class="ctrl-btn btn-reset" onclick="timerReset()">↺ Reset</button>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="footer-logo">Grab<span>VD</span></div>
+  <div class="footer-links"><a href="index.html">Home</a><a href="index.html#privacy">Privacy</a></div>
+  <p>Made with ♥ by Vaibhav Dhokpande • © 2025 GrabVD</p>
+</footer>
+<script>
+function switchMode(mode,el){document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(mode==='sw'?'swPanel':'timerPanel').classList.add('active');}
+let swRunning=false,swStart=0,swElapsed=0,swInterval=null,laps=[],lapStart=0;
+function pad(n){return String(Math.floor(n)).padStart(2,'0');}
+function formatTime(ms){const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000);return pad(h)+':'+pad(m)+':'+pad(s);}
+function swTick(){const now=Date.now();const elapsed=swElapsed+(now-swStart);document.getElementById('swTime').textContent=formatTime(elapsed);document.getElementById('swMs').textContent='.'+String(elapsed%1000).padStart(3,'0');}
+function swToggle(){if(!swRunning){swStart=Date.now();lapStart=swStart;swRunning=true;swInterval=setInterval(swTick,10);document.getElementById('swStartBtn').textContent='⏸ Pause';document.getElementById('swStartBtn').className='ctrl-btn btn-pause';}else{swElapsed+=Date.now()-swStart;clearInterval(swInterval);swRunning=false;document.getElementById('swStartBtn').textContent='▶ Resume';document.getElementById('swStartBtn').className='ctrl-btn btn-start';}}
+function swReset(){clearInterval(swInterval);swRunning=false;swStart=0;swElapsed=0;laps=[];document.getElementById('swTime').textContent='00:00:00';document.getElementById('swMs').textContent='.000';document.getElementById('swStartBtn').textContent='▶ Start';document.getElementById('swStartBtn').className='ctrl-btn btn-start';renderLaps();}
+function addLap(){if(!swRunning&&swElapsed===0)return;const now=Date.now();const total=swElapsed+(swRunning?now-swStart:0);const lapEl=swElapsed+(swRunning?now-lapStart:0);lapStart=now;laps.unshift({num:laps.length+1,total,lap:lapEl});renderLaps();}
+function renderLaps(){document.getElementById('lapCount').textContent=laps.length+' laps';if(!laps.length){document.getElementById('lapsList').innerHTML='<div class="empty-laps">No laps recorded yet</div>';return;}const lapTimes=laps.map(l=>l.lap);const fastest=Math.min(...lapTimes),slowest=Math.max(...lapTimes);document.getElementById('lapsList').innerHTML=laps.map(l=>{const cls=l.lap===fastest&&laps.length>1?'fastest':l.lap===slowest&&laps.length>1?'slowest':'';return`<div class="lap-item ${cls}"><span class="lap-num">Lap ${laps.length-laps.indexOf(l)}</span><span class="lap-time">${formatTime(l.lap)}.${String(l.lap%1000).padStart(3,'0').slice(0,2)}</span><span class="lap-time" style="color:var(--muted)">${formatTime(l.total)}</span></div>`;}).join('');}
+let timerRunning=false,timerRemaining=0,timerTotal=0,timerInterval=null,timerDone=false;
+const circumference=2*Math.PI*90;
+document.getElementById('ringFill').style.strokeDasharray=circumference;
+function setPreset(h,m,s){document.getElementById('tHr').value=h;document.getElementById('tMin').value=m;document.getElementById('tSec').value=s;timerReset();}
+function getTimerInput(){const h=parseInt(document.getElementById('tHr').value)||0;const m=parseInt(document.getElementById('tMin').value)||0;const s=parseInt(document.getElementById('tSec').value)||0;return(h*3600+m*60+s)*1000;}
+function updateTimerDisplay(ms){const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000);document.getElementById('timerDisplay').textContent=h>0?pad(h)+':'+pad(m)+':'+pad(s):pad(m)+':'+pad(s);const pct=timerTotal>0?ms/timerTotal:1;document.getElementById('ringFill').style.strokeDashoffset=circumference*(1-pct);}
+function timerTick(){timerRemaining-=100;if(timerRemaining<=0){timerRemaining=0;updateTimerDisplay(0);clearInterval(timerInterval);timerRunning=false;timerDone=true;document.getElementById('timerDisplay').textContent='Done! 🎉';document.getElementById('timerDisplay').className='timer-time done ringing';document.getElementById('timerLabel').textContent='Timer complete!';document.getElementById('timerStartBtn').textContent='▶ Restart';document.getElementById('timerStartBtn').className='ctrl-btn btn-start';try{const ctx=new AudioContext();const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=880;g.gain.setValueAtTime(0.3,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+1.5);o.start();o.stop(ctx.currentTime+1.5);}catch(e){}return;}updateTimerDisplay(timerRemaining);}
+function timerToggle(){if(timerDone){timerReset();return;}if(!timerRunning){if(timerRemaining===0){timerTotal=getTimerInput();timerRemaining=timerTotal;}if(timerRemaining===0)return;timerRunning=true;timerInterval=setInterval(timerTick,100);document.getElementById('timerStartBtn').textContent='⏸ Pause';document.getElementById('timerStartBtn').className='ctrl-btn btn-pause';document.getElementById('timerLabel').textContent='Running...';}else{clearInterval(timerInterval);timerRunning=false;document.getElementById('timerStartBtn').textContent='▶ Resume';document.getElementById('timerStartBtn').className='ctrl-btn btn-start';document.getElementById('timerLabel').textContent='Paused';}}
+function timerReset(){clearInterval(timerInterval);timerRunning=false;timerDone=false;timerRemaining=0;timerTotal=0;document.getElementById('timerDisplay').className='timer-time';const ms=getTimerInput();const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000);document.getElementById('timerDisplay').textContent=h>0?pad(h)+':'+pad(m)+':'+pad(s):pad(m)+':'+pad(s);document.getElementById('timerLabel').textContent='Ready to start';document.getElementById('timerStartBtn').textContent='▶ Start';document.getElementById('timerStartBtn').className='ctrl-btn btn-start';document.getElementById('ringFill').style.strokeDashoffset=0;}
+['tHr','tMin','tSec'].forEach(id=>document.getElementById(id).addEventListener('change',timerReset));
+</script>
+</body>
+</html>

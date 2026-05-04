@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMIVD – BMI Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--border:#2a2a3a;--accent:#7c3aed;--accent2:#a855f7;--glow:rgba(124,58,237,0.25);--text:#f0f0f8;--muted:#8888aa;--green:#22c55e;--red:#ef4444;--orange:#f97316;--yellow:#eab308;--blue:#60a5fa;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+  h1,h2,h3,.logo{font-family:'Rajdhani',sans-serif;letter-spacing:0.02em;}
+  nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .logo{font-size:22px;font-weight:700;color:var(--text);text-decoration:none;}.logo span{color:var(--accent2);}
+  nav ul{list-style:none;display:flex;gap:24px;}
+  nav ul a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s;}
+  nav ul a:hover,nav ul a.active{color:var(--accent2);}
+  .hero{text-align:center;padding:50px 24px 30px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.15) 0%,transparent 70%);}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.4);border-radius:99px;padding:6px 16px;font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:16px;}
+  .hero h1{font-size:clamp(30px,5vw,52px);font-weight:700;margin-bottom:8px;}.hero h1 span{color:var(--accent2);}
+  .main{max-width:860px;margin:0 auto;padding:32px 24px 80px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:0;}
+  .card-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:var(--accent2);margin-bottom:22px;}
+  label{display:block;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  input[type=number]{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:600;outline:none;transition:border-color 0.2s;margin-bottom:16px;}
+  input:focus{border-color:var(--accent2);}
+  .unit-toggle{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:3px;margin-bottom:20px;}
+  .unit-btn{flex:1;padding:9px;text-align:center;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:7px;transition:all 0.2s;}
+  .unit-btn.active{background:var(--accent);color:#fff;}
+  .btn{width:100%;background:var(--accent);color:#fff;border:none;padding:15px;border-radius:12px;font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+  .btn:hover{background:var(--accent2);transform:translateY(-2px);}
+  .gauge-wrap{text-align:center;margin-bottom:24px;}
+  .gauge-svg{width:240px;height:130px;margin:0 auto;}
+  .bmi-display{font-family:'Rajdhani',sans-serif;font-size:56px;font-weight:700;line-height:1;margin-top:8px;}
+  .bmi-cat{font-size:16px;font-weight:600;margin-top:4px;}.bmi-range{font-size:13px;color:var(--muted);}
+  .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+  .res-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+  .res-val{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:var(--text);}
+  .res-lbl{font-size:12px;color:var(--muted);margin-top:3px;}
+  .cat-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:10px;margin-bottom:6px;font-size:14px;}
+  .cat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-right:10px;}
+  .cat-name{flex:1;font-weight:500;}.cat-range{color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;}
+  .tips-list{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+  .tip-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:14px;color:var(--muted);display:flex;gap:10px;line-height:1.6;}
+  .tip-icon{font-size:18px;flex-shrink:0;}
+  footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
+  .footer-logo{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;}.footer-logo span{color:var(--accent2);}
+  footer p{font-size:13px;color:var(--muted);}
+  .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
+  .footer-links a{color:var(--accent2);text-decoration:none;font-size:13px;}
+  @media(max-width:700px){nav ul{display:none;}.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Grab<span>VD</span></a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="unit-converter.html">Converter</a></li>
+    <li><a href="timer.html">Timer</a></li>
+    <li><a href="color-picker.html">Colors</a></li>
+    <li><a href="age-calculator.html">Age</a></li>
+    <li><a href="tip-calculator.html">Tip</a></li>
+    <li><a href="todo.html">To-Do</a></li>
+    <li><a href="bmi-calculator.html" class="active">BMI</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="badge">💪 BMI • Ideal Weight • Health Tips</div>
+  <h1>BMI <span>Calculator</span></h1>
+  <p style="color:var(--muted);font-size:16px;">Check your Body Mass Index and healthy weight range</p>
+</section>
+<div class="main">
+  <div class="grid2">
+    <div>
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-title">📏 Your Details</div>
+        <div class="unit-toggle">
+          <div class="unit-btn active" onclick="setUnit('metric',this)">Metric (cm/kg)</div>
+          <div class="unit-btn" onclick="setUnit('imperial',this)">Imperial (ft/lb)</div>
+        </div>
+        <div id="metricInputs">
+          <label>Height (cm)</label><input type="number" id="heightCm" placeholder="170" oninput="calc()">
+          <label>Weight (kg)</label><input type="number" id="weightKg" placeholder="70" oninput="calc()">
+        </div>
+        <div id="imperialInputs" style="display:none;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div><label>Feet</label><input type="number" id="heightFt" placeholder="5" oninput="calc()"></div>
+            <div><label>Inches</label><input type="number" id="heightIn" placeholder="7" oninput="calc()"></div>
+          </div>
+          <label>Weight (lbs)</label><input type="number" id="weightLb" placeholder="154" oninput="calc()">
+        </div>
+        <div style="margin-bottom:16px;"><label>Age</label><input type="number" id="age" placeholder="25" min="2" max="120" oninput="calc()" style="margin-bottom:0;"></div>
+        <div style="margin-bottom:16px;">
+          <label>Gender</label>
+          <div class="unit-toggle">
+            <div class="unit-btn active" id="gMale" onclick="setGender('male')">Male</div>
+            <div class="unit-btn" id="gFemale" onclick="setGender('female')">Female</div>
+          </div>
+        </div>
+        <button class="btn" onclick="calc()">💪 Calculate BMI</button>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-title">📊 Your Result</div>
+        <div class="gauge-wrap">
+          <svg class="gauge-svg" viewBox="0 0 240 130">
+            <defs><linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#60a5fa"/><stop offset="25%" stop-color="#22c55e"/><stop offset="50%" stop-color="#eab308"/><stop offset="75%" stop-color="#f97316"/><stop offset="100%" stop-color="#ef4444"/></linearGradient></defs>
+            <path d="M 20 120 A 100 100 0 0 1 220 120" fill="none" stroke="#2a2a3a" stroke-width="16" stroke-linecap="round"/>
+            <path d="M 20 120 A 100 100 0 0 1 220 120" fill="none" stroke="url(#gaugeGrad)" stroke-width="16" stroke-linecap="round" opacity="0.7"/>
+            <line id="needle" x1="120" y1="120" x2="120" y2="30" stroke="var(--text)" stroke-width="3" stroke-linecap="round" transform="rotate(-90 120 120)" style="transition:transform 0.8s cubic-bezier(.34,1.56,.64,1)"/>
+            <circle cx="120" cy="120" r="6" fill="var(--text)"/>
+          </svg>
+          <div class="bmi-display" id="bmiVal" style="color:var(--muted)">—</div>
+          <div class="bmi-cat" id="bmiCat" style="color:var(--muted)">Enter your details</div>
+          <div class="bmi-range" id="bmiRange"></div>
+        </div>
+        <div class="res-grid">
+          <div class="res-box"><div class="res-val" id="idealMin">—</div><div class="res-lbl">Min Ideal Weight</div></div>
+          <div class="res-box"><div class="res-val" id="idealMax">—</div><div class="res-lbl">Max Ideal Weight</div></div>
+          <div class="res-box"><div class="res-val" id="weightDiff">—</div><div class="res-lbl">Weight to Lose/Gain</div></div>
+          <div class="res-box"><div class="res-val" id="bmiPrime">—</div><div class="res-lbl">BMI Prime</div></div>
+        </div>
+      </div>
+      <div class="card"><div class="card-title">📋 BMI Categories</div><div id="catTable"></div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:20px;">
+    <div class="card-title">💡 Health Tips</div>
+    <div class="tips-list" id="tipsList"><div class="tip-item"><span class="tip-icon">ℹ️</span><span>Enter your details to get personalized health tips.</span></div></div>
+  </div>
+</div>
+<footer>
+  <div class="footer-logo">Grab<span>VD</span></div>
+  <div class="footer-links"><a href="index.html">Home</a><a href="index.html#privacy">Privacy</a></div>
+  <p>Made with ♥ by Vaibhav Dhokpande • © 2025 GrabVD</p>
+  <p style="margin-top:8px;font-size:12px;">Disclaimer: BMI is a screening tool, not a diagnostic measure. Consult a healthcare professional.</p>
+</footer>
+<script>
+let unit='metric',gender='male';
+const cats=[
+  {name:'Severe Underweight',min:0,max:16,color:'#60a5fa'},
+  {name:'Underweight',min:16,max:18.5,color:'#93c5fd'},
+  {name:'Normal weight',min:18.5,max:25,color:'#22c55e'},
+  {name:'Overweight',min:25,max:30,color:'#eab308'},
+  {name:'Obese Class I',min:30,max:35,color:'#f97316'},
+  {name:'Obese Class II',min:35,max:40,color:'#ef4444'},
+  {name:'Obese Class III',min:40,max:100,color:'#b91c1c'},
+];
+const tipsMap={
+  'Severe Underweight':['🍽️ Increase calorie intake with nutrient-dense foods like nuts, avocado, and whole grains.','🏋️ Consider strength training to build muscle mass safely.','👨‍⚕️ Consult a doctor or dietitian for a personalised weight gain plan.'],
+  'Underweight':['🥑 Add healthy fats and proteins to your daily diet.','💪 Light strength training can help build muscle.','🍌 Eat 5-6 smaller meals throughout the day.'],
+  'Normal weight':['🎉 Great job! Maintain your weight with a balanced diet.','🏃 Continue regular exercise — 150 min/week of moderate activity.','🥗 Focus on nutrient quality, not just calories.'],
+  'Overweight':['🥦 Reduce processed foods and increase vegetables.','🚶 Aim for 30 minutes of walking daily.','💧 Drink more water and limit sugary beverages.'],
+  'Obese Class I':['🍽️ Work with a nutritionist to create a calorie deficit plan.','🏊 Low-impact exercises like swimming or cycling are gentle on joints.','😴 Prioritise 7-9 hours of sleep.'],
+  'Obese Class II':['👨‍⚕️ Consult a healthcare provider for a structured weight loss programme.','📊 Track your food intake with an app to stay accountable.','🧘 Manage stress, which can lead to emotional eating.'],
+  'Obese Class III':['🏥 Medical supervision is highly recommended.','💊 Discuss potential medical interventions with your doctor.','🤝 Join a support group to stay motivated.'],
+};
+function setUnit(u,el){unit=u;document.querySelectorAll('.unit-toggle .unit-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById('metricInputs').style.display=u==='metric'?'block':'none';document.getElementById('imperialInputs').style.display=u==='imperial'?'block':'none';calc();}
+function setGender(g){gender=g;document.getElementById('gMale').className='unit-btn'+(g==='male'?' active':'');document.getElementById('gFemale').className='unit-btn'+(g==='female'?' active':'');calc();}
+function calc(){
+  let heightM,weightKg;
+  if(unit==='metric'){const h=parseFloat(document.getElementById('heightCm').value);const w=parseFloat(document.getElementById('weightKg').value);if(!h||!w)return;heightM=h/100;weightKg=w;}
+  else{const ft=parseFloat(document.getElementById('heightFt').value)||0;const inch=parseFloat(document.getElementById('heightIn').value)||0;const lb=parseFloat(document.getElementById('weightLb').value);if((!ft&&!inch)||!lb)return;heightM=(ft*12+inch)*0.0254;weightKg=lb*0.453592;}
+  const bmi=weightKg/(heightM*heightM);
+  const cat=cats.find(c=>bmi>=c.min&&bmi<c.max)||cats[cats.length-1];
+  const bmiPrime=(bmi/25).toFixed(2);
+  const idealMinKg=(18.5*heightM*heightM).toFixed(1);
+  const idealMaxKg=(25*heightM*heightM).toFixed(1);
+  const diff=weightKg-parseFloat(idealMaxKg);
+  const diffStr=diff>0?'+'+diff.toFixed(1)+' kg to lose':diff<0?Math.abs(diff).toFixed(1)+' kg to gain':'✓ Ideal';
+  document.getElementById('bmiVal').textContent=bmi.toFixed(1);
+  document.getElementById('bmiVal').style.color=cat.color;
+  document.getElementById('bmiCat').textContent=cat.name;
+  document.getElementById('bmiCat').style.color=cat.color;
+  document.getElementById('bmiRange').textContent='BMI range '+cat.min+'–'+(cat.max===100?'40+':cat.max);
+  document.getElementById('idealMin').textContent=unit==='metric'?idealMinKg+' kg':(parseFloat(idealMinKg)*2.205).toFixed(1)+' lb';
+  document.getElementById('idealMax').textContent=unit==='metric'?idealMaxKg+' kg':(parseFloat(idealMaxKg)*2.205).toFixed(1)+' lb';
+  document.getElementById('weightDiff').textContent=diffStr;
+  document.getElementById('bmiPrime').textContent=bmiPrime;
+  const angle=Math.min(90,Math.max(-90,((bmi-10)/30)*180-90));
+  document.getElementById('needle').setAttribute('transform','rotate('+angle+' 120 120)');
+  document.getElementById('catTable').innerHTML=cats.map(c=>{const isActive=c.name===cat.name;return '<div class="cat-row" style="'+(isActive?'background:'+c.color+'18;border:1px solid '+c.color:'')+'"><div class="cat-dot" style="background:'+c.color+'"></div><div class="cat-name">'+c.name+'</div><div class="cat-range">'+c.min+'–'+(c.max===100?'40+':c.max)+'</div></div>';}).join('');
+  const tips=tipsMap[cat.name]||[];
+  document.getElementById('tipsList').innerHTML=tips.map(t=>'<div class="tip-item"><span class="tip-icon">'+t.slice(0,2)+'</span><span>'+t.slice(2)+'</span></div>').join('');
+}
+</script>
+</body>
+</html>
