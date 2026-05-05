@@ -3,29 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GrabVD – Grab Every Idea, Build Every Skill</title>
-<meta name="description" content="GrabVD – Download Reels, use free tools & mini apps. Built by Vaibhav Dhokpande.">
+<title>TaskJunction – Grab Every Idea, Build Every Skill</title>
+<meta name="description" content="TaskJunction – Download Reels, use free tools & mini apps. Built by Vaibhav Dhokpande.">
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Clash+Display:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --bg: #0d0d0d;
-    --surface: #141414;
-    --card: #1a1a1a;
-    --card2: #1f1f1f;
-    --border: #2e2e2e;
+    --bg: #050508;
+    --surface: #0c0c12;
+    --card: #111118;
+    --card2: #16161f;
+    --border: #1e1e2e;
+    --border2: #2a2a3a;
     --accent: #f97316;
     --accent2: #fb923c;
     --accent3: #fbbf24;
+    --accent-blue: #6366f1;
     --glow: rgba(249,115,22,0.22);
-    --text: #f5f5f0;
-    --muted: #7a7a72;
+    --glow-blue: rgba(99,102,241,0.15);
+    --text: #eeeef0;
+    --text2: #b0b0c0;
+    --muted: #5a5a72;
     --green: #4ade80;
     --red: #f87171;
+    --gradient: linear-gradient(135deg, #f97316, #fb923c, #fbbf24);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,30 +46,25 @@
     overflow-x: hidden;
   }
 
-  h1, h2, h3, .logo, .section-title {
-    font-family: 'Syne', sans-serif;
-  }
+  h1, h2, h3, .logo, .section-title { font-family: 'Syne', sans-serif; }
 
-  /* ─── NOISE TEXTURE OVERLAY ─── */
+  /* NOISE */
   body::before {
     content: '';
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.4;
+    pointer-events: none; z-index: 999; opacity: 0.35;
   }
 
   /* ─── NAV ─── */
   nav {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(13,13,13,0.94);
-    backdrop-filter: blur(16px);
+    background: rgba(5,5,8,0.92);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
-    padding: 0 28px;
+    padding: 0 32px;
     display: flex; align-items: center; justify-content: space-between;
-    height: 62px;
+    height: 64px;
   }
 
   .logo {
@@ -73,27 +74,95 @@
   }
   .logo span { color: var(--accent); }
 
-  nav ul { list-style: none; display: flex; gap: 32px; }
+  nav ul { list-style: none; display: flex; gap: 28px; }
   nav ul a {
     color: var(--muted); text-decoration: none;
-    font-size: 14px; font-weight: 500;
-    transition: color 0.2s;
-    letter-spacing: 0.01em;
+    font-size: 13px; font-weight: 500;
+    transition: color 0.2s; letter-spacing: 0.04em; text-transform: uppercase;
   }
   nav ul a:hover { color: var(--text); }
 
-  .nav-btn {
-    background: var(--accent); color: #000;
-    border: none; cursor: pointer;
-    padding: 9px 22px; border-radius: 6px;
-    font-size: 14px; font-weight: 600;
-    font-family: 'Outfit', sans-serif;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.1s;
-    display: flex; align-items: center; gap: 7px;
-    letter-spacing: 0.01em;
+  /* ─── HAMBURGER MENU BUTTON ─── */
+  .menu-btn {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    cursor: pointer;
+    padding: 9px 16px; border-radius: 8px;
+    font-size: 13px; font-weight: 700;
+    font-family: 'Syne', sans-serif;
+    display: flex; align-items: center; gap: 8px;
+    letter-spacing: 0.04em;
+    transition: background 0.2s, border-color 0.2s;
+    position: relative; z-index: 200;
+    user-select: none;
   }
-  .nav-btn:hover { background: var(--accent3); transform: translateY(-1px); }
+  .menu-btn:hover { background: var(--card2); border-color: var(--accent); }
+  .hamburger { display: flex; flex-direction: column; gap: 4px; width: 16px; }
+  .hamburger span {
+    display: block; height: 2px; width: 100%;
+    background: var(--text); border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .menu-btn.open .hamburger span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .menu-btn.open .hamburger span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .menu-btn.open .hamburger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* ─── DROPDOWN ─── */
+  .menu-dropdown {
+    position: fixed; top: 68px; right: 24px;
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    min-width: 270px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(249,115,22,0.06);
+    z-index: 180;
+    overflow: hidden;
+    opacity: 0; pointer-events: none;
+    transform: translateY(-10px) scale(0.96);
+    transform-origin: top right;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+  .menu-dropdown.open {
+    opacity: 1; pointer-events: all;
+    transform: translateY(0) scale(1);
+  }
+  .menu-dropdown-header {
+    padding: 14px 18px 10px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .menu-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 13px 18px;
+    text-decoration: none; color: var(--text);
+    font-size: 14px; font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .menu-item:last-child { border-bottom: none; }
+  .menu-item:hover { background: rgba(249,115,22,0.07); color: var(--accent2); }
+  .menu-item-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .mi-orange { background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.2); }
+  .mi-green  { background: rgba(74,222,128,0.1);  border: 1px solid rgba(74,222,128,0.2); }
+  .mi-blue   { background: rgba(96,165,250,0.12); border: 1px solid rgba(96,165,250,0.2); }
+  .mi-purple { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.2); }
+  .menu-item-text { flex: 1; }
+  .menu-item-text strong { display: block; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+  .menu-item-text span { font-size: 11px; color: var(--muted); font-weight: 300; }
+  .menu-arrow { color: var(--muted); font-size: 11px; }
+  .menu-overlay {
+    position: fixed; inset: 0; z-index: 140;
+    display: none;
+  }
+  .menu-overlay.open { display: block; }
 
   /* ─── AD SLOTS ─── */
   .ad-slot {
@@ -110,7 +179,7 @@
 
   /* ─── HERO ─── */
   .hero {
-    padding: 90px 28px 70px;
+    padding: 100px 28px 80px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -118,22 +187,19 @@
 
   .hero::before {
     content: '';
-    position: absolute;
-    top: -60px; left: 50%; transform: translateX(-50%);
-    width: 700px; height: 500px;
-    background: radial-gradient(ellipse, rgba(249,115,22,0.13) 0%, transparent 70%);
+    position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 600px;
+    background: radial-gradient(ellipse, rgba(249,115,22,0.11) 0%, transparent 68%);
     pointer-events: none;
   }
 
-  /* geometric grid background */
   .hero::after {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background-image:
-      linear-gradient(rgba(249,115,22,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(249,115,22,0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
+      linear-gradient(rgba(249,115,22,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(249,115,22,0.035) 1px, transparent 1px);
+    background-size: 52px 52px;
     pointer-events: none;
     -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
     mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
@@ -141,12 +207,12 @@
 
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(249,115,22,0.1);
-    border: 1px solid rgba(249,115,22,0.3);
-    border-radius: 4px; padding: 6px 16px;
-    font-size: 12px; color: var(--accent2);
-    font-weight: 600; margin-bottom: 28px;
-    letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(249,115,22,0.08);
+    border: 1px solid rgba(249,115,22,0.25);
+    border-radius: 4px; padding: 6px 18px;
+    font-size: 11px; color: var(--accent2);
+    font-weight: 700; margin-bottom: 32px;
+    letter-spacing: 0.12em; text-transform: uppercase;
     position: relative; z-index: 1;
   }
   .hero-badge::before {
@@ -157,22 +223,18 @@
   @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
   .hero h1 {
-    font-size: clamp(42px, 8vw, 86px);
+    font-size: clamp(44px, 8vw, 88px);
     font-weight: 800; line-height: 1.0;
-    margin-bottom: 24px;
+    margin-bottom: 26px;
     letter-spacing: -0.03em;
     position: relative; z-index: 1;
   }
   .hero h1 .line2 { color: var(--accent); display: block; }
-  .hero h1 .line3 {
-    display: block;
-    -webkit-text-stroke: 1px rgba(245,245,240,0.3);
-    color: transparent;
-  }
+
 
   .hero p {
-    font-size: 18px; color: var(--muted);
-    max-width: 500px; margin: 0 auto 40px;
+    font-size: 18px; color: var(--text2);
+    max-width: 520px; margin: 0 auto 44px;
     position: relative; z-index: 1;
     font-weight: 300;
   }
@@ -182,61 +244,281 @@
   .btn-primary {
     background: var(--accent); color: #000;
     text-decoration: none;
-    padding: 15px 36px; border-radius: 6px;
+    padding: 15px 38px; border-radius: 6px;
     font-size: 15px; font-weight: 700;
     font-family: 'Syne', sans-serif; letter-spacing: 0.03em;
     display: inline-flex; align-items: center; gap: 10px;
     transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
   }
-  .btn-primary:hover { background: var(--accent3); transform: translateY(-2px); box-shadow: 0 10px 40px var(--glow); }
+  .btn-primary:hover { background: var(--accent3); transform: translateY(-2px); box-shadow: 0 12px 44px var(--glow); }
 
   .btn-secondary {
     background: transparent; color: var(--text);
     text-decoration: none;
     padding: 15px 30px; border-radius: 6px;
     font-size: 15px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border2);
     display: inline-flex; align-items: center; gap: 10px;
     transition: border-color 0.2s, background 0.2s;
   }
-  .btn-secondary:hover { border-color: var(--accent); background: rgba(249,115,22,0.07); }
+  .btn-secondary:hover { border-color: var(--accent); background: rgba(249,115,22,0.06); }
 
   /* ─── STATS ─── */
   .stats-bar {
     display: flex; justify-content: center; flex-wrap: wrap;
-    gap: 0;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     background: var(--surface);
   }
-  .stat {
-    text-align: center; padding: 28px 44px;
-    border-right: 1px solid var(--border);
-  }
+  .stat { text-align: center; padding: 30px 48px; border-right: 1px solid var(--border); }
   .stat:last-child { border-right: none; }
   .stat-num {
     font-family: 'Syne', sans-serif;
-    font-size: 34px; font-weight: 800;
-    color: var(--accent);
-    letter-spacing: -0.02em;
+    font-size: 36px; font-weight: 800;
+    color: var(--accent); letter-spacing: -0.02em;
   }
-  .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
 
   /* ─── SECTION COMMON ─── */
-  .section { padding: 72px 28px; max-width: 1120px; margin: 0 auto; }
+  .section { padding: 80px 28px; max-width: 1140px; margin: 0 auto; }
   .section-label {
     font-size: 11px; font-weight: 700;
     letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 10px;
   }
   .section-title {
-    font-size: clamp(30px, 5vw, 48px);
-    font-weight: 800; margin-bottom: 52px;
+    font-size: clamp(32px, 5vw, 50px);
+    font-weight: 800; margin-bottom: 56px;
     letter-spacing: -0.02em; line-height: 1.1;
   }
 
+  /* ─── ABOUT US ─── */
+  #about {
+    padding: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-inner {
+    max-width: 1140px; margin: 0 auto;
+    padding: 80px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* LEFT — PROFILE */
+  .about-profile {
+    position: relative;
+  }
+
+  .about-profile-card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    overflow: hidden;
+    position: sticky; top: 88px;
+  }
+
+  .profile-top {
+    background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(99,102,241,0.1));
+    border-bottom: 1px solid var(--border);
+    padding: 36px 28px 28px;
+    text-align: center;
+    position: relative;
+  }
+
+  .profile-top::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gradient);
+  }
+
+  .profile-photo {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(249,115,22,0.3), rgba(99,102,241,0.3));
+    border: 3px solid var(--accent);
+    margin: 0 auto 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* If you have a real photo, replace the emoji with an <img> tag */
+  .profile-photo img {
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .profile-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 800;
+    letter-spacing: -0.01em; margin-bottom: 4px;
+  }
+
+  .profile-title {
+    font-size: 13px; color: var(--accent2);
+    font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+
+  .profile-social {
+    display: flex; gap: 10px; justify-content: center;
+  }
+
+  .social-link {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text2); text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s, color 0.2s;
+    font-size: 17px;
+  }
+  .social-link:hover { transform: translateY(-2px); }
+  .social-link.linkedin:hover { background: rgba(10,102,194,0.2); border-color: #0a66c2; color: #0a66c2; }
+  .social-link.twitter:hover { background: rgba(29,161,242,0.15); border-color: #1da1f2; color: #1da1f2; }
+
+  /* LinkedIn SVG icon */
+  .social-link svg { width: 16px; height: 16px; fill: currentColor; }
+
+  .profile-body { padding: 24px 28px 28px; }
+
+  .profile-bio {
+    font-size: 14px; color: var(--text2);
+    line-height: 1.8; font-weight: 300;
+    margin-bottom: 22px;
+  }
+
+  .exp-chips {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px;
+  }
+  .exp-chip {
+    font-size: 11px; font-weight: 600;
+    padding: 5px 12px; border-radius: 4px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .exp-chip.orange { background: rgba(249,115,22,0.12); color: var(--accent2); border: 1px solid rgba(249,115,22,0.25); }
+  .exp-chip.blue { background: rgba(99,102,241,0.12); color: #818cf8; border: 1px solid rgba(99,102,241,0.25); }
+  .exp-chip.green { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
+  .exp-chip.purple { background: rgba(168,85,247,0.1); color: #c084fc; border: 1px solid rgba(168,85,247,0.2); }
+
+  .exp-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .exp-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 13px; color: var(--text2); font-weight: 300;
+  }
+  .exp-list li::before {
+    content: '▸';
+    color: var(--accent); font-size: 11px; margin-top: 3px; flex-shrink: 0;
+  }
+  .exp-list li strong { color: var(--text); font-weight: 600; }
+
+  /* RIGHT — ABOUT TEXT */
+  .about-content {}
+
+  .about-block { margin-bottom: 52px; }
+  .about-block:last-child { margin-bottom: 0; }
+
+  .about-block-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .about-block-label::before {
+    content: '';
+    width: 24px; height: 2px;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .about-block h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800; letter-spacing: -0.02em;
+    line-height: 1.15; margin-bottom: 18px;
+  }
+
+  .about-block p {
+    font-size: 15px; color: var(--text2);
+    line-height: 1.85; font-weight: 300; margin-bottom: 16px;
+  }
+  .about-block p:last-of-type { margin-bottom: 0; }
+
+  .about-block p strong { color: var(--text); font-weight: 600; }
+
+  .about-highlight {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 18px 22px;
+    font-size: 14px; color: var(--text2);
+    line-height: 1.75; font-weight: 300;
+    margin: 22px 0;
+    font-style: italic;
+  }
+
+  .purpose-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-top: 20px;
+  }
+
+  .purpose-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .purpose-item:hover { border-color: var(--accent); background: var(--card2); }
+  .purpose-item .p-icon { font-size: 22px; margin-bottom: 8px; }
+  .purpose-item h4 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .purpose-item p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.55; }
+
+  /* About stats mini row */
+  .about-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-top: 26px;
+  }
+  .about-stat {
+    background: var(--card2);
+    border: 1px solid var(--border2);
+    border-radius: 10px; padding: 14px 10px;
+    text-align: center;
+  }
+  .about-stat span {
+    display: block; font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 800; color: var(--accent);
+    letter-spacing: -0.02em; margin-bottom: 3px;
+  }
+  .about-stat { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .why-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+  .why-list li {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px; color: var(--text2); font-weight: 300;
+    transition: border-color 0.2s;
+  }
+  .why-list li:hover { border-color: var(--border2); }
+  .why-icon { font-size: 20px; flex-shrink: 0; }
+  .why-list li strong { display: block; color: var(--text); font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+
   /* ─── FEATURES ─── */
-  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
   .feat-card {
     background: var(--card); padding: 32px 28px;
     transition: background 0.2s;
@@ -244,8 +526,7 @@
   .feat-card:hover { background: var(--card2); }
   .feat-icon {
     width: 44px; height: 44px; border-radius: 8px;
-    background: rgba(249,115,22,0.12);
-    border: 1px solid rgba(249,115,22,0.25);
+    background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.25);
     display: flex; align-items: center; justify-content: center;
     font-size: 20px; margin-bottom: 20px;
   }
@@ -253,12 +534,16 @@
   .feat-card p { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; }
 
   /* ─── SCREENSHOTS ─── */
-  .screenshots-section { padding: 72px 28px; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .screenshots-inner { max-width: 1120px; margin: 0 auto; }
-  .screenshots-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 44px; }
+  .screenshots-section {
+    padding: 80px 28px;
+    background: var(--surface);
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .screenshots-inner { max-width: 1140px; margin: 0 auto; }
+  .screenshots-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 48px; }
   .mockup-phone {
     width: 190px; height: 350px;
-    background: var(--card); border: 1.5px solid var(--border);
+    background: var(--card); border: 1.5px solid var(--border2);
     border-radius: 26px; overflow: hidden;
     display: flex; flex-direction: column;
     transition: transform 0.3s, border-color 0.3s;
@@ -272,15 +557,13 @@
   .screen-btn { height: 36px; border-radius: 6px; background: var(--accent); opacity: 0.8; }
   .screen-label { font-size: 10px; color: var(--muted); text-align: center; letter-spacing: 0.04em; }
 
-  /* ─── APPS SECTION ─── */
-  .apps-section { padding: 72px 28px; max-width: 1120px; margin: 0 auto; }
-
+  /* ─── APPS ─── */
+  .apps-section { padding: 80px 28px; max-width: 1140px; margin: 0 auto; }
   .apps-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 14px; margin-top: 44px;
+    gap: 14px; margin-top: 48px;
   }
-
   .app-card {
     background: var(--card); border: 1px solid var(--border);
     border-radius: 12px; padding: 24px 18px 18px;
@@ -294,13 +577,11 @@
     position: absolute; inset: 0;
     background: radial-gradient(circle at 50% 0%, rgba(249,115,22,0.07), transparent 60%);
     opacity: 0; transition: opacity 0.3s;
-    pointer-events: none;
-    border-radius: 12px;
+    pointer-events: none; border-radius: 12px;
   }
   .app-card:hover::before { opacity: 1; }
   .app-card:hover { border-color: var(--accent); transform: translateY(-4px); }
   .app-card.disabled { opacity: 0.45; pointer-events: none; }
-
   .app-icon {
     width: 60px; height: 60px; border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
@@ -308,12 +589,7 @@
   }
   .app-card h3 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin: 0; }
   .app-card .app-desc { font-size: 11px; color: var(--muted); margin: 0; line-height: 1.45; font-weight: 300; }
-
-  /* TWO BUTTON ROW */
-  .app-actions {
-    display: flex; gap: 8px; width: 100%; margin-top: 4px;
-    position: relative; z-index: 2;
-  }
+  .app-actions { display: flex; gap: 8px; width: 100%; margin-top: 4px; position: relative; z-index: 2; }
   .app-btn {
     flex: 1; padding: 7px 6px; border-radius: 6px;
     font-size: 11px; font-weight: 700; font-family: 'Syne', sans-serif;
@@ -325,46 +601,25 @@
   }
   .app-btn:hover { transform: translateY(-1px); opacity: 0.88; }
   .app-btn.open {
-    background: rgba(249,115,22,0.15);
-    color: var(--accent);
+    background: rgba(249,115,22,0.15); color: var(--accent);
     border: 1px solid rgba(249,115,22,0.3);
   }
   .app-btn.open:hover { background: rgba(249,115,22,0.25); }
-  .app-btn.dl {
-    background: var(--accent);
-    color: #000;
-  }
+  .app-btn.dl { background: var(--accent); color: #000; }
   .app-btn.dl:hover { background: var(--accent3); }
   .app-btn.soon-btn {
-    background: rgba(122,122,114,0.1);
-    color: var(--muted);
-    border: 1px solid var(--border);
-    cursor: not-allowed;
+    background: rgba(122,122,114,0.1); color: var(--muted);
+    border: 1px solid var(--border); cursor: not-allowed;
   }
   .app-btn.soon-btn:hover { transform: none; opacity: 1; }
 
-  .app-badge {
-    font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px;
-    background: rgba(249,115,22,0.12); color: var(--accent);
-    border: 1px solid rgba(249,115,22,0.25);
-    letter-spacing: 0.06em; text-transform: uppercase;
-  }
-  .app-badge.soon {
-    background: rgba(122,122,114,0.1); color: var(--muted);
-    border-color: var(--border);
-  }
-  .app-badge.live {
-    background: rgba(74,222,128,0.1); color: var(--green);
-    border-color: rgba(74,222,128,0.25);
-  }
-
   /* ─── HOW TO ─── */
-  .howto-section { padding: 72px 28px; max-width: 900px; margin: 0 auto; }
-  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 44px; }
-  .step { display: flex; gap: 26px; padding: 26px 0; border-bottom: 1px solid var(--border); }
+  .howto-section { padding: 80px 28px; max-width: 900px; margin: 0 auto; }
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 48px; }
+  .step { display: flex; gap: 26px; padding: 28px 0; border-bottom: 1px solid var(--border); }
   .step:last-child { border-bottom: none; }
   .step-num {
-    width: 42px; height: 42px; border-radius: 6px; flex-shrink: 0;
+    width: 44px; height: 44px; border-radius: 6px; flex-shrink: 0;
     background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.3);
     display: flex; align-items: center; justify-content: center;
     font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--accent);
@@ -374,55 +629,55 @@
 
   /* ─── DOWNLOAD ─── */
   .download-section {
-    padding: 80px 28px;
+    padding: 90px 28px;
     text-align: center;
     position: relative; overflow: hidden;
   }
   .download-section::before {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(249,115,22,0.08), transparent);
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(249,115,22,0.07), transparent);
     pointer-events: none;
   }
   .download-box {
     max-width: 580px; margin: 0 auto;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 52px 36px;
+    background: var(--card); border: 1px solid var(--border2);
+    border-radius: 18px; padding: 56px 40px;
     position: relative; z-index: 1;
   }
   .download-box::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 2px;
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    border-radius: 16px 16px 0 0;
+    border-radius: 18px 18px 0 0;
   }
-  .download-box h2 { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
-  .download-box p { color: var(--muted); margin-bottom: 32px; font-size: 15px; font-weight: 300; }
-  .version-info { display: flex; justify-content: center; gap: 28px; margin-bottom: 36px; flex-wrap: wrap; }
+  .download-box h2 { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
+  .download-box p { color: var(--text2); margin-bottom: 34px; font-size: 15px; font-weight: 300; }
+  .version-info { display: flex; justify-content: center; gap: 30px; margin-bottom: 38px; flex-wrap: wrap; }
   .vi-item { font-size: 13px; color: var(--muted); }
   .vi-item span { color: var(--text); font-weight: 600; display: block; font-family: 'Syne', sans-serif; font-size: 16px; }
   .btn-download {
     background: var(--accent); color: #000;
     text-decoration: none;
-    padding: 18px 52px; border-radius: 8px;
+    padding: 18px 54px; border-radius: 8px;
     font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800;
     letter-spacing: 0.02em;
     display: inline-flex; align-items: center; gap: 12px;
     transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
-    box-shadow: 0 0 48px rgba(249,115,22,0.35);
+    box-shadow: 0 0 52px rgba(249,115,22,0.35);
   }
-  .btn-download:hover { transform: translateY(-3px); box-shadow: 0 14px 56px rgba(249,115,22,0.45); background: var(--accent3); }
+  .btn-download:hover { transform: translateY(-3px); box-shadow: 0 16px 60px rgba(249,115,22,0.45); background: var(--accent3); }
   .download-note { margin-top: 22px; font-size: 12px; color: var(--muted); font-weight: 300; }
   .download-note a { color: var(--accent2); text-decoration: none; }
 
   /* ─── PRIVACY ─── */
   #privacy {
-    padding: 72px 28px; max-width: 800px; margin: 0 auto;
+    padding: 80px 28px; max-width: 800px; margin: 0 auto;
   }
-  #privacy h2 { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; }
-  #privacy .updated { font-size: 13px; color: var(--muted); margin-bottom: 40px; }
+  #privacy h2 { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; }
+  #privacy .updated { font-size: 13px; color: var(--muted); margin-bottom: 44px; }
   #privacy h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin: 32px 0 10px; color: var(--accent); }
-  #privacy p, #privacy ul { font-size: 15px; color: #8a8a80; line-height: 1.85; font-weight: 300; }
+  #privacy p, #privacy ul { font-size: 15px; color: #7a7a8a; line-height: 1.85; font-weight: 300; }
   #privacy ul { padding-left: 20px; }
   #privacy ul li { margin-bottom: 6px; }
   #privacy a { color: var(--accent2); text-decoration: none; }
@@ -430,42 +685,121 @@
   /* ─── FOOTER ─── */
   footer {
     background: var(--surface); border-top: 1px solid var(--border);
-    padding: 44px 28px 28px; text-align: center;
+    padding: 48px 28px 32px; text-align: center;
   }
-  .footer-logo { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.02em; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
   .footer-logo span { color: var(--accent); }
   footer p { font-size: 13px; color: var(--muted); margin-bottom: 8px; font-weight: 300; }
   footer a { color: var(--accent2); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
-  .footer-links { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; margin: 16px 0; }
-
-  /* ─── DIVIDER ─── */
-  .divider { height: 1px; background: var(--border); max-width: 1120px; margin: 0 auto; }
+  .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin: 18px 0; }
 
   /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .about-inner { grid-template-columns: 1fr; gap: 44px; }
+    .about-profile-card { position: static; }
+    .purpose-grid { grid-template-columns: 1fr; }
+  }
   @media (max-width: 640px) {
     nav ul { display: none; }
-    .hero h1 { font-size: 38px; }
+    .hero h1 { font-size: 40px; }
     .stat { padding: 20px 22px; }
     .btn-download { font-size: 18px; padding: 16px 36px; }
     .mockup-phone { width: 155px; height: 280px; }
     .apps-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .purpose-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
 <body>
 
+<!-- MENU OVERLAY (closes dropdown on outside click) -->
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo">Grab<span>VD</span></a>
+  <a href="#" class="logo">Task<span>Junction</span></a>
   <ul>
+    <li><a href="#about">About</a></li>
     <li><a href="#features">Features</a></li>
     <li><a href="#apps">Apps</a></li>
     <li><a href="#download">Download</a></li>
     <li><a href="#privacy">Privacy</a></li>
   </ul>
-  <a href="#download" class="nav-btn">⬇ Download APK</a>
+
+  <!-- MENU BUTTON -->
+  <button class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-label="Menu">
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+    Menu
+  </button>
 </nav>
+
+<!-- DROPDOWN MENU -->
+<div class="menu-dropdown" id="menuDropdown">
+  <div class="menu-dropdown-header">Quick Navigation</div>
+
+  <a href="#about" class="menu-item" onclick="closeMenu()">
+    <div class="menu-item-icon mi-purple">👤</div>
+    <div class="menu-item-text">
+      <strong>About Us</strong>
+      <span>Meet the founder & our story</span>
+    </div>
+    <span class="menu-arrow">›</span>
+  </a>
+
+  <a href="https://github.com/vaibhavdhokpande-ai/reel-downloader/releases/download/v1.0.0/app-release.apk" class="menu-item" download onclick="closeMenu()">
+    <div class="menu-item-icon mi-green">🤖</div>
+    <div class="menu-item-text">
+      <strong>Android App Download</strong>
+      <span>Download the free APK for Android</span>
+    </div>
+    <span class="menu-arrow">⬇</span>
+  </a>
+
+  <a href="#" class="menu-item" onclick="closeMenu(); alert('iOS app coming soon! 🍎')">
+    <div class="menu-item-icon mi-blue">🍎</div>
+    <div class="menu-item-text">
+      <strong>iOS App Download</strong>
+      <span>Coming soon to the App Store</span>
+    </div>
+    <span class="menu-arrow">›</span>
+  </a>
+
+  <a href="#apps" class="menu-item" onclick="closeMenu()">
+    <div class="menu-item-icon mi-orange">🌐</div>
+    <div class="menu-item-text">
+      <strong>Web Apps</strong>
+      <span>Open free tools in your browser</span>
+    </div>
+    <span class="menu-arrow">›</span>
+  </a>
+</div>
+
+<script>
+  function toggleMenu() {
+    const btn = document.getElementById('menuBtn');
+    const dropdown = document.getElementById('menuDropdown');
+    const overlay = document.getElementById('menuOverlay');
+    const isOpen = dropdown.classList.contains('open');
+    if (isOpen) {
+      closeMenu();
+    } else {
+      btn.classList.add('open');
+      dropdown.classList.add('open');
+      overlay.classList.add('open');
+    }
+  }
+  function closeMenu() {
+    document.getElementById('menuBtn').classList.remove('open');
+    document.getElementById('menuDropdown').classList.remove('open');
+    document.getElementById('menuOverlay').classList.remove('open');
+  }
+  // Close on scroll
+  window.addEventListener('scroll', closeMenu, { passive: true });
+</script>
 
 <!-- TOP AD -->
 <div class="ad-row">
@@ -482,14 +816,13 @@
 <section class="hero">
   <div class="hero-badge">Free · No Watermark · Lightning Fast</div>
   <h1>
-    Grab to My Idea,
-    <span class="line2">Build Your Skill.</span>
-    <span class="line3">Create Without Limits.</span>
+    Your All-in-One
+    <span class="line2">Free Tool Hub.</span>
   </h1>
-  <p>Download Reels in HD. Use free mini tools. Zero login. Works offline.</p>
+  <p>Download Reels in HD. Use 12+ free mini tools. Zero login. Works offline. Built for everyone.</p>
   <div class="btn-group">
     <a href="#download" class="btn-primary">⬇ Get Free APK</a>
-    <a href="#apps" class="btn-secondary">▶ Explore Apps</a>
+    <a href="#about" class="btn-secondary">👤 About Us</a>
   </div>
 </section>
 
@@ -500,6 +833,170 @@
   <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Free Tools</div></div>
   <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free Forever</div></div>
 </div>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT US
+═══════════════════════════════════════════ -->
+<section id="about">
+  <div class="about-inner">
+
+    <!-- LEFT: Profile Card -->
+    <div class="about-profile">
+      <div class="about-profile-card">
+        <div class="profile-top">
+          <div class="profile-photo">
+            <!-- Replace 👤 with: <img src="your-photo.jpg" alt="Vaibhav Dhokpande"> -->
+            👤
+          </div>
+          <div class="profile-name">Vaibhav Dhokpande</div>
+          <div class="profile-title">Digital Marketer & App Developer</div>
+          <div class="profile-social">
+            <a href="https://linkedin.com/in/your-profile" class="social-link linkedin" target="_blank" rel="noopener" title="LinkedIn">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="https://twitter.com/your-handle" class="social-link twitter" target="_blank" rel="noopener" title="Twitter / X">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="profile-body">
+          <p class="profile-bio">
+            Hey! I'm Vaibhav — a <strong>Digital Marketer</strong> with 3+ years of hands-on experience in SEO, paid ads, social media growth, content strategy, and performance marketing. I also build practical tools and free apps that solve real everyday problems.
+          </p>
+
+          <div class="exp-chips">
+            <span class="exp-chip orange">SEO & SEM</span>
+            <span class="exp-chip blue">Social Media</span>
+            <span class="exp-chip green">Content Strategy</span>
+            <span class="exp-chip purple">App Dev</span>
+            <span class="exp-chip orange">Google Ads</span>
+            <span class="exp-chip blue">Meta Ads</span>
+            <span class="exp-chip green">Analytics</span>
+            <span class="exp-chip purple">Growth Hacking</span>
+          </div>
+
+          <ul class="exp-list">
+            <li><div><strong>3+ Years</strong> in Digital Marketing &amp; Growth Strategy</div></li>
+            <li><div><strong>Performance Marketing</strong> — Google Ads, Meta Ads campaigns</div></li>
+            <li><div><strong>SEO &amp; Content</strong> — Organic traffic, keyword strategy, on-page SEO</div></li>
+            <li><div><strong>12+ Free Apps</strong> built and published independently</div></li>
+            <li><div><strong>1M+ Downloads</strong> across TaskJunction tools</div></li>
+            <li><div><strong>Social Media</strong> — Brand building, audience growth, engagement</div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: About Content -->
+    <div class="about-content">
+
+      <!-- About Us -->
+      <div class="about-block">
+        <div class="about-block-label">About Us</div>
+        <h2>We Build Tools<br>That Actually Work.</h2>
+        <p>
+          <strong>TaskJunction</strong> is a solo-founded platform by Vaibhav Dhokpande — built from the ground up with one clear mission: make practical, fast, and private tools available to everyone at zero cost.
+        </p>
+        <p>
+          No venture capital. No corporate agenda. Just a builder who got frustrated with bloated, paywalled, login-hungry apps — and decided to build something better. From a simple reel downloader to a growing suite of 12+ free tools, TaskJunction is proof that useful software doesn't have to cost anything.
+        </p>
+        <div class="about-highlight">
+          "I built what I wished existed — a no-nonsense, privacy-first toolkit for everyday digital life. Fast, clean, and completely free."
+          <br><br>— Vaibhav Dhokpande, Founder
+        </div>
+
+        <!-- Mini stat row inside about -->
+        <div class="about-stats">
+          <div class="about-stat"><span>3+</span>Years Experience</div>
+          <div class="about-stat"><span>12+</span>Free Apps Built</div>
+          <div class="about-stat"><span>1M+</span>Total Downloads</div>
+          <div class="about-stat"><span>100%</span>Always Free</div>
+        </div>
+      </div>
+
+      <!-- Website Purpose -->
+      <div class="about-block">
+        <div class="about-block-label">What This Website Is For</div>
+        <h2>One Hub.<br>Every Tool You Need.</h2>
+        <p>
+          TaskJunction.com is your single destination for downloading APKs, opening free browser-based tools, and discovering new apps as they launch — all without subscriptions, accounts, or hidden fees.
+        </p>
+
+        <div class="purpose-grid">
+          <div class="purpose-item">
+            <div class="p-icon">📲</div>
+            <h4>APK Downloads</h4>
+            <p>Download TaskJunction & Calculator APKs directly — no Play Store needed.</p>
+          </div>
+          <div class="purpose-item">
+            <div class="p-icon">🌐</div>
+            <h4>Free Web Apps</h4>
+            <p>BMI Calc, Timer, Color Picker, Age Calc & more — instant, in-browser tools.</p>
+          </div>
+          <div class="purpose-item">
+            <div class="p-icon">📰</div>
+            <h4>New App Launches</h4>
+            <p>Stay updated as new tools and features are added to the TaskJunction ecosystem.</p>
+          </div>
+          <div class="purpose-item">
+            <div class="p-icon">🔒</div>
+            <h4>Zero Data Collection</h4>
+            <p>No login. No tracking. No accounts. Everything runs locally on your device.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Why We Built It -->
+      <div class="about-block">
+        <div class="about-block-label">Why We Built It</div>
+        <h2>Because Free<br>Should Mean Free.</h2>
+        <p>
+          Most tools online are paywalled, ad-bombed, or quietly harvest your data. We got fed up. TaskJunction exists to prove that genuinely useful software can be free, fast, and respectful of your privacy.
+        </p>
+
+        <ul class="why-list">
+          <li>
+            <span class="why-icon">😤</span>
+            <div>
+              <strong>Frustrated with watermarked video downloads</strong>
+              Other downloaders compress your videos or stamp their branding on them. We download clean, full HD — no watermark, no nonsense.
+            </div>
+          </li>
+          <li>
+            <span class="why-icon">🔐</span>
+            <div>
+              <strong>Tired of apps that demand your login</strong>
+              Why hand your Instagram credentials to a random app? With TaskJunction, you never have to log in — not once.
+            </div>
+          </li>
+          <li>
+            <span class="why-icon">💸</span>
+            <div>
+              <strong>Against paying for basic utility tools</strong>
+              A calculator or unit converter behind a paywall is absurd. Every tool here is free, forever. No trial, no upgrade prompt.
+            </div>
+          </li>
+          <li>
+            <span class="why-icon">🌍</span>
+            <div>
+              <strong>Built for everyone, everywhere</strong>
+              Whether you're on a budget Android or a flagship phone, TaskJunction runs smooth. No premium tier, no feature lock.
+            </div>
+          </li>
+          <li>
+            <span class="why-icon">🚀</span>
+            <div>
+              <strong>A builder giving back to the community</strong>
+              Everything I know about marketing and tech I learned online for free. This platform is my way of returning the favour.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <!-- FEATURES -->
 <section class="section" id="features">
@@ -559,7 +1056,7 @@
       <div class="mockup-phone">
         <div class="phone-notch"></div>
         <div class="phone-screen">
-          <div class="screen-header">GrabVD</div>
+          <div class="screen-header">TaskJunction</div>
           <div class="screen-bar"></div>
           <div class="screen-card"></div>
           <div class="screen-btn"></div>
@@ -593,154 +1090,132 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     OUR APPS — ALL TOOLS
-═══════════════════════════════════════════ -->
+<!-- APPS -->
 <section class="apps-section" id="apps">
   <div class="section-label">By VD</div>
   <div class="section-title">Our Applications</div>
   <div class="apps-grid">
 
-    <!-- Calculator -->
+    <!-- Calculator — has APK, keep both buttons -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.25);">🧮</div>
       <h3>Calculator</h3>
       <p class="app-desc">Smart & minimal calculator</p>
       <div class="app-actions">
         <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/calculator.html" class="app-btn open" target="_blank">🌐 Open</a>
-        <a href="https://github.com/vaibhavdhokpande-ai/reel-downloader/releases/download/v2.0.0/Calculator.v2.0.0.apk" class="app-btn dl" download>⬇ Download</a>
+        <a href="https://github.com/vaibhavdhokpande-ai/reel-downloader/releases/download/v2.0.0/Calculator.v2.0.0.apk" class="app-btn dl" download>⬇ APK</a>
       </div>
     </div>
 
-    <!-- GrabVD -->
+    <!-- TaskJunction — has APK, keep both buttons -->
     <div class="app-card" style="border-color:rgba(249,115,22,0.4);">
       <div class="app-icon" style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.25);">⬇️</div>
-      <h3>GrabVD</h3>
+      <h3>TaskJunction</h3>
       <p class="app-desc">Download Reels in HD</p>
       <div class="app-actions">
         <a href="#download" class="app-btn open">🌐 Open</a>
-        <a href="https://github.com/vaibhavdhokpande-ai/reel-downloader/releases/download/v1.0.0/app-release.apk" class="app-btn dl" download>⬇ Download</a>
+        <a href="https://github.com/vaibhavdhokpande-ai/reel-downloader/releases/download/v1.0.0/app-release.apk" class="app-btn dl" download>⬇ APK</a>
       </div>
     </div>
 
-    <!-- YouTube Downloader -->
+    <!-- Web-only apps below — Open button only -->
+
     <div class="app-card">
       <div class="app-icon" style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);">▶️</div>
       <h3>YT Downloader</h3>
       <p class="app-desc">Download YouTube videos</p>
       <div class="app-actions">
-        <a href="yt-downloader.html" class="app-btn open soon-btn">🌐 Open</a>
-        <a href="yt-downloader.html" class="app-btn dl soon-btn">⬇ Download</a>
+        <a href="yt-downloader.html" class="app-btn open soon-btn" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- Facebook Reels -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);">📘</div>
       <h3>FB Reels</h3>
       <p class="app-desc">Facebook reel downloader</p>
       <div class="app-actions">
-        <a href="fb-downloader.html" class="app-btn open soon-btn">🌐 Open</a>
-        <a href="fb-downloader.html" class="app-btn dl soon-btn">⬇ Download</a>
+        <a href="fb-downloader.html" class="app-btn open soon-btn" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- Instagram Reels -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(236,72,153,0.12);border:1px solid rgba(236,72,153,0.25);">📸</div>
       <h3>IG Reels</h3>
       <p class="app-desc">Instagram reel downloader</p>
       <div class="app-actions">
-        <a href="ig-downloader.html" class="app-btn open soon-btn">🌐 Open</a>
-        <a href="ig-downloader.html" class="app-btn dl soon-btn">⬇ Download</a>
+        <a href="ig-downloader.html" class="app-btn open soon-btn" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- Unit Converter -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);">📐</div>
       <h3>Unit Converter</h3>
       <p class="app-desc">Length, Weight, Temp & more</p>
       <div class="app-actions">
-        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/unit-converter.html" class="app-btn open" target="_blank">🌐 Open</a>
-        <a href="unit-converter.html" class="app-btn dl" download>⬇ Download</a>
+        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/unit-converter.html" class="app-btn open" target="_blank" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- Timer / Stopwatch -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);">⏱️</div>
       <h3>Timer & Stopwatch</h3>
       <p class="app-desc">Countdown & stopwatch tool</p>
       <div class="app-actions">
-        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/timer.html" class="app-btn open" target="_blank">🌐 Open</a>
-        <a href="timer.html" class="app-btn dl" download>⬇ Download</a>
+        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/timer.html" class="app-btn open" target="_blank" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- Color Picker -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(168,85,247,0.12);border:1px solid rgba(168,85,247,0.25);">🎨</div>
       <h3>Color Picker</h3>
       <p class="app-desc">Pick HEX, RGB & HSL colors</p>
       <div class="app-actions">
-        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/color-picker.html" class="app-btn open" target="_blank">🌐 Open</a>
-        <a href="color-picker.html" class="app-btn dl" download>⬇ Download</a>
+        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/color-picker.html" class="app-btn open" target="_blank" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- Age Calculator -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(20,184,166,0.12);border:1px solid rgba(20,184,166,0.25);">🎂</div>
       <h3>Age Calculator</h3>
       <p class="app-desc">Know your exact age in days</p>
       <div class="app-actions">
-        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/age-calculator.html" class="app-btn open" target="_blank">🌐 Open</a>
-        <a href="age-calculator.html" class="app-btn dl" download>⬇ Download</a>
+        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/age-calculator.html" class="app-btn open" target="_blank" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- Tip Calculator -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.25);">💳</div>
       <h3>Tip Calculator</h3>
       <p class="app-desc">Split bills & calculate tips</p>
       <div class="app-actions">
-        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/tip-calculator.html" class="app-btn open" target="_blank">🌐 Open</a>
-        <a href="tip-calculator.html" class="app-btn dl" download>⬇ Download</a>
+        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/tip-calculator.html" class="app-btn open" target="_blank" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- To-Do List -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);">✅</div>
       <h3>To-Do List</h3>
       <p class="app-desc">Plan tasks, stay productive</p>
       <div class="app-actions">
-        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/todo.html" class="app-btn open" target="_blank">🌐 Open</a>
-        <a href="todo.html" class="app-btn dl" download>⬇ Download</a>
+        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/todo.html" class="app-btn open" target="_blank" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- BMI Calculator -->
     <div class="app-card">
       <div class="app-icon" style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);">⚖️</div>
       <h3>BMI Calculator</h3>
       <p class="app-desc">Check your body mass index</p>
       <div class="app-actions">
-        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/bmi-calculator.html" class="app-btn open" target="_blank">🌐 Open</a>
-        <a href="bmi-calculator.html" class="app-btn dl" download>⬇ Download</a>
+        <a href="https://vaibhavdhokpande-ai.github.io/reel-downloader/bmi-calculator.html" class="app-btn open" target="_blank" style="flex:unset;width:100%;">🌐 Open</a>
       </div>
     </div>
 
-    <!-- More Coming -->
     <div class="app-card disabled">
       <div class="app-icon" style="background:rgba(122,122,114,0.08);border:1px solid var(--border);">📦</div>
       <h3>More Coming</h3>
       <p class="app-desc">New apps in development</p>
       <div class="app-actions">
-        <a href="#" class="app-btn open soon-btn">🌐 Open</a>
-        <a href="#" class="app-btn dl soon-btn">⬇ Download</a>
+        <a href="#" class="app-btn open soon-btn" style="flex:unset;width:100%;">🌐 Coming Soon</a>
       </div>
     </div>
 
@@ -756,7 +1231,7 @@
       <div class="step-num">1</div>
       <div class="step-content">
         <h3>Install the APK</h3>
-        <p>Download and install GrabVD on your Android device. Enable "Unknown Sources" in settings if prompted.</p>
+        <p>Download and install TaskJunction on your Android device. Enable "Unknown Sources" in settings if prompted.</p>
       </div>
     </div>
     <div class="step">
@@ -770,7 +1245,7 @@
       <div class="step-num">3</div>
       <div class="step-content">
         <h3>Paste &amp; Download</h3>
-        <p>Open GrabVD, paste the link in the search bar, and tap Download. Done in seconds!</p>
+        <p>Open TaskJunction, paste the link in the search bar, and tap Download. Done in seconds!</p>
       </div>
     </div>
     <div class="step">
@@ -783,11 +1258,11 @@
   </div>
 </section>
 
-<!-- DOWNLOAD SECTION -->
+<!-- DOWNLOAD -->
 <section class="download-section" id="download">
   <div class="download-box">
     <h2>⬇ Download Free APK</h2>
-    <p>Install GrabVD on your Android device right now. Completely free, no ads inside the app.</p>
+    <p>Install TaskJunction on your Android device right now. Completely free, no ads inside the app.</p>
     <div class="version-info">
       <div class="vi-item"><span>v2.1.0</span>Latest Version</div>
       <div class="vi-item"><span>18 MB</span>File Size</div>
@@ -820,7 +1295,7 @@
   <div class="updated">Last updated: May 2025</div>
 
   <h3>1. Information We Collect</h3>
-  <p>GrabVD does not collect any personal information. We do not require you to create an account or log in.</p>
+  <p>TaskJunction does not collect any personal information. We do not require you to create an account or log in.</p>
 
   <h3>2. How the App Works</h3>
   <p>Our app processes publicly available reel links provided by the user. All downloads happen locally on your device. We do not store, transmit, or share any video content or user data on our servers.</p>
@@ -846,14 +1321,15 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Grab<span>VD</span></div>
+  <div class="footer-logo">Task<span>Junction</span></div>
   <div class="footer-links">
+    <a href="#about">About</a>
     <a href="#features">Features</a>
     <a href="#apps">Apps</a>
     <a href="#download">Download</a>
     <a href="#privacy">Privacy Policy</a>
   </div>
-  <p>Made with ♥ by Vaibhav Dhokpande &bull; © 2025 GrabVD. All rights reserved.</p>
+  <p>Made with ♥ by Vaibhav Dhokpande &bull; © 2025 TaskJunction. All rights reserved.</p>
   <p style="margin-top: 8px;">Personal use only. Respect copyright laws & platform terms of service.</p>
 </footer>
 
