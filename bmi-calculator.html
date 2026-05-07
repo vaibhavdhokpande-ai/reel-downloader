@@ -4,49 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BMIVD – BMI Calculator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+
 <style>
-  :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--border:#2a2a3a;--accent:#7c3aed;--accent2:#a855f7;--glow:rgba(124,58,237,0.25);--text:#f0f0f8;--muted:#8888aa;--green:#22c55e;--red:#ef4444;--orange:#f97316;--yellow:#eab308;--blue:#60a5fa;}
+  :root{--bg:#f0f6ff;--surface:#ffffff;--card:#e8f0fe;--border:#c5d5f0;--accent:#7c3aed;--accent2:#a855f7;--glow:rgba(124,58,237,0.25);--text:#1a1a2e;--muted:#5566aa;--green:#22c55e;--red:#ef4444;--orange:#f97316;--yellow:#eab308;--blue:#60a5fa;}
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
-  h1,h2,h3,.logo{font-family:'Rajdhani',sans-serif;letter-spacing:0.02em;}
-  nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+  body{background:var(--bg);color:var(--text);font-family:'Arial',sans-serif;min-height:100vh;}
+  h1,h2,h3,.logo{font-family:'Arial',sans-serif;letter-spacing:0.02em;}
+  nav{position:sticky;top:0;z-index:100;background:rgba(240,246,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
   .logo{font-size:22px;font-weight:700;color:var(--text);text-decoration:none;}.logo span{color:var(--accent2);}
   nav ul{list-style:none;display:flex;gap:24px;}
-  nav ul a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s;}
+  nav ul a{color:#334488;text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s;}
   nav ul a:hover,nav ul a.active{color:var(--accent2);}
-  .hero{text-align:center;padding:50px 24px 30px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.15) 0%,transparent 70%);}
+  .hero{text-align:center;padding:24px 24px 24px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.08) 0%,transparent 70%);}
   .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.4);border-radius:99px;padding:6px 16px;font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:16px;}
   .hero h1{font-size:clamp(30px,5vw,52px);font-weight:700;margin-bottom:8px;}.hero h1 span{color:var(--accent2);}
-  .main{max-width:860px;margin:0 auto;padding:32px 24px 80px;}
+  .main{max-width:860px;margin:0 auto;padding:0 24px 80px;}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
   .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:0;}
-  .card-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:var(--accent2);margin-bottom:22px;}
+  .card-title{font-family:'Arial',sans-serif;font-size:22px;font-weight:700;color:var(--accent2);margin-bottom:22px;}
   label{display:block;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-  input[type=number]{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:600;outline:none;transition:border-color 0.2s;margin-bottom:16px;}
+  input[type=number]{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-family:'Arial',sans-serif;font-size:22px;font-weight:600;outline:none;transition:border-color 0.2s;margin-bottom:16px;}
   input:focus{border-color:var(--accent2);}
   .unit-toggle{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:3px;margin-bottom:20px;}
-  .unit-btn{flex:1;padding:9px;text-align:center;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:7px;transition:all 0.2s;}
+  .unit-btn{flex:1;padding:9px;text-align:center;font-family:'Arial',sans-serif;font-size:15px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:7px;transition:all 0.2s;}
   .unit-btn.active{background:var(--accent);color:#fff;}
-  .btn{width:100%;background:var(--accent);color:#fff;border:none;padding:15px;border-radius:12px;font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+  .btn{width:100%;background:var(--accent);color:#fff;border:none;padding:15px;border-radius:12px;font-family:'Arial',sans-serif;font-size:20px;font-weight:700;cursor:pointer;transition:all 0.2s;}
   .btn:hover{background:var(--accent2);transform:translateY(-2px);}
   .gauge-wrap{text-align:center;margin-bottom:24px;}
   .gauge-svg{width:240px;height:130px;margin:0 auto;}
-  .bmi-display{font-family:'Rajdhani',sans-serif;font-size:56px;font-weight:700;line-height:1;margin-top:8px;}
+  .bmi-display{font-family:'Arial',sans-serif;font-size:56px;font-weight:700;line-height:1;margin-top:8px;}
   .bmi-cat{font-size:16px;font-weight:600;margin-top:4px;}.bmi-range{font-size:13px;color:var(--muted);}
   .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
   .res-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
-  .res-val{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:var(--text);}
+  .res-val{font-family:'Arial',sans-serif;font-size:22px;font-weight:700;color:var(--text);}
   .res-lbl{font-size:12px;color:var(--muted);margin-top:3px;}
   .cat-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:10px;margin-bottom:6px;font-size:14px;}
   .cat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-right:10px;}
-  .cat-name{flex:1;font-weight:500;}.cat-range{color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;}
+  .cat-name{flex:1;font-weight:500;}.cat-range{color:var(--muted);font-family:'Arial',sans-serif;font-size:14px;font-weight:600;}
   .tips-list{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
   .tip-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:14px;color:var(--muted);display:flex;gap:10px;line-height:1.6;}
   .tip-icon{font-size:18px;flex-shrink:0;}
   footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
-  .footer-logo{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;}.footer-logo span{color:var(--accent2);}
+  .footer-logo{font-family:'Arial',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;}.footer-logo span{color:var(--accent2);}
   footer p{font-size:13px;color:var(--muted);}
   .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
   .footer-links a{color:var(--accent2);text-decoration:none;font-size:13px;}
@@ -55,7 +55,7 @@
 </head>
 <body>
 <nav>
-  <a href="index.html" class="logo">Grab<span>VD</span></a>
+  <a href="index.html" class="logo">Task<span>Junction</span></a>
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="unit-converter.html">Converter</a></li>
@@ -134,9 +134,9 @@
   </div>
 </div>
 <footer>
-  <div class="footer-logo">Grab<span>VD</span></div>
+  <div class="footer-logo">Task<span>Junction</span></div>
   <div class="footer-links"><a href="index.html">Home</a><a href="index.html#privacy">Privacy</a></div>
-  <p>Made with ♥ by Vaibhav Dhokpande • © 2025 GrabVD</p>
+  <p>Made by Vaibhav Dhokpande</p>
   <p style="margin-top:8px;font-size:12px;">Disclaimer: BMI is a screening tool, not a diagnostic measure. Consult a healthcare professional.</p>
 </footer>
 <script>
