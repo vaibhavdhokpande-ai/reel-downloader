@@ -34,7 +34,36 @@ overflow-x: hidden;
 cursor: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘32’ height=‘32’ viewBox=‘0 0 32 32’%3E%3Ctext y=‘24’ font-size=‘24’%3E⭐%3C/text%3E%3C/svg%3E”), auto;
 }
 
-/* ── CLOUDS ── */
+/* ── BACK NAV ── */
+.top-nav {
+position: sticky; top: 0; z-index: 200;
+background: rgba(255,255,255,0.92);
+backdrop-filter: blur(12px);
+border-bottom: 3px solid #FFD700;
+padding: 0 20px;
+height: 54px;
+display: flex; align-items: center; justify-content: space-between;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.nav-logo {
+font-family: ‘Baloo 2’, cursive;
+font-size: 20px; font-weight: 800;
+color: #2C3E50; text-decoration: none;
+}
+.nav-logo span { color: #FF8C42; }
+.back-btn {
+display: flex; align-items: center; gap: 8px;
+padding: 8px 18px; border-radius: 99px;
+background: #FF8C42; color: white;
+text-decoration: none;
+font-family: ‘Baloo 2’, cursive;
+font-size: 14px; font-weight: 700;
+border: none; cursor: pointer;
+box-shadow: 0 3px 0 rgba(0,0,0,0.15);
+transition: all 0.2s;
+}
+.back-btn:hover { background: #ff6b35; transform: translateY(-2px); box-shadow: 0 5px 0 rgba(0,0,0,0.15); }
+.back-btn:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(0,0,0,0.15); }
 .clouds { position: fixed; top: 0; left: 0; width: 100%; height: 200px; pointer-events: none; z-index: 0; overflow: hidden; }
 .cloud {
 position: absolute;
@@ -418,6 +447,13 @@ box-shadow: 0 0 10px rgba(255,215,0,0.5);
 
 </head>
 <body>
+
+<!-- TOP NAV -->
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-logo">Task<span>Junction</span></a>
+  <a href="index.html" class="back-btn">🏠 Back to Home</a>
+</nav>
 
 <!-- Clouds -->
 
@@ -955,6 +991,10 @@ document.addEventListener('click', (e) => {
   }
 });
 </script>
+
+<div style="text-align:center; padding: 20px; font-family:'Baloo 2',cursive; font-size:14px; font-weight:700; color:rgba(255,255,255,0.8); text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
+  Made by Vaibhav Dhokpande 🎮
+</div>
 
 </body>
 </html>
