@@ -1,1 +1,960 @@
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PuzzlePals 🧩 — Fun Puzzle Game for Kids!</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky: #87CEEB;
+  --grass: #5DBB63;
+  --sun: #FFD700;
+  --orange: #FF8C42;
+  --pink: #FF6B9D;
+  --purple: #9B59B6;
+  --blue: #3498DB;
+  --red: #E74C3C;
+  --yellow: #F1C40F;
+  --mint: #1ABC9C;
+  --white: #FFFFFF;
+  --dark: #2C3E50;
+  --light: #ECF0F1;
+}
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+body {
+background: linear-gradient(180deg, #87CEEB 0%, #B0E0E6 40%, #90EE90 70%, #5DBB63 100%);
+min-height: 100vh;
+font-family: ‘Nunito’, sans-serif;
+overflow-x: hidden;
+cursor: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘32’ height=‘32’ viewBox=‘0 0 32 32’%3E%3Ctext y=‘24’ font-size=‘24’%3E⭐%3C/text%3E%3C/svg%3E”), auto;
+}
+
+/* ── CLOUDS ── */
+.clouds { position: fixed; top: 0; left: 0; width: 100%; height: 200px; pointer-events: none; z-index: 0; overflow: hidden; }
+.cloud {
+position: absolute;
+background: white;
+border-radius: 50px;
+opacity: 0.85;
+animation: floatCloud linear infinite;
+}
+.cloud::before, .cloud::after {
+content: ‘’;
+position: absolute;
+background: white;
+border-radius: 50%;
+}
+.cloud-1 { width: 120px; height: 40px; top: 20px; animation-duration: 35s; animation-delay: 0s; }
+.cloud-1::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+.cloud-1::after { width: 80px; height: 50px; top: -20px; left: 40px; }
+.cloud-2 { width: 90px; height: 30px; top: 60px; animation-duration: 50s; animation-delay: -10s; }
+.cloud-2::before { width: 45px; height: 45px; top: -22px; left: 12px; }
+.cloud-2::after { width: 60px; height: 40px; top: -15px; left: 30px; }
+.cloud-3 { width: 150px; height: 45px; top: 30px; animation-duration: 45s; animation-delay: -20s; }
+.cloud-3::before { width: 70px; height: 70px; top: -35px; left: 20px; }
+.cloud-3::after { width: 90px; height: 55px; top: -25px; left: 50px; }
+
+@keyframes floatCloud {
+from { left: -200px; }
+to { left: calc(100% + 200px); }
+}
+
+/* ── STARS / SPARKLES ── */
+.sparkle {
+position: fixed;
+pointer-events: none;
+font-size: 20px;
+animation: sparkleAnim 1s ease-out forwards;
+z-index: 1000;
+}
+@keyframes sparkleAnim {
+0% { transform: scale(0) rotate(0deg); opacity: 1; }
+50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
+100% { transform: scale(0) rotate(360deg) translateY(-60px); opacity: 0; }
+}
+
+/* ── MAIN CONTAINER ── */
+.game-wrapper {
+position: relative; z-index: 1;
+max-width: 900px; margin: 0 auto;
+padding: 20px 16px 60px;
+}
+
+/* ── HEADER ── */
+.header {
+text-align: center; margin-bottom: 24px;
+animation: bounceIn 0.8s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+@keyframes bounceIn {
+0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+60% { transform: scale(1.1) rotate(3deg); }
+100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.header-title {
+font-family: ‘Baloo 2’, cursive;
+font-size: clamp(36px, 8vw, 64px);
+font-weight: 800;
+color: var(–white);
+text-shadow:
+4px 4px 0 var(–orange),
+8px 8px 0 rgba(0,0,0,0.15);
+letter-spacing: 2px;
+line-height: 1;
+}
+.header-sub {
+font-size: 18px; color: var(–white);
+font-weight: 700; margin-top: 8px;
+text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+/* ── SCORE BAR ── */
+.score-bar {
+display: flex; justify-content: space-between; align-items: center;
+background: var(–white); border-radius: 20px;
+padding: 12px 24px; margin-bottom: 20px;
+box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+border: 3px solid var(–yellow);
+}
+.score-item { text-align: center; }
+.score-label {
+font-size: 11px; font-weight: 800;
+color: var(–dark); opacity: 0.6;
+letter-spacing: 0.1em; text-transform: uppercase;
+}
+.score-value {
+font-family: ‘Baloo 2’, cursive;
+font-size: 28px; font-weight: 800; line-height: 1;
+}
+.score-stars { color: var(–yellow); }
+.score-level { color: var(–purple); }
+.score-moves { color: var(–orange); }
+
+/* ── LEVEL TABS ── */
+.level-tabs {
+display: flex; gap: 10px; justify-content: center;
+margin-bottom: 20px; flex-wrap: wrap;
+}
+.level-tab {
+padding: 10px 24px; border-radius: 99px;
+border: 3px solid var(–white);
+background: rgba(255,255,255,0.4);
+font-family: ‘Baloo 2’, cursive;
+font-size: 15px; font-weight: 700;
+color: var(–white); cursor: pointer;
+transition: all 0.25s;
+text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+}
+.level-tab:hover { background: rgba(255,255,255,0.7); color: var(–dark); transform: scale(1.05); }
+.level-tab.active { background: var(–white); color: var(–dark); transform: scale(1.05); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+/* ── GAME MODES ── */
+.mode-tabs {
+display: flex; gap: 10px; justify-content: center;
+margin-bottom: 20px;
+}
+.mode-btn {
+padding: 12px 22px; border-radius: 16px;
+border: 3px solid rgba(255,255,255,0.5);
+background: rgba(255,255,255,0.25);
+font-family: ‘Baloo 2’, cursive;
+font-size: 15px; font-weight: 700;
+color: var(–white); cursor: pointer;
+transition: all 0.2s;
+display: flex; align-items: center; gap: 8px;
+}
+.mode-btn:hover { background: rgba(255,255,255,0.5); transform: translateY(-2px); }
+.mode-btn.active { background: var(–white); color: var(–dark); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+
+/* ── GAME AREA ── */
+.game-area {
+background: rgba(255,255,255,0.92);
+border-radius: 28px;
+padding: 28px;
+box-shadow: 0 12px 40px rgba(0,0,0,0.2), inset 0 2px 0 rgba(255,255,255,0.8);
+border: 4px solid var(–white);
+}
+
+.game-title {
+font-family: ‘Baloo 2’, cursive;
+font-size: 22px; font-weight: 800;
+text-align: center; margin-bottom: 20px;
+color: var(–dark);
+}
+
+/* ── MEMORY GAME ── */
+.memory-grid {
+display: grid;
+gap: 10px;
+margin: 0 auto;
+max-width: 520px;
+}
+.memory-grid.easy { grid-template-columns: repeat(4, 1fr); }
+.memory-grid.medium { grid-template-columns: repeat(4, 1fr); }
+.memory-grid.hard { grid-template-columns: repeat(5, 1fr); }
+
+.mem-card {
+aspect-ratio: 1;
+border-radius: 16px;
+cursor: pointer;
+position: relative;
+transform-style: preserve-3d;
+transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+border: 3px solid rgba(0,0,0,0.08);
+}
+.mem-card.flipped { transform: rotateY(180deg); }
+.mem-card.matched { animation: matchedPulse 0.5s ease; }
+@keyframes matchedPulse {
+0% { transform: rotateY(180deg) scale(1); }
+50% { transform: rotateY(180deg) scale(1.15); }
+100% { transform: rotateY(180deg) scale(1); }
+}
+
+.card-face {
+position: absolute; inset: 0;
+border-radius: 13px;
+backface-visibility: hidden;
+display: flex; align-items: center; justify-content: center;
+font-size: clamp(28px, 6vw, 44px);
+user-select: none;
+}
+.card-back {
+background: linear-gradient(135deg, var(–blue), var(–purple));
+font-size: 28px;
+}
+.card-back::after {
+content: ‘🌟’;
+font-size: clamp(20px, 4vw, 30px);
+}
+.card-front {
+background: linear-gradient(135deg, #FFF9C4, #FFFDE7);
+transform: rotateY(180deg);
+border: 3px solid var(–yellow);
+}
+
+/* ── JIGSAW PUZZLE ── */
+.jigsaw-area {
+display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+}
+.puzzle-board {
+display: grid;
+border-radius: 16px;
+overflow: hidden;
+border: 4px solid var(–dark);
+box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.puzzle-cell {
+width: 80px; height: 80px;
+border: 2px dashed rgba(0,0,0,0.2);
+display: flex; align-items: center; justify-content: center;
+font-size: 36px;
+transition: all 0.2s;
+background: rgba(255,255,255,0.5);
+}
+.puzzle-cell.correct {
+background: rgba(93,187,99,0.3);
+border: 2px solid var(–grass);
+animation: correctCell 0.4s ease;
+}
+@keyframes correctCell {
+0% { transform: scale(1.2); }
+100% { transform: scale(1); }
+}
+.puzzle-cell.drag-over {
+background: rgba(255,215,0,0.4);
+border: 2px solid var(–yellow);
+transform: scale(1.05);
+}
+
+.puzzle-pieces {
+display: flex; flex-wrap: wrap; gap: 8px;
+align-content: flex-start;
+background: rgba(135,206,235,0.3);
+border-radius: 16px; padding: 16px;
+border: 3px dashed rgba(0,0,0,0.15);
+min-width: 180px; min-height: 180px;
+}
+.puzzle-piece {
+width: 72px; height: 72px;
+border-radius: 12px;
+display: flex; align-items: center; justify-content: center;
+font-size: 36px;
+cursor: grab;
+background: white;
+border: 3px solid var(–yellow);
+box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+transition: all 0.2s;
+user-select: none;
+}
+.puzzle-piece:hover { transform: scale(1.1) rotate(-3deg); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+.puzzle-piece:active { cursor: grabbing; transform: scale(0.95); }
+.puzzle-piece.used { opacity: 0; pointer-events: none; }
+
+/* ── COLOR MATCH ── */
+.color-match-area { text-align: center; }
+.color-question {
+font-family: ‘Baloo 2’, cursive;
+font-size: 20px; font-weight: 800;
+margin-bottom: 20px; color: var(–dark);
+}
+.color-display {
+width: 140px; height: 140px;
+border-radius: 50%; margin: 0 auto 24px;
+border: 6px solid white;
+box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+display: flex; align-items: center; justify-content: center;
+font-size: 60px;
+animation: colorPulse 2s ease-in-out infinite;
+}
+@keyframes colorPulse {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.05); }
+}
+.color-options {
+display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+}
+.color-opt {
+width: 90px; height: 90px;
+border-radius: 20px;
+cursor: pointer;
+border: 4px solid white;
+box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+font-size: 36px;
+display: flex; align-items: center; justify-content: center;
+transition: all 0.2s;
+font-family: ‘Baloo 2’, cursive;
+font-weight: 800; font-size: 15px;
+color: white;
+text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+flex-direction: column; gap: 4px;
+}
+.color-opt:hover { transform: scale(1.1) rotate(-3deg); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+.color-opt.correct-ans { animation: correctAns 0.5s ease; border-color: var(–grass) !important; }
+.color-opt.wrong-ans { animation: wrongAns 0.4s ease; border-color: var(–red) !important; }
+@keyframes correctAns { 0%,100%{transform:scale(1)}50%{transform:scale(1.2) rotate(5deg)} }
+@keyframes wrongAns { 0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)} }
+
+/* ── BUTTONS ── */
+.btn {
+padding: 14px 32px; border-radius: 16px;
+border: none; cursor: pointer;
+font-family: ‘Baloo 2’, cursive;
+font-size: 18px; font-weight: 700;
+transition: all 0.2s;
+display: inline-flex; align-items: center; gap: 8px;
+box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
+.btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+.btn-primary { background: var(–orange); color: white; }
+.btn-success { background: var(–grass); color: white; }
+.btn-purple { background: var(–purple); color: white; }
+.btn-center { text-align: center; margin-top: 20px; }
+
+/* ── WIN SCREEN ── */
+.win-screen {
+display: none; text-align: center;
+animation: winEntrance 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+.win-screen.show { display: block; }
+@keyframes winEntrance {
+from { transform: scale(0) rotate(-10deg); opacity: 0; }
+to { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.win-emoji { font-size: 80px; animation: bounce 1s ease infinite alternate; }
+@keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-20px)} }
+.win-title {
+font-family: ‘Baloo 2’, cursive;
+font-size: 40px; font-weight: 800;
+color: var(–orange);
+text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+margin: 12px 0;
+}
+.win-stars { font-size: 48px; margin: 10px 0; letter-spacing: 8px; }
+.win-msg { font-size: 18px; color: var(–dark); font-weight: 700; margin-bottom: 24px; }
+
+/* ── CONFETTI ── */
+.confetti-piece {
+position: fixed;
+width: 12px; height: 12px;
+pointer-events: none;
+z-index: 999;
+animation: confettiFall linear forwards;
+border-radius: 3px;
+}
+@keyframes confettiFall {
+0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+background: rgba(0,0,0,0.1);
+border-radius: 99px; height: 14px;
+margin-bottom: 20px; overflow: hidden;
+border: 2px solid rgba(255,255,255,0.5);
+}
+.progress-fill {
+height: 100%; border-radius: 99px;
+background: linear-gradient(90deg, var(–grass), var(–yellow));
+transition: width 0.5s ease;
+box-shadow: 0 0 10px rgba(255,215,0,0.5);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 500px) {
+.memory-grid.easy { grid-template-columns: repeat(4, 1fr); }
+.memory-grid.hard { grid-template-columns: repeat(4, 1fr); }
+.puzzle-cell { width: 65px; height: 65px; font-size: 28px; }
+.puzzle-piece { width: 60px; height: 60px; font-size: 28px; }
+.game-area { padding: 18px; }
+.jigsaw-area { flex-direction: column; align-items: center; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Clouds -->
+
+<div class="clouds">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+</div>
+
+<div class="game-wrapper">
+
+  <!-- Header -->
+
+  <div class="header">
+    <div class="header-title">🧩 PuzzlePals!</div>
+    <div class="header-sub">Fun games for little explorers! 🌈</div>
+  </div>
+
+  <!-- Score Bar -->
+
+  <div class="score-bar">
+    <div class="score-item">
+      <div class="score-label">⭐ Stars</div>
+      <div class="score-value score-stars" id="totalStars">0</div>
+    </div>
+    <div class="score-item">
+      <div class="score-label">🏆 Level</div>
+      <div class="score-value score-level" id="currentLevel">1</div>
+    </div>
+    <div class="score-item">
+      <div class="score-label">🎮 Moves</div>
+      <div class="score-value score-moves" id="moveCount">0</div>
+    </div>
+  </div>
+
+  <!-- Game Mode Tabs -->
+
+  <div class="mode-tabs">
+    <button class="mode-btn active" onclick="switchMode('memory', this)">🧠 Memory</button>
+    <button class="mode-btn" onclick="switchMode('jigsaw', this)">🧩 Jigsaw</button>
+    <button class="mode-btn" onclick="switchMode('colors', this)">🎨 Colors</button>
+  </div>
+
+  <!-- Level Tabs -->
+
+  <div class="level-tabs" id="levelTabs">
+    <button class="level-tab active" onclick="setLevel('easy', this)">🌱 Easy</button>
+    <button class="level-tab" onclick="setLevel('medium', this)">🌟 Medium</button>
+    <button class="level-tab" onclick="setLevel('hard', this)">🔥 Hard</button>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+
+  <!-- MEMORY GAME -->
+
+  <!-- ═══════════════════════════════════ -->
+
+  <div class="game-area" id="memoryGame">
+    <div class="game-title" id="memoryTitle">🧠 Find the Matching Pairs!</div>
+    <div class="progress-wrap"><div class="progress-fill" id="memProgress" style="width:0%"></div></div>
+    <div class="memory-grid easy" id="memoryGrid"></div>
+    <div class="btn-center">
+      <button class="btn btn-primary" onclick="initMemory()">🔄 New Game</button>
+    </div>
+    <div class="win-screen" id="memWin">
+      <div class="win-emoji">🎉</div>
+      <div class="win-title">Amazing!</div>
+      <div class="win-stars" id="memWinStars">⭐⭐⭐</div>
+      <div class="win-msg" id="memWinMsg">You found all the pairs!</div>
+      <button class="btn btn-success" onclick="nextLevel()">Next Level 🚀</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+
+  <!-- JIGSAW GAME -->
+
+  <!-- ═══════════════════════════════════ -->
+
+  <div class="game-area" id="jigsawGame" style="display:none">
+    <div class="game-title">🧩 Drag the pieces to the right spot!</div>
+    <div class="progress-wrap"><div class="progress-fill" id="jigProgress" style="width:0%"></div></div>
+    <div class="jigsaw-area">
+      <div>
+        <p style="text-align:center;font-weight:800;color:var(--dark);margin-bottom:10px;font-size:13px;">📋 BOARD</p>
+        <div class="puzzle-board" id="puzzleBoard"></div>
+      </div>
+      <div>
+        <p style="text-align:center;font-weight:800;color:var(--dark);margin-bottom:10px;font-size:13px;">🎒 PIECES</p>
+        <div class="puzzle-pieces" id="puzzlePieces"></div>
+      </div>
+    </div>
+    <div class="btn-center">
+      <button class="btn btn-primary" onclick="initJigsaw()">🔄 New Puzzle</button>
+    </div>
+    <div class="win-screen" id="jigWin">
+      <div class="win-emoji">🏆</div>
+      <div class="win-title">Puzzle Complete!</div>
+      <div class="win-stars" id="jigWinStars">⭐⭐⭐</div>
+      <div class="win-msg">You put all pieces in the right place!</div>
+      <button class="btn btn-success" onclick="nextLevel()">Next Level 🚀</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+
+  <!-- COLOR MATCH GAME -->
+
+  <!-- ═══════════════════════════════════ -->
+
+  <div class="game-area" id="colorsGame" style="display:none">
+    <div class="game-title">🎨 Match the Color!</div>
+    <div class="progress-wrap"><div class="progress-fill" id="colorProgress" style="width:0%"></div></div>
+    <div class="color-match-area">
+      <div class="color-question" id="colorQuestion">What color is this? 🤔</div>
+      <div class="color-display" id="colorDisplay">🎨</div>
+      <div class="color-options" id="colorOptions"></div>
+    </div>
+    <div class="btn-center" style="margin-top:24px;">
+      <button class="btn btn-primary" onclick="initColors()">🔄 New Game</button>
+    </div>
+    <div class="win-screen" id="colorWin">
+      <div class="win-emoji">🌈</div>
+      <div class="win-title">Color Master!</div>
+      <div class="win-stars" id="colorWinStars">⭐⭐⭐</div>
+      <div class="win-msg">You know all the colors!</div>
+      <button class="btn btn-success" onclick="nextLevel()">Next Level 🚀</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────
+let currentMode = 'memory';
+let currentDifficulty = 'easy';
+let totalStars = 0;
+let level = 1;
+let moves = 0;
+
+// ─── EMOJIS ──────────────────────────────
+const EMOJI_SETS = {
+  animals: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐸','🐙','🦋','🦄','🐬','🦀','🦜'],
+  fruits:  ['🍎','🍊','🍋','🍇','🍓','🍑','🍒','🥝','🍍','🥭','🍌','🍉'],
+  objects: ['⚽','🎈','🎸','🎀','🎮','🚀','🌈','⭐','🎁','🏆','🎯','🎪'],
+};
+
+function getEmojis(count) {
+  const all = [...EMOJI_SETS.animals, ...EMOJI_SETS.fruits, ...EMOJI_SETS.objects];
+  return shuffle(all).slice(0, count);
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ─── UI HELPERS ──────────────────────────
+function updateScore() {
+  document.getElementById('totalStars').textContent = totalStars;
+  document.getElementById('currentLevel').textContent = level;
+  document.getElementById('moveCount').textContent = moves;
+}
+
+function addSparkle(x, y) {
+  const emojis = ['⭐','✨','🌟','💫','🎉'];
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      s.style.left = (x + (Math.random()-0.5)*60) + 'px';
+      s.style.top = (y + (Math.random()-0.5)*60) + 'px';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 1000);
+    }, i * 100);
+  }
+}
+
+function launchConfetti() {
+  const colors = ['#FF6B9D','#FF8C42','#FFD700','#5DBB63','#3498DB','#9B59B6','#E74C3C'];
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = '-20px';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+      c.style.animationDelay = Math.random() * 0.5 + 's';
+      c.style.width = (Math.random() * 10 + 8) + 'px';
+      c.style.height = (Math.random() * 10 + 8) + 'px';
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 3000);
+    }, i * 30);
+  }
+}
+
+function calcStars(movesUsed, target) {
+  if (movesUsed <= target) return '⭐⭐⭐';
+  if (movesUsed <= target * 1.5) return '⭐⭐';
+  return '⭐';
+}
+
+function addStars(str) {
+  totalStars += str.split('⭐').length - 1;
+  updateScore();
+}
+
+// ─── MODE SWITCHING ───────────────────────
+function switchMode(mode, el) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('memoryGame').style.display = mode === 'memory' ? 'block' : 'none';
+  document.getElementById('jigsawGame').style.display = mode === 'jigsaw' ? 'block' : 'none';
+  document.getElementById('colorsGame').style.display = mode === 'colors' ? 'block' : 'none';
+  moves = 0; updateScore();
+  if (mode === 'memory') initMemory();
+  if (mode === 'jigsaw') initJigsaw();
+  if (mode === 'colors') initColors();
+}
+
+function setLevel(diff, el) {
+  currentDifficulty = diff;
+  document.querySelectorAll('.level-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  moves = 0; updateScore();
+  if (currentMode === 'memory') initMemory();
+  if (currentMode === 'jigsaw') initJigsaw();
+  if (currentMode === 'colors') initColors();
+}
+
+function nextLevel() {
+  level++;
+  updateScore();
+  if (currentMode === 'memory') initMemory();
+  if (currentMode === 'jigsaw') initJigsaw();
+  if (currentMode === 'colors') initColors();
+}
+
+// ─────────────────────────────────────────
+// 🧠 MEMORY GAME
+// ─────────────────────────────────────────
+let memCards = [], memFlipped = [], memMatched = 0, memTotal = 0, memMoves = 0;
+let memLock = false;
+
+function initMemory() {
+  document.getElementById('memWin').classList.remove('show');
+  memFlipped = []; memMatched = 0; memMoves = 0; moves = 0; updateScore();
+
+  const counts = { easy: 8, medium: 10, hard: 12 };
+  const pairs = counts[currentDifficulty];
+  memTotal = pairs;
+
+  const grid = document.getElementById('memoryGrid');
+  grid.className = 'memory-grid ' + currentDifficulty;
+
+  const emojis = getEmojis(pairs);
+  const cardData = shuffle([...emojis, ...emojis]);
+
+  memCards = cardData.map((emoji, i) => ({ id: i, emoji, matched: false }));
+
+  document.getElementById('memProgress').style.width = '0%';
+
+  grid.innerHTML = '';
+  memCards.forEach((card, i) => {
+    const el = document.createElement('div');
+    el.className = 'mem-card';
+    el.dataset.index = i;
+    el.innerHTML = `
+      <div class="card-face card-back"></div>
+      <div class="card-face card-front">${card.emoji}</div>
+    `;
+    el.addEventListener('click', () => flipCard(el, i));
+    grid.appendChild(el);
+  });
+}
+
+function flipCard(el, index) {
+  if (memLock) return;
+  if (el.classList.contains('flipped')) return;
+  if (memCards[index].matched) return;
+
+  el.classList.add('flipped');
+  memFlipped.push({ el, index });
+  memMoves++; moves++; updateScore();
+  addSparkle(el.getBoundingClientRect().x + 40, el.getBoundingClientRect().y + 40);
+
+  if (memFlipped.length === 2) {
+    memLock = true;
+    const [a, b] = memFlipped;
+    if (memCards[a.index].emoji === memCards[b.index].emoji) {
+      memCards[a.index].matched = true;
+      memCards[b.index].matched = true;
+      a.el.classList.add('matched');
+      b.el.classList.add('matched');
+      memMatched++;
+      memFlipped = [];
+      memLock = false;
+      document.getElementById('memProgress').style.width = (memMatched / memTotal * 100) + '%';
+      if (memMatched === memTotal) {
+        setTimeout(() => {
+          launchConfetti();
+          const stars = calcStars(memMoves, memTotal * 1.2);
+          addStars(stars);
+          document.getElementById('memWinStars').textContent = stars;
+          document.getElementById('memWinMsg').textContent = `You used ${memMoves} moves! 🎉`;
+          document.getElementById('memWin').classList.add('show');
+        }, 400);
+      }
+    } else {
+      setTimeout(() => {
+        a.el.classList.remove('flipped');
+        b.el.classList.remove('flipped');
+        memFlipped = [];
+        memLock = false;
+      }, 900);
+    }
+  }
+}
+
+// ─────────────────────────────────────────
+// 🧩 JIGSAW GAME
+// ─────────────────────────────────────────
+const JIGSAW_PUZZLES = [
+  {
+    name: 'Farm Animals 🐄',
+    grid: 3,
+    pieces: ['🐄','🐷','🐔','🐑','🐴','🐕','🐓','🐇','🐐'],
+  },
+  {
+    name: 'Ocean Life 🌊',
+    grid: 3,
+    pieces: ['🐬','🐙','🦀','🐠','🐡','🦑','🦈','🐚','🌊'],
+  },
+  {
+    name: 'Jungle Friends 🌴',
+    grid: 3,
+    pieces: ['🦁','🐯','🦊','🐘','🦒','🐆','🦏','🦓','🦜'],
+  },
+  {
+    name: 'Space Adventure 🚀',
+    grid: 4,
+    pieces: ['🚀','⭐','🌙','🪐','☄️','👽','🛸','🌟','🌍','🌠','🔭','💫'],
+  },
+];
+
+let jigsawCorrect = 0, jigsawTotal = 0;
+
+function initJigsaw() {
+  document.getElementById('jigWin').classList.remove('show');
+  jigsawCorrect = 0; moves = 0; updateScore();
+
+  const puzzleIdx = (level - 1) % JIGSAW_PUZZLES.length;
+  const puzzle = JIGSAW_PUZZLES[puzzleIdx];
+  jigsawTotal = puzzle.pieces.length;
+  const gridSize = puzzle.grid;
+
+  document.getElementById('jigProgress').style.width = '0%';
+
+  // Build board
+  const board = document.getElementById('puzzleBoard');
+  board.style.gridTemplateColumns = `repeat(${gridSize}, auto)`;
+  board.innerHTML = '';
+
+  puzzle.pieces.forEach((emoji, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'puzzle-cell';
+    cell.dataset.answer = emoji;
+    cell.dataset.index = i;
+
+    cell.addEventListener('dragover', e => {
+      e.preventDefault();
+      cell.classList.add('drag-over');
+    });
+    cell.addEventListener('dragleave', () => cell.classList.remove('drag-over'));
+    cell.addEventListener('drop', e => {
+      e.preventDefault();
+      cell.classList.remove('drag-over');
+      const draggedEmoji = e.dataTransfer.getData('text/plain');
+      const pieceId = e.dataTransfer.getData('pieceId');
+      if (draggedEmoji === cell.dataset.answer && !cell.classList.contains('correct')) {
+        cell.textContent = draggedEmoji;
+        cell.classList.add('correct');
+        const piece = document.querySelector(`.puzzle-piece[data-id="${pieceId}"]`);
+        if (piece) piece.classList.add('used');
+        jigsawCorrect++;
+        moves++; updateScore();
+        document.getElementById('jigProgress').style.width = (jigsawCorrect / jigsawTotal * 100) + '%';
+        addSparkle(cell.getBoundingClientRect().x + 40, cell.getBoundingClientRect().y + 40);
+        if (jigsawCorrect === jigsawTotal) {
+          setTimeout(() => {
+            launchConfetti();
+            const stars = calcStars(moves, jigsawTotal * 1.5);
+            addStars(stars);
+            document.getElementById('jigWinStars').textContent = stars;
+            document.getElementById('jigWin').classList.add('show');
+          }, 400);
+        }
+      } else {
+        cell.style.animation = 'none';
+        cell.offsetHeight; // reflow
+        cell.style.animation = '';
+      }
+    });
+    board.appendChild(cell);
+  });
+
+  // Build shuffled pieces
+  const piecesDiv = document.getElementById('puzzlePieces');
+  piecesDiv.innerHTML = '';
+  const shuffled = shuffle([...puzzle.pieces]);
+  shuffled.forEach((emoji, i) => {
+    const piece = document.createElement('div');
+    piece.className = 'puzzle-piece';
+    piece.textContent = emoji;
+    piece.draggable = true;
+    piece.dataset.id = i;
+
+    piece.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', emoji);
+      e.dataTransfer.setData('pieceId', i);
+    });
+
+    // Touch support
+    piece.addEventListener('touchstart', e => {
+      piece.style.opacity = '0.7';
+    });
+
+    piecesDiv.appendChild(piece);
+  });
+}
+
+// ─────────────────────────────────────────
+// 🎨 COLOR MATCH GAME
+// ─────────────────────────────────────────
+const COLOR_DATA = [
+  { name: 'Red', color: '#E74C3C', emoji: '🍎', hex: '#E74C3C' },
+  { name: 'Blue', color: '#3498DB', emoji: '🫐', hex: '#3498DB' },
+  { name: 'Yellow', color: '#F1C40F', emoji: '🌻', hex: '#F1C40F' },
+  { name: 'Green', color: '#2ECC71', emoji: '🍃', hex: '#2ECC71' },
+  { name: 'Orange', color: '#E67E22', emoji: '🍊', hex: '#E67E22' },
+  { name: 'Purple', color: '#9B59B6', emoji: '🍇', hex: '#9B59B6' },
+  { name: 'Pink', color: '#FF6B9D', emoji: '🌸', hex: '#FF6B9D' },
+  { name: 'Brown', color: '#8B4513', emoji: '🍫', hex: '#8B4513' },
+  { name: 'White', color: '#ECF0F1', emoji: '☁️', hex: '#ECF0F1' },
+  { name: 'Black', color: '#2C3E50', emoji: '🐧', hex: '#2C3E50' },
+  { name: 'Cyan', color: '#1ABC9C', emoji: '🧊', hex: '#1ABC9C' },
+  { name: 'Lime', color: '#A8E063', emoji: '🥝', hex: '#A8E063' },
+];
+
+let colorQueue = [], colorScore = 0, colorTotal = 10, colorAnswered = 0;
+
+function initColors() {
+  document.getElementById('colorWin').classList.remove('show');
+  colorScore = 0; colorAnswered = 0; moves = 0; updateScore();
+  colorTotal = currentDifficulty === 'easy' ? 6 : currentDifficulty === 'medium' ? 8 : 10;
+  colorQueue = shuffle([...COLOR_DATA]).slice(0, colorTotal);
+  document.getElementById('colorProgress').style.width = '0%';
+  showNextColor();
+}
+
+function showNextColor() {
+  if (colorAnswered >= colorTotal) {
+    launchConfetti();
+    const stars = calcStars(moves, colorTotal);
+    addStars(stars);
+    document.getElementById('colorWinStars').textContent = stars;
+    document.getElementById('colorWin').classList.add('show');
+    return;
+  }
+
+  const correct = colorQueue[colorAnswered];
+  const wrongCount = currentDifficulty === 'easy' ? 2 : 3;
+  const wrongOptions = shuffle(COLOR_DATA.filter(c => c.name !== correct.name)).slice(0, wrongCount);
+  const options = shuffle([correct, ...wrongOptions]);
+
+  document.getElementById('colorDisplay').style.background = correct.color;
+  document.getElementById('colorDisplay').textContent = correct.emoji;
+  document.getElementById('colorQuestion').textContent =
+    currentDifficulty === 'hard' ? `What color is ${correct.emoji}?` : `What color is this? 🤔`;
+
+  const optionsDiv = document.getElementById('colorOptions');
+  optionsDiv.innerHTML = '';
+
+  options.forEach(opt => {
+    const btn = document.createElement('div');
+    btn.className = 'color-opt';
+    btn.style.background = opt.color;
+    btn.style.border = `4px solid ${opt.color === '#ECF0F1' ? '#bbb' : 'white'}`;
+    btn.innerHTML = `<span style="font-size:28px">${opt.emoji}</span><span>${opt.name}</span>`;
+
+    btn.addEventListener('click', () => {
+      moves++; updateScore();
+      const allBtns = optionsDiv.querySelectorAll('.color-opt');
+      allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+      if (opt.name === correct.name) {
+        btn.classList.add('correct-ans');
+        colorScore++;
+        addSparkle(btn.getBoundingClientRect().x + 45, btn.getBoundingClientRect().y + 45);
+      } else {
+        btn.classList.add('wrong-ans');
+        // Show correct
+        allBtns.forEach(b => {
+          const bEmoji = b.querySelector('span:last-child').textContent;
+          if (bEmoji === correct.name) b.classList.add('correct-ans');
+        });
+      }
+
+      colorAnswered++;
+      document.getElementById('colorProgress').style.width = (colorAnswered / colorTotal * 100) + '%';
+      setTimeout(showNextColor, 1000);
+    });
+
+    optionsDiv.appendChild(btn);
+  });
+}
+
+// ─── INIT ─────────────────────────────────
+updateScore();
+initMemory();
+
+// Click sparkles on page
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.btn') && !e.target.closest('.mem-card') &&
+      !e.target.closest('.color-opt') && !e.target.closest('.puzzle-piece')) {
+    addSparkle(e.clientX, e.clientY);
+  }
+});
+</script>
+
+</body>
+</html>
