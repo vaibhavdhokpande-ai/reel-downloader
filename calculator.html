@@ -1,381 +1,472 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculator – by VD</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Calculator – TaskJunction</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
 <style>
-  :root {
-    --bg:       #0a0a0f;
-    --surface:  #111118;
-    --card:     #16161f;
-    --border:   #2a2a3a;
-    --accent:   #7c3aed;
-    --accent2:  #a855f7;
-    --glow:     rgba(124,58,237,0.30);
-    --text:     #f0f0f8;
-    --muted:    #8888aa;
-    --blue:     #6c8ef5;
-    --green:    #3a9b6f;
-    --display-font: 'DM Mono', monospace;
-    --ui-font:  'Rajdhani', sans-serif;
-  }
+/* ══════════════════════════════
+   TOKENS
+══════════════════════════════ */
+:root {
+  --bg:        #faf8f5;
+  --white:     #ffffff;
+  --border:    #e8e2d8;
+  --border2:   #d6cfc4;
+  --orange:    #f4600c;
+  --orange2:   #ff7a2e;
+  --orange-lo: #fff3ec;
+  --orange-md: rgba(244,96,12,0.12);
+  --text:      #0f0d0a;
+  --text2:     #6b6560;
+  --text3:     #b0a89e;
+  --green:     #1c7a4a;
+  --green-lo:  rgba(28,122,74,0.09);
+  --shadow:    0 2px 16px rgba(15,13,10,0.07);
+  --shadow-lg: 0 8px 40px rgba(15,13,10,0.11);
+  --font-d:    'Sora', sans-serif;
+  --font-m:    'JetBrains Mono', monospace;
+}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { height:100%; }
+/* ══════════════════════════════
+   RESET
+══════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-d);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--ui-font);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-  }
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+nav {
+  width: 100%;
+  height: 56px;
+  background: rgba(250,248,245,0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: sticky; top: 0; z-index: 20;
+  flex-shrink: 0;
+}
 
-  /* ── NAV ── */
-  nav {
-    width: 100%;
-    background: rgba(10,10,15,0.95);
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(12px);
-    padding: 0 24px;
-    height: 54px;
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 10;
-  }
-  .nav-logo { font-size: 20px; font-weight: 700; color: var(--text); text-decoration: none; }
-  .nav-logo span { color: var(--accent2); }
-  .nav-back {
-    font-size: 13px; color: var(--muted); text-decoration: none;
-    display: flex; align-items: center; gap: 6px;
-    transition: color .2s;
-  }
-  .nav-back:hover { color: var(--text); }
+.nav-logo {
+  font-family: var(--font-d);
+  font-size: 17px; font-weight: 700;
+  color: var(--text); text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.nav-logo em { color: var(--orange); font-style: normal; }
 
-  /* ── AD TOP ── */
-  .ad-top {
-    width: 100%; max-width: 468px;
-    background: var(--surface);
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    height: 60px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 11px;
-    margin: 0 auto;
-  }
+.nav-back {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500; color: var(--text2);
+  text-decoration: none; padding: 6px 12px;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--white);
+  transition: all 0.18s;
+}
+.nav-back:hover {
+  color: var(--orange);
+  border-color: rgba(244,96,12,0.3);
+  background: var(--orange-lo);
+}
+.nav-back svg { flex-shrink: 0; }
 
-  /* ── WRAPPER ── */
-  .wrapper {
-    width: 100%;
-    max-width: 420px;
-    padding: 6px 12px 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    flex: 1;
-  }
+/* ══════════════════════════════
+   AD SLOT
+══════════════════════════════ */
+.ad-banner {
+  width: 100%; max-width: 420px;
+  height: 60px;
+  background: var(--white);
+  border: 1px dashed var(--border2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-m); font-size: 10px;
+  letter-spacing: 0.1em; color: var(--text3);
+  text-transform: uppercase;
+  margin: 14px auto 0;
+  flex-shrink: 0;
+}
 
-  /* ── CALCULATOR SHELL ── */
-  .calc-shell {
-    width: 100%;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.08);
-  }
+/* ══════════════════════════════
+   MAIN WRAPPER
+══════════════════════════════ */
+.wrapper {
+  width: 100%;
+  max-width: 420px;
+  padding: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
 
-  /* ── DISPLAY ── */
-  .display {
-    padding: 16px 24px 14px;
-    background: linear-gradient(180deg, #0e0e18 0%, #111118 100%);
-    border-bottom: 1px solid var(--border);
-    min-height: 100px;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    position: relative;
-    overflow: hidden;
-  }
-  .display::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(124,58,237,0.08), transparent);
-    pointer-events: none;
-  }
-  .expr {
-    font-family: var(--display-font);
-    font-size: 14px;
-    color: var(--muted);
-    text-align: right;
-    min-height: 20px;
-    letter-spacing: 0.02em;
-    transition: opacity .2s;
-  }
-  .number {
-    font-family: var(--display-font);
-    font-size: 54px;
-    font-weight: 400;
-    color: var(--text);
-    text-align: right;
-    line-height: 1.1;
-    letter-spacing: -2px;
-    transition: font-size .15s;
-    word-break: break-all;
-  }
-  .number.shrink { font-size: 34px; }
+/* ══════════════════════════════
+   CALCULATOR SHELL
+══════════════════════════════ */
+.calc-shell {
+  width: 100%;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+/* top accent line */
+.calc-shell::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--orange), var(--orange2), #fbbf24);
+  z-index: 1;
+}
 
-  /* ── BUTTON GRID ── */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border);
-  }
+/* ── DISPLAY ── */
+.display {
+  padding: 20px 22px 16px;
+  background: linear-gradient(160deg, #fffaf7 0%, #fff7f2 100%);
+  border-bottom: 1px solid var(--border);
+  min-height: 108px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  position: relative; overflow: hidden;
+}
+.display::after {
+  content: '';
+  position: absolute; bottom: 0; right: 0;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(244,96,12,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-  .btn {
-    background: var(--card);
-    border: none; outline: none;
-    color: var(--text);
-    font-family: var(--display-font);
-    font-size: 22px;
-    font-weight: 400;
-    height: 72px;
-    cursor: pointer;
-    transition: background .12s, transform .08s;
-    display: flex; align-items: center; justify-content: center;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    position: relative;
-    overflow: hidden;
-  }
-  .btn::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: white;
-    opacity: 0;
-    transition: opacity .15s;
-  }
-  .btn:active::after { opacity: 0.06; }
-  .btn:active { transform: scale(0.96); }
+.expr {
+  font-family: var(--font-m);
+  font-size: 13px; font-weight: 400;
+  color: var(--text3);
+  text-align: right;
+  min-height: 18px;
+  letter-spacing: 0.02em;
+}
+.number {
+  font-family: var(--font-m);
+  font-size: 52px; font-weight: 500;
+  color: var(--text);
+  text-align: right;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  word-break: break-all;
+  transition: font-size 0.15s ease;
+  position: relative; z-index: 1;
+}
+.number.shrink   { font-size: 36px; }
+.number.shrink2  { font-size: 26px; }
 
-  .btn.util {
-    color: #4ade80;
-    background: rgba(58,155,111,0.08);
-    font-size: 17px;
-    font-family: var(--ui-font);
-    font-weight: 600;
-    letter-spacing: 0.03em;
-  }
-  .btn.util:hover { background: rgba(58,155,111,0.15); }
+/* ── BUTTON GRID ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
 
-  .btn.op {
-    color: var(--blue);
-    background: rgba(108,142,245,0.08);
-    font-size: 24px;
-  }
-  .btn.op:hover { background: rgba(108,142,245,0.15); }
+.btn {
+  background: var(--white);
+  border: none; outline: none;
+  color: var(--text);
+  font-family: var(--font-m);
+  font-size: 22px; font-weight: 400;
+  height: 72px;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.08s;
+  display: flex; align-items: center; justify-content: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative; overflow: hidden;
+  letter-spacing: -0.5px;
+}
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--orange);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.btn:active::after { opacity: 0.06; }
+.btn:active { transform: scale(0.95); }
+.btn:hover { background: #faf8f5; }
 
-  .btn.eq {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #fff;
-    font-size: 26px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
-  }
-  .btn.eq:hover { filter: brightness(1.1); }
+/* utility buttons (AC, +/-, %) */
+.btn.util {
+  font-family: var(--font-d);
+  font-size: 15px; font-weight: 600;
+  color: var(--green);
+  background: var(--green-lo);
+  letter-spacing: 0.01em;
+}
+.btn.util:hover { background: rgba(28,122,74,0.14); }
 
-  .btn.zero {
-    grid-column: span 2;
-    justify-content: flex-start;
-    padding-left: 28px;
-  }
+/* operator buttons */
+.btn.op {
+  color: var(--orange);
+  background: var(--orange-lo);
+  font-size: 24px;
+}
+.btn.op:hover { background: rgba(244,96,12,0.14); }
 
-  .btn:nth-last-child(1) { border-radius: 0 0 24px 0; }
-  .btn:nth-last-child(2) { border-radius: 0; }
-  .btn.zero { border-radius: 0 0 0 24px; }
+/* equals button */
+.btn.eq {
+  background: var(--orange);
+  color: #fff;
+  font-size: 26px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+  transition: background 0.18s, transform 0.08s;
+}
+.btn.eq:hover { background: var(--orange2); }
+.btn.eq:active { transform: scale(0.95); }
+.btn.eq::after { display: none; }
 
-  /* ── AD BOTTOM ── */
-  .ad-bottom {
-    width: 100%; max-width: 336px;
-    background: var(--surface);
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    height: 90px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 11px;
-  }
+/* zero spans 2 cols */
+.btn.zero {
+  grid-column: span 2;
+  justify-content: flex-start;
+  padding-left: 28px;
+}
 
-  /* ── FOOTER ── */
-  footer {
-    font-size: 12px; color: var(--muted);
-    padding-bottom: 8px;
-    letter-spacing: 0.05em;
-  }
-  footer a { color: var(--accent2); text-decoration: none; }
+/* rounded bottom corners */
+.btn.zero    { border-radius: 0 0 0 20px; }
+.btn.eq-wrap { border-radius: 0 0 20px 0; }
 
-  @media (max-width: 420px) {
-    .btn { height: 64px; font-size: 20px; }
-    .number { font-size: 46px; }
-    .display { padding: 12px 18px 12px; min-height: 88px; }
-    .wrapper { padding: 8px 12px 12px; gap: 8px; }
-  }
+/* ══════════════════════════════
+   AD BOTTOM
+══════════════════════════════ */
+.ad-bottom {
+  width: 100%; max-width: 336px;
+  height: 80px;
+  background: var(--white);
+  border: 1px dashed var(--border2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-m); font-size: 10px;
+  letter-spacing: 0.1em; color: var(--text3);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer {
+  padding: 12px 0 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.footer-made {
+  font-family: var(--font-m);
+  font-size: 11px; font-weight: 400;
+  color: var(--text3);
+  letter-spacing: 0.06em;
+}
+.footer-made span { color: var(--orange); font-weight: 500; }
+.footer-made a { color: var(--orange); text-decoration: none; }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 420px) {
+  .btn { height: 66px; font-size: 20px; }
+  .btn.util { font-size: 14px; }
+  .number { font-size: 46px; }
+  .display { min-height: 96px; padding: 14px 18px 14px; }
+  .wrapper { padding: 10px 12px 0; gap: 10px; }
+}
+@media (max-height: 700px) {
+  .btn { height: 60px; }
+  .display { min-height: 84px; }
+  .wrapper { padding: 8px 12px 0; gap: 8px; }
+}
 </style>
-
 </head>
 <body>
 
-<!-- NAV -->
-
+<!-- ── NAV ── -->
 <nav>
-  <a href="index.html" class="nav-logo">Grab<span>VD</span></a>
-  <a href="index.html" class="nav-back">← Back to Home</a>
+  <a href="index.html" class="nav-logo">Task<em>Junction</em></a>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Home
+  </a>
 </nav>
 
-<!-- TOP AD -->
+<!-- ── TOP AD ── -->
+<ins class="adsbygoogle ad-banner"
+     style="display:flex"
+     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+     data-ad-slot="4444444444"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-<div class="wrapper" style="padding:0; gap:0; flex:none;">
-  <ins class="adsbygoogle ad-top"
-       style="display:block"
-       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-       data-ad-slot="4444444444"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
-<!-- CALCULATOR -->
-
+<!-- ── CALCULATOR ── -->
 <div class="wrapper">
   <div class="calc-shell">
+
+    <!-- display -->
     <div class="display">
       <div class="expr" id="expr"></div>
       <div class="number" id="display">0</div>
     </div>
+
+    <!-- grid -->
     <div class="grid">
       <button class="btn util" data-val="AC">AC</button>
       <button class="btn util" data-val="+/-">+/−</button>
       <button class="btn util" data-val="%">%</button>
       <button class="btn op"   data-val="÷">÷</button>
+
       <button class="btn" data-val="7">7</button>
       <button class="btn" data-val="8">8</button>
       <button class="btn" data-val="9">9</button>
       <button class="btn op" data-val="×">×</button>
+
       <button class="btn" data-val="4">4</button>
       <button class="btn" data-val="5">5</button>
       <button class="btn" data-val="6">6</button>
       <button class="btn op" data-val="−">−</button>
+
       <button class="btn" data-val="1">1</button>
       <button class="btn" data-val="2">2</button>
       <button class="btn" data-val="3">3</button>
       <button class="btn op" data-val="+">+</button>
+
       <button class="btn zero" data-val="0">0</button>
       <button class="btn" data-val=".">.</button>
-      <button class="btn eq"  data-val="=">=</button>
+      <button class="btn eq eq-wrap" data-val="=">=</button>
     </div>
   </div>
 
-<ins class="adsbygoogle ad-bottom"
-style="display:block"
-data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-data-ad-slot="5555555555"
-data-ad-format="auto"
-data-full-width-responsive="true"></ins>
-
+  <!-- bottom ad -->
+  <ins class="adsbygoogle ad-bottom"
+       style="display:flex"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+       data-ad-slot="5555555555"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-  <footer>Made with ♥ by <a href="index.html">Vaibhav Dhokpande</a></footer>
-</div>
+  <!-- footer -->
+  <footer>
+    <div class="footer-made">
+      Made with ♥ by <a href="index.html"><span>Vaibhav Dhokpande</span></a>
+    </div>
+  </footer>
+
+</div><!-- /wrapper -->
 
 <script>
-  const displayEl = document.getElementById('display');
-  const exprEl    = document.getElementById('expr');
+const displayEl = document.getElementById('display');
+const exprEl    = document.getElementById('expr');
 
-  let current  = '0';
-  let prev     = null;
-  let operator = null;
-  let replace  = false;
+let current  = '0';
+let prev     = null;
+let operator = null;
+let replace  = false;
 
-  function fmt(n) {
-    if (isNaN(n) || !isFinite(n)) return 'Error';
-    if (n === Math.trunc(n) && Math.abs(n) < 1e12) return String(Math.trunc(n));
-    return parseFloat(n.toPrecision(10)).toString();
+function fmt(n) {
+  if (isNaN(n) || !isFinite(n)) return 'Error';
+  if (n === Math.trunc(n) && Math.abs(n) < 1e12) return String(Math.trunc(n));
+  return parseFloat(n.toPrecision(10)).toString();
+}
+
+function updateDisplay(val) {
+  displayEl.textContent = val;
+  const l = val.length;
+  displayEl.classList.toggle('shrink',  l > 9 && l <= 13);
+  displayEl.classList.toggle('shrink2', l > 13);
+}
+
+function press(val) {
+  if (val === 'AC') {
+    current = '0'; prev = null; operator = null; replace = false;
+    exprEl.textContent = '';
+    updateDisplay('0');
+    return;
   }
-
-  function updateDisplay(val) {
-    displayEl.textContent = val;
-    displayEl.classList.toggle('shrink', val.length > 9);
+  if (val === '+/-') {
+    if (current !== '0') {
+      current = current.startsWith('-') ? current.slice(1) : '-' + current;
+      updateDisplay(current);
+    }
+    return;
   }
-
-  function press(val) {
-    if (val === 'AC') {
-      current = '0'; prev = null; operator = null; replace = false;
-      exprEl.textContent = '';
-      updateDisplay('0');
-      return;
-    }
-    if (val === '+/-') {
-      if (current !== '0') {
-        current = current.startsWith('-') ? current.slice(1) : '-' + current;
-        updateDisplay(current);
-      }
-      return;
-    }
-    if (val === '%') {
-      current = fmt(parseFloat(current) / 100);
-      updateDisplay(current);
-      return;
-    }
-    if (['+','−','×','÷'].includes(val)) {
-      prev = parseFloat(current);
-      operator = val;
-      exprEl.textContent = fmt(prev) + ' ' + val;
-      replace = true;
-      return;
-    }
-    if (val === '=') {
-      if (!operator || prev === null) return;
-      const b = parseFloat(current);
-      exprEl.textContent = fmt(prev) + ' ' + operator + ' ' + fmt(b) + ' =';
-      let res;
-      if (operator === '+') res = prev + b;
-      else if (operator === '−') res = prev - b;
-      else if (operator === '×') res = prev * b;
-      else if (operator === '÷') res = b !== 0 ? prev / b : NaN;
-      current = fmt(res);
-      operator = null; prev = null; replace = true;
-      updateDisplay(current);
-      return;
-    }
-    if (val === '.') {
-      if (replace) { current = '0.'; replace = false; }
-      else if (!current.includes('.')) current += '.';
-      updateDisplay(current);
-      return;
-    }
-    if (replace || current === '0') { current = val; replace = false; }
-    else if (current.length < 12) current += val;
+  if (val === '%') {
+    current = fmt(parseFloat(current) / 100);
     updateDisplay(current);
+    return;
   }
+  if (['+','−','×','÷'].includes(val)) {
+    prev = parseFloat(current);
+    operator = val;
+    exprEl.textContent = fmt(prev) + ' ' + val;
+    replace = true;
+    return;
+  }
+  if (val === '=') {
+    if (!operator || prev === null) return;
+    const b = parseFloat(current);
+    exprEl.textContent = fmt(prev) + ' ' + operator + ' ' + fmt(b) + ' =';
+    let res;
+    if (operator === '+') res = prev + b;
+    else if (operator === '−') res = prev - b;
+    else if (operator === '×') res = prev * b;
+    else if (operator === '÷') res = b !== 0 ? prev / b : NaN;
+    current = fmt(res);
+    operator = null; prev = null; replace = true;
+    updateDisplay(current);
+    return;
+  }
+  if (val === '.') {
+    if (replace) { current = '0.'; replace = false; }
+    else if (!current.includes('.')) current += '.';
+    updateDisplay(current);
+    return;
+  }
+  if (replace || current === '0') { current = val; replace = false; }
+  else if (current.length < 14) current += val;
+  updateDisplay(current);
+}
 
-  document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('click', () => press(btn.dataset.val));
-  });
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('click', () => press(btn.dataset.val));
+});
 
-  document.addEventListener('keydown', e => {
-    const map = {
-      '0':'0','1':'1','2':'2','3':'3','4':'4',
-      '5':'5','6':'6','7':'7','8':'8','9':'9',
-      '.':'.','Enter':'=','=':'=','Backspace':'AC',
-      '+':'+','-':'−','*':'×','/':'÷','%':'%'
-    };
-    if (map[e.key]) { e.preventDefault(); press(map[e.key]); }
-  });
+document.addEventListener('keydown', e => {
+  const map = {
+    '0':'0','1':'1','2':'2','3':'3','4':'4',
+    '5':'5','6':'6','7':'7','8':'8','9':'9',
+    '.':'.','Enter':'=','=':'=','Backspace':'AC',
+    '+':'+','-':'−','*':'×','/':'÷','%':'%'
+  };
+  if (map[e.key]) { e.preventDefault(); press(map[e.key]); }
+});
 </script>
 
 </body>
