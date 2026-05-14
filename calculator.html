@@ -47,6 +47,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  justify-content: flex-start;
 }
 
 /* ══════════════════════════════
@@ -93,7 +94,8 @@ nav {
 ══════════════════════════════ */
 .ad-banner {
   width: 100%; max-width: 420px;
-  height: 60px;
+  height: 60px; max-height: 60px;
+  overflow: hidden;
   background: var(--white);
   border: 1px dashed var(--border2);
   border-radius: 10px;
@@ -101,9 +103,10 @@ nav {
   font-family: var(--font-m); font-size: 10px;
   letter-spacing: 0.1em; color: var(--text3);
   text-transform: uppercase;
-  margin: 14px auto 0;
   flex-shrink: 0;
 }
+/* hide the ad slot entirely if it's empty / not loaded */
+.ad-banner:empty { display: none; }
 
 /* ══════════════════════════════
    MAIN WRAPPER
@@ -111,12 +114,11 @@ nav {
 .wrapper {
   width: 100%;
   max-width: 420px;
-  padding: 14px 16px 0;
+  padding: 12px 16px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  flex: 1;
+  gap: 10px;
 }
 
 /* ══════════════════════════════
@@ -258,7 +260,8 @@ nav {
 ══════════════════════════════ */
 .ad-bottom {
   width: 100%; max-width: 336px;
-  height: 80px;
+  height: 80px; max-height: 80px;
+  overflow: hidden;
   background: var(--white);
   border: 1px dashed var(--border2);
   border-radius: 10px;
@@ -266,16 +269,15 @@ nav {
   font-family: var(--font-m); font-size: 10px;
   letter-spacing: 0.1em; color: var(--text3);
   text-transform: uppercase;
-  flex-shrink: 0;
 }
+.ad-bottom:empty { display: none; }
 
 /* ══════════════════════════════
    FOOTER
 ══════════════════════════════ */
 footer {
-  padding: 12px 0 16px;
+  padding: 10px 0 14px;
   text-align: center;
-  flex-shrink: 0;
 }
 .footer-made {
   font-family: var(--font-m);
@@ -316,17 +318,18 @@ footer {
   </a>
 </nav>
 
-<!-- ── TOP AD ── -->
-<ins class="adsbygoogle ad-banner"
-     style="display:flex"
-     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-     data-ad-slot="4444444444"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-
 <!-- ── CALCULATOR ── -->
 <div class="wrapper">
+
+  <!-- top ad — inside wrapper so no orphan space -->
+  <ins class="adsbygoogle ad-banner"
+       style="display:flex"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+       data-ad-slot="4444444444"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
   <div class="calc-shell">
 
     <!-- display -->
