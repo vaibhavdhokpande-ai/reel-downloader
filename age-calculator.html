@@ -3,63 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgeVD – Age Calculator</title>
+<title>TaskJunction – Age Calculator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--border:#2a2a3a;--accent:#7c3aed;--accent2:#a855f7;--glow:rgba(124,58,237,0.25);--text:#f0f0f8;--muted:#8888aa;--green:#22c55e;}
+  :root{
+    --bg:#f0f7ff;
+    --surface:#ffffff;
+    --card:#ffffff;
+    --border:#c8e0f7;
+    --accent:#1d82d8;
+    --accent2:#2196f3;
+    --glow:rgba(29,130,216,0.15);
+    --text:#0d1b2a;
+    --muted:#5a7a99;
+    --green:#16a34a;
+    --shadow:0 2px 16px rgba(29,130,216,0.08);
+  }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
   h1,h2,h3,.logo{font-family:'Rajdhani',sans-serif;letter-spacing:0.02em;}
-  nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
-  .logo{font-size:22px;font-weight:700;color:var(--text);text-decoration:none;}.logo span{color:var(--accent2);}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(255,255,255,0.95);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+    padding:0 24px;
+    display:flex;align-items:center;justify-content:space-between;
+    height:60px;
+    box-shadow:0 1px 8px rgba(29,130,216,0.07);
+  }
+  .logo{font-size:22px;font-weight:700;color:var(--text);text-decoration:none;}
+  .logo em{color:var(--accent2);font-style:normal;}
   nav ul{list-style:none;display:flex;gap:24px;}
   nav ul a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s;}
   nav ul a:hover,nav ul a.active{color:var(--accent2);}
-  .hero{text-align:center;padding:50px 24px 30px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.15) 0%,transparent 70%);}
-  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.4);border-radius:99px;padding:6px 16px;font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:16px;}
-  .hero h1{font-size:clamp(30px,5vw,52px);font-weight:700;margin-bottom:8px;}.hero h1 span{color:var(--accent2);}
+
+  /* HERO */
+  .hero{
+    text-align:center;padding:50px 24px 30px;
+    background:linear-gradient(160deg,#e8f4ff 0%,#f0f7ff 60%);
+    border-bottom:1px solid var(--border);
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(33,150,243,0.1);
+    border:1px solid rgba(33,150,243,0.3);
+    border-radius:99px;padding:6px 16px;
+    font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:16px;
+  }
+  .hero h1{font-size:clamp(30px,5vw,52px);font-weight:700;margin-bottom:8px;}
+  .hero h1 span{color:var(--accent2);}
+
+  /* MAIN */
   .main{max-width:860px;margin:0 auto;padding:32px 24px 80px;}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:20px;}
-  .card-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:var(--accent2);margin-bottom:24px;}
+
+  /* CARD */
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;padding:32px;
+    margin-bottom:20px;
+    box-shadow:var(--shadow);
+  }
+  .card-title{
+    font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;
+    color:var(--accent);margin-bottom:24px;
+  }
+
+  /* INPUTS */
   label{display:block;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-  input[type=date]{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:16px;outline:none;transition:border-color 0.2s;color-scheme:dark;}
-  input:focus{border-color:var(--accent2);}
+  input[type=date]{
+    width:100%;background:#f5f9ff;
+    border:1px solid var(--border);
+    color:var(--text);padding:12px 16px;
+    border-radius:10px;font-family:'DM Sans',sans-serif;
+    font-size:16px;outline:none;transition:border-color 0.2s;
+  }
+  input:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(33,150,243,0.1);}
   .inputs-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
-  .btn{width:100%;background:var(--accent);color:#fff;border:none;padding:16px;border-radius:12px;font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:0.05em;cursor:pointer;transition:all 0.2s;}
-  .btn:hover{background:var(--accent2);transform:translateY(-2px);}
+
+  /* BUTTON */
+  .btn{
+    width:100%;background:var(--accent2);color:#fff;
+    border:none;padding:16px;border-radius:12px;
+    font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;
+    letter-spacing:0.05em;cursor:pointer;
+    transition:all 0.2s;
+    box-shadow:0 4px 16px rgba(33,150,243,0.25);
+  }
+  .btn:hover{background:#1565c0;transform:translateY(-2px);box-shadow:0 6px 20px rgba(33,150,243,0.35);}
+
+  /* RESULT */
   .result-hidden{display:none;}
-  .big-age{text-align:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(124,58,237,0.12),transparent 70%);border-radius:16px;margin-bottom:24px;}
+  .big-age{
+    text-align:center;padding:32px 24px;
+    background:linear-gradient(160deg,#e8f4ff,#f5f9ff);
+    border-radius:16px;margin-bottom:24px;
+    border:1px solid var(--border);
+  }
   .age-num{font-family:'Rajdhani',sans-serif;font-size:clamp(56px,14vw,100px);font-weight:700;color:var(--accent2);line-height:1;}
   .age-unit{font-family:'Rajdhani',sans-serif;font-size:22px;color:var(--muted);margin-top:4px;}
-  .age-exact{font-size:15px;color:var(--text);margin-top:12px;}
+  .age-exact{font-size:15px;color:var(--text);margin-top:12px;font-weight:500;}
+
+  /* STATS */
   .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:24px;}
-  .stat-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;}
-  .stat-val{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--text);}
+  .stat-box{
+    background:#f5f9ff;border:1px solid var(--border);
+    border-radius:14px;padding:20px;text-align:center;
+    transition:border-color 0.2s,transform 0.2s;
+  }
+  .stat-box:hover{border-color:var(--accent2);transform:translateY(-2px);}
+  .stat-val{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--accent);}
   .stat-lbl{font-size:12px;color:var(--muted);margin-top:4px;}
+
+  /* NEXT BDAY */
+  .next-bday{
+    background:linear-gradient(135deg,#e3f2fd,#f0f7ff);
+    border:1px solid rgba(33,150,243,0.3);
+    border-radius:14px;padding:20px;text-align:center;margin-bottom:24px;
+  }
+  .next-bday h3{font-family:'Rajdhani',sans-serif;font-size:18px;color:var(--accent2);margin-bottom:8px;}
+  .countdown{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--text);}
+
+  /* MILESTONES */
   .milestone-list{display:flex;flex-direction:column;gap:0;}
-  .milestone{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(42,42,58,0.5);}
+  .milestone{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 0;border-bottom:1px solid rgba(200,224,247,0.6);
+  }
   .milestone:last-child{border-bottom:none;}
   .ms-left{display:flex;align-items:center;gap:12px;}
-  .ms-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.3);}
-  .ms-name{font-weight:500;font-size:15px;}.ms-date{font-size:13px;color:var(--muted);}
+  .ms-icon{
+    width:36px;height:36px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+    background:rgba(33,150,243,0.08);border:1px solid rgba(33,150,243,0.2);
+  }
+  .ms-name{font-weight:500;font-size:15px;color:var(--text);}
+  .ms-date{font-size:13px;color:var(--muted);}
   .ms-badge{font-size:12px;font-weight:600;padding:4px 12px;border-radius:99px;}
-  .ms-past{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.3);}
-  .ms-future{background:rgba(124,58,237,0.1);color:var(--accent2);border:1px solid rgba(124,58,237,0.3);}
-  .next-bday{background:var(--surface);border:1px solid rgba(124,58,237,0.3);border-radius:14px;padding:20px;text-align:center;margin-bottom:24px;}
-  .next-bday h3{font-family:'Rajdhani',sans-serif;font-size:18px;color:var(--accent2);margin-bottom:8px;}
-  .countdown{font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;}
-  footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
-  .footer-logo{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;}.footer-logo span{color:var(--accent2);}
-  footer p{font-size:13px;color:var(--muted);}
+  .ms-past{background:rgba(22,163,74,0.1);color:var(--green);border:1px solid rgba(22,163,74,0.3);}
+  .ms-future{background:rgba(33,150,243,0.1);color:var(--accent2);border:1px solid rgba(33,150,243,0.3);}
+
+  /* FOOTER */
+  footer{
+    background:#fff;border-top:1px solid var(--border);
+    padding:36px 24px;text-align:center;
+  }
+  .footer-logo{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;margin-bottom:8px;}
+  .footer-logo em{color:var(--accent2);font-style:normal;}
   .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
   .footer-links a{color:var(--accent2);text-decoration:none;font-size:13px;}
-  @media(max-width:600px){nav ul{display:none;}.inputs-row{grid-template-columns:1fr;}}
+  .footer-links a:hover{text-decoration:underline;}
+  .footer-copy{font-size:13px;color:var(--muted);margin-top:8px;}
+  .footer-made{font-size:13px;color:var(--muted);margin-top:6px;}
+  .footer-made strong{color:var(--accent);}
+
+  @media(max-width:600px){
+    nav ul{display:none;}
+    .inputs-row{grid-template-columns:1fr;}
+  }
 </style>
 </head>
 <body>
+
+<!-- NAV -->
 <nav>
-  <a href="index.html" class="logo">Grab<span>VD</span></a>
+  <a href="index.html" class="logo">Task<em>Junction</em></a>
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="unit-converter.html">Converter</a></li>
@@ -70,12 +182,19 @@
     <li><a href="todo.html">To-Do</a></li>
     <li><a href="bmi-calculator.html">BMI</a></li>
   </ul>
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;background:#e8f4ff;border:1px solid var(--border);color:var(--accent);text-decoration:none;padding:8px 16px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;transition:all 0.2s;white-space:nowrap;flex-shrink:0;" onmouseover="this.style.background='#d0e8ff';this.style.borderColor='var(--accent2)'" onmouseout="this.style.background='#e8f4ff';this.style.borderColor='var(--border)'">
+    ← Home
+  </a>
 </nav>
+
+<!-- HERO -->
 <section class="hero">
   <div class="badge">🎂 Age • Milestones • Countdown</div>
   <h1>Age <span>Calculator</span></h1>
   <p style="color:var(--muted);font-size:16px;">Find your exact age and upcoming milestones</p>
 </section>
+
+<!-- MAIN -->
 <div class="main">
   <div class="card">
     <div class="card-title">📅 Enter Dates</div>
@@ -85,6 +204,7 @@
     </div>
     <button class="btn" onclick="calculate()">🎂 Calculate Age</button>
   </div>
+
   <div id="results" class="result-hidden">
     <div class="card">
       <div class="big-age">
@@ -100,69 +220,101 @@
         <div class="stat-box"><div class="stat-val" id="statMins">—</div><div class="stat-lbl">Total Minutes</div></div>
         <div class="stat-box"><div class="stat-val" id="statSecs">—</div><div class="stat-lbl">Total Seconds</div></div>
       </div>
-      <div class="next-bday"><h3>🎉 Next Birthday</h3><div class="countdown" id="nextBday">—</div></div>
+      <div class="next-bday">
+        <h3>🎉 Next Birthday</h3>
+        <div class="countdown" id="nextBday">—</div>
+      </div>
     </div>
-    <div class="card"><div class="card-title">🏆 Milestones</div><div class="milestone-list" id="milestones"></div></div>
+    <div class="card">
+      <div class="card-title">🏆 Milestones</div>
+      <div class="milestone-list" id="milestones"></div>
+    </div>
   </div>
 </div>
+
+<!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Grab<span>VD</span></div>
-  <div class="footer-links"><a href="index.html">Home</a><a href="index.html#privacy">Privacy</a></div>
-  <p>Made with ♥ by Vaibhav Dhokpande • © 2025 GrabVD</p>
+  <div class="footer-logo">Task<em>Junction</em></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#privacy">Privacy</a>
+    <a href="mailto:vaibhavdhokpande@gmail.com">Contact</a>
+  </div>
+  <p class="footer-copy">© 2025 TaskJunction. All rights reserved.</p>
+  <p class="footer-made">Made with ❤️ by <strong>Vaibhav Dhokpande</strong></p>
 </footer>
+
 <script>
-const today=new Date();
-document.getElementById('asOf').value=today.toISOString().split('T')[0];
-document.getElementById('dob').max=today.toISOString().split('T')[0];
-function fmt(n){return n.toLocaleString();}
+const today = new Date();
+document.getElementById('asOf').value = today.toISOString().split('T')[0];
+document.getElementById('dob').max = today.toISOString().split('T')[0];
+
+function fmt(n){ return n.toLocaleString(); }
+
 function calculate(){
-  const dobVal=document.getElementById('dob').value;
-  const asOfVal=document.getElementById('asOf').value;
-  if(!dobVal||!asOfVal)return;
-  const dob=new Date(dobVal);const asOf=new Date(asOfVal);
-  if(dob>=asOf){document.getElementById('results').className='result-hidden';return;}
-  document.getElementById('results').className='';
-  let years=asOf.getFullYear()-dob.getFullYear();
-  let months=asOf.getMonth()-dob.getMonth();
-  let days=asOf.getDate()-dob.getDate();
-  if(days<0){months--;const prevMonth=new Date(asOf.getFullYear(),asOf.getMonth(),0);days+=prevMonth.getDate();}
-  if(months<0){years--;months+=12;}
-  document.getElementById('ageYears').textContent=years;
-  document.getElementById('ageExact').textContent=years+' years, '+months+' months, '+days+' days';
-  const totalMs=asOf-dob;
-  const totalSecs=Math.floor(totalMs/1000);
-  const totalMins=Math.floor(totalSecs/60);
-  const totalHours=Math.floor(totalMins/60);
-  const totalDays=Math.floor(totalHours/24);
-  const totalWeeks=Math.floor(totalDays/7);
-  const totalMonths=years*12+months;
-  document.getElementById('statMonths').textContent=fmt(totalMonths);
-  document.getElementById('statWeeks').textContent=fmt(totalWeeks);
-  document.getElementById('statDays').textContent=fmt(totalDays);
-  document.getElementById('statHours').textContent=fmt(totalHours);
-  document.getElementById('statMins').textContent=fmt(totalMins);
-  document.getElementById('statSecs').textContent=fmt(totalSecs);
-  let nextBday=new Date(asOf.getFullYear(),dob.getMonth(),dob.getDate());
-  if(nextBday<=asOf)nextBday.setFullYear(asOf.getFullYear()+1);
-  const daysLeft=Math.ceil((nextBday-asOf)/(1000*60*60*24));
-  const nextAge=nextBday.getFullYear()-dob.getFullYear();
-  document.getElementById('nextBday').textContent=daysLeft===0?'🎉 Today is your birthday!':daysLeft+' days away (Turning '+nextAge+' on '+nextBday.toDateString()+')';
-  const milestones=[
-    {name:'1st Birthday',icon:'🍼',age:1},{name:'Sweet 16',icon:'🎊',age:16},
-    {name:'18 – Adult',icon:'🔑',age:18},{name:'21 – Cheers!',icon:'🥂',age:21},
-    {name:'25 Years',icon:'⭐',age:25},{name:'30 Years',icon:'🌟',age:30},
-    {name:'40 Years',icon:'💎',age:40},{name:'50 – Golden!',icon:'🏅',age:50},
-    {name:'60 Years',icon:'🎖️',age:60},{name:'75 Years',icon:'👑',age:75},
-    {name:'100 – Centenarian!',icon:'🎯',age:100},
-    {name:'10,000 Days',icon:'📆',days:10000},{name:'20,000 Days',icon:'🗓️',days:20000},
+  const dobVal = document.getElementById('dob').value;
+  const asOfVal = document.getElementById('asOf').value;
+  if(!dobVal || !asOfVal) return;
+  const dob = new Date(dobVal);
+  const asOf = new Date(asOfVal);
+  if(dob >= asOf){ document.getElementById('results').className = 'result-hidden'; return; }
+  document.getElementById('results').className = '';
+
+  let years = asOf.getFullYear() - dob.getFullYear();
+  let months = asOf.getMonth() - dob.getMonth();
+  let days = asOf.getDate() - dob.getDate();
+  if(days < 0){ months--; const prevMonth = new Date(asOf.getFullYear(), asOf.getMonth(), 0); days += prevMonth.getDate(); }
+  if(months < 0){ years--; months += 12; }
+
+  document.getElementById('ageYears').textContent = years;
+  document.getElementById('ageExact').textContent = years + ' years, ' + months + ' months, ' + days + ' days';
+
+  const totalMs = asOf - dob;
+  const totalSecs = Math.floor(totalMs / 1000);
+  const totalMins = Math.floor(totalSecs / 60);
+  const totalHours = Math.floor(totalMins / 60);
+  const totalDays = Math.floor(totalHours / 24);
+  const totalWeeks = Math.floor(totalDays / 7);
+  const totalMonths = years * 12 + months;
+
+  document.getElementById('statMonths').textContent = fmt(totalMonths);
+  document.getElementById('statWeeks').textContent = fmt(totalWeeks);
+  document.getElementById('statDays').textContent = fmt(totalDays);
+  document.getElementById('statHours').textContent = fmt(totalHours);
+  document.getElementById('statMins').textContent = fmt(totalMins);
+  document.getElementById('statSecs').textContent = fmt(totalSecs);
+
+  let nextBday = new Date(asOf.getFullYear(), dob.getMonth(), dob.getDate());
+  if(nextBday <= asOf) nextBday.setFullYear(asOf.getFullYear() + 1);
+  const daysLeft = Math.ceil((nextBday - asOf) / (1000 * 60 * 60 * 24));
+  const nextAge = nextBday.getFullYear() - dob.getFullYear();
+  document.getElementById('nextBday').textContent = daysLeft === 0
+    ? '🎉 Today is your birthday!'
+    : daysLeft + ' days away (Turning ' + nextAge + ' on ' + nextBday.toDateString() + ')';
+
+  const milestones = [
+    {name:'1st Birthday', icon:'🍼', age:1},
+    {name:'Sweet 16', icon:'🎊', age:16},
+    {name:'18 – Adult', icon:'🔑', age:18},
+    {name:'21 – Cheers!', icon:'🥂', age:21},
+    {name:'25 Years', icon:'⭐', age:25},
+    {name:'30 Years', icon:'🌟', age:30},
+    {name:'40 Years', icon:'💎', age:40},
+    {name:'50 – Golden!', icon:'🏅', age:50},
+    {name:'60 Years', icon:'🎖️', age:60},
+    {name:'75 Years', icon:'👑', age:75},
+    {name:'100 – Centenarian!', icon:'🎯', age:100},
+    {name:'10,000 Days', icon:'📆', days:10000},
+    {name:'20,000 Days', icon:'🗓️', days:20000},
   ];
-  document.getElementById('milestones').innerHTML=milestones.map(m=>{
+
+  document.getElementById('milestones').innerHTML = milestones.map(m => {
     let msDate;
-    if(m.age!==undefined)msDate=new Date(dob.getFullYear()+m.age,dob.getMonth(),dob.getDate());
-    else{msDate=new Date(dob);msDate.setDate(msDate.getDate()+m.days);}
-    const isPast=msDate<=asOf;
-    const dLeft=Math.ceil((msDate-asOf)/(1000*60*60*24));
-    return '<div class="milestone"><div class="ms-left"><div class="ms-icon">'+m.icon+'</div><div><div class="ms-name">'+m.name+'</div><div class="ms-date">'+msDate.toDateString()+'</div></div></div><span class="ms-badge '+(isPast?'ms-past':'ms-future')+'">'+(isPast?'✓ Done':'In '+dLeft+' days')+'</span></div>';
+    if(m.age !== undefined) msDate = new Date(dob.getFullYear() + m.age, dob.getMonth(), dob.getDate());
+    else { msDate = new Date(dob); msDate.setDate(msDate.getDate() + m.days); }
+    const isPast = msDate <= asOf;
+    const dLeft = Math.ceil((msDate - asOf) / (1000 * 60 * 60 * 24));
+    return '<div class="milestone"><div class="ms-left"><div class="ms-icon">' + m.icon + '</div><div><div class="ms-name">' + m.name + '</div><div class="ms-date">' + msDate.toDateString() + '</div></div></div><span class="ms-badge ' + (isPast ? 'ms-past' : 'ms-future') + '">' + (isPast ? '✓ Done' : 'In ' + dLeft + ' days') + '</span></div>';
   }).join('');
 }
 </script>
