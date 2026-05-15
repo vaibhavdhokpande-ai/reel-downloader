@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spring Selection Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0d0f0e;
+  --bg2:       #131715;
+  --bg3:       #1a1e1c;
+  --bg4:       #212621;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --amber:     #f0a500;
+  --amber2:    #ffbe3c;
+  --amber3:    rgba(240,165,0,0.10);
+  --amber4:    rgba(240,165,0,0.05);
+  --green:     #3ddc84;
+  --green2:    rgba(61,220,132,0.12);
+  --red:       #ff5757;
+  --red2:      rgba(255,87,87,0.12);
+  --text:      #e8ede9;
+  --text2:     #8a9690;
+  --text3:     #4d5a52;
+  --font-d:    'Syne', sans-serif;
+  --font-m:    'JetBrains Mono', monospace;
+  --r:         10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-m);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* bg texture */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 80% 20%, rgba(240,165,0,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 400px 300px at 10% 80%, rgba(61,220,132,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* scanline */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+}
+
+.wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* ── HEADER ── */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 18px 0;
+  background: rgba(13,15,14,0.9);
+  backdrop-filter: blur(12px);
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+}
+.logo-area { display: flex; align-items: center; gap: 12px; }
+.logo-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: var(--amber3); border: 1px solid rgba(240,165,0,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+}
+.logo-text { font-family: var(--font-d); font-size: 17px; font-weight: 700; color: var(--text); }
+.logo-text span { color: var(--amber); }
+.header-badge {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 20px;
+  background: var(--amber3); color: var(--amber);
+  border: 1px solid rgba(240,165,0,0.2);
+}
+
+/* unit toggle */
+.unit-toggle {
+  display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 8px; overflow: hidden;
+}
+.unit-btn {
+  padding: 6px 14px; font-family: var(--font-m); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  background: transparent; color: var(--text2); border: none; cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.unit-btn.active { background: var(--amber); color: var(--bg); }
+
+/* ── HERO ── */
+.hero {
+  padding: 52px 0 40px;
+  border-bottom: 1px solid var(--border);
+}
+.hero-tag {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.hero-tag::before { content: ''; width: 24px; height: 1px; background: var(--amber); }
+.hero h1 {
+  font-family: var(--font-d); font-size: clamp(34px, 5vw, 58px);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 1.0;
+  margin-bottom: 14px;
+}
+.hero h1 em { color: var(--amber); font-style: normal; }
+.hero-sub { font-size: 13px; color: var(--text2); max-width: 500px; line-height: 1.8; }
+
+/* ── TYPE SELECTOR ── */
+.type-sec { padding: 32px 0 0; }
+.sec-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 12px;
+}
+.type-cards { display: flex; gap: 10px; flex-wrap: wrap; }
+.type-card {
+  flex: 1; min-width: 160px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 12px;
+}
+.type-card:hover { border-color: rgba(240,165,0,0.3); background: var(--bg4); }
+.type-card.active {
+  border-color: var(--amber); background: var(--amber4);
+  box-shadow: 0 0 0 1px rgba(240,165,0,0.15), inset 0 1px 0 rgba(240,165,0,0.08);
+}
+.type-icon { font-size: 22px; flex-shrink: 0; }
+.type-info { min-width: 0; }
+.type-name { font-family: var(--font-d); font-size: 14px; font-weight: 600; color: var(--text); }
+.type-desc { font-size: 10px; color: var(--text2); margin-top: 1px; }
+
+/* ── MAIN GRID ── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  padding: 24px 0 48px;
+}
+
+/* ── SPRING VISUAL ── */
+.spring-visual {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.panel-title {
+  font-family: var(--font-d); font-size: 13px; font-weight: 600;
+  color: var(--text2); letter-spacing: 0.04em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+}
+.panel-title::before {
+  content: ''; width: 4px; height: 14px; border-radius: 2px;
+  background: var(--amber);
+}
+
+.spring-canvas-wrap {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 240px;
+}
+#springCanvas { width: 100%; display: block; }
+
+/* input grid */
+.input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.input-group { display: flex; flex-direction: column; gap: 6px; }
+.input-group.full { grid-column: span 2; }
+
+label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--text2);
+}
+.input-wrap {
+  display: flex; align-items: center;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden;
+  transition: border-color 0.18s;
+}
+.input-wrap:focus-within { border-color: rgba(240,165,0,0.5); box-shadow: 0 0 0 2px rgba(240,165,0,0.07); }
+
+input[type="number"], select {
+  flex: 1; background: transparent; border: none; outline: none;
+  padding: 10px 12px; font-family: var(--font-m); font-size: 13px;
+  color: var(--text); width: 100%;
+}
+input[type="number"]::placeholder { color: var(--text3); }
+input[type="number"]::-webkit-inner-spin-button { opacity: 0.3; }
+
+.unit-tag {
+  padding: 0 12px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--amber); white-space: nowrap; border-left: 1px solid var(--border);
+  background: var(--amber4);
+}
+
+select {
+  padding: 10px 12px; cursor: pointer;
+  appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238a9690' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  padding-right: 32px;
+}
+select option { background: #1a1e1c; }
+
+/* ── RESULTS PANEL ── */
+.results-panel {
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+.result-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px;
+  transition: border-color 0.2s;
+}
+.result-card:hover { border-color: var(--border2); }
+.result-card.highlight {
+  border-color: rgba(240,165,0,0.25);
+  background: var(--amber4);
+}
+
+.result-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 8px;
+}
+.result-value {
+  font-family: var(--font-d); font-size: 28px; font-weight: 700;
+  color: var(--amber); letter-spacing: -0.02em; line-height: 1;
+}
+.result-unit { font-size: 13px; color: var(--text2); margin-left: 4px; font-family: var(--font-m); }
+.result-sub { font-size: 11px; color: var(--text3); margin-top: 6px; }
+
+.result-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+}
+.result-row:last-child { border-bottom: none; padding-bottom: 0; }
+.rr-label { font-size: 11px; color: var(--text2); }
+.rr-val { font-size: 12px; font-weight: 600; color: var(--text); font-family: var(--font-m); }
+
+/* status badge */
+.status-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 20px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  margin-top: 10px;
+}
+.status-ok { background: var(--green2); color: var(--green); border: 1px solid rgba(61,220,132,0.2); }
+.status-warn { background: var(--amber3); color: var(--amber); border: 1px solid rgba(240,165,0,0.2); }
+.status-fail { background: var(--red2); color: var(--red); border: 1px solid rgba(255,87,87,0.2); }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* stress bar */
+.stress-bar-wrap { margin-top: 10px; }
+.stress-bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--text3); margin-bottom: 6px; }
+.stress-bar-track {
+  height: 6px; background: var(--bg4); border-radius: 3px; overflow: hidden;
+}
+.stress-bar-fill {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--green), var(--amber2), var(--red));
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* calculate button */
+.calc-btn {
+  width: 100%; padding: 14px;
+  background: var(--amber); color: var(--bg);
+  border: none; border-radius: 10px;
+  font-family: var(--font-d); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.02em; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background 0.18s, transform 0.15s, box-shadow 0.18s;
+  box-shadow: 0 4px 20px rgba(240,165,0,0.2);
+  margin-top: 4px;
+}
+.calc-btn:hover { background: var(--amber2); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(240,165,0,0.28); }
+.calc-btn:active { transform: translateY(0); }
+
+/* reset btn */
+.reset-btn {
+  width: 100%; padding: 10px;
+  background: transparent; color: var(--text2);
+  border: 1px solid var(--border); border-radius: 10px;
+  font-family: var(--font-m); font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all 0.18s; letter-spacing: 0.04em;
+}
+.reset-btn:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
+
+/* formulas panel */
+.formula-panel {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px; margin-top: 6px;
+}
+.formula-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.formula-item {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.f-name { font-size: 11px; color: var(--text2); }
+.f-eq { font-size: 12px; color: var(--amber); font-weight: 600; }
+
+/* tooltip */
+.tooltip-wrap { position: relative; display: inline-flex; }
+.tooltip-icon {
+  width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--text3);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9px; color: var(--text3); cursor: help; margin-left: 5px; flex-shrink: 0;
+}
+.tooltip-icon:hover { border-color: var(--amber); color: var(--amber); }
+.tooltip-box {
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: var(--bg4); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 8px 12px;
+  font-size: 11px; color: var(--text2); white-space: nowrap;
+  pointer-events: none; opacity: 0; transition: opacity 0.15s;
+  z-index: 50;
+}
+.tooltip-wrap:hover .tooltip-box { opacity: 1; }
+
+/* responsive */
+@media (max-width: 900px) {
+  .main-grid { grid-template-columns: 1fr; }
+  .results-panel { display: grid; grid-template-columns: 1fr 1fr; }
+  .formula-panel { grid-column: span 2; }
+}
+@media (max-width: 600px) {
+  .input-grid { grid-template-columns: 1fr; }
+  .input-group.full { grid-column: span 1; }
+  .type-cards { flex-direction: column; }
+  .results-panel { grid-template-columns: 1fr; }
+  .formula-panel { grid-column: span 1; }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero, .type-sec, .main-grid { animation: fadeUp 0.5s ease both; }
+.type-sec { animation-delay: 0.05s; }
+.main-grid { animation-delay: 0.1s; }
+
+/* result flash */
+@keyframes flash {
+  0%   { background: rgba(240,165,0,0.15); }
+  100% { background: var(--amber4); }
+}
+.result-flash { animation: flash 0.4s ease; }
+
+/* spring coil animation */
+@keyframes springPulse {
+  0%, 100% { transform: scaleY(1); }
+  50%       { transform: scaleY(0.97); }
+}
+.spring-coil-group { animation: springPulse 2s ease-in-out infinite; transform-origin: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-area">
+      <div class="logo-icon">🌀</div>
+      <div class="logo-text">Spring<span>Calc</span></div>
+    </div>
+    <div class="header-badge">Engineering Tool</div>
+    <div class="unit-toggle">
+      <button class="unit-btn active" onclick="setUnit('si')" id="btnSI">SI</button>
+      <button class="unit-btn" onclick="setUnit('imp')" id="btnIMP">Imperial</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Mechanical Design</div>
+    <h1>Spring <em>Selection</em><br>Calculator</h1>
+    <p class="hero-sub">Calculate spring rate, stress, deflection and verify spring suitability for compression, extension and torsion springs.</p>
+  </div>
+
+  <!-- TYPE SELECTOR -->
+  <div class="type-sec">
+    <div class="sec-label">Spring Type</div>
+    <div class="type-cards">
+      <div class="type-card active" onclick="setType('compression')" id="type-compression">
+        <div class="type-icon">🗜️</div>
+        <div class="type-info">
+          <div class="type-name">Compression</div>
+          <div class="type-desc">Resists compressive force</div>
+        </div>
+      </div>
+      <div class="type-card" onclick="setType('extension')" id="type-extension">
+        <div class="type-icon">↔️</div>
+        <div class="type-info">
+          <div class="type-name">Extension</div>
+          <div class="type-desc">Resists tensile / pull force</div>
+        </div>
+      </div>
+      <div class="type-card" onclick="setType('torsion')" id="type-torsion">
+        <div class="type-icon">🔄</div>
+        <div class="type-info">
+          <div class="type-name">Torsion</div>
+          <div class="type-desc">Resists rotational moment</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- LEFT: VISUAL + INPUTS -->
+    <div class="spring-visual">
+      <div class="panel-title">Spring Diagram & Parameters</div>
+
+      <!-- SVG Canvas -->
+      <div class="spring-canvas-wrap">
+        <svg id="springCanvas" viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wireGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f0a500"/>
+              <stop offset="50%" stop-color="#ffbe3c"/>
+              <stop offset="100%" stop-color="#b07800"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- bg -->
+          <rect width="480" height="220" fill="#0d0f0e"/>
+          <!-- grid lines -->
+          <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+            <line x1="0" y1="55" x2="480" y2="55"/>
+            <line x1="0" y1="110" x2="480" y2="110"/>
+            <line x1="0" y1="165" x2="480" y2="165"/>
+            <line x1="120" y1="0" x2="120" y2="220"/>
+            <line x1="240" y1="0" x2="240" y2="220"/>
+            <line x1="360" y1="0" x2="360" y2="220"/>
+          </g>
+          <!-- Spring drawing area -->
+          <g id="springDrawing"></g>
+          <!-- Dimension labels -->
+          <g id="dimLabels"></g>
+        </svg>
+      </div>
+
+      <!-- INPUTS -->
+      <div class="input-grid" id="inputGrid">
+        <!-- dynamically populated -->
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">
+        ⚙️ Calculate Spring
+      </button>
+      <button class="reset-btn" onclick="resetInputs()">↺ Reset to defaults</button>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div class="results-panel" id="resultsPanel">
+
+      <div class="result-card highlight" id="cardRate">
+        <div class="result-label">Spring Rate (k)</div>
+        <div><span class="result-value" id="valRate">—</span><span class="result-unit" id="unitRate">N/mm</span></div>
+        <div class="result-sub" id="subRate">Enter parameters and calculate</div>
+      </div>
+
+      <div class="result-card" id="cardIndex">
+        <div class="result-label">Spring Index (C = D/d)</div>
+        <div><span class="result-value" id="valIndex">—</span></div>
+        <div class="result-sub" id="subIndex">Recommended: 4 – 12</div>
+        <div id="statusIndex"></div>
+      </div>
+
+      <div class="result-card" id="cardStress">
+        <div class="result-label">Max Torsional Stress</div>
+        <div><span class="result-value" id="valStress">—</span><span class="result-unit" id="unitStress">MPa</span></div>
+        <div class="stress-bar-wrap">
+          <div class="stress-bar-label"><span>0</span><span id="stressLimit">Safe</span></div>
+          <div class="stress-bar-track"><div class="stress-bar-fill" id="stressBar" style="width:0%"></div></div>
+        </div>
+        <div id="statusStress"></div>
+      </div>
+
+      <div class="result-card" id="cardDetails">
+        <div class="result-label">Detailed Results</div>
+        <div class="result-row"><span class="rr-label">Wahl Factor (Kw)</span><span class="rr-val" id="valWahl">—</span></div>
+        <div class="result-row"><span class="rr-label">Wire Length</span><span class="rr-val" id="valWireLen">—</span></div>
+        <div class="result-row"><span class="rr-label">Solid Length</span><span class="rr-val" id="valSolid">—</span></div>
+        <div class="result-row"><span class="rr-label">Free Length</span><span class="rr-val" id="valFreeLen">—</span></div>
+        <div class="result-row"><span class="rr-label">Max Deflection</span><span class="rr-val" id="valMaxDef">—</span></div>
+      </div>
+
+      <div class="formula-panel">
+        <div class="panel-title">Key Formulas</div>
+        <div class="formula-list">
+          <div class="formula-item">
+            <span class="f-name">Spring Rate</span>
+            <span class="f-eq">k = Gd⁴ / 8D³Nₐ</span>
+          </div>
+          <div class="formula-item">
+            <span class="f-name">Spring Index</span>
+            <span class="f-eq">C = D / d</span>
+          </div>
+          <div class="formula-item">
+            <span class="f-name">Wahl Factor</span>
+            <span class="f-eq">Kw = (4C−1)/(4C−4) + 0.615/C</span>
+          </div>
+          <div class="formula-item">
+            <span class="f-name">Max Stress</span>
+            <span class="f-eq">τ = Kw · 8FD / πd³</span>
+          </div>
+          <div class="formula-item">
+            <span class="f-name">Deflection</span>
+            <span class="f-eq">δ = F / k</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════
+   STATE
+═══════════════════════════════ */
+let currentType = 'compression';
+let currentUnit = 'si'; // 'si' | 'imp'
+
+const MATERIALS = {
+  'Hard-drawn wire':      { G_si: 79500, Sys_si: 560,  G_imp: 11500000, Sys_imp: 81200 },
+  'Music wire':           { G_si: 81000, Sys_si: 700,  G_imp: 11750000, Sys_imp: 101500 },
+  'Oil-tempered wire':    { G_si: 79000, Sys_si: 620,  G_imp: 11450000, Sys_imp: 89900 },
+  'Chrome-vanadium':      { G_si: 79000, Sys_si: 700,  G_imp: 11450000, Sys_imp: 101500 },
+  'Chrome-silicon':       { G_si: 77500, Sys_si: 770,  G_imp: 11250000, Sys_imp: 111700 },
+  'Stainless 302/304':    { G_si: 69000, Sys_si: 520,  G_imp: 10000000, Sys_imp: 75400 },
+  'Phosphor bronze':      { G_si: 41000, Sys_si: 370,  G_imp: 5950000,  Sys_imp: 53700 },
+};
+
+const DEFAULTS = {
+  compression: { d:2, D:16, Na:10, Lf:60, F:100, mat:'Music wire' },
+  extension:   { d:2, D:16, Na:10, Lf:60, F:100, mat:'Music wire' },
+  torsion:     { d:2, D:16, Na:10, Lf:60, M:500, mat:'Music wire' },
+};
+
+/* ═══════════════════════════════
+   UNIT HELPERS
+═══════════════════════════════ */
+const U = {
+  len:      () => currentUnit === 'si' ? 'mm'   : 'in',
+  force:    () => currentUnit === 'si' ? 'N'    : 'lbf',
+  moment:   () => currentUnit === 'si' ? 'N·mm' : 'lbf·in',
+  rate:     () => currentUnit === 'si' ? 'N/mm' : 'lbf/in',
+  stress:   () => currentUnit === 'si' ? 'MPa'  : 'psi',
+  G:        () => currentUnit === 'si' ? 'MPa'  : 'psi',
+};
+
+function getMatProps(name) {
+  const m = MATERIALS[name];
+  if (!m) return { G: 79500, Sys: 560 };
+  return currentUnit === 'si'
+    ? { G: m.G_si, Sys: m.Sys_si }
+    : { G: m.G_imp, Sys: m.Sys_imp };
+}
+
+/* ═══════════════════════════════
+   TYPE / UNIT SETTERS
+═══════════════════════════════ */
+function setType(t) {
+  currentType = t;
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('type-' + t).classList.add('active');
+  buildInputs();
+  drawSpring();
+  clearResults();
+}
+
+function setUnit(u) {
+  currentUnit = u;
+  document.getElementById('btnSI').classList.toggle('active', u === 'si');
+  document.getElementById('btnIMP').classList.toggle('active', u === 'imp');
+  buildInputs();
+  drawSpring();
+  clearResults();
+}
+
+/* ═══════════════════════════════
+   BUILD INPUTS
+═══════════════════════════════ */
+function buildInputs() {
+  const grid = document.getElementById('inputGrid');
+  const d = DEFAULTS[currentType];
+  const lU = U.len(), fU = currentType === 'torsion' ? U.moment() : U.force();
+
+  let html = `
+    <div class="input-group">
+      <label>Wire Diameter (d) <span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-box">Diameter of the spring wire</span></span></label>
+      <div class="input-wrap"><input type="number" id="inp_d" value="${d.d}" min="0.1" step="0.1"><span class="unit-tag">${lU}</span></div>
+    </div>
+    <div class="input-group">
+      <label>Mean Coil Diameter (D)</label>
+      <div class="input-wrap"><input type="number" id="inp_D" value="${d.D}" min="0.1" step="0.5"><span class="unit-tag">${lU}</span></div>
+    </div>
+    <div class="input-group">
+      <label>Active Coils (Nₐ)</label>
+      <div class="input-wrap"><input type="number" id="inp_Na" value="${d.Na}" min="1" step="1"><span class="unit-tag">coils</span></div>
+    </div>
+    <div class="input-group">
+      <label>Free Length (Lf)</label>
+      <div class="input-wrap"><input type="number" id="inp_Lf" value="${d.Lf}" min="0.1" step="1"><span class="unit-tag">${lU}</span></div>
+    </div>`;
+
+  if (currentType === 'torsion') {
+    html += `
+    <div class="input-group">
+      <label>Applied Moment (M)</label>
+      <div class="input-wrap"><input type="number" id="inp_F" value="${d.M}" min="0.1" step="10"><span class="unit-tag">${fU}</span></div>
+    </div>`;
+  } else {
+    html += `
+    <div class="input-group">
+      <label>Applied Load (F)</label>
+      <div class="input-wrap"><input type="number" id="inp_F" value="${d.F}" min="0.1" step="10"><span class="unit-tag">${fU}</span></div>
+    </div>`;
+  }
+
+  html += `
+    <div class="input-group full">
+      <label>Material</label>
+      <div class="input-wrap">
+        <select id="inp_mat">
+          ${Object.keys(MATERIALS).map(m => `<option${m === d.mat ? ' selected' : ''}>${m}</option>`).join('')}
+        </select>
+      </div>
+    </div>`;
+
+  grid.innerHTML = html;
+
+  // live redraw on input
+  grid.querySelectorAll('input, select').forEach(el => el.addEventListener('input', () => drawSpring()));
+}
+
+function resetInputs() {
+  buildInputs();
+  drawSpring();
+  clearResults();
+}
+
+/* ═══════════════════════════════
+   GET INPUT VALUES
+═══════════════════════════════ */
+function getVal(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
+function getInputs() {
+  return {
+    d:   getVal('inp_d'),
+    D:   getVal('inp_D'),
+    Na:  getVal('inp_Na'),
+    Lf:  getVal('inp_Lf'),
+    F:   getVal('inp_F'),
+    mat: document.getElementById('inp_mat')?.value || 'Music wire',
+  };
+}
+
+/* ═══════════════════════════════
+   DRAW SPRING SVG
+═══════════════════════════════ */
+function drawSpring() {
+  const svg = document.getElementById('springDrawing');
+  const dim = document.getElementById('dimLabels');
+  const { d, D, Na, Lf } = getInputs();
+  if (!d || !D || !Na || !Lf) { svg.innerHTML = ''; dim.innerHTML = ''; return; }
+
+  const cx = 240, topY = 24, botY = 196;
+  const availH = botY - topY;
+  const coilH = availH / (Na + 1);
+  const R = Math.min(90, Math.max(18, (D / (D + 2*d)) * 100));
+  const wr = Math.max(2, Math.min(6, d * 2.5));
+
+  let path = '';
+
+  if (currentType === 'torsion') {
+    // Torsion: horizontal spring body
+    path = buildTorsionPath(cx, topY, botY, Na, R, wr);
+  } else {
+    path = buildCompressionPath(cx, topY, botY, Na, R, coilH);
+  }
+
+  // Ground plates
+  let plates = '';
+  if (currentType !== 'torsion') {
+    plates = `
+      <rect x="${cx-R-8}" y="${topY-8}" width="${(R+8)*2}" height="7" rx="2" fill="rgba(240,165,0,0.25)" stroke="rgba(240,165,0,0.4)" stroke-width="1"/>
+      <rect x="${cx-R-8}" y="${botY+1}" width="${(R+8)*2}" height="7" rx="2" fill="rgba(240,165,0,0.25)" stroke="rgba(240,165,0,0.4)" stroke-width="1"/>
+      <!-- hatch lines top -->
+      ${Array.from({length:6},(_,i)=>`<line x1="${cx-R-8+i*14}" y1="${topY-8}" x2="${cx-R-14+i*14}" y2="${topY-1}" stroke="rgba(240,165,0,0.3)" stroke-width="1"/>`).join('')}
+      ${Array.from({length:6},(_,i)=>`<line x1="${cx-R-8+i*14}" y1="${botY+8}" x2="${cx-R-14+i*14}" y2="${botY+1}" stroke="rgba(240,165,0,0.3)" stroke-width="1"/>`).join('')}
+    `;
+  }
+
+  // Force arrows (compression/extension)
+  let arrows = '';
+  if (currentType === 'compression') {
+    arrows = `
+      <g opacity="0.8">
+        <line x1="${cx}" y1="${topY-16}" x2="${cx}" y2="${topY-8}" stroke="#f0a500" stroke-width="2" marker-end="url(#arrowDown)"/>
+        <line x1="${cx}" y1="${botY+16}" x2="${cx}" y2="${botY+8}" stroke="#f0a500" stroke-width="2" marker-start="url(#arrowUp)"/>
+      </g>`;
+  } else if (currentType === 'extension') {
+    arrows = `
+      <g opacity="0.8">
+        <line x1="${cx}" y1="${topY-8}" x2="${cx}" y2="${topY-18}" stroke="#f0a500" stroke-width="2" marker-end="url(#arrowUp2)"/>
+        <line x1="${cx}" y1="${botY+8}" x2="${cx}" y2="${botY+18}" stroke="#f0a500" stroke-width="2" marker-end="url(#arrowDown2)"/>
+      </g>`;
+  }
+
+  svg.innerHTML = `
+    <defs>
+      <marker id="arrowDown" markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto">
+        <path d="M0,0 L6,0 L3,6 Z" fill="#f0a500"/>
+      </marker>
+      <marker id="arrowUp" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto">
+        <path d="M0,6 L6,6 L3,0 Z" fill="#f0a500"/>
+      </marker>
+      <marker id="arrowUp2" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto">
+        <path d="M0,6 L6,6 L3,0 Z" fill="#f0a500"/>
+      </marker>
+      <marker id="arrowDown2" markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto">
+        <path d="M0,0 L6,0 L3,6 Z" fill="#f0a500"/>
+      </marker>
+    </defs>
+    ${plates}
+    <g class="spring-coil-group">
+      <path d="${path}" fill="none" stroke="url(#wireGrad)" stroke-width="${wr}" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+    </g>
+    ${arrows}
+  `;
+
+  // dimension labels
+  dim.innerHTML = `
+    <g font-family="JetBrains Mono, monospace" fill="#4d5a52" font-size="10">
+      <text x="10" y="14">d = ${d}</text>
+      <text x="10" y="28">D = ${D}</text>
+      <text x="380" y="14">Nₐ = ${Na}</text>
+      <text x="380" y="28">Lf = ${Lf}</text>
+    </g>`;
+}
+
+function buildCompressionPath(cx, topY, botY, Na, R, coilH) {
+  let d = `M ${cx} ${topY}`;
+  const coils = Math.max(2, Math.round(Na));
+  const totalH = botY - topY;
+  const pts = coils * 4;
+  const segH = totalH / pts;
+
+  for (let i = 0; i < pts; i++) {
+    const y = topY + (i + 0.5) * segH;
+    const x = (i % 4 < 2) ? cx + R * (i % 2 === 0 ? 1 : -1) : cx - R * (i % 2 === 0 ? 1 : -1);
+    if (i === 0) d += ` L ${cx + R} ${y}`;
+    else d += ` L ${x} ${y}`;
+  }
+  d += ` L ${cx} ${botY}`;
+  return d;
+}
+
+function buildTorsionPath(cx, topY, botY, Na, R, wr) {
+  const midY = (topY + botY) / 2;
+  const startX = cx - 120;
+  const endX = cx + 120;
+  let d = `M ${startX} ${midY}`;
+
+  const coils = Math.max(2, Math.round(Na));
+  const coilW = 200 / coils;
+  for (let i = 0; i < coils; i++) {
+    const x0 = startX + i * coilW;
+    const x1 = x0 + coilW / 2;
+    const x2 = x0 + coilW;
+    d += ` Q ${x0 + coilW*0.25} ${midY - R} ${x1} ${midY}`;
+    d += ` Q ${x1 + coilW*0.25} ${midY + R} ${x2} ${midY}`;
+  }
+  return d;
+}
+
+/* ═══════════════════════════════
+   CALCULATE
+═══════════════════════════════ */
+function calculate() {
+  const { d, D, Na, Lf, F, mat } = getInputs();
+  if (!d || !D || !Na) { alert('Please fill all required fields.'); return; }
+
+  const { G, Sys } = getMatProps(mat);
+  const C = D / d;
+  const Kw = ((4*C - 1) / (4*C - 4)) + (0.615 / C);
+
+  let k, stress, deflection, solidLen, wireLen, maxDef;
+
+  if (currentType === 'torsion') {
+    // Torsion spring: uses bending
+    const Eb = currentUnit === 'si' ? 207000 : 30000000;
+    k = (Eb * Math.pow(d, 4)) / (10.8 * D * Na);
+    stress = (32 * F * D) / (Math.PI * Math.pow(d, 3)); // bending
+    deflection = F / k;
+    solidLen = d * Na;
+    wireLen = Math.PI * D * Na;
+    maxDef = (Sys * Math.PI * Math.pow(d, 3)) / (32 * D);
+  } else {
+    k = (G * Math.pow(d, 4)) / (8 * Math.pow(D, 3) * Na);
+    stress = Kw * (8 * F * D) / (Math.PI * Math.pow(d, 3));
+    deflection = F / k;
+    solidLen = d * Na;
+    wireLen = Math.PI * D * Na;
+    maxDef = Lf - solidLen;
+  }
+
+  const stressRatio = Math.min(1, stress / (Sys * 0.45));
+  const stressPct = Math.round(stressRatio * 100);
+  const lenU = U.len(), rateU = U.rate(), stressU = U.stress();
+
+  // Spring index status
+  let indexStatus = '';
+  if (C < 4) indexStatus = `<div class="status-badge status-warn"><span class="status-dot"></span> Too tight (C < 4)</div>`;
+  else if (C > 12) indexStatus = `<div class="status-badge status-warn"><span class="status-dot"></span> Too loose (C > 12)</div>`;
+  else indexStatus = `<div class="status-badge status-ok"><span class="status-dot"></span> Good range</div>`;
+
+  // Stress status
+  const stressOk = stress < Sys * 0.45;
+  const stressStatus = stressOk
+    ? `<div class="status-badge status-ok"><span class="status-dot"></span> Safe (< 45% Sys)</div>`
+    : `<div class="status-badge status-fail"><span class="status-dot"></span> Over limit — reduce load</div>`;
+
+  document.getElementById('valRate').textContent  = fmt(k);
+  document.getElementById('unitRate').textContent = rateU;
+  document.getElementById('subRate').textContent  = `At F = ${F} ${currentType==='torsion'?U.moment():U.force()}, δ = ${fmt(deflection)} ${lenU}`;
+
+  document.getElementById('valIndex').textContent = fmt(C, 2);
+  document.getElementById('subIndex').textContent = `Wahl Factor: ${fmt(Kw, 4)}`;
+  document.getElementById('statusIndex').innerHTML = indexStatus;
+
+  document.getElementById('valStress').textContent  = fmt(stress);
+  document.getElementById('unitStress').textContent  = stressU;
+  document.getElementById('stressBar').style.width  = stressPct + '%';
+  document.getElementById('stressLimit').textContent = `${stressPct}% of Sys`;
+  document.getElementById('statusStress').innerHTML  = stressStatus;
+
+  document.getElementById('valWahl').textContent   = fmt(Kw, 4);
+  document.getElementById('valWireLen').textContent = fmt(wireLen) + ' ' + lenU;
+  document.getElementById('valSolid').textContent   = fmt(solidLen) + ' ' + lenU;
+  document.getElementById('valFreeLen').textContent  = fmt(Lf) + ' ' + lenU;
+  document.getElementById('valMaxDef').textContent   = fmt(maxDef) + ' ' + lenU;
+
+  // flash animations
+  ['cardRate','cardIndex','cardStress','cardDetails'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('result-flash');
+    void el.offsetWidth;
+    el.classList.add('result-flash');
+  });
+}
+
+function fmt(v, decimals = 2) {
+  if (!isFinite(v)) return '—';
+  return parseFloat(v.toFixed(decimals)).toLocaleString();
+}
+
+function clearResults() {
+  ['valRate','valIndex','valStress','valWahl','valWireLen','valSolid','valFreeLen','valMaxDef'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '—';
+  });
+  document.getElementById('subRate').textContent = 'Enter parameters and calculate';
+  document.getElementById('subIndex').textContent = 'Recommended: 4 – 12';
+  document.getElementById('statusIndex').innerHTML = '';
+  document.getElementById('statusStress').innerHTML = '';
+  document.getElementById('stressBar').style.width = '0%';
+  document.getElementById('stressLimit').textContent = 'Safe';
+}
+
+/* ═══════════════════════════════
+   INIT
+═══════════════════════════════ */
+buildInputs();
+drawSpring();
+</script>
+</body>
+</html>
