@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BoltCalc Pro — Bolt Torque Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#ffffff; --bg2:#fafafa; --panel:#f7f7f7; --panel2:#efefef;
+  --card:#ffffff; --card2:#f0f0f0;
+  --line:rgba(234,88,12,0.12); --line2:rgba(234,88,12,0.22);
+  --cyan:#ea580c; --cyan2:#f97316;
+  --cyan-lo:rgba(234,88,12,0.07); --cyan-md:rgba(234,88,12,0.15);
+  --amber:#c2410c; --amber-lo:rgba(194,65,12,0.08);
+  --green:#16a34a; --green-lo:rgba(22,163,74,0.10);
+  --blue:#0d74ce; --blue-lo:rgba(13,116,206,0.08);
+  --red:#dc2626;
+  --text:#111111; --text2:#6b7280; --text3:#9ca3af;
+  --mono:'Share Tech Mono',monospace;
+  --display:'Orbitron',sans-serif;
+  --body:'Exo 2',sans-serif;
+  --r:8px;
+}
+html { font-size:15px; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:var(--body); min-height:100vh;
+  overflow-x:hidden; position:relative;
+}
+body::before {
+  content:''; position:fixed; inset:0; z-index:0;
+  background-image:
+    linear-gradient(rgba(234,88,12,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(234,88,12,0.06) 1px,transparent 1px);
+  background-size:40px 40px; pointer-events:none;
+}
+body::after {
+  content:''; position:fixed; inset:0; z-index:0;
+  background:radial-gradient(ellipse 120% 80% at 50% 0%,rgba(234,88,12,0.05) 0%,transparent 60%);
+  pointer-events:none;
+}
+
+/* NAV */
+.top-nav {
+position:sticky; top:0; z-index:100;
+background:rgba(255,255,255,0.92);
+backdrop-filter:blur(16px);
+border-bottom:1px solid rgba(234,88,12,0.15);
+padding:0 20px; height:54px;
+display:flex; align-items:center; justify-content:space-between;
+}
+.nav-logo {
+font-family:var(–display); font-size:14px; font-weight:700;
+letter-spacing:0.06em; color:var(–text); text-decoration:none;
+}
+.nav-logo span { color:var(–cyan); }
+.back-btn {
+display:inline-flex; align-items:center; gap:7px;
+font-family:var(–mono); font-size:10px; font-weight:600;
+letter-spacing:0.12em; text-transform:uppercase;
+background:rgba(234,88,12,0.08); border:1px solid rgba(234,88,12,0.25);
+color:var(–cyan); padding:7px 16px; border-radius:6px;
+text-decoration:none; transition:all 0.2s;
+}
+.back-btn:hover { background:rgba(234,88,12,0.16); transform:translateX(-2px); }
+
+.wrap {
+position:relative; z-index:1;
+max-width:520px; margin:0 auto;
+padding:0 16px 60px;
+}
+
+/* HERO */
+.hero { padding:32px 0 24px; text-align:center; position:relative; }
+.hero-badge {
+display:inline-flex; align-items:center; gap:8px;
+font-family:var(–mono); font-size:9px; letter-spacing:0.2em;
+color:var(–cyan); text-transform:uppercase;
+border:1px solid rgba(234,88,12,0.3);
+padding:5px 14px; border-radius:2px; margin-bottom:16px;
+background:var(–cyan-lo);
+}
+.hero-badge::before {
+content:’’; width:6px; height:6px; border-radius:50%;
+background:var(–green); animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(22,163,74,0.5);}50%{opacity:0.7;box-shadow:0 0 0 4px rgba(22,163,74,0);} }
+.hero-title {
+font-family:var(–display);
+font-size:clamp(22px,6vw,32px); font-weight:900;
+letter-spacing:0.06em; line-height:1.1; margin-bottom:8px;
+}
+.hero-title .accent { color:var(–cyan); }
+.hero-title .dim {
+display:block; font-size:0.55em; font-weight:400;
+letter-spacing:0.18em; color:var(–text2); margin-top:4px;
+}
+.hero-corners { position:absolute; top:24px; left:0; right:0; height:60px; pointer-events:none; }
+.hero-corners::before,.hero-corners::after {
+content:’’; position:absolute; top:0;
+width:20px; height:20px; border-top:1.5px solid var(–cyan);
+}
+.hero-corners::before { left:0; border-left:1.5px solid var(–cyan); }
+.hero-corners::after  { right:0; border-right:1.5px solid var(–cyan); }
+
+/* TOGGLES */
+.unit-strip {
+display:flex; gap:0; margin:16px auto 10px;
+border:1px solid var(–line2); border-radius:var(–r);
+overflow:hidden; width:fit-content;
+}
+.unit-btn {
+font-family:var(–mono); font-size:10px; font-weight:600;
+letter-spacing:0.14em; text-transform:uppercase;
+padding:8px 20px; border:none; cursor:pointer;
+background:var(–panel); color:var(–text2); transition:all 0.2s;
+}
+.unit-btn.active { background:var(–cyan); color:#fff; }
+.unit-btn:not(:last-child) { border-right:1px solid var(–line2); }
+
+.std-strip {
+display:flex; gap:0; margin:0 auto 20px;
+border:1px solid var(–line2); border-radius:var(–r);
+overflow:hidden; width:fit-content;
+}
+.std-btn {
+font-family:var(–mono); font-size:9px; font-weight:600;
+letter-spacing:0.12em; text-transform:uppercase;
+padding:7px 16px; border:none; cursor:pointer;
+background:var(–panel); color:var(–text2); transition:all 0.2s;
+}
+.std-btn.active { background:var(–amber); color:#fff; }
+.std-btn:not(:last-child) { border-right:1px solid var(–line2); }
+
+/* RESULTS */
+.result-hero { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+.result-card {
+background:var(–card); border:1px solid var(–line2);
+border-radius:var(–r); padding:18px 16px;
+position:relative; overflow:hidden;
+}
+.result-card::before { content:’’; position:absolute; top:0; left:0; right:0; height:2px; }
+.result-card.torque::before { background:linear-gradient(90deg,var(–cyan),var(–cyan2)); }
+.result-card.clamp::before  { background:linear-gradient(90deg,var(–amber),#f97316); }
+.result-card-label {
+font-family:var(–mono); font-size:8px; letter-spacing:0.18em;
+text-transform:uppercase; color:var(–text2); margin-bottom:10px;
+display:flex; align-items:center; gap:6px;
+}
+.dot-t { width:5px; height:5px; border-radius:50%; background:var(–cyan); }
+.dot-c { width:5px; height:5px; border-radius:50%; background:var(–amber); }
+.result-val { font-family:var(–display); font-size:28px; font-weight:700; line-height:1; }
+.result-val.torque { color:var(–cyan); }
+.result-val.clamp  { color:var(–amber); }
+.result-unit { font-family:var(–mono); font-size:11px; color:var(–text2); margin-top:4px; }
+.result-tag  { position:absolute; bottom:12px; right:12px; font-family:var(–mono); font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:3px 8px; border-radius:3px; }
+.result-tag.trq { background:rgba(234,88,12,0.10); color:var(–cyan); border:1px solid rgba(234,88,12,0.25); }
+.result-tag.clp { background:var(–amber-lo); color:var(–amber); border:1px solid rgba(194,65,12,0.25); }
+
+/* METRICS */
+.metrics-row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px; }
+.metric-cell { background:var(–panel); border:1px solid var(–line); border-radius:var(–r); padding:12px 10px; text-align:center; }
+.metric-cell-label { font-family:var(–mono); font-size:7px; letter-spacing:0.14em; text-transform:uppercase; color:var(–text3); margin-bottom:6px; }
+.metric-cell-val   { font-family:var(–mono); font-size:13px; font-weight:600; color:var(–text); }
+.metric-cell-unit  { font-family:var(–mono); font-size:8px; color:var(–text3); margin-top:3px; }
+
+/* DIAGRAM */
+.diagram-card { background:var(–panel); border:1px solid var(–line); border-radius:var(–r); padding:16px; margin-bottom:14px; }
+.diagram-label { font-family:var(–mono); font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(–text3); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.diagram-label::after { content:’’; flex:1; height:1px; background:var(–line2); }
+
+/* SIZE PICKER */
+.size-card { background:var(–card); border:1px solid var(–line); border-radius:var(–r); padding:14px 16px; margin-bottom:8px; }
+.size-card-label { font-family:var(–mono); font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(–text3); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+.size-card-label::after { content:’’; flex:1; height:1px; background:var(–line2); }
+.size-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
+.size-pill {
+font-family:var(–mono); font-size:10px; font-weight:600;
+padding:8px 4px; border-radius:6px; text-align:center;
+cursor:pointer; border:1px solid var(–line2);
+background:var(–panel); color:var(–text2); transition:all 0.18s;
+}
+.size-pill:hover  { border-color:rgba(234,88,12,0.35); color:var(–cyan); }
+.size-pill.active { background:var(–cyan); color:#fff; border-color:var(–cyan); }
+
+/* GRADE INFO */
+.grade-card {
+background:var(–cyan-lo); border:1px solid rgba(234,88,12,0.2);
+border-radius:var(–r); padding:12px 16px; margin-bottom:8px;
+display:flex; gap:12px; align-items:flex-start;
+}
+.grade-icon { font-size:18px; flex-shrink:0; margin-top:2px; }
+.grade-info-title { font-family:var(–mono); font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(–cyan); margin-bottom:3px; }
+.grade-info-desc  { font-family:var(–body); font-size:11.5px; color:var(–text2); line-height:1.5; }
+
+/* PARAMS */
+.params-label { font-family:var(–mono); font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(–text3); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+.params-label::after { content:’’; flex:1; height:1px; background:var(–line2); }
+.slider-card { background:var(–card); border:1px solid var(–line); border-radius:var(–r); padding:16px 18px; margin-bottom:8px; transition:border-color 0.2s; position:relative; }
+.slider-card::before { content:’’; position:absolute; left:0; top:50%; transform:translateY(-50%); width:2px; height:0; background:var(–cyan); border-radius:0 2px 2px 0; transition:height 0.3s; }
+.slider-card:focus-within { border-color:rgba(234,88,12,0.35); }
+.slider-card:focus-within::before { height:60%; }
+.slider-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px; }
+.slider-name    { font-family:var(–body); font-size:13px; font-weight:500; color:var(–text); }
+.slider-reading { font-family:var(–mono); font-size:14px; font-weight:600; color:var(–cyan); }
+input[type=range] { -webkit-appearance:none; appearance:none; width:100%; height:2px; background:var(–card2); border-radius:1px; outline:none; cursor:pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(–cyan); box-shadow:0 0 0 4px rgba(234,88,12,0.15),0 2px 8px rgba(234,88,12,0.3); transition:transform 0.15s; }
+input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); }
+.slider-ticks { display:flex; justify-content:space-between; margin-top:8px; }
+.slider-ticks span { font-family:var(–mono); font-size:8px; color:var(–text3); }
+
+/* BUTTON ROWS */
+.btn-row { display:flex; gap:6px; margin-bottom:0; flex-wrap:wrap; }
+.sel-btn {
+flex:1; min-width:fit-content; font-family:var(–mono); font-size:9px; font-weight:600;
+letter-spacing:0.1em; text-transform:uppercase;
+padding:9px 8px; border-radius:6px; text-align:center;
+cursor:pointer; border:1px solid var(–line2);
+background:var(–panel); color:var(–text2); transition:all 0.18s;
+}
+.sel-btn:hover  { border-color:rgba(234,88,12,0.3); color:var(–cyan); }
+.sel-btn.active { background:var(–cyan); color:#fff; border-color:var(–cyan); }
+
+/* FORMULA */
+.formula-card { background:var(–panel); border:1px solid var(–line); border-radius:var(–r); padding:14px 16px; margin-top:14px; }
+.formula-row { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(–line); }
+.formula-row:last-child { border-bottom:none; padding-bottom:0; }
+.formula-tag { font-family:var(–mono); font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:3px 8px; border-radius:3px; flex-shrink:0; margin-top:1px; }
+.formula-tag.trq { background:var(–cyan-lo); color:var(–cyan); border:1px solid rgba(234,88,12,0.25); }
+.formula-tag.clp { background:var(–amber-lo); color:var(–amber); border:1px solid rgba(194,65,12,0.25); }
+.formula-tag.str { background:var(–blue-lo); color:var(–blue); border:1px solid rgba(13,116,206,0.25); }
+.formula-expr { font-family:var(–mono); font-size:10px; color:var(–text2); line-height:1.6; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+.hero         { animation:fadeUp 0.4s ease 0s both; }
+.result-hero  { animation:fadeUp 0.4s ease 0.08s both; }
+.metrics-row  { animation:fadeUp 0.4s ease 0.14s both; }
+.diagram-card { animation:fadeUp 0.4s ease 0.18s both; }
+.size-card    { animation:fadeUp 0.4s ease 0.22s both; }
+.grade-card   { animation:fadeUp 0.4s ease 0.24s both; }
+.params-label { animation:fadeUp 0.4s ease 0.26s both; }
+.slider-card  { animation:fadeUp 0.4s ease 0.28s both; }
+.formula-card { animation:fadeUp 0.4s ease 0.38s both; }
+
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:var(–bg); }
+::-webkit-scrollbar-thumb { background:var(–card2); border-radius:2px; }
+</style>
+
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-logo">Task<span>Junction</span></a>
+  <a href="index.html" class="back-btn">&#8592; Home</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+
+  <div class="hero">
+    <div class="hero-corners"></div>
+    <div class="hero-badge">&#9679; System Active</div>
+    <div class="hero-title">
+      <span class="accent">BOLT</span>CALC
+      <span class="dim">TORQUE &amp; CLAMP FORCE CALCULATOR</span>
+    </div>
+    <div class="unit-strip">
+      <button class="unit-btn active" id="btn-si"  onclick="setUnit('metric')">SI &middot; METRIC</button>
+      <button class="unit-btn"        id="btn-imp" onclick="setUnit('imperial')">IMP &middot; USC</button>
+    </div>
+    <div class="std-strip">
+      <button class="std-btn active" id="btn-ms"  onclick="setStandard('metric')">M &ndash; METRIC</button>
+      <button class="std-btn"        id="btn-unc" onclick="setStandard('unc')">UNC</button>
+      <button class="std-btn"        id="btn-unf" onclick="setStandard('unf')">UNF</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+
+  <div class="result-hero">
+    <div class="result-card torque">
+      <div class="result-card-label"><span class="dot-t"></span>Tightening Torque</div>
+      <div class="result-val torque" id="r-torque">&#8212;</div>
+      <div class="result-unit" id="u-torque">N&middot;m</div>
+      <div class="result-tag trq">&#128297; TORQUE</div>
+    </div>
+    <div class="result-card clamp">
+      <div class="result-card-label"><span class="dot-c"></span>Clamp Force</div>
+      <div class="result-val clamp" id="r-clamp">&#8212;</div>
+      <div class="result-unit" id="u-clamp">kN</div>
+      <div class="result-tag clp">&#8679; CLAMP</div>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+
+  <div class="metrics-row">
+    <div class="metric-cell">
+      <div class="metric-cell-label">Stress Area</div>
+      <div class="metric-cell-val" id="m-area">&#8212;</div>
+      <div class="metric-cell-unit" id="u-area">mm&sup2;</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-cell-label">Bolt Stress</div>
+      <div class="metric-cell-val" id="m-stress">&#8212;</div>
+      <div class="metric-cell-unit" id="u-stress">MPa</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-cell-label">K Factor</div>
+      <div class="metric-cell-val" id="m-k">&#8212;</div>
+      <div class="metric-cell-unit">nut factor</div>
+    </div>
+  </div>
+
+  <!-- DIAGRAM -->
+
+  <div class="diagram-card">
+    <div class="diagram-label">Bolt Cross-Section</div>
+    <svg id="bolt-svg" viewBox="0 0 460 110" width="100%" style="display:block;"></svg>
+  </div>
+
+  <!-- SIZE PICKER -->
+
+  <div class="size-card">
+    <div class="size-card-label" id="size-label">Bolt Size &mdash; Metric (M)</div>
+    <div class="size-grid" id="size-grid"></div>
+  </div>
+
+  <!-- GRADE INFO -->
+
+  <div class="grade-card" id="grade-card">
+    <div class="grade-icon">&#128202;</div>
+    <div>
+      <div class="grade-info-title" id="grade-title">Grade 8.8 &middot; High Strength</div>
+      <div class="grade-info-desc"  id="grade-desc">Min tensile 800 MPa &middot; Proof 640 MPa &middot; Common structural fastener</div>
+    </div>
+  </div>
+
+  <!-- PARAMETERS -->
+
+  <div class="params-label">Parameters</div>
+
+  <!-- Grade -->
+
+  <div class="slider-card">
+    <div class="slider-row">
+      <span class="slider-name">Bolt Grade</span>
+      <span class="slider-reading" id="r-grade">8.8</span>
+    </div>
+    <div class="btn-row" id="grade-row"></div>
+  </div>
+
+  <!-- Friction -->
+
+  <div class="slider-card">
+    <div class="slider-row">
+      <span class="slider-name">Friction Condition</span>
+      <span class="slider-reading" id="r-fric">Lightly Oiled</span>
+    </div>
+    <div class="btn-row" id="fric-row"></div>
+  </div>
+
+  <!-- Preload -->
+
+  <div class="slider-card">
+    <div class="slider-row">
+      <span class="slider-name">Preload (% of Proof)</span>
+      <span class="slider-reading" id="r-preload">75%</span>
+    </div>
+    <input type="range" id="s-preload" min="50" max="90" value="75" step="1" oninput="calc()">
+    <div class="slider-ticks"><span>50%</span><span>70%</span><span>90%</span></div>
+  </div>
+
+  <!-- Safety Factor -->
+
+  <div class="slider-card">
+    <div class="slider-row">
+      <span class="slider-name">Safety Factor</span>
+      <span class="slider-reading" id="r-sf">1.0&times;</span>
+    </div>
+    <input type="range" id="s-sf" min="1.0" max="3.0" value="1.0" step="0.1" oninput="calc()">
+    <div class="slider-ticks"><span>1.0&times;</span><span>2.0&times;</span><span>3.0&times;</span></div>
+  </div>
+
+  <!-- FORMULA -->
+
+  <div class="formula-card">
+    <div class="params-label" style="margin-bottom:8px;">Formula Reference</div>
+    <div class="formula-row">
+      <span class="formula-tag trq">TRQ</span>
+      <span class="formula-expr">T = K &times; F<sub>i</sub> &times; d &nbsp;&middot;&nbsp; K = nut factor (surface friction)</span>
+    </div>
+    <div class="formula-row">
+      <span class="formula-tag clp">CLF</span>
+      <span class="formula-expr">F<sub>i</sub> = &sigma;<sub>p</sub> &times; A<sub>s</sub> &times; &eta; &nbsp;&middot;&nbsp; &eta; = preload ratio</span>
+    </div>
+    <div class="formula-row">
+      <span class="formula-tag str">AREA</span>
+      <span class="formula-expr">A<sub>s</sub> = &pi;/4 &times; (d &minus; 0.9382p)&sup2; &nbsp;&middot;&nbsp; p = thread pitch</span>
+    </div>
+  </div>
+
+</div>
+
+<footer style="position:relative;z-index:1;text-align:center;padding:24px 16px 32px;display:flex;flex-direction:column;align-items:center;gap:8px;">
+  <div style="width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(234,88,12,0.35),transparent);margin-bottom:4px;"></div>
+  <div style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:0.12em;color:rgba(107,133,184,0.5);text-transform:uppercase;">Crafted by</div>
+  <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;color:#ea580c;text-shadow:0 0 12px rgba(234,88,12,0.4);">Vaibhav Dhokpande</div>
+  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.16em;color:rgba(58,79,120,0.8);text-transform:uppercase;">&copy; 2025 &middot; BoltCalc Pro</div>
+</footer>
+
+<script>
+/* ── DATA ── */
+const SIZES = {
+  metric:[
+    {label:'M4',  d:4,   p:0.70, As:8.78},
+    {label:'M5',  d:5,   p:0.80, As:14.2},
+    {label:'M6',  d:6,   p:1.00, As:20.1},
+    {label:'M8',  d:8,   p:1.25, As:36.6},
+    {label:'M10', d:10,  p:1.50, As:58.0},
+    {label:'M12', d:12,  p:1.75, As:84.3},
+    {label:'M16', d:16,  p:2.00, As:157},
+    {label:'M20', d:20,  p:2.50, As:245},
+    {label:'M24', d:24,  p:3.00, As:353},
+    {label:'M30', d:30,  p:3.50, As:561},
+  ],
+  unc:[
+    {label:'1/4"', d:6.35, p:1.270,As:20.5},
+    {label:'5/16"',d:7.94, p:1.411,As:35.5},
+    {label:'3/8"', d:9.53, p:1.587,As:51.6},
+    {label:'7/16"',d:11.11,p:1.814,As:70.3},
+    {label:'1/2"', d:12.70,p:1.954,As:92.3},
+    {label:'9/16"',d:14.29,p:2.117,As:116},
+    {label:'5/8"', d:15.88,p:2.309,As:144},
+    {label:'3/4"', d:19.05,p:2.540,As:207},
+    {label:'7/8"', d:22.23,p:2.822,As:284},
+    {label:'1"',   d:25.40,p:3.175,As:369},
+  ],
+  unf:[
+    {label:'1/4"', d:6.35, p:0.907,As:23.2},
+    {label:'5/16"',d:7.94, p:1.058,As:40.0},
+    {label:'3/8"', d:9.53, p:1.270,As:60.0},
+    {label:'7/16"',d:11.11,p:1.411,As:80.6},
+    {label:'1/2"', d:12.70,p:1.587,As:105},
+    {label:'9/16"',d:14.29,p:1.814,As:132},
+    {label:'5/8"', d:15.88,p:2.117,As:162},
+    {label:'3/4"', d:19.05,p:2.309,As:235},
+    {label:'7/8"', d:22.23,p:2.540,As:319},
+    {label:'1"',   d:25.40,p:2.822,As:413},
+  ]
+};
+
+const GRADES_METRIC=[
+  {label:'4.6', Sp:225, desc:'Low-carbon · Non-critical · General hardware'},
+  {label:'5.8', Sp:380, desc:'Medium carbon · Light structural · General'},
+  {label:'6.8', Sp:480, desc:'Medium carbon · Medium strength · General'},
+  {label:'8.8', Sp:640, desc:'Alloy steel · Structural · Common high-str.'},
+  {label:'10.9',Sp:940, desc:'Alloy Q+T · High strength · Critical joints'},
+  {label:'12.9',Sp:1100,desc:'Alloy Q+T · Highest strength · Precision use'},
+];
+const GRADES_INCH=[
+  {label:'SAE 2',Sp:310, desc:'Low-carbon · Non-critical · General purpose'},
+  {label:'SAE 5',Sp:586, desc:'Med carbon Q&T · Structural · Common high-str.'},
+  {label:'SAE 8',Sp:827, desc:'Alloy Q&T · High strength · Critical joints'},
+];
+const FRICTION=[
+  {label:'Dry',     k:0.20, desc:'Dry / as-received'},
+  {label:'Oiled',   k:0.15, desc:'Lightly oiled'},
+  {label:'Zn Plt',  k:0.13, desc:'Zinc plated'},
+  {label:'PTFE',    k:0.10, desc:'PTFE / Teflon coated'},
+  {label:'MoS\u2082',k:0.09,desc:'Molybdenum disulfide'},
+];
+
+/* ── STATE ── */
+let unit='metric', standard='metric';
+let sizeIdx=4, gradeIdx=3, fricIdx=1;
+
+/* ── UNIT & STANDARD ── */
+function setUnit(u){
+  unit=u;
+  document.getElementById('btn-si').classList.toggle('active', u==='metric');
+  document.getElementById('btn-imp').classList.toggle('active',u==='imperial');
+  calc();
+}
+function setStandard(s){
+  standard=s;
+  sizeIdx=4;
+  gradeIdx = s==='metric' ? 3 : 1;
+  document.getElementById('btn-ms').classList.toggle('active',  s==='metric');
+  document.getElementById('btn-unc').classList.toggle('active', s==='unc');
+  document.getElementById('btn-unf').classList.toggle('active', s==='unf');
+  buildSizeGrid();
+  buildGradeRow();
+  calc();
+}
+
+/* ── BUILDERS ── */
+function buildSizeGrid(){
+  const grid=document.getElementById('size-grid');
+  const label=document.getElementById('size-label');
+  const sizes=SIZES[standard];
+  const names={metric:'Metric (M)',unc:'UNC \u2014 Unified Coarse',unf:'UNF \u2014 Unified Fine'};
+  label.textContent='Bolt Size \u2014 '+names[standard];
+  grid.innerHTML='';
+  sizes.forEach((s,i)=>{
+    const el=document.createElement('div');
+    el.className='size-pill'+(i===sizeIdx?' active':'');
+    el.textContent=s.label;
+    el.onclick=()=>{ sizeIdx=i; buildSizeGrid(); calc(); };
+    grid.appendChild(el);
+  });
+}
+
+function buildGradeRow(){
+  const row=document.getElementById('grade-row');
+  const grades=standard==='metric'?GRADES_METRIC:GRADES_INCH;
+  if(gradeIdx>=grades.length) gradeIdx=grades.length-1;
+  row.innerHTML='';
+  grades.forEach((g,i)=>{
+    const el=document.createElement('div');
+    el.className='sel-btn'+(i===gradeIdx?' active':'');
+    el.textContent=g.label;
+    el.onclick=()=>{ gradeIdx=i; buildGradeRow(); calc(); };
+    row.appendChild(el);
+  });
+}
+
+function buildFricRow(){
+  const row=document.getElementById('fric-row');
+  row.innerHTML='';
+  FRICTION.forEach((f,i)=>{
+    const el=document.createElement('div');
+    el.className='sel-btn'+(i===fricIdx?' active':'');
+    el.textContent=f.label;
+    el.onclick=()=>{ fricIdx=i; buildFricRow(); calc(); };
+    row.appendChild(el);
+  });
+}
+
+/* ── CALC ── */
+function calc(){
+  const sizes=SIZES[standard];
+  const grades=standard==='metric'?GRADES_METRIC:GRADES_INCH;
+  const size=sizes[sizeIdx];
+  const grade=grades[Math.min(gradeIdx,grades.length-1)];
+  const fric=FRICTION[fricIdx];
+  const pct=+document.getElementById('s-preload').value/100;
+  const sf=+document.getElementById('s-sf').value;
+
+  const Fi=(grade.Sp*size.As*pct)/sf;   // N (Sp in MPa = N/mm², As in mm²)
+  const T_Nm=(fric.k*Fi*size.d)/1000;   // N·m
+  const stress=Fi/size.As;              // MPa
+
+  document.getElementById('r-grade').textContent=grade.label;
+  document.getElementById('r-fric').textContent=fric.desc;
+  document.getElementById('r-preload').textContent=document.getElementById('s-preload').value+'%';
+  document.getElementById('r-sf').textContent=parseFloat(sf).toFixed(1)+'\u00d7';
+
+  if(unit==='metric'){
+    document.getElementById('r-torque').textContent=T_Nm.toFixed(1);
+    document.getElementById('u-torque').textContent='N\u00b7m';
+    document.getElementById('r-clamp').textContent=(Fi/1000).toFixed(2);
+    document.getElementById('u-clamp').textContent='kN';
+    document.getElementById('m-area').textContent=size.As.toFixed(1);
+    document.getElementById('u-area').textContent='mm\u00b2';
+    document.getElementById('m-stress').textContent=stress.toFixed(0);
+    document.getElementById('u-stress').textContent='MPa';
+  } else {
+    document.getElementById('r-torque').textContent=(T_Nm*0.7376).toFixed(1);
+    document.getElementById('u-torque').textContent='lbf\u00b7ft';
+    document.getElementById('r-clamp').textContent=(Fi*0.2248).toFixed(0);
+    document.getElementById('u-clamp').textContent='lbf';
+    document.getElementById('m-area').textContent=(size.As*0.00155).toFixed(4);
+    document.getElementById('u-area').textContent='in\u00b2';
+    document.getElementById('m-stress').textContent=(stress*0.1450).toFixed(0);
+    document.getElementById('u-stress').textContent='ksi';
+  }
+
+  document.getElementById('m-k').textContent=fric.k.toFixed(2);
+  document.getElementById('grade-title').textContent='Grade '+grade.label+' \u00b7 '+grade.desc.split('\u00b7')[0].trim();
+  document.getElementById('grade-desc').textContent=grade.desc;
+
+  drawDiagram(size.d, fric.k);
+}
+
+/* ── SVG DIAGRAM ── */
+function drawDiagram(d_mm, k){
+  const svg=document.getElementById('bolt-svg');
+  const W=460,H=110,cx=W/2,cy=H/2+4;
+
+  const sc=Math.min(2.4,Math.max(0.8,d_mm/10));
+  const headW=30*sc, headH=14*sc;
+  const shW=12*sc,   shH=60*sc;
+  const nutW=28*sc,  nutH=12*sc;
+
+  const topY=cy-headH-shH/2;
+  const botY=cy+shH/2;
+  const boltX=cx-shW/2;
+  const nutY=botY-nutH-5;
+
+  const orange='#ea580c', amber='#c2410c';
+
+  let threads='';
+  const n=Math.max(5,Math.round(shH/7));
+  for(let i=0;i<n;i++){
+    const y=topY+headH+(i/n)*shH*0.85+3;
+    threads+=`<line x1="${boltX-1}" y1="${y}" x2="${boltX+shW+1}" y2="${y+4}" stroke="rgba(234,88,12,0.35)" stroke-width="0.9"/>`;
+  }
+
+  const r=headW/2+16;
+  const arcX=cx, arcY=topY+headH/2;
+
+  svg.innerHTML=`
+  <defs>
+    <marker id="mTq" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5z" fill="${orange}"/>
+    </marker>
+    <marker id="mClp" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5z" fill="${amber}"/>
+    </marker>
+    <linearGradient id="shGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d1d5db"/>
+      <stop offset="40%" stop-color="#f9fafb"/>
+      <stop offset="100%" stop-color="#d1d5db"/>
+    </linearGradient>
+    <linearGradient id="hdGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9ca3af"/>
+      <stop offset="50%" stop-color="#f3f4f6"/>
+      <stop offset="100%" stop-color="#9ca3af"/>
+    </linearGradient>
+  </defs>
+
+  <!-- clamp arrow -->
+  <line x1="${cx}" y1="${botY+5}" x2="${cx}" y2="${botY+24}"
+    stroke="${amber}" stroke-width="2" marker-end="url(#mClp)"/>
+  <text x="${cx+6}" y="${botY+18}" font-family="'Share Tech Mono'" font-size="7.5" fill="${amber}">CLAMP F</text>
+
+  <!-- torque arc -->
+  <path d="M ${arcX+r} ${arcY} A ${r} ${r} 0 0 1 ${arcX-r} ${arcY}"
+    fill="none" stroke="${orange}" stroke-width="1.5"
+    stroke-dasharray="4,3" marker-end="url(#mTq)"/>
+  <text x="${arcX+r+5}" y="${arcY+4}" font-family="'Share Tech Mono'" font-size="8" fill="${orange}">T</text>
+
+  <!-- shaft -->
+  <rect x="${boltX}" y="${topY+headH}" width="${shW}" height="${shH}"
+    rx="2" fill="url(#shGrad)" stroke="rgba(156,163,175,0.5)" stroke-width="0.8"/>
+  ${threads}
+
+  <!-- bolt head -->
+  <rect x="${cx-headW/2}" y="${topY}" width="${headW}" height="${headH}"
+    rx="3" fill="url(#hdGrad)" stroke="rgba(156,163,175,0.7)" stroke-width="1"/>
+  <line x1="${cx-headW/2+6}" y1="${topY+2}" x2="${cx-headW/2+6}" y2="${topY+headH-2}"
+    stroke="rgba(200,200,200,0.6)" stroke-width="0.8"/>
+  <line x1="${cx+headW/2-6}" y1="${topY+2}" x2="${cx+headW/2-6}" y2="${topY+headH-2}"
+    stroke="rgba(200,200,200,0.6)" stroke-width="0.8"/>
+
+  <!-- nut -->
+  <rect x="${cx-nutW/2}" y="${nutY}" width="${nutW}" height="${nutH}"
+    rx="2" fill="#e5e7eb" stroke="rgba(156,163,175,0.7)" stroke-width="1"/>
+  <line x1="${cx-nutW/2+6}" y1="${nutY+2}" x2="${cx-nutW/2+6}" y2="${nutY+nutH-2}"
+    stroke="rgba(200,200,200,0.6)" stroke-width="0.8"/>
+  <line x1="${cx+nutW/2-6}" y1="${nutY+2}" x2="${cx+nutW/2-6}" y2="${nutY+nutH-2}"
+    stroke="rgba(200,200,200,0.6)" stroke-width="0.8"/>
+
+  <!-- dim line -->
+  <line x1="${boltX-12}" y1="${topY+headH}" x2="${boltX-12}" y2="${botY}"
+    stroke="rgba(234,88,12,0.22)" stroke-width="0.8" stroke-dasharray="2,2"/>
+  <line x1="${boltX-16}" y1="${topY+headH}" x2="${boltX-8}" y2="${topY+headH}"
+    stroke="rgba(234,88,12,0.22)" stroke-width="0.8"/>
+  <line x1="${boltX-16}" y1="${botY}" x2="${boltX-8}" y2="${botY}"
+    stroke="rgba(234,88,12,0.22)" stroke-width="0.8"/>
+
+  <!-- label -->
+  <text x="${cx}" y="${H-3}" text-anchor="middle"
+    font-family="'Share Tech Mono'" font-size="7" fill="rgba(234,88,12,0.4)"
+    letter-spacing="0.08em">\u00d8${d_mm.toFixed(1)}mm \u00b7 K=${k.toFixed(2)}</text>
+  `;
+}
+
+/* ── BOOT ── */
+buildSizeGrid();
+buildGradeRow();
+buildFricRow();
+calc();
+</script>
+
+</body>
+</html>
