@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gear Ratio Calculator – TaskJunction</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf9f7;
+  --surface: #ffffff;
+  --border: #e8e2d9;
+  --orange: #f4600c;
+  --orange2: #ff7a2e;
+  --orange3: #fff0e8;
+  --orange4: rgba(244,96,12,0.08);
+  --text: #0f0e0c;
+  --text2: #5a5650;
+  --text3: #9e9890;
+  --green: #1a9952;
+  --blue: #0d74ce;
+  --shadow: 0 2px 12px rgba(15,14,12,0.06);
+  --shadow-lg: 0 8px 40px rgba(15,14,12,0.10);
+  --font-d: 'Clash Display', sans-serif;
+  --font-b: 'Sora', sans-serif;
+  --font-m: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-b); min-height: 100vh; overflow-x: hidden; }
+
+/* NAV */
+nav {
+position: sticky; top: 0; z-index: 100;
+background: rgba(250,249,247,0.93); backdrop-filter: blur(20px);
+border-bottom: 1px solid var(–border);
+padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px;
+}
+.logo { font-family: var(–font-d); font-size: 22px; font-weight: 700; color: var(–text); text-decoration: none; letter-spacing: -0.02em; }
+.logo em { color: var(–orange); font-style: normal; }
+nav ul { list-style: none; display: flex; gap: 4px; }
+nav ul a { color: var(–text2); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 11px; border-radius: 8px; transition: all 0.18s; }
+nav ul a:hover { background: var(–orange4); color: var(–orange); }
+nav ul a.active { background: var(–orange3); color: var(–orange); }
+
+/* HERO */
+.hero {
+text-align: center; padding: 52px 24px 36px;
+background: linear-gradient(160deg, #fff8f3 0%, var(–bg) 65%);
+border-bottom: 1px solid var(–border); position: relative; overflow: hidden;
+}
+.hero::after {
+content: ‘’; position: absolute; inset: 0;
+background-image: radial-gradient(circle, rgba(15,14,12,0.05) 1px, transparent 1px);
+background-size: 28px 28px;
+-webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+pointer-events: none;
+}
+.hero-badge {
+display: inline-flex; align-items: center; gap: 8px;
+background: var(–surface); border: 1px solid var(–border); border-radius: 99px;
+padding: 6px 18px; font-size: 12.5px; color: var(–text2); font-weight: 500;
+margin-bottom: 18px; box-shadow: var(–shadow); position: relative; z-index: 1;
+}
+.hero-badge strong { color: var(–orange); }
+.hero h1 { font-family: var(–font-d); font-size: clamp(36px, 6vw, 62px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 12px; position: relative; z-index: 1; }
+.hero h1 em { color: var(–orange); font-style: normal; }
+.hero p { font-size: 16px; color: var(–text2); position: relative; z-index: 1; }
+
+/* LAYOUT */
+.main { max-width: 1060px; margin: 0 auto; padding: 40px 24px 80px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+
+/* CARD */
+.card {
+background: var(–surface); border: 1px solid var(–border);
+border-radius: 20px; padding: 28px; box-shadow: var(–shadow);
+position: relative; overflow: hidden;
+}
+.card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(–orange), var(–orange2), #fbbf24); }
+.card-title { font-family: var(–font-d); font-size: 18px; font-weight: 700; color: var(–text); margin-bottom: 22px; letter-spacing: -0.02em; }
+.card-title em { color: var(–orange); font-style: normal; }
+
+/* TABS */
+.mode-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+.mode-tab {
+padding: 8px 22px; border-radius: 99px; border: 1.5px solid var(–border);
+background: var(–bg); font-family: var(–font-d); font-size: 14px; font-weight: 600;
+color: var(–text2); cursor: pointer; transition: all 0.18s;
+}
+.mode-tab:hover { border-color: var(–orange2); background: var(–orange3); color: var(–orange); }
+.mode-tab.active { background: var(–orange); border-color: var(–orange); color: #fff; box-shadow: 0 4px 16px rgba(244,96,12,0.28); }
+
+/* FORM */
+.field { margin-bottom: 18px; }
+.field:last-child { margin-bottom: 0; }
+label { display: block; font-family: var(–font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(–text3); margin-bottom: 7px; }
+.input-wrap { position: relative; }
+.input-unit { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); font-family: var(–font-m); font-size: 11px; color: var(–text3); pointer-events: none; font-weight: 500; }
+input[type=number] {
+width: 100%; background: var(–bg); border: 1.5px solid var(–border);
+color: var(–text); padding: 11px 46px 11px 14px;
+border-radius: 11px; font-family: var(–font-d); font-size: 20px; font-weight: 700;
+outline: none; transition: border-color 0.2s, box-shadow 0.2s; -moz-appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type=number]:focus { border-color: var(–orange); box-shadow: 0 0 0 3px rgba(244,96,12,0.10); }
+
+/* VIZ CARD */
+.viz-card {
+background: var(–surface); border: 1px solid var(–border);
+border-radius: 20px; box-shadow: var(–shadow);
+position: relative; overflow: hidden; margin-bottom: 20px;
+}
+.viz-card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(–orange), var(–orange2), #fbbf24); }
+.viz-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px 8px; }
+.viz-title { font-family: var(–font-d); font-size: 18px; font-weight: 700; }
+.viz-title em { color: var(–orange); font-style: normal; }
+.viz-controls { display: flex; gap: 8px; align-items: center; }
+.anim-btn {
+padding: 7px 16px; border-radius: 8px; border: 1.5px solid var(–border);
+background: var(–bg); font-family: var(–font-m); font-size: 11px; font-weight: 600;
+color: var(–text2); cursor: pointer; letter-spacing: 0.08em; transition: all 0.18s;
+}
+.anim-btn.on { background: var(–orange3); border-color: rgba(244,96,12,0.3); color: var(–orange); }
+.ratio-badge {
+font-family: var(–font-m); font-size: 11px; font-weight: 600;
+padding: 4px 12px; border-radius: 99px;
+background: var(–orange3); color: var(–orange);
+border: 1px solid rgba(244,96,12,0.25);
+}
+#gearCanvas { display: block; width: 100%; height: 280px; }
+
+/* RESULTS */
+.results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin-bottom: 20px; }
+.res-box {
+background: var(–bg); border: 1.5px solid var(–border);
+border-radius: 14px; padding: 20px; text-align: center;
+transition: border-color 0.2s, transform 0.2s;
+}
+.res-box:hover { border-color: rgba(244,96,12,0.35); transform: translateY(-3px); }
+.res-box.primary { background: var(–orange3); border-color: rgba(244,96,12,0.3); }
+.res-val { font-family: var(–font-d); font-size: 24px; font-weight: 700; color: var(–orange); }
+.res-lbl { font-family: var(–font-m); font-size: 9.5px; font-weight: 600; color: var(–text3); margin-top: 5px; letter-spacing: 0.10em; text-transform: uppercase; }
+
+/* STAGE ROWS */
+.stages-header { display: grid; grid-template-columns: 1fr 1fr 38px; gap: 10px; margin-bottom: 6px; }
+.stages-header span { font-family: var(–font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(–text3); }
+.stage-row { display: grid; grid-template-columns: 1fr 1fr 38px; gap: 10px; align-items: end; margin-bottom: 10px; animation: fadeIn 0.22s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.remove-btn {
+width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid var(–border);
+background: var(–bg); color: var(–text3); font-size: 18px; cursor: pointer;
+display: flex; align-items: center; justify-content: center; transition: all 0.18s;
+}
+.remove-btn:hover { border-color: #ef4444; color: #ef4444; background: #fff5f5; }
+.remove-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.add-btn {
+display: inline-flex; align-items: center; gap: 8px;
+padding: 10px 18px; border-radius: 10px;
+border: 1.5px dashed var(–border); background: transparent;
+font-family: var(–font-b); font-size: 13px; font-weight: 600; color: var(–text3);
+cursor: pointer; transition: all 0.18s; margin-top: 4px;
+}
+.add-btn:hover { border-color: var(–orange2); color: var(–orange); background: var(–orange3); }
+
+/* INFO TABLE */
+.info-table { width: 100%; border-collapse: collapse; }
+.info-table th { font-family: var(–font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(–text3); text-align: left; padding: 10px 0; border-bottom: 1.5px solid var(–border); }
+.info-table td { padding: 10px 0; border-bottom: 1px solid var(–border); font-size: 13.5px; color: var(–text2); }
+.info-table tr:last-child td { border-bottom: none; }
+.info-table .val { font-family: var(–font-d); font-size: 17px; font-weight: 700; color: var(–text); }
+.tag { display: inline-block; font-family: var(–font-m); font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 99px; background: var(–orange3); color: var(–orange); border: 1px solid rgba(244,96,12,0.2); letter-spacing: 0.04em; }
+.tag-green { background: rgba(26,153,82,0.09); color: var(–green); border: 1px solid rgba(26,153,82,0.2); }
+.tag-blue { background: rgba(13,116,206,0.09); color: var(–blue); border: 1px solid rgba(13,116,206,0.2); }
+
+/* FORMULA */
+.formula-box { background: var(–bg); border: 1.5px solid var(–border); border-radius: 12px; padding: 18px 20px; font-family: var(–font-m); font-size: 12.5px; color: var(–text2); line-height: 2; }
+.formula-box .fl { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(–text3); font-weight: 600; margin-bottom: 8px; display: block; }
+.formula-box .fv { color: var(–orange); font-weight: 600; }
+
+/* FOOTER */
+footer { background: var(–text); color: #fff; padding: 48px 32px 32px; text-align: center; }
+.footer-logo { font-family: var(–font-d); font-size: 24px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
+.footer-logo em { color: var(–orange); font-style: normal; }
+.footer-links { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+.footer-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px; padding: 5px 12px; border-radius: 7px; transition: all 0.15s; }
+.footer-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+footer p { font-size: 12.5px; color: rgba(255,255,255,0.35); }
+
+@media (max-width: 768px) {
+nav ul { display: none; }
+.grid-2 { grid-template-columns: 1fr; }
+.main { padding: 28px 16px 60px; }
+.card { padding: 20px 16px; }
+#gearCanvas { height: 210px; }
+}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Task<em>Junction</em></a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#mechanical" class="active">⚙️ Mechanical</a></li>
+    <li><a href="pneumatic-force-calculator.html">Pneumatic</a></li>
+    <li><a href="hydraulic_calculator.html">Hydraulic</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">⚙️ Mechanical Design &nbsp;·&nbsp; <strong>Gear Systems</strong></div>
+  <h1>Gear Ratio <em>Calculator</em></h1>
+  <p>Simple 2-gear & Multi-Stage compound systems — speed, torque & direction</p>
+</section>
+
+<div class="main">
+
+  <!-- MODE TABS -->
+
+  <div style="margin-bottom:20px;">
+    <div class="mode-tabs">
+      <button class="mode-tab active" onclick="setMode('simple',this)">⚙️ Simple (2 Gears)</button>
+      <button class="mode-tab" onclick="setMode('compound',this)">⚙️⚙️ Multi-Stage</button>
+    </div>
+  </div>
+
+  <!-- SIMPLE MODE -->
+
+  <div id="simpleMode">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">🔵 Driver <em>Gear</em> (Input)</div>
+        <div class="field">
+          <label>Number of Teeth</label>
+          <div class="input-wrap">
+            <input type="number" id="s_driverTeeth" value="20" min="4" oninput="calcSimple()">
+            <span class="input-unit">T</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Input Speed</label>
+          <div class="input-wrap">
+            <input type="number" id="s_inputRPM" value="1500" min="1" oninput="calcSimple()">
+            <span class="input-unit">RPM</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Input Torque</label>
+          <div class="input-wrap">
+            <input type="number" id="s_inputTorque" value="100" min="0" oninput="calcSimple()">
+            <span class="input-unit">N·m</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🟠 Driven <em>Gear</em> (Output)</div>
+        <div class="field">
+          <label>Number of Teeth</label>
+          <div class="input-wrap">
+            <input type="number" id="s_drivenTeeth" value="60" min="4" oninput="calcSimple()">
+            <span class="input-unit">T</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Module (m)</label>
+          <div class="input-wrap">
+            <input type="number" id="s_module" value="2" min="0.1" step="0.1" oninput="calcSimple()">
+            <span class="input-unit">mm</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Efficiency</label>
+          <div class="input-wrap">
+            <input type="number" id="s_efficiency" value="98" min="1" max="100" oninput="calcSimple()">
+            <span class="input-unit">%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPOUND MODE -->
+
+  <div id="compoundMode" style="display:none;">
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">⚙️ Multi-Stage <em>Gear Train</em></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+        <div class="field">
+          <label>Input Speed</label>
+          <div class="input-wrap">
+            <input type="number" id="c_inputRPM" value="1500" oninput="calcCompound()">
+            <span class="input-unit">RPM</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Input Torque</label>
+          <div class="input-wrap">
+            <input type="number" id="c_inputTorque" value="100" oninput="calcCompound()">
+            <span class="input-unit">N·m</span>
+          </div>
+        </div>
+      </div>
+      <div class="stages-header">
+        <span>Driver Teeth</span><span>Driven Teeth</span><span></span>
+      </div>
+      <div id="stagesContainer"></div>
+      <button class="add-btn" onclick="addStage()">＋ Add Stage</button>
+    </div>
+  </div>
+
+  <!-- VISUALIZATION -->
+
+  <div class="viz-card">
+    <div class="viz-header">
+      <div class="viz-title">⚙️ Live <em>Visualization</em></div>
+      <div class="viz-controls">
+        <button class="anim-btn on" id="animBtn" onclick="toggleAnim()">⏸ Pause</button>
+        <span class="ratio-badge" id="ratioBadge">Ratio: 3.000</span>
+      </div>
+    </div>
+    <canvas id="gearCanvas"></canvas>
+  </div>
+
+  <!-- RESULTS -->
+
+  <div class="results-grid">
+    <div class="res-box primary"><div class="res-val" id="r_ratio">3.000</div><div class="res-lbl">Gear Ratio</div></div>
+    <div class="res-box"><div class="res-val" id="r_outRPM">500.0</div><div class="res-lbl">Output RPM</div></div>
+    <div class="res-box"><div class="res-val" id="r_outTorque">294.0</div><div class="res-lbl">Output Torque N·m</div></div>
+    <div class="res-box"><div class="res-val" id="r_mechAdv">3.00×</div><div class="res-lbl">Mech. Advantage</div></div>
+    <div class="res-box"><div class="res-val" id="r_speedRatio">0.333×</div><div class="res-lbl">Speed Ratio</div></div>
+    <div class="res-box"><div class="res-val" id="r_efficiency">98.0%</div><div class="res-lbl">Efficiency</div></div>
+  </div>
+
+  <!-- DETAIL + FORMULA -->
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📊 Detailed <em>Analysis</em></div>
+      <table class="info-table">
+        <thead><tr><th>Parameter</th><th>Value</th><th>Type</th></tr></thead>
+        <tbody id="detailBody"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">📐 Formulas <em>Used</em></div>
+      <div class="formula-box" id="formulaBox">
+        <span class="fl">Key Equations</span>
+        Loading…
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Task<em>Junction</em></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#mechanical">⚙️ Mechanical</a>
+    <a href="index.html#privacy">Privacy</a>
+    <a href="mailto:vaibhavdhokpande@gmail.com">Contact</a>
+  </div>
+  <p>Made with ❤️ by Vaibhav Dhokpande &nbsp;·&nbsp; © 2025 TaskJunction. All rights reserved.</p>
+</footer>
+
+<script>
+/* ── STATE ── */
+let mode = 'simple';
+let animating = true;
+let animReq;
+let angle = 0;
+let currentGears = [];   // [{teeth, color, label}]
+let currentRatio = 3;
+
+/* ── MODE ── */
+function setMode(m, el) {
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('simpleMode').style.display = m === 'simple' ? '' : 'none';
+  document.getElementById('compoundMode').style.display = m === 'compound' ? '' : 'none';
+  m === 'simple' ? calcSimple() : calcCompound();
+}
+
+/* ── SIMPLE ── */
+function calcSimple() {
+  const dT  = Math.max(4, +document.getElementById('s_driverTeeth').value || 20);
+  const dnT = Math.max(4, +document.getElementById('s_drivenTeeth').value || 60);
+  const rpm  = +document.getElementById('s_inputRPM').value || 1500;
+  const torq = +document.getElementById('s_inputTorque').value || 100;
+  const mod  = +document.getElementById('s_module').value || 2;
+  const eff  = Math.min(100, Math.max(1, +document.getElementById('s_efficiency').value || 98)) / 100;
+
+  const ratio    = dnT / dT;
+  const outRPM   = rpm / ratio;
+  const outTorq  = torq * ratio * eff;
+  const cd       = mod * (dT + dnT) / 2;
+
+  showResults(ratio, outRPM, outTorq, eff * 100);
+  showDetail([
+    ['Driver Teeth', dT + ' T', 'in'],
+    ['Driven Teeth', dnT + ' T', 'in'],
+    ['Gear Ratio', ratio.toFixed(4), ratio >= 1 ? 'red' : 'od'],
+    ['Output Speed', outRPM.toFixed(1) + ' RPM', 'out'],
+    ['Output Torque', outTorq.toFixed(2) + ' N·m', 'out'],
+    ['Center Distance', cd.toFixed(2) + ' mm', 'geo'],
+    ['Driver PCD', (mod * dT).toFixed(1) + ' mm', 'geo'],
+    ['Driven PCD', (mod * dnT).toFixed(1) + ' mm', 'geo'],
+    ['Rotation Dir.', 'Opposite', 'dir'],
+  ]);
+  showFormula(`GR = T<sub>driven</sub> / T<sub>driver</sub> = <span class="fv">${ratio.toFixed(3)}</span>
+N<sub>out</sub> = N<sub>in</sub> / GR = <span class="fv">${outRPM.toFixed(1)} RPM</span>
+τ<sub>out</sub> = τ<sub>in</sub> × GR × η = <span class="fv">${outTorq.toFixed(2)} N·m</span>
+PCD = m × T
+C = m × (T₁ + T₂) / 2`);
+
+  currentGears = [
+    {teeth: dT,  color: '#0d74ce', label: 'Driver'},
+    {teeth: dnT, color: '#f4600c', label: 'Driven'},
+  ];
+  currentRatio = ratio;
+}
+
+/* ── COMPOUND ── */
+let stages = [{driver:20, driven:60}, {driver:25, driven:75}];
+
+function renderStages() {
+  document.getElementById('stagesContainer').innerHTML = stages.map((s, i) => `
+    <div class="stage-row">
+      <div class="field" style="margin:0">
+        <div class="input-wrap">
+          <input type="number" value="${s.driver}" min="4" oninput="updateStage(${i},'driver',this.value)">
+          <span class="input-unit">T</span>
+        </div>
+      </div>
+      <div class="field" style="margin:0">
+        <div class="input-wrap">
+          <input type="number" value="${s.driven}" min="4" oninput="updateStage(${i},'driven',this.value)">
+          <span class="input-unit">T</span>
+        </div>
+      </div>
+      <button class="remove-btn" onclick="removeStage(${i})" ${stages.length<=1?'disabled':''}>×</button>
+    </div>
+  `).join('');
+}
+function addStage() { if(stages.length<5){ stages.push({driver:20,driven:40}); renderStages(); calcCompound(); } }
+function removeStage(i) { if(stages.length>1){ stages.splice(i,1); renderStages(); calcCompound(); } }
+function updateStage(i,k,v) { stages[i][k]=Math.max(4,+v||4); calcCompound(); }
+
+function calcCompound() {
+  const rpm  = +document.getElementById('c_inputRPM').value || 1500;
+  const torq = +document.getElementById('c_inputTorque').value || 100;
+  const stageEff = 0.97;
+  let overallRatio = 1;
+  const stageRatios = stages.map(s => { const r = s.driven/Math.max(1,s.driver); overallRatio *= r; return r; });
+  const totalEff  = Math.pow(stageEff, stages.length);
+  const outRPM    = rpm / overallRatio;
+  const outTorq   = torq * overallRatio * totalEff;
+
+  showResults(overallRatio, outRPM, outTorq, totalEff * 100);
+  const rows = [
+    ['Stages', stages.length, 'in'],
+    ['Overall Ratio', overallRatio.toFixed(4), overallRatio >= 1 ? 'red' : 'od'],
+    ...stageRatios.map((r,i) => [`Stage ${i+1} Ratio`, r.toFixed(3), 'geo']),
+    ['Output Speed', outRPM.toFixed(1)+' RPM', 'out'],
+    ['Output Torque', outTorq.toFixed(2)+' N·m', 'out'],
+    ['System Efficiency', (totalEff*100).toFixed(1)+'%', 'out'],
+    ['Output Direction', stages.length%2===0 ? 'Same as input' : 'Opposite', 'dir'],
+  ];
+  showDetail(rows);
+  showFormula(`GR<sub>total</sub> = GR₁ × GR₂ × … = <span class="fv">${overallRatio.toFixed(4)}</span>
+N<sub>out</sub> = N<sub>in</sub> / GR<sub>total</sub> = <span class="fv">${outRPM.toFixed(1)} RPM</span>
+τ<sub>out</sub> = τ<sub>in</sub> × GR × η<sup>n</sup> = <span class="fv">${outTorq.toFixed(2)} N·m</span>
+η<sub>sys</sub> = η<sub>stage</sub><sup>n</sup> = <span class="fv">${(totalEff*100).toFixed(1)}%</span>`);
+
+  const palette = ['#0d74ce','#f4600c','#1a9952','#9333ea','#f59e0b','#ef4444'];
+  currentGears = [];
+  stages.forEach((s,i) => {
+    currentGears.push({teeth:s.driver, color:palette[i%palette.length], label:`D${i+1}`});
+    currentGears.push({teeth:s.driven, color:palette[(i+1)%palette.length], label:`N${i+1}`});
+  });
+  currentRatio = overallRatio;
+}
+
+/* ── DISPLAY HELPERS ── */
+function showResults(ratio, outRPM, outTorq, eff) {
+  document.getElementById('r_ratio').textContent      = ratio.toFixed(3);
+  document.getElementById('r_outRPM').textContent     = outRPM.toFixed(1);
+  document.getElementById('r_outTorque').textContent  = outTorq.toFixed(1);
+  document.getElementById('r_mechAdv').textContent    = ratio.toFixed(2) + '×';
+  document.getElementById('r_speedRatio').textContent = (1/ratio).toFixed(3) + '×';
+  document.getElementById('r_efficiency').textContent = eff.toFixed(1) + '%';
+  document.getElementById('ratioBadge').textContent   = 'Ratio: ' + ratio.toFixed(3);
+}
+
+const tagClass = { in:'tag tag-blue', out:'tag tag-green', red:'tag', od:'tag tag-green', geo:'tag tag-blue', dir:'tag', stage:'tag tag-blue' };
+const tagLabel = { in:'INPUT', out:'OUTPUT', red:'REDUCTION', od:'OVERDRIVE', geo:'GEOMETRY', dir:'DIRECTION', stage:'STAGE' };
+function showDetail(rows) {
+  document.getElementById('detailBody').innerHTML = rows.map(([p,v,t]) =>
+    `<tr><td>${p}</td><td class="val">${v}</td><td><span class="${tagClass[t]||'tag'}">${tagLabel[t]||t}</span></td></tr>`
+  ).join('');
+}
+function showFormula(html) {
+  document.getElementById('formulaBox').innerHTML = `<span class="fl">Key Equations</span>${html}`;
+}
+
+/* ── CANVAS ── */
+const canvas = document.getElementById('gearCanvas');
+const ctx    = canvas.getContext('2d');
+
+function resize() {
+  const dpr = window.devicePixelRatio || 1;
+  const w   = canvas.offsetWidth;
+  const h   = canvas.offsetHeight;
+  canvas.width  = w * dpr;
+  canvas.height = h * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function drawOneGear(cx, cy, r, teeth, toothH, ang, color, label) {
+  const pts = teeth * 2;
+  ctx.beginPath();
+  for (let i = 0; i < pts; i++) {
+    const a   = (Math.PI * i) / teeth + ang;
+    const rad = i % 2 === 0 ? r + toothH : r - toothH * 0.25;
+    i === 0 ? ctx.moveTo(cx + rad*Math.cos(a), cy + rad*Math.sin(a))
+             : ctx.lineTo(cx + rad*Math.cos(a), cy + rad*Math.sin(a));
+  }
+  ctx.closePath();
+  ctx.fillStyle   = color + '1a';
+  ctx.strokeStyle = color;
+  ctx.lineWidth   = 2.2;
+  ctx.fill();
+  ctx.stroke();
+
+  // inner ring
+  ctx.beginPath(); ctx.arc(cx, cy, r * 0.52, 0, Math.PI*2);
+  ctx.fillStyle   = color + '28'; ctx.fill();
+  ctx.strokeStyle = color + '77'; ctx.lineWidth = 1.5; ctx.stroke();
+
+  // spokes
+  for (let s = 0; s < 4; s++) {
+    const sa = ang + s * Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx + 6*Math.cos(sa), cy + 6*Math.sin(sa));
+    ctx.lineTo(cx + r*0.5*Math.cos(sa), cy + r*0.5*Math.sin(sa));
+    ctx.strokeStyle = color + '55'; ctx.lineWidth = 1.8; ctx.stroke();
+  }
+
+  // hub
+  ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2);
+  ctx.fillStyle = color; ctx.fill();
+
+  // label
+  ctx.font      = `700 12px 'Clash Display', sans-serif`;
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.fillText(label + ` (${teeth}T)`, cx, cy + r + toothH + 18);
+}
+
+function renderCanvas() {
+  resize();
+  const w = canvas.offsetWidth, h = canvas.offsetHeight;
+  ctx.clearRect(0, 0, w, h);
+
+  const gears = currentGears.slice(0, 4);
+  if (!gears.length) return;
+
+  const maxT = Math.max(...gears.map(g => g.teeth));
+  const BASE = Math.min(w * 0.12, h * 0.34);
+
+  if (gears.length === 2) {
+    const g0 = gears[0], g1 = gears[1];
+    const r0 = BASE * (g0.teeth / maxT);
+    const r1 = BASE * (g1.teeth / maxT);
+    const th0 = r0 * 0.13, th1 = r1 * 0.13;
+    const cx0 = w * 0.30, cy = h * 0.47;
+    const cx1 = cx0 + r0 + th0 + r1 + th1 - 2;
+    const spd = g0.teeth / g1.teeth;
+
+    // dashed center line
+    ctx.setLineDash([4,6]);
+    ctx.beginPath(); ctx.moveTo(cx0, cy); ctx.lineTo(cx1, cy);
+    ctx.strokeStyle = 'rgba(244,96,12,0.18)'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.setLineDash([]);
+
+    drawOneGear(cx0, cy, r0, g0.teeth, th0, angle, g0.color, g0.label);
+    drawOneGear(cx1, cy, r1, g1.teeth, th1, -angle * spd, g1.color, g1.label);
+
+    // direction labels
+    const labelY = h * 0.08;
+    ctx.font = `600 11px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillStyle = g0.color;
+    ctx.fillText('↻ INPUT', cx0, labelY);
+    ctx.fillStyle = g1.color;
+    ctx.fillText('↺ OUTPUT', cx1, labelY);
+
+  } else {
+    // multi gear row
+    const count  = gears.length;
+    const gap    = w / (count + 1);
+    const radii  = gears.map(g => BASE * 0.85 * (g.teeth / maxT));
+    let cumRatio = 1;
+
+    gears.forEach((g, i) => {
+      const cx  = gap * (i + 1);
+      const cy  = h * 0.47;
+      const dir = i % 2 === 0 ? 1 : -1;
+      if (i > 0) cumRatio *= (gears[i-1].teeth / g.teeth);
+      const th  = radii[i] * 0.13;
+      drawOneGear(cx, cy, radii[i], g.teeth, th, angle * dir * (i===0?1:cumRatio), g.color, g.label);
+    });
+  }
+
+  if (animating) {
+    angle += 0.013;
+    animReq = requestAnimationFrame(renderCanvas);
+  }
+}
+
+function toggleAnim() {
+  animating = !animating;
+  const btn = document.getElementById('animBtn');
+  btn.textContent = animating ? '⏸ Pause' : '▶ Play';
+  btn.classList.toggle('on', animating);
+  if (animating) renderCanvas();
+}
+
+window.addEventListener('resize', () => { if (!animating) renderCanvas(); });
+
+/* ── INIT ── */
+renderStages();
+calcSimple();
+renderCanvas();
+</script>
+
+</body>
+</html>
