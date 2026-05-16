@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Conveyor Design Calculator – TaskJunction</title>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --bg:       #0a0c10;
@@ -21,9 +22,9 @@
   --text:     #e8eaf0;
   --text2:    #8b90a8;
   --text3:    #4a5070;
-  --font-d:   'Clash Display', sans-serif;
-  --font-b:   'Sora', sans-serif;
-  --font-m:   'JetBrains Mono', monospace;
+  
+  
+  
   --shadow:   0 4px 24px rgba(0,0,0,0.4);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,7 +32,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-b);
+  font-family: Arial, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -52,34 +53,34 @@ header {
   padding: 0 32px; height: 64px;
   display: flex; align-items: center; justify-content: space-between;
 }
-.logo-link { font-family: var(--font-d); font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+.logo-link { font-family: Arial, sans-serif; font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
 .logo-link em { color: var(--accent); font-style: normal; }
-.header-badge { font-family: var(--font-m); font-size: 10px; font-weight: 700; padding: 4px 12px; border-radius: 20px; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+.header-badge { font-family: Arial, sans-serif; font-size: 10px; font-weight: 700; padding: 4px 12px; border-radius: 20px; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
 .hero { position: relative; z-index: 1; padding: 60px 32px 40px; text-align: center; max-width: 800px; margin: 0 auto; }
-.hero-tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; font-family: Arial, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
 .hero-tag::before, .hero-tag::after { content: ''; width: 24px; height: 1px; background: var(--accent); opacity: 0.5; }
-.hero h1 { font-family: var(--font-d); font-size: clamp(32px, 5vw, 58px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 14px; }
+.hero h1 { font-family: Arial, sans-serif; font-size: clamp(32px, 5vw, 58px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 14px; }
 .hero h1 span { color: var(--accent); }
 .hero p { font-size: 15px; color: var(--text2); line-height: 1.75; max-width: 520px; margin: 0 auto; }
 .unit-toggle-wrap { display: flex; justify-content: center; margin: 32px 0 0; }
 .unit-toggle { display: flex; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 4px; }
-.unit-btn { font-family: var(--font-m); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 20px; border-radius: 7px; border: none; cursor: pointer; transition: all 0.18s; color: var(--text2); background: transparent; }
+.unit-btn { font-family: Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 20px; border-radius: 7px; border: none; cursor: pointer; transition: all 0.18s; color: var(--text2); background: transparent; }
 .unit-btn.active { background: var(--accent); color: #0a0c10; }
 .main { position: relative; z-index: 1; max-width: 1160px; margin: 36px auto 60px; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 28px; position: relative; overflow: hidden; }
 .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2), transparent); opacity: 0.6; }
-.card-title { font-family: var(--font-d); font-size: 14px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+.card-title { font-family: Arial, sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
 .card-title .icon { width: 28px; height: 28px; border-radius: 7px; background: var(--accent3); border: 1px solid rgba(245,158,11,0.2); display: flex; align-items: center; justify-content: center; font-size: 13px; }
 .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field.full { grid-column: span 2; }
-label { font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); }
+label { font-family: Arial, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); }
 .input-wrap { position: relative; }
-input[type="number"], select { width: 100%; padding: 10px 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: 9px; color: var(--text); font-family: var(--font-m); font-size: 13px; transition: border-color 0.18s, box-shadow 0.18s; appearance: none; -webkit-appearance: none; }
+input[type="number"], select { width: 100%; padding: 10px 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: 9px; color: var(--text); font-family: Arial, sans-serif; font-size: 13px; transition: border-color 0.18s, box-shadow 0.18s; appearance: none; -webkit-appearance: none; }
 input[type="number"]:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,158,11,0.12); }
-.unit-label { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: var(--font-m); font-size: 10px; color: var(--text3); pointer-events: none; letter-spacing: 0.06em; }
+.unit-label { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: Arial, sans-serif; font-size: 10px; color: var(--text3); pointer-events: none; letter-spacing: 0.06em; }
 select { padding-right: 32px; cursor: pointer; }
-.calc-btn { width: 100%; margin-top: 20px; padding: 14px; background: var(--accent); color: #0a0c10; border: none; border-radius: 11px; font-family: var(--font-d); font-size: 15px; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; transition: background 0.18s, transform 0.15s, box-shadow 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 20px rgba(245,158,11,0.25); }
+.calc-btn { width: 100%; margin-top: 20px; padding: 14px; background: var(--accent); color: #0a0c10; border: none; border-radius: 11px; font-family: Arial, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; transition: background 0.18s, transform 0.15s, box-shadow 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 20px rgba(245,158,11,0.25); }
 .calc-btn:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,158,11,0.35); }
 .results-card { grid-column: span 2; background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 28px; display: none; position: relative; overflow: hidden; }
 .results-card.show { display: block; }
@@ -87,28 +88,28 @@ select { padding-right: 32px; cursor: pointer; }
 .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
 .result-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; transition: border-color 0.2s; }
 .result-box:hover { border-color: var(--border2); }
-.result-label { font-family: var(--font-m); font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text2); margin-bottom: 8px; }
-.result-value { font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 4px; }
-.result-unit { font-family: var(--font-m); font-size: 10px; color: var(--text3); letter-spacing: 0.08em; }
+.result-label { font-family: Arial, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text2); margin-bottom: 8px; }
+.result-value { font-family: Arial, sans-serif; font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+.result-unit { font-family: Arial, sans-serif; font-size: 10px; color: var(--text3); letter-spacing: 0.08em; }
 .result-box.highlight { border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.05); }
 .diagram-wrap { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-.diagram-title { font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
+.diagram-title { font-family: Arial, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
 canvas { width: 100%; border-radius: 8px; display: block; }
 .notes-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 .note-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-.note-label { font-family: var(--font-m); font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
-.note-val { font-family: var(--font-m); font-size: 12px; font-weight: 500; color: var(--text); }
+.note-label { font-family: Arial, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+.note-val { font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; color: var(--text); }
 .note-val.ok { color: var(--green); }
 .note-val.warn { color: var(--accent); }
 .note-val.err { color: var(--red); }
 .formula-card { grid-column: span 2; background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 28px; }
 .formula-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
 .formula-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-.formula-name { font-family: var(--font-m); font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
-.formula-eq { font-family: var(--font-m); font-size: 11px; color: var(--accent2); line-height: 1.5; }
-.reset-btn { padding: 8px 20px; border-radius: 9px; background: transparent; border: 1px solid var(--border); color: var(--text2); font-family: var(--font-b); font-size: 13px; cursor: pointer; transition: all 0.18s; margin-top: 16px; }
+.formula-name { font-family: Arial, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+.formula-eq { font-family: Arial, sans-serif; font-size: 11px; color: var(--accent2); line-height: 1.5; }
+.reset-btn { padding: 8px 20px; border-radius: 9px; background: transparent; border: 1px solid var(--border); color: var(--text2); font-family: Arial, sans-serif; font-size: 13px; cursor: pointer; transition: all 0.18s; margin-top: 16px; }
 .reset-btn:hover { border-color: var(--red); color: var(--red); }
-.page-footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 24px 32px; text-align: center; font-family: var(--font-m); font-size: 11px; color: var(--text3); }
+.page-footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 24px 32px; text-align: center; font-family: Arial, sans-serif; font-size: 11px; color: var(--text3); }
 .page-footer a { color: var(--accent); text-decoration: none; }
 @media (max-width: 768px) {
   .main { grid-template-columns: 1fr; padding: 0 16px; }
@@ -120,225 +121,273 @@ canvas { width: 100%; border-radius: 8px; display: block; }
   header { padding: 0 16px; }
 }
 </style>
+<style id="aff-css">
+.aff-wrap{max-width:900px;margin:48px auto 0;padding:0 20px;}
+.aff-title{font-family: Arial, sans-serif,'Orbitron',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:#9e9890;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;}
+.aff-title::before{content:'';width:20px;height:1.5px;background:#9e9890;border-radius:2px;}
+.aff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;margin-bottom:12px;}
+.aff-card{background:#ffffff;border:1px solid #e8e2d9;border-radius:16px;padding:20px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;}
+.aff-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#f4600c,#ff7a2e,#fbbf24);opacity:0;transition:opacity .22s;}
+.aff-card:hover{border-color:rgba(244,96,12,.35);transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(244,96,12,.10);}
+.aff-card:hover::before{opacity:1;}
+.aff-card-top{display:flex;align-items:center;gap:12px;}
+.aff-icon{width:44px;height:44px;border-radius:12px;background:#fff0e8;
+  border:1px solid rgba(244,96,12,.15);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;}
+.aff-badge{font-family: Arial, sans-serif,'Share Tech Mono',monospace;font-size:9px;
+  font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(244,96,12,.10);
+  color:#f4600c;border:1px solid rgba(244,96,12,.20);letter-spacing:.06em;
+  text-transform:uppercase;margin-left:auto;}
+.aff-name{font-family: Arial, sans-serif,'Orbitron',sans-serif;font-size:15px;
+  font-weight:600;color:#0f0e0c;letter-spacing:-.01em;line-height:1.3;}
+.aff-desc{font-size:12.5px;color:#5a5650;line-height:1.55;flex:1;}
+.aff-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 18px;border-radius:10px;
+  font-family: Arial, sans-serif,'Exo 2','IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;
+  background:#f4600c;color:#fff;text-decoration:none;
+  transition:background .18s,transform .15s;width:100%;}
+.aff-btn:hover{background:#ff7a2e;transform:translateY(-1px);}
+.aff-disclaimer{font-size:11px;color:#9e9890;text-align:center;
+  font-family: Arial, sans-serif,'Share Tech Mono',monospace;margin-top:4px;}
+</style>
 </head>
-<body>
-
+<body><nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
+</nav>
 <header>
-  <a href="index.html" class="logo-link">Task<em>Junction</em></a>
-  <span class="header-badge">⚙️ Engineering Tools</span>
+<a class="logo-link" href="index.html">Task<em>Junction</em></a>
+<span class="header-badge">⚙️ Engineering Tools</span>
 </header>
-
 <div class="hero">
-  <div class="hero-tag">Mechanical Design</div>
-  <h1>Conveyor <span>Design</span> Calculator</h1>
-  <p>Calculate belt tension, power requirements, capacity, and speed for flat belt conveyor systems. SI & Imperial unit support.</p>
-  <div class="unit-toggle-wrap">
-    <div class="unit-toggle">
-      <button class="unit-btn active" id="btn-si" onclick="setUnit('si')">SI (Metric)</button>
-      <button class="unit-btn" id="btn-imp" onclick="setUnit('imperial')">Imperial</button>
-    </div>
-  </div>
+<div class="hero-tag">Mechanical Design</div>
+<h1>Conveyor <span>Design</span> Calculator</h1>
+<p>Calculate belt tension, power requirements, capacity, and speed for flat belt conveyor systems. SI &amp; Imperial unit support.</p>
+<div class="unit-toggle-wrap">
+<div class="unit-toggle">
+<button class="unit-btn active" id="btn-si" onclick="setUnit('si')">SI (Metric)</button>
+<button class="unit-btn" id="btn-imp" onclick="setUnit('imperial')">Imperial</button>
 </div>
-
+</div>
+</div>
 <div class="main">
-
-  <div class="card">
-    <div class="card-title"><span class="icon">📏</span> Belt Geometry</div>
-    <div class="field-grid">
-      <div class="field">
-        <label>Belt Length</label>
-        <div class="input-wrap">
-          <input type="number" id="length" value="10" min="0.1" step="0.1">
-          <span class="unit-label" id="lbl-length">m</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Belt Width</label>
-        <div class="input-wrap">
-          <input type="number" id="width" value="0.5" min="0.05" step="0.05">
-          <span class="unit-label" id="lbl-width">m</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Inclination Angle</label>
-        <div class="input-wrap">
-          <input type="number" id="angle" value="0" min="-30" max="30" step="0.5">
-          <span class="unit-label">°</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Belt Speed</label>
-        <div class="input-wrap">
-          <input type="number" id="speed" value="1.5" min="0.1" step="0.1">
-          <span class="unit-label" id="lbl-speed">m/s</span>
-        </div>
-      </div>
-      <div class="field full">
-        <label>Idler Spacing</label>
-        <div class="input-wrap">
-          <input type="number" id="idler" value="1.2" min="0.3" step="0.1">
-          <span class="unit-label" id="lbl-idler">m</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title"><span class="icon">⚖️</span> Load & Material</div>
-    <div class="field-grid">
-      <div class="field">
-        <label>Material Density</label>
-        <div class="input-wrap">
-          <input type="number" id="density" value="1600" min="100" step="50">
-          <span class="unit-label" id="lbl-density">kg/m³</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Load per Meter</label>
-        <div class="input-wrap">
-          <input type="number" id="loadpm" value="80" min="1" step="1">
-          <span class="unit-label" id="lbl-loadpm">kg/m</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Belt Mass/m</label>
-        <div class="input-wrap">
-          <input type="number" id="beltmass" value="12" min="1" step="0.5">
-          <span class="unit-label" id="lbl-beltmass">kg/m</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Drive Efficiency</label>
-        <div class="input-wrap">
-          <input type="number" id="efficiency" value="90" min="50" max="100" step="1">
-          <span class="unit-label">%</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Friction Coeff. (f)</label>
-        <div class="input-wrap">
-          <input type="number" id="friction" value="0.025" min="0.01" max="0.05" step="0.001">
-          <span class="unit-label">—</span>
-        </div>
-      </div>
-      <div class="field">
-        <label>Material Type</label>
-        <select id="material" onchange="applyMaterial()">
-          <option value="custom">Custom</option>
-          <option value="sand">Sand / Gravel (1600)</option>
-          <option value="coal">Coal (900)</option>
-          <option value="grain">Grain / Wheat (780)</option>
-          <option value="limestone">Limestone (1400)</option>
-          <option value="iron">Iron Ore (2500)</option>
-          <option value="cement">Cement (1500)</option>
-          <option value="wood">Wood Chips (400)</option>
-        </select>
-      </div>
-    </div>
-    <button class="calc-btn" onclick="calculate()">⚙️ Calculate Conveyor</button>
-  </div>
-
-  <div class="results-card" id="resultsCard">
-    <div class="card-title"><span class="icon">📊</span> Calculation Results</div>
-    <div class="results-grid">
-      <div class="result-box highlight">
-        <div class="result-label">Drive Power</div>
-        <div class="result-value" id="res-power">—</div>
-        <div class="result-unit" id="res-power-unit">kW</div>
-      </div>
-      <div class="result-box highlight">
-        <div class="result-label">Effective Tension</div>
-        <div class="result-value" id="res-tension">—</div>
-        <div class="result-unit" id="res-tension-unit">N</div>
-      </div>
-      <div class="result-box">
-        <div class="result-label">Belt Capacity</div>
-        <div class="result-value" id="res-capacity">—</div>
-        <div class="result-unit" id="res-capacity-unit">t/h</div>
-      </div>
-      <div class="result-box">
-        <div class="result-label">Tight-Side Tension</div>
-        <div class="result-value" id="res-t1">—</div>
-        <div class="result-unit" id="res-t1-unit">N</div>
-      </div>
-      <div class="result-box">
-        <div class="result-label">Slack-Side Tension</div>
-        <div class="result-value" id="res-t2">—</div>
-        <div class="result-unit" id="res-t2-unit">N</div>
-      </div>
-      <div class="result-box">
-        <div class="result-label">Total Load</div>
-        <div class="result-value" id="res-totalload">—</div>
-        <div class="result-unit" id="res-totalload-unit">kg</div>
-      </div>
-      <div class="result-box">
-        <div class="result-label">Gravity Component</div>
-        <div class="result-value" id="res-gravity">—</div>
-        <div class="result-unit" id="res-gravity-unit">N</div>
-      </div>
-      <div class="result-box">
-        <div class="result-label">Friction Force</div>
-        <div class="result-value" id="res-friction-res">—</div>
-        <div class="result-unit" id="res-friction-unit">N</div>
-      </div>
-    </div>
-    <div class="diagram-wrap">
-      <div class="diagram-title">Conveyor Schematic — Side Profile</div>
-      <canvas id="diagram" height="160"></canvas>
-    </div>
-    <div class="notes-grid">
-      <div class="note-box">
-        <div class="note-label">Power Status</div>
-        <div class="note-val" id="note-power">—</div>
-      </div>
-      <div class="note-box">
-        <div class="note-label">Inclination</div>
-        <div class="note-val" id="note-angle">—</div>
-      </div>
-      <div class="note-box">
-        <div class="note-label">Capacity Rating</div>
-        <div class="note-val" id="note-cap">—</div>
-      </div>
-    </div>
-    <button class="reset-btn" onclick="resetAll()">↺ Reset Inputs</button>
-  </div>
-
-  <div class="formula-card">
-    <div class="card-title"><span class="icon">📐</span> Formula Reference</div>
-    <div class="formula-grid">
-      <div class="formula-item">
-        <div class="formula-name">Friction Force</div>
-        <div class="formula-eq">F_f = f × L × (m_b + m_l) × g × cos(θ)</div>
-      </div>
-      <div class="formula-item">
-        <div class="formula-name">Gravity Component</div>
-        <div class="formula-eq">F_g = (m_b + m_l) × g × sin(θ) × L</div>
-      </div>
-      <div class="formula-item">
-        <div class="formula-name">Effective Tension</div>
-        <div class="formula-eq">T_e = F_f + F_g</div>
-      </div>
-      <div class="formula-item">
-        <div class="formula-name">Drive Power</div>
-        <div class="formula-eq">P = (T_e × v) / η</div>
-      </div>
-      <div class="formula-item">
-        <div class="formula-name">Belt Capacity</div>
-        <div class="formula-eq">Q = m_l × v × 3.6 (t/h)</div>
-      </div>
-      <div class="formula-item">
-        <div class="formula-name">Tight-Side Tension</div>
-        <div class="formula-eq">T₁ = T₂ + T_e</div>
-      </div>
-    </div>
-  </div>
-
+<div class="card">
+<div class="card-title"><span class="icon">📏</span> Belt Geometry</div>
+<div class="field-grid">
+<div class="field">
+<label>Belt Length</label>
+<div class="input-wrap">
+<input id="length" min="0.1" step="0.1" type="number" value="10"/>
+<span class="unit-label" id="lbl-length">m</span>
 </div>
-
+</div>
+<div class="field">
+<label>Belt Width</label>
+<div class="input-wrap">
+<input id="width" min="0.05" step="0.05" type="number" value="0.5"/>
+<span class="unit-label" id="lbl-width">m</span>
+</div>
+</div>
+<div class="field">
+<label>Inclination Angle</label>
+<div class="input-wrap">
+<input id="angle" max="30" min="-30" step="0.5" type="number" value="0"/>
+<span class="unit-label">°</span>
+</div>
+</div>
+<div class="field">
+<label>Belt Speed</label>
+<div class="input-wrap">
+<input id="speed" min="0.1" step="0.1" type="number" value="1.5"/>
+<span class="unit-label" id="lbl-speed">m/s</span>
+</div>
+</div>
+<div class="field full">
+<label>Idler Spacing</label>
+<div class="input-wrap">
+<input id="idler" min="0.3" step="0.1" type="number" value="1.2"/>
+<span class="unit-label" id="lbl-idler">m</span>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title"><span class="icon">⚖️</span> Load &amp; Material</div>
+<div class="field-grid">
+<div class="field">
+<label>Material Density</label>
+<div class="input-wrap">
+<input id="density" min="100" step="50" type="number" value="1600"/>
+<span class="unit-label" id="lbl-density">kg/m³</span>
+</div>
+</div>
+<div class="field">
+<label>Load per Meter</label>
+<div class="input-wrap">
+<input id="loadpm" min="1" step="1" type="number" value="80"/>
+<span class="unit-label" id="lbl-loadpm">kg/m</span>
+</div>
+</div>
+<div class="field">
+<label>Belt Mass/m</label>
+<div class="input-wrap">
+<input id="beltmass" min="1" step="0.5" type="number" value="12"/>
+<span class="unit-label" id="lbl-beltmass">kg/m</span>
+</div>
+</div>
+<div class="field">
+<label>Drive Efficiency</label>
+<div class="input-wrap">
+<input id="efficiency" max="100" min="50" step="1" type="number" value="90"/>
+<span class="unit-label">%</span>
+</div>
+</div>
+<div class="field">
+<label>Friction Coeff. (f)</label>
+<div class="input-wrap">
+<input id="friction" max="0.05" min="0.01" step="0.001" type="number" value="0.025"/>
+<span class="unit-label">—</span>
+</div>
+</div>
+<div class="field">
+<label>Material Type</label>
+<select id="material" onchange="applyMaterial()">
+<option value="custom">Custom</option>
+<option value="sand">Sand / Gravel (1600)</option>
+<option value="coal">Coal (900)</option>
+<option value="grain">Grain / Wheat (780)</option>
+<option value="limestone">Limestone (1400)</option>
+<option value="iron">Iron Ore (2500)</option>
+<option value="cement">Cement (1500)</option>
+<option value="wood">Wood Chips (400)</option>
+</select>
+</div>
+</div>
+<button class="calc-btn" onclick="calculate()">⚙️ Calculate Conveyor</button>
+</div>
+<div class="results-card" id="resultsCard">
+<div class="card-title"><span class="icon">📊</span> Calculation Results</div>
+<div class="results-grid">
+<div class="result-box highlight">
+<div class="result-label">Drive Power</div>
+<div class="result-value" id="res-power">—</div>
+<div class="result-unit" id="res-power-unit">kW</div>
+</div>
+<div class="result-box highlight">
+<div class="result-label">Effective Tension</div>
+<div class="result-value" id="res-tension">—</div>
+<div class="result-unit" id="res-tension-unit">N</div>
+</div>
+<div class="result-box">
+<div class="result-label">Belt Capacity</div>
+<div class="result-value" id="res-capacity">—</div>
+<div class="result-unit" id="res-capacity-unit">t/h</div>
+</div>
+<div class="result-box">
+<div class="result-label">Tight-Side Tension</div>
+<div class="result-value" id="res-t1">—</div>
+<div class="result-unit" id="res-t1-unit">N</div>
+</div>
+<div class="result-box">
+<div class="result-label">Slack-Side Tension</div>
+<div class="result-value" id="res-t2">—</div>
+<div class="result-unit" id="res-t2-unit">N</div>
+</div>
+<div class="result-box">
+<div class="result-label">Total Load</div>
+<div class="result-value" id="res-totalload">—</div>
+<div class="result-unit" id="res-totalload-unit">kg</div>
+</div>
+<div class="result-box">
+<div class="result-label">Gravity Component</div>
+<div class="result-value" id="res-gravity">—</div>
+<div class="result-unit" id="res-gravity-unit">N</div>
+</div>
+<div class="result-box">
+<div class="result-label">Friction Force</div>
+<div class="result-value" id="res-friction-res">—</div>
+<div class="result-unit" id="res-friction-unit">N</div>
+</div>
+</div>
+<div class="diagram-wrap">
+<div class="diagram-title">Conveyor Schematic — Side Profile</div>
+<canvas height="160" id="diagram"></canvas>
+</div>
+<div class="notes-grid">
+<div class="note-box">
+<div class="note-label">Power Status</div>
+<div class="note-val" id="note-power">—</div>
+</div>
+<div class="note-box">
+<div class="note-label">Inclination</div>
+<div class="note-val" id="note-angle">—</div>
+</div>
+<div class="note-box">
+<div class="note-label">Capacity Rating</div>
+<div class="note-val" id="note-cap">—</div>
+</div>
+</div>
+<button class="reset-btn" onclick="resetAll()">↺ Reset Inputs</button>
+</div>
+<div class="formula-card">
+<div class="card-title"><span class="icon">📐</span> Formula Reference</div>
+<div class="formula-grid">
+<div class="formula-item">
+<div class="formula-name">Friction Force</div>
+<div class="formula-eq">F_f = f × L × (m_b + m_l) × g × cos(θ)</div>
+</div>
+<div class="formula-item">
+<div class="formula-name">Gravity Component</div>
+<div class="formula-eq">F_g = (m_b + m_l) × g × sin(θ) × L</div>
+</div>
+<div class="formula-item">
+<div class="formula-name">Effective Tension</div>
+<div class="formula-eq">T_e = F_f + F_g</div>
+</div>
+<div class="formula-item">
+<div class="formula-name">Drive Power</div>
+<div class="formula-eq">P = (T_e × v) / η</div>
+</div>
+<div class="formula-item">
+<div class="formula-name">Belt Capacity</div>
+<div class="formula-eq">Q = m_l × v × 3.6 (t/h)</div>
+</div>
+<div class="formula-item">
+<div class="formula-name">Tight-Side Tension</div>
+<div class="formula-eq">T₁ = T₂ + T_e</div>
+</div>
+</div>
+</div>
+</div>
+<div class="aff-wrap" id="aff-universal">
+<div class="aff-title">📚 Recommended Resource</div>
+<div class="aff-grid" style="grid-template-columns:1fr;">
+<div class="aff-card">
+<div class="aff-card-top">
+<div class="aff-icon">📖</div>
+<span class="aff-badge">Amazon</span>
+</div>
+<div class="aff-name">R.S. Khurmi — Theory of Machines &amp; Machine Design</div>
+<div class="aff-desc">The most trusted mechanical engineering reference book for Indian students &amp; professionals.
+        Covers gears, springs, shafts, belts, chains and more — everything this calculator is based on.</div>
+<a class="aff-btn" href="https://amzn.to/4tEIoui" rel="noopener sponsored" target="_blank">
+        🛒 Buy on Amazon India →
+      </a>
+</div>
+</div>
+<p class="aff-disclaimer">* Affiliate link — aapko koi extra cost nahi. Hum small commission earn karte hain.</p>
+</div>
 <div class="page-footer">
-  <a href="index.html">← Back to TaskJunction</a> &nbsp;·&nbsp; Conveyor Design Calculator &nbsp;·&nbsp; Free Engineering Tool
+<a href="index.html">← Back to TaskJunction</a>  ·  Conveyor Design Calculator  ·  Free Engineering Tool
 </div>
-
 <script>
 let unit = 'si';
 const g = 9.81;
@@ -563,5 +612,15 @@ window.addEventListener('resize', () => {
   }
 });
 </script>
-</body>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
+</footer></body>
 </html>
