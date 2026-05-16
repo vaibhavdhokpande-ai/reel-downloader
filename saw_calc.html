@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circular Saw Calculator</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0d1117;color:#e2e8f0;min-height:100vh}
+:root{
+  --bg1:#0d1117;--bg2:#161b27;--bg3:#1e2538;--bg4:#252d42;
+  --accent:#f59e0b;--accent2:#fbbf24;--blue:#3b82f6;--green:#10b981;
+  --red:#ef4444;--purple:#8b5cf6;--cyan:#22d3ee;
+  --border:rgba(255,255,255,0.07);--text:#e2e8f0;--muted:#94a3b8
+}
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:230px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.logo-wrap{padding:16px;border-bottom:1px solid var(--border)}
+.logo-brand{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--cyan);text-transform:uppercase;margin-bottom:3px}
+.logo-title{font-size:15px;font-weight:700;color:#fff}
+.logo-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.mat-selector{padding:12px 14px;border-bottom:1px solid var(--border)}
+.mat-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.mat-btn{display:flex;align-items:center;gap:9px;width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:13px;cursor:pointer;margin-bottom:6px;transition:all .15s;text-align:left}
+.mat-btn:hover{background:var(--bg3);color:var(--text)}
+.mat-btn.active{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.4);color:#fff}
+.mat-btn .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.nav-section{padding:8px 0}
+.nav-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:6px 16px 4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 16px;cursor:pointer;font-size:13px;color:var(--muted);border-left:3px solid transparent;transition:all .15s}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.03)}
+.nav-item.active{color:#fff;background:rgba(245,158,11,0.08);border-left-color:var(--accent)}
+.sidebar-footer{margin-top:auto;padding:12px 16px;border-top:1px solid var(--border);text-align:center;font-size:11px;color:var(--muted)}
+.sidebar-footer span{color:var(--accent);font-weight:500}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:54px;flex-shrink:0}
+.topbar h1{font-size:16px;font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.badge-mat{background:rgba(245,158,11,0.15);color:var(--accent2)}
+.badge-std{background:rgba(34,211,238,0.12);color:var(--cyan)}
+.content{flex:1;overflow-y:auto;padding:22px 24px}
+.panel{display:none}
+.panel.active{display:block}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:18px}
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.card-icon{font-size:18px}
+.card-title{font-size:14px;font-weight:600;color:#fff}
+.card-sub{font-size:12px;color:var(--muted);margin-bottom:16px;padding-left:28px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+/* Form */
+label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}
+input[type=number],select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:#fff;padding:8px 11px;font-size:13px;outline:none;transition:border .15s}
+input[type=number]:focus,select:focus{border-color:var(--accent)}
+select option{background:#1a1d2e}
+.unit-input{display:flex;gap:6px}
+.unit-input input{flex:1}
+.unit-input .unit-badge{background:var(--bg4);border:1px solid var(--border);border-radius:7px;padding:8px 10px;font-size:12px;color:var(--muted);white-space:nowrap;align-self:center}
+
+/* Result box */
+.result-box{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:2px 0;margin-top:14px}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid var(--border);font-size:13px}
+.result-row:last-child{border-bottom:none}
+.rlab{color:var(--muted)}
+.rval{font-weight:600;color:var(--cyan)}
+.rval.green{color:var(--green)}
+.rval.amber{color:var(--accent)}
+.rval.red{color:var(--red)}
+.rval.purple{color:var(--purple)}
+
+/* Metric cards */
+.metric-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.metric-card .m-icon{font-size:20px;margin-bottom:6px}
+.metric-card .m-val{font-size:24px;font-weight:700;line-height:1.1}
+.metric-card .m-unit{font-size:11px;color:var(--muted);margin-top:2px}
+.metric-card .m-label{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* Gauge */
+.gauge-wrap{margin-top:12px}
+.gauge-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+.gauge-track{background:var(--bg4);border-radius:4px;height:8px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:4px;transition:width .5s,background .5s}
+
+/* Status banner */
+.status-banner{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:9px;margin-top:12px;font-size:13px;font-weight:500}
+.status-banner.ok{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:var(--green)}
+.status-banner.warn{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:var(--accent)}
+.status-banner.danger{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:var(--red)}
+
+/* Tabs */
+.tabs{display:flex;gap:0;margin-bottom:18px;border-bottom:1px solid var(--border)}
+.tab{padding:8px 18px;font-size:13px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab.active{color:#fff;border-bottom-color:var(--accent)}
+.tab:hover{color:var(--text)}
+
+/* Material presets */
+.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.preset-btn{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:12px;cursor:pointer;color:var(--muted);text-align:center;transition:all .15s}
+.preset-btn:hover{color:var(--text);background:var(--bg4)}
+.preset-btn.active{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.4);color:#fff}
+.preset-btn .ps{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* Info tip */
+.tip{font-size:11px;color:var(--muted);background:var(--bg3);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 7px 7px 0;margin-top:10px;line-height:1.6}
+
+/* Divider */
+.divider{height:1px;background:var(--border);margin:16px 0}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:5px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="logo-wrap">
+    <div class="logo-brand">TaskJunction</div>
+    <div class="logo-title">⚙ Saw Calculator</div>
+    <div class="logo-sub">Circular Cutting Machine</div>
+  </div>
+
+  <div class="mat-selector">
+    <div class="mat-label">Material</div>
+    <button class="mat-btn active" onclick="setMat('wood',this)"><span class="dot" style="background:#a16207"></span>Wood</button>
+    <button class="mat-btn" onclick="setMat('metal',this)"><span class="dot" style="background:#6b7280"></span>Metal / Steel</button>
+    <button class="mat-btn" onclick="setMat('plastic',this)"><span class="dot" style="background:#2563eb"></span>Plastic / PVC</button>
+    <button class="mat-btn" onclick="setMat('aluminum',this)"><span class="dot" style="background:#94a3b8"></span>Aluminum</button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Calculators</div>
+    <div class="nav-item active" onclick="nav(this,'rpm')">⚡ RPM / Speed</div>
+    <div class="nav-item" onclick="nav(this,'feed')">➡ Feed Rate</div>
+    <div class="nav-item" onclick="nav(this,'time')">⏱ Cutting Time</div>
+    <div class="nav-item" onclick="nav(this,'power')">🔋 Power &amp; Torque</div>
+    <div class="nav-item" onclick="nav(this,'blade')">🪚 Blade Selection</div>
+    <div class="nav-item" onclick="nav(this,'mrr')">📦 Material Removal</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Analysis</div>
+    <div class="nav-item" onclick="nav(this,'summary')">📊 Full Summary</div>
+    <div class="nav-item" onclick="nav(this,'ref')">📖 Reference Chart</div>
+  </div>
+
+  <div class="sidebar-footer">Made by<br><span>Vaibhav Dhokpande</span></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <h1 id="pageTitle">RPM / Cutting Speed</h1>
+    <div class="topbar-right">
+      <span class="badge badge-mat" id="matBadge">🪵 Wood</span>
+      <span class="badge badge-std">ISO 3685</span>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- RPM -->
+    <div class="panel active" id="p-rpm">
+      <div class="grid4" style="margin-bottom:18px">
+        <div class="metric-card"><div class="m-icon">⚡</div><div class="m-val" id="mc_rpm" style="color:var(--accent)">2865</div><div class="m-unit">RPM</div><div class="m-label">Blade Speed</div></div>
+        <div class="metric-card"><div class="m-icon">🔵</div><div class="m-val" id="mc_vc" style="color:var(--cyan)">45.0</div><div class="m-unit">m/min</div><div class="m-label">Cutting Speed</div></div>
+        <div class="metric-card"><div class="m-icon">⭕</div><div class="m-val" id="mc_circ" style="color:var(--green)">0.50</div><div class="m-unit">m</div><div class="m-label">Circumference</div></div>
+        <div class="metric-card"><div class="m-icon">📐</div><div class="m-val" id="mc_dia" style="color:var(--purple)">160</div><div class="m-unit">mm</div><div class="m-label">Blade Dia</div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-icon">⚡</span><span class="card-title">RPM Calculator</span></div>
+        <div class="card-sub">Calculate blade RPM from cutting speed and blade diameter</div>
+        <div class="tabs">
+          <div class="tab active" onclick="rpmTab(this,'rpm-from-vc')">RPM from Speed</div>
+          <div class="tab" onclick="rpmTab(this,'rpm-from-rpm')">Speed from RPM</div>
+        </div>
+        <div id="rpm-from-vc">
+          <div class="grid3">
+            <div><label>Cutting Speed Vc</label>
+              <div class="unit-input"><input type="number" id="rpm_vc" value="45" step="1" oninput="calcRPM()"><span class="unit-badge">m/min</span></div>
+            </div>
+            <div><label>Blade Diameter (D)</label>
+              <div class="unit-input"><input type="number" id="rpm_d" value="160" step="1" oninput="calcRPM()"><span class="unit-badge">mm</span></div>
+            </div>
+            <div><label>Material</label>
+              <select id="rpm_mat" onchange="applyMatPreset();calcRPM()">
+                <option value="wood">Wood</option>
+                <option value="metal">Metal / Steel</option>
+                <option value="plastic">Plastic / PVC</option>
+                <option value="aluminum">Aluminum</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="rpm-from-rpm" style="display:none">
+          <div class="grid2">
+            <div><label>Blade RPM</label>
+              <div class="unit-input"><input type="number" id="rev_rpm" value="2865" step="10" oninput="calcRevVC()"><span class="unit-badge">RPM</span></div>
+            </div>
+            <div><label>Blade Diameter (D)</label>
+              <div class="unit-input"><input type="number" id="rev_d" value="160" step="1" oninput="calcRevVC()"><span class="unit-badge">mm</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">Blade RPM (n)</span><span class="rval amber" id="r_rpm">2865 RPM</span></div>
+          <div class="result-row"><span class="rlab">Cutting Speed (Vc)</span><span class="rval" id="r_vc">45.0 m/min</span></div>
+          <div class="result-row"><span class="rlab">Peripheral Speed</span><span class="rval" id="r_ps">0.750 m/s</span></div>
+          <div class="result-row"><span class="rlab">Blade Circumference</span><span class="rval green" id="r_circ">502.7 mm</span></div>
+          <div class="result-row"><span class="rlab">Recommended Vc Range</span><span class="rval purple" id="r_range">30–60 m/min</span></div>
+        </div>
+        <div id="rpm_status" class="status-banner ok">✅ RPM is within the recommended range for this material.</div>
+        <div class="gauge-wrap">
+          <div class="gauge-label"><span id="rpm_g_lo">Min</span><span>Operating RPM</span><span id="rpm_g_hi">Max</span></div>
+          <div class="gauge-track"><div class="gauge-fill" id="rpm_gauge" style="width:55%;background:var(--green)"></div></div>
+        </div>
+      </div>
+      <div class="tip">Formula: <strong style="color:#fff">n = (Vc × 1000) / (π × D)</strong> &nbsp;|&nbsp; Vc in m/min, D in mm → n in RPM</div>
+    </div>
+
+    <!-- FEED RATE -->
+    <div class="panel" id="p-feed">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">➡</span><span class="card-title">Feed Rate Calculator</span></div>
+        <div class="card-sub">Table feed / workpiece feed per minute and per tooth</div>
+        <div class="preset-grid" id="feed_presets"></div>
+        <div class="grid3">
+          <div><label>Blade RPM (n)</label>
+            <div class="unit-input"><input type="number" id="fr_rpm" value="2865" step="10" oninput="calcFeed()"><span class="unit-badge">RPM</span></div>
+          </div>
+          <div><label>Number of Teeth (z)</label>
+            <div class="unit-input"><input type="number" id="fr_z" value="24" step="1" min="1" oninput="calcFeed()"><span class="unit-badge">teeth</span></div>
+          </div>
+          <div><label>Feed per Tooth (fz)</label>
+            <div class="unit-input"><input type="number" id="fr_fz" value="0.05" step="0.005" oninput="calcFeed()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div><label>Blade Diameter (D)</label>
+            <div class="unit-input"><input type="number" id="fr_d" value="160" step="1" oninput="calcFeed()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div><label>Depth of Cut (ap)</label>
+            <div class="unit-input"><input type="number" id="fr_ap" value="30" step="1" oninput="calcFeed()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div><label>Width of Cut (ae)</label>
+            <div class="unit-input"><input type="number" id="fr_ae" value="2" step="0.5" oninput="calcFeed()"><span class="unit-badge">mm</span></div>
+          </div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">Table Feed Rate (Vf)</span><span class="rval amber" id="fr_vf">3438 mm/min</span></div>
+          <div class="result-row"><span class="rlab">Feed per Rev (fn)</span><span class="rval" id="fr_fn">1.20 mm/rev</span></div>
+          <div class="result-row"><span class="rlab">Feed per Tooth (fz)</span><span class="rval green" id="fr_fz_r">0.050 mm</span></div>
+          <div class="result-row"><span class="rlab">Feed Rate m/min</span><span class="rval" id="fr_mpm">3.44 m/min</span></div>
+          <div class="result-row"><span class="rlab">Chip Thickness</span><span class="rval purple" id="fr_chip">0.043 mm</span></div>
+        </div>
+        <div class="tip">Formula: <strong style="color:#fff">Vf = fz × z × n</strong> &nbsp;|&nbsp; Chip thickness: hm = fz × √(ae/D)</div>
+      </div>
+    </div>
+
+    <!-- CUTTING TIME -->
+    <div class="panel" id="p-time">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">⏱</span><span class="card-title">Cutting Time Calculator</span></div>
+        <div class="card-sub">Estimate cycle time for a single cut or batch</div>
+        <div class="grid3">
+          <div><label>Cut Length (L)</label>
+            <div class="unit-input"><input type="number" id="ct_l" value="1200" step="10" oninput="calcTime()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div><label>Feed Rate (Vf)</label>
+            <div class="unit-input"><input type="number" id="ct_vf" value="3438" step="10" oninput="calcTime()"><span class="unit-badge">mm/min</span></div>
+          </div>
+          <div><label>Approach + Overrun</label>
+            <div class="unit-input"><input type="number" id="ct_app" value="20" step="1" oninput="calcTime()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div><label>Number of Cuts</label>
+            <div class="unit-input"><input type="number" id="ct_n" value="10" step="1" min="1" oninput="calcTime()"><span class="unit-badge">cuts</span></div>
+          </div>
+          <div><label>Setup Time per Cut</label>
+            <div class="unit-input"><input type="number" id="ct_setup" value="5" step="1" oninput="calcTime()"><span class="unit-badge">sec</span></div>
+          </div>
+          <div><label>Blade Return Speed</label>
+            <div class="unit-input"><input type="number" id="ct_ret" value="10000" step="100" oninput="calcTime()"><span class="unit-badge">mm/min</span></div>
+          </div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">Single Cut Time</span><span class="rval amber" id="ct_r1">—</span></div>
+          <div class="result-row"><span class="rlab">Return Time</span><span class="rval" id="ct_r2">—</span></div>
+          <div class="result-row"><span class="rlab">Cycle Time (cut + return + setup)</span><span class="rval green" id="ct_r3">—</span></div>
+          <div class="result-row"><span class="rlab">Total Batch Time (×<span id="ct_nbatch">10</span> cuts)</span><span class="rval" id="ct_r4">—</span></div>
+          <div class="result-row"><span class="rlab">Cuts per Hour</span><span class="rval purple" id="ct_r5">—</span></div>
+          <div class="result-row"><span class="rlab">Effective Feed (with return)</span><span class="rval" id="ct_r6">—</span></div>
+        </div>
+        <div class="tip">Formula: <strong style="color:#fff">tc = (L + approach) / Vf</strong> &nbsp;|&nbsp; Total = n × (tc + t_return + t_setup)</div>
+      </div>
+    </div>
+
+    <!-- POWER & TORQUE -->
+    <div class="panel" id="p-power">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">🔋</span><span class="card-title">Power &amp; Torque Calculator</span></div>
+        <div class="card-sub">Motor power requirement and blade torque for the cutting operation</div>
+        <div class="grid3">
+          <div><label>Cutting Force (Fc)</label>
+            <div class="unit-input"><input type="number" id="pw_fc" value="200" step="10" oninput="calcPower()"><span class="unit-badge">N</span></div>
+          </div>
+          <div><label>Cutting Speed (Vc)</label>
+            <div class="unit-input"><input type="number" id="pw_vc" value="45" step="1" oninput="calcPower()"><span class="unit-badge">m/min</span></div>
+          </div>
+          <div><label>Blade Diameter (D)</label>
+            <div class="unit-input"><input type="number" id="pw_d" value="160" step="1" oninput="calcPower()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div><label>Specific Cutting Force (kc)</label>
+            <div class="unit-input"><input type="number" id="pw_kc" value="1500" step="50" oninput="calcPower()"><span class="unit-badge">N/mm²</span></div>
+          </div>
+          <div><label>Chip Area (ap × fz)</label>
+            <div class="unit-input"><input type="number" id="pw_area" value="1.5" step="0.1" oninput="calcPower()"><span class="unit-badge">mm²</span></div>
+          </div>
+          <div><label>Machine Efficiency (η)</label>
+            <div class="unit-input"><input type="number" id="pw_eta" value="0.85" step="0.01" min="0.1" max="1" oninput="calcPower()"><span class="unit-badge">0–1</span></div>
+          </div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">Net Cutting Power (Pc)</span><span class="rval amber" id="pw_r1">—</span></div>
+          <div class="result-row"><span class="rlab">Required Motor Power</span><span class="rval red" id="pw_r2">—</span></div>
+          <div class="result-row"><span class="rlab">Blade Torque (M)</span><span class="rval" id="pw_r3">—</span></div>
+          <div class="result-row"><span class="rlab">Power in HP</span><span class="rval green" id="pw_r4">—</span></div>
+          <div class="result-row"><span class="rlab">Specific Power</span><span class="rval purple" id="pw_r5">—</span></div>
+        </div>
+        <div id="pw_status" class="status-banner ok" style="margin-top:12px">✅ Cutting parameters within normal range.</div>
+        <div class="tip">Pc = (kc × ap × fz × Vc) / 60000 &nbsp;|&nbsp; Motor Power = Pc / η &nbsp;|&nbsp; Torque M = (Pc × 60) / (2π × n)</div>
+      </div>
+    </div>
+
+    <!-- BLADE SELECTION -->
+    <div class="panel" id="p-blade">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">🪚</span><span class="card-title">Blade Selection Guide</span></div>
+        <div class="card-sub">Recommended blade specifications based on material and cut type</div>
+        <div class="grid2">
+          <div>
+            <label>Material</label>
+            <select id="bs_mat" onchange="calcBlade()">
+              <option value="softwood">Softwood (Pine, Cedar)</option>
+              <option value="hardwood">Hardwood (Oak, Maple)</option>
+              <option value="plywood">Plywood / MDF</option>
+              <option value="steel">Mild Steel</option>
+              <option value="ss">Stainless Steel</option>
+              <option value="aluminum">Aluminum</option>
+              <option value="plastic">Plastic / PVC</option>
+              <option value="acrylic">Acrylic / Perspex</option>
+            </select>
+          </div>
+          <div>
+            <label>Cut Type</label>
+            <select id="bs_cut" onchange="calcBlade()">
+              <option value="rip">Rip Cut (with grain)</option>
+              <option value="cross">Cross Cut (against grain)</option>
+              <option value="fine">Fine / Finish Cut</option>
+              <option value="rough">Rough / Fast Cut</option>
+            </select>
+          </div>
+          <div>
+            <label>Blade Diameter</label>
+            <div class="unit-input"><input type="number" id="bs_d" value="160" step="10" oninput="calcBlade()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div>
+            <label>Material Thickness</label>
+            <div class="unit-input"><input type="number" id="bs_thick" value="25" step="1" oninput="calcBlade()"><span class="unit-badge">mm</span></div>
+          </div>
+        </div>
+        <div class="result-box" style="margin-top:14px">
+          <div class="result-row"><span class="rlab">Recommended Teeth Count</span><span class="rval amber" id="bs_r1">—</span></div>
+          <div class="result-row"><span class="rlab">Tooth Type</span><span class="rval" id="bs_r2">—</span></div>
+          <div class="result-row"><span class="rlab">Pitch (gullet spacing)</span><span class="rval green" id="bs_r3">—</span></div>
+          <div class="result-row"><span class="rlab">Kerf Width</span><span class="rval" id="bs_r4">—</span></div>
+          <div class="result-row"><span class="rlab">Recommended RPM</span><span class="rval cyan" style="color:var(--cyan)" id="bs_r5">—</span></div>
+          <div class="result-row"><span class="rlab">Blade Material</span><span class="rval purple" id="bs_r6">—</span></div>
+          <div class="result-row"><span class="rlab">Cutting Fluid</span><span class="rval" id="bs_r7">—</span></div>
+        </div>
+        <div id="bs_tip" class="tip" style="margin-top:10px"></div>
+      </div>
+    </div>
+
+    <!-- MRR -->
+    <div class="panel" id="p-mrr">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">📦</span><span class="card-title">Material Removal Rate (MRR)</span></div>
+        <div class="card-sub">Volume of material removed per unit time</div>
+        <div class="grid3">
+          <div><label>Width of Cut (ae)</label>
+            <div class="unit-input"><input type="number" id="mrr_ae" value="2" step="0.5" oninput="calcMRR()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div><label>Depth of Cut (ap)</label>
+            <div class="unit-input"><input type="number" id="mrr_ap" value="30" step="1" oninput="calcMRR()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div><label>Feed Rate (Vf)</label>
+            <div class="unit-input"><input type="number" id="mrr_vf" value="3438" step="10" oninput="calcMRR()"><span class="unit-badge">mm/min</span></div>
+          </div>
+          <div><label>Material Density (ρ)</label>
+            <div class="unit-input"><input type="number" id="mrr_rho" value="0.6" step="0.05" oninput="calcMRR()"><span class="unit-badge">g/cm³</span></div>
+          </div>
+          <div><label>Cut Length</label>
+            <div class="unit-input"><input type="number" id="mrr_l" value="1200" step="10" oninput="calcMRR()"><span class="unit-badge">mm</span></div>
+          </div>
+          <div><label>Number of Passes</label>
+            <div class="unit-input"><input type="number" id="mrr_n" value="1" step="1" min="1" oninput="calcMRR()"><span class="unit-badge">passes</span></div>
+          </div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">MRR (Volume/min)</span><span class="rval amber" id="mrr_r1">—</span></div>
+          <div class="result-row"><span class="rlab">MRR (cm³/min)</span><span class="rval" id="mrr_r2">—</span></div>
+          <div class="result-row"><span class="rlab">Mass Removal Rate</span><span class="rval green" id="mrr_r3">—</span></div>
+          <div class="result-row"><span class="rlab">Total Volume Removed</span><span class="rval" id="mrr_r4">—</span></div>
+          <div class="result-row"><span class="rlab">Total Mass Removed</span><span class="rval purple" id="mrr_r5">—</span></div>
+        </div>
+        <div class="tip">MRR = ae × ap × Vf &nbsp;(mm³/min) &nbsp;|&nbsp; Mass = MRR × ρ</div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="panel" id="p-summary">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">📊</span><span class="card-title">Full Cutting Summary</span></div>
+        <div class="card-sub">Enter all parameters and get complete analysis</div>
+        <div class="grid3">
+          <div><label>Blade Diameter</label><div class="unit-input"><input type="number" id="s_d" value="160" step="1" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
+          <div><label>Cutting Speed</label><div class="unit-input"><input type="number" id="s_vc" value="45" step="1" oninput="calcSummary()"><span class="unit-badge">m/min</span></div></div>
+          <div><label>Teeth Count</label><div class="unit-input"><input type="number" id="s_z" value="24" step="1" oninput="calcSummary()"><span class="unit-badge">z</span></div></div>
+          <div><label>Feed per Tooth</label><div class="unit-input"><input type="number" id="s_fz" value="0.05" step="0.005" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
+          <div><label>Depth of Cut</label><div class="unit-input"><input type="number" id="s_ap" value="30" step="1" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
+          <div><label>Width of Cut</label><div class="unit-input"><input type="number" id="s_ae" value="2" step="0.5" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
+          <div><label>Cut Length</label><div class="unit-input"><input type="number" id="s_l" value="1200" step="10" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
+          <div><label>Num. of Cuts</label><div class="unit-input"><input type="number" id="s_nc" value="10" step="1" oninput="calcSummary()"><span class="unit-badge">cuts</span></div></div>
+          <div><label>Motor Efficiency</label><div class="unit-input"><input type="number" id="s_eta" value="0.85" step="0.01" oninput="calcSummary()"><span class="unit-badge">η</span></div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">🔵 Blade RPM</span><span class="rval amber" id="s_rpm">—</span></div>
+          <div class="result-row"><span class="rlab">➡ Feed Rate (Vf)</span><span class="rval" id="s_vf">—</span></div>
+          <div class="result-row"><span class="rlab">⏱ Single Cut Time</span><span class="rval green" id="s_tc">—</span></div>
+          <div class="result-row"><span class="rlab">⏱ Batch Time (<span id="s_batchn">10</span> cuts)</span><span class="rval" id="s_bt">—</span></div>
+          <div class="result-row"><span class="rlab">📦 MRR</span><span class="rval purple" id="s_mrr">—</span></div>
+          <div class="result-row"><span class="rlab">🔋 Required Motor Power</span><span class="rval red" id="s_pwr">—</span></div>
+          <div class="result-row"><span class="rlab">🪚 Chip Thickness</span><span class="rval" id="s_chip">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REFERENCE -->
+    <div class="panel" id="p-ref">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">📖</span><span class="card-title">Cutting Speed Reference Chart</span></div>
+        <div class="card-sub">Recommended Vc (m/min), feed/tooth, and blade specs by material</div>
+        <table style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead><tr style="background:var(--bg3)">
+            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Material</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Vc (m/min)</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">fz (mm)</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Teeth/100mm</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Blade Type</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Fluid</th>
+          </tr></thead>
+          <tbody id="ref_tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+const MAT_DATA={
+  wood:{label:'🪵 Wood',vcMin:30,vcMax:60,vcDef:45,fz:0.05,kc:400,rho:0.6,rpmMin:2500,rpmMax:5500},
+  metal:{label:'⚙ Metal',vcMin:10,vcMax:30,vcDef:20,fz:0.02,kc:2500,rho:7.8,rpmMin:800,rpmMax:2500},
+  plastic:{label:'🔵 Plastic',vcMin:40,vcMax:80,vcDef:60,fz:0.08,kc:300,rho:1.2,rpmMin:3000,rpmMax:6000},
+  aluminum:{label:'🩶 Aluminum',vcMin:200,vcMax:600,vcDef:300,fz:0.06,kc:700,rho:2.7,rpmMin:4000,rpmMax:12000}
+};
+const BLADE_DATA={
+  softwood:{teeth:'24–40',tooth:'ATB (Alternate Top Bevel)',kerf:'2.5–3.2 mm',blade:'TCT Carbide',fluid:'Dry / Air blast',tip:'Low tooth count for fast rip cuts. Higher gullet space clears chips better.'},
+  hardwood:{teeth:'40–60',tooth:'ATB Hi-Angle',kerf:'2.5–3.0 mm',blade:'TCT Carbide',fluid:'Dry',tip:'Higher tooth count gives cleaner cross-cuts. Reduce feed rate for dense hardwood.'},
+  plywood:{teeth:'60–80',tooth:'Triple Chip Grind (TCG)',kerf:'2.0–2.8 mm',blade:'TCT Fine',fluid:'Dry',tip:'Fine tooth count minimizes tearout on veneered surfaces.'},
+  steel:{teeth:'80–100',tooth:'Triple Chip (TCG)',kerf:'1.8–2.2 mm',blade:'HSS / TCT Cold Saw',fluid:'Cutting oil (mandatory)',tip:'Use cold saw blade. Lubrication is essential. Keep RPM low to prevent heat.'},
+  ss:{teeth:'100–140',tooth:'Negative Rake TCG',kerf:'1.8–2.0 mm',blade:'Cermet / Carbide',fluid:'Flood coolant',tip:'Stainless work-hardens. Use flood coolant, negative rake, and low feed.'},
+  aluminum:{teeth:'60–80',tooth:'Triple Chip / ATB',kerf:'2.0–3.0 mm',blade:'TCT Aluminum-specific',fluid:'WD-40 / Mist coolant',tip:'High cutting speed, moderate feed. Lubricate to prevent aluminum welding to blade.'},
+  plastic:{teeth:'60–80',tooth:'ATB Fine',kerf:'2.0–2.5 mm',blade:'TCT Fine Finish',fluid:'Air blast / Dry',tip:'Moderate speed prevents melting. Fine teeth reduce chipping. No cutting oil.'},
+  acrylic:{teeth:'80–100',tooth:'Triple Chip Hi-Polish',kerf:'1.8–2.2 mm',blade:'Acrylic-specific',fluid:'Dry / Compressed air',tip:'Very fine teeth and sharp carbide. Low feed rate prevents cracking and chipping.'}
+};
+const REF_TABLE=[
+  ['Softwood','30–60','0.04–0.08','15–25','TCT ATB','Dry'],
+  ['Hardwood','25–50','0.03–0.06','25–40','TCT Hi-ATB','Dry'],
+  ['Plywood / MDF','20–45','0.02–0.04','38–50','TCT Fine','Dry'],
+  ['Mild Steel','10–25','0.01–0.03','50–65','HSS / TCT Cold','Cutting Oil'],
+  ['Stainless Steel','8–18','0.005–0.02','65–90','Carbide Neg.Rake','Flood Coolant'],
+  ['Aluminum','200–600','0.04–0.10','38–50','TCT Al-grade','WD-40 / Mist'],
+  ['Plastic / PVC','40–80','0.05–0.10','38–50','TCT Fine','Air Blast'],
+  ['Acrylic','30–60','0.02–0.04','50–65','Hi-Polish TCT','Dry / Air'],
+];
+
+let currentMat='wood';
+const titles={rpm:'RPM / Cutting Speed',feed:'Feed Rate',time:'Cutting Time',power:'Power & Torque',blade:'Blade Selection',mrr:'Material Removal Rate',summary:'Full Summary',ref:'Reference Chart'};
+
+function nav(el,id){
+  document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.getElementById('pageTitle').textContent=titles[id]||id;
+}
+function setMat(mat,btn){
+  currentMat=mat;
+  document.querySelectorAll('.mat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('matBadge').textContent=MAT_DATA[mat].label;
+  document.getElementById('rpm_mat').value=mat;
+  applyMatPreset();
+  calcRPM();calcFeed();
+}
+function applyMatPreset(){
+  const mat=document.getElementById('rpm_mat').value;
+  currentMat=mat;
+  const d=MAT_DATA[mat];
+  if(d){
+    document.getElementById('rpm_vc').value=d.vcDef;
+    document.getElementById('fr_fz').value=d.fz;
+  }
+}
+
+const r=(v,d=2)=>isNaN(v)||!isFinite(v)?'—':parseFloat(v.toFixed(d));
+const g=id=>parseFloat(document.getElementById(id).value)||0;
+
+function calcRPM(){
+  const vc=g('rpm_vc'),d=g('rpm_d');
+  const rpm=(vc*1000)/(Math.PI*d);
+  const circ=Math.PI*d;
+  const ps=vc/60;
+  document.getElementById('r_rpm').textContent=r(rpm,0)+' RPM';
+  document.getElementById('r_vc').textContent=r(vc,1)+' m/min';
+  document.getElementById('r_ps').textContent=r(ps,3)+' m/s';
+  document.getElementById('r_circ').textContent=r(circ,1)+' mm';
+  document.getElementById('mc_rpm').textContent=r(rpm,0);
+  document.getElementById('mc_vc').textContent=r(vc,1);
+  document.getElementById('mc_circ').textContent=r(circ/1000,2);
+  document.getElementById('mc_dia').textContent=r(d,0);
+  const md=MAT_DATA[currentMat];
+  const rMin=(md.vcMin*1000)/(Math.PI*d), rMax=(md.vcMax*1000)/(Math.PI*d);
+  document.getElementById('r_range').textContent=md.vcMin+'–'+md.vcMax+' m/min';
+  document.getElementById('rpm_g_lo').textContent=r(rMin,0);
+  document.getElementById('rpm_g_hi').textContent=r(rMax,0);
+  const pct=Math.min(100,Math.max(0,(rpm-rMin)/(rMax-rMin)*100));
+  const gf=document.getElementById('rpm_gauge');
+  gf.style.width=pct+'%';
+  const st=document.getElementById('rpm_status');
+  if(rpm<rMin){st.className='status-banner warn';st.textContent='⚠ RPM below recommended range — risk of poor cut quality or blade binding.';}
+  else if(rpm>rMax){st.className='status-banner danger';st.textContent='🔴 RPM exceeds recommended range — risk of blade damage or motor overload!';}
+  else{st.className='status-banner ok';gf.style.background='var(--green)';st.textContent='✅ RPM is within the recommended range for this material.';}
+  if(rpm>rMax){gf.style.background='var(--red)';}
+  else if(rpm<rMin){gf.style.background='var(--accent)';}
+}
+function calcRevVC(){
+  const rpm=g('rev_rpm'),d=g('rev_d');
+  const vc=(Math.PI*d*rpm)/1000;
+  document.getElementById('r_vc').textContent=r(vc,2)+' m/min';
+  document.getElementById('r_rpm').textContent=r(rpm,0)+' RPM';
+  document.getElementById('r_ps').textContent=r(vc/60,3)+' m/s';
+  document.getElementById('r_circ').textContent=r(Math.PI*d,1)+' mm';
+}
+function rpmTab(el,id){
+  document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('rpm-from-vc').style.display=id==='rpm-from-vc'?'':'none';
+  document.getElementById('rpm-from-rpm').style.display=id==='rpm-from-rpm'?'':'none';
+}
+
+function calcFeed(){
+  const rpm=g('fr_rpm'),z=g('fr_z'),fz=g('fr_fz'),d=g('fr_d'),ae=g('fr_ae');
+  const vf=fz*z*rpm;
+  const fn=fz*z;
+  const chip=fz*Math.sqrt(ae/d);
+  document.getElementById('fr_vf').textContent=r(vf,0)+' mm/min';
+  document.getElementById('fr_fn').textContent=r(fn,3)+' mm/rev';
+  document.getElementById('fr_fz_r').textContent=r(fz,4)+' mm';
+  document.getElementById('fr_mpm').textContent=r(vf/1000,3)+' m/min';
+  document.getElementById('fr_chip').textContent=r(chip,4)+' mm';
+  buildFeedPresets();
+}
+function buildFeedPresets(){
+  const presets=[
+    {label:'Fine Finish',fz:0.02,z:60},{label:'Standard',fz:0.05,z:24},
+    {label:'Rough Cut',fz:0.10,z:18},{label:'Fast Rip',fz:0.15,z:12}
+  ];
+  const c=document.getElementById('feed_presets');
+  if(c.children.length) return;
+  presets.forEach(p=>{
+    const b=document.createElement('div');
+    b.className='preset-btn';
+    b.innerHTML=`<div>${p.label}</div><div class="ps">fz=${p.fz} z=${p.z}</div>`;
+    b.onclick=()=>{
+      document.querySelectorAll('.preset-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById('fr_fz').value=p.fz;
+      document.getElementById('fr_z').value=p.z;
+      calcFeed();
+    };
+    c.appendChild(b);
+  });
+}
+
+function calcTime(){
+  const l=g('ct_l'),vf=g('ct_vf'),app=g('ct_app'),n=g('ct_n'),setup=g('ct_setup'),ret=g('ct_ret');
+  const tc=((l+app)/vf)*60;
+  const tr=((l+app)/ret)*60;
+  const cycle=tc+tr+setup;
+  const batch=n*cycle;
+  const cph=3600/cycle;
+  document.getElementById('ct_r1').textContent=r(tc,2)+' sec';
+  document.getElementById('ct_r2').textContent=r(tr,2)+' sec';
+  document.getElementById('ct_r3').textContent=r(cycle,2)+' sec ('+r(cycle/60,2)+' min)';
+  document.getElementById('ct_r4').textContent=r(batch,1)+' sec ('+r(batch/60,1)+' min)';
+  document.getElementById('ct_r5').textContent=r(cph,1)+' cuts/hr';
+  document.getElementById('ct_r6').textContent=r((l+app)/cycle*60,0)+' mm/min effective';
+  document.getElementById('ct_nbatch').textContent=n;
+}
+
+function calcPower(){
+  const fc=g('pw_fc'),vc=g('pw_vc'),d=g('pw_d'),kc=g('pw_kc'),area=g('pw_area'),eta=g('pw_eta');
+  const rpm=(vc*1000)/(Math.PI*d);
+  const pc=(kc*area*vc)/60000;
+  const pmot=pc/eta;
+  const torque=(pc*60)/(2*Math.PI*rpm)*1000;
+  const hp=pmot*1.341;
+  document.getElementById('pw_r1').textContent=r(pc,3)+' kW';
+  document.getElementById('pw_r2').textContent=r(pmot,3)+' kW';
+  document.getElementById('pw_r3').textContent=r(torque,2)+' N·m';
+  document.getElementById('pw_r4').textContent=r(hp,3)+' HP';
+  document.getElementById('pw_r5').textContent=r(pc/area,4)+' kW/mm²';
+  const st=document.getElementById('pw_status');
+  if(pmot>5){st.className='status-banner danger';st.textContent='🔴 High power requirement — verify motor rating before operation!';}
+  else if(pmot>2){st.className='status-banner warn';st.textContent='⚠ Moderate power demand — ensure motor is adequately rated.';}
+  else{st.className='status-banner ok';st.textContent='✅ Power requirement is within normal range.';}
+}
+
+function calcBlade(){
+  const mat=document.getElementById('bs_mat').value;
+  const d=g('bs_d');
+  const bd=BLADE_DATA[mat];
+  const rpm_ref={'softwood':4500,'hardwood':3500,'plywood':4000,'steel':1200,'ss':800,'aluminum':8000,'plastic':4500,'acrylic':3500};
+  const rpmVal=rpm_ref[mat]||3000;
+  const pitch=r((Math.PI*d)/parseInt(bd.teeth.split('–')[0]),1);
+  document.getElementById('bs_r1').textContent=bd.teeth;
+  document.getElementById('bs_r2').textContent=bd.tooth;
+  document.getElementById('bs_r3').textContent='~'+pitch+' mm';
+  document.getElementById('bs_r4').textContent=bd.kerf;
+  document.getElementById('bs_r5').textContent='~'+rpmVal+' RPM';
+  document.getElementById('bs_r6').textContent=bd.blade;
+  document.getElementById('bs_r7').textContent=bd.fluid;
+  document.getElementById('bs_tip').textContent='💡 '+bd.tip;
+}
+
+function calcMRR(){
+  const ae=g('mrr_ae'),ap=g('mrr_ap'),vf=g('mrr_vf'),rho=g('mrr_rho'),l=g('mrr_l'),n=g('mrr_n');
+  const mrr=ae*ap*vf;
+  const mrr_cm=mrr/1000;
+  const mass=mrr_cm*rho;
+  const totalVol=ae*ap*l*n/1000;
+  const totalMass=totalVol*rho;
+  document.getElementById('mrr_r1').textContent=r(mrr,0)+' mm³/min';
+  document.getElementById('mrr_r2').textContent=r(mrr_cm,2)+' cm³/min';
+  document.getElementById('mrr_r3').textContent=r(mass,2)+' g/min';
+  document.getElementById('mrr_r4').textContent=r(totalVol,2)+' cm³';
+  document.getElementById('mrr_r5').textContent=r(totalMass,2)+' g';
+}
+
+function calcSummary(){
+  const d=g('s_d'),vc=g('s_vc'),z=g('s_z'),fz=g('s_fz'),ap=g('s_ap'),ae=g('s_ae'),l=g('s_l'),nc=g('s_nc'),eta=g('s_eta');
+  const rpm=(vc*1000)/(Math.PI*d);
+  const vf=fz*z*rpm;
+  const tc=((l+20)/vf)*60;
+  const batch=nc*tc*1.3;
+  const mrr=ae*ap*vf;
+  const kc=MAT_DATA[currentMat]?.kc||1000;
+  const pc=(kc*ae*fz*vc)/60000;
+  const pmot=pc/eta;
+  const chip=fz*Math.sqrt(ae/d);
+  document.getElementById('s_rpm').textContent=r(rpm,0)+' RPM';
+  document.getElementById('s_vf').textContent=r(vf,0)+' mm/min';
+  document.getElementById('s_tc').textContent=r(tc,2)+' sec';
+  document.getElementById('s_bt').textContent=r(batch,1)+' sec ('+r(batch/60,1)+' min)';
+  document.getElementById('s_mrr').textContent=r(mrr,0)+' mm³/min';
+  document.getElementById('s_pwr').textContent=r(pmot,3)+' kW';
+  document.getElementById('s_chip').textContent=r(chip,4)+' mm';
+  document.getElementById('s_batchn').textContent=nc;
+}
+
+function buildRefTable(){
+  const tb=document.getElementById('ref_tbody');
+  REF_TABLE.forEach((row,i)=>{
+    const tr=document.createElement('tr');
+    tr.style.borderBottom='1px solid var(--border)';
+    tr.innerHTML=row.map((c,ci)=>`<td style="padding:9px 12px;color:${ci===0?'#fff':'var(--text)'};font-size:13px">${c}</td>`).join('');
+    tb.appendChild(tr);
+  });
+}
+
+window.onload=()=>{
+  calcRPM();calcFeed();calcTime();calcPower();calcBlade();calcMRR();calcSummary();buildRefTable();
+};
+</script>
+</body>
+</html>
