@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GD&T Calculator</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GD&amp;T Calculator</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh}
@@ -101,407 +102,396 @@ select option{background:#1a1d2e}
 ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:5px}
 </style>
 </head>
-<body>
+<body><nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
+</nav>
 <div class="app">
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="sidebar-logo">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--accent2);text-transform:uppercase;margin-bottom:4px">TaskJunction</div>
-    <h2>GD&amp;T Calc</h2>
-    <span>Engineering Tolerances</span>
-  </div>
-  <div class="nav-section">
-    <div class="nav-label">Overview</div>
-    <div class="nav-item active" onclick="nav(this,'dashboard')"><span class="icon">⊞</span>Dashboard</div>
-  </div>
-  <div class="nav-section">
-    <div class="nav-label">Calculators</div>
-    <div class="nav-item" onclick="nav(this,'tol')"><span class="icon">⌀</span>Tolerance Zone</div>
-    <div class="nav-item" onclick="nav(this,'mmc')"><span class="icon">⊕</span>MMC / LMC</div>
-    <div class="nav-item" onclick="nav(this,'bonus')"><span class="icon">＋</span>Bonus Tolerance</div>
-    <div class="nav-item" onclick="nav(this,'fit')"><span class="icon">⚙</span>Fits &amp; Clearance</div>
-    <div class="nav-item" onclick="nav(this,'true_pos')"><span class="icon">⊕</span>True Position</div>
-    <div class="nav-item" onclick="nav(this,'flatness')"><span class="icon">⏥</span>Flatness / Form</div>
-  </div>
-  <div class="nav-section">
-    <div class="nav-label">Stack-Up</div>
-    <div class="nav-item" onclick="nav(this,'wc')"><span class="icon">⊞</span>Worst Case</div>
-    <div class="nav-item" onclick="nav(this,'rss')"><span class="icon">∿</span>RSS Method</div>
-    <div class="nav-item" onclick="nav(this,'sixsigma')"><span class="icon">σ</span>6-Sigma Stack</div>
-  </div>
-  <div style="flex:1"></div>
-  <div class="nav-section">
-    <div class="nav-label">Reference</div>
-    <div class="nav-item" onclick="nav(this,'symbols')"><span class="icon">◎</span>GD&amp;T Symbols</div>
-  </div>
-  <div class="sidebar-footer">Made by<br><span>Vaibhav Dhokpande</span></div>
+<div class="sidebar-logo">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--accent2);text-transform:uppercase;margin-bottom:4px">TaskJunction</div>
+<h2>GD&amp;T Calc</h2>
+<span>Engineering Tolerances</span>
 </div>
-
+<div class="nav-section">
+<div class="nav-label">Overview</div>
+<div class="nav-item active" onclick="nav(this,'dashboard')"><span class="icon">⊞</span>Dashboard</div>
+</div>
+<div class="nav-section">
+<div class="nav-label">Calculators</div>
+<div class="nav-item" onclick="nav(this,'tol')"><span class="icon">⌀</span>Tolerance Zone</div>
+<div class="nav-item" onclick="nav(this,'mmc')"><span class="icon">⊕</span>MMC / LMC</div>
+<div class="nav-item" onclick="nav(this,'bonus')"><span class="icon">＋</span>Bonus Tolerance</div>
+<div class="nav-item" onclick="nav(this,'fit')"><span class="icon">⚙</span>Fits &amp; Clearance</div>
+<div class="nav-item" onclick="nav(this,'true_pos')"><span class="icon">⊕</span>True Position</div>
+<div class="nav-item" onclick="nav(this,'flatness')"><span class="icon">⏥</span>Flatness / Form</div>
+</div>
+<div class="nav-section">
+<div class="nav-label">Stack-Up</div>
+<div class="nav-item" onclick="nav(this,'wc')"><span class="icon">⊞</span>Worst Case</div>
+<div class="nav-item" onclick="nav(this,'rss')"><span class="icon">∿</span>RSS Method</div>
+<div class="nav-item" onclick="nav(this,'sixsigma')"><span class="icon">σ</span>6-Sigma Stack</div>
+</div>
+<div style="flex:1"></div>
+<div class="nav-section">
+<div class="nav-label">Reference</div>
+<div class="nav-item" onclick="nav(this,'symbols')"><span class="icon">◎</span>GD&amp;T Symbols</div>
+</div>
+<div class="sidebar-footer">Made by<br/><span>Vaibhav Dhokpande</span></div>
+</div>
 <!-- MAIN -->
 <div class="main">
-  <div class="topbar">
-    <h1 id="pageTitle">Dashboard</h1>
-    <span class="badge">ASME Y14.5-2018</span>
-  </div>
-  <div class="content">
-
-    <!-- DASHBOARD -->
-    <div class="panel active" id="p-dashboard">
-      <div class="grid4" style="margin-bottom:20px">
-        <div class="dash-card"><div class="icon">⌀</div><div class="big">6</div><div class="sub">Calculators</div></div>
-        <div class="dash-card"><div class="icon">⊕</div><div class="big">MMC</div><div class="sub">Bonus Ready</div></div>
-        <div class="dash-card"><div class="icon">⊞</div><div class="big">3</div><div class="sub">Stack Methods</div></div>
-        <div class="dash-card"><div class="icon">◎</div><div class="big">14</div><div class="sub">GD&amp;T Symbols</div></div>
-      </div>
-      <div class="grid2">
-        <div class="card">
-          <div class="card-title">Quick Bonus Tolerance</div>
-          <div class="card-sub">MMC modifier — instant result</div>
-          <div class="grid2">
-            <div><label>Actual Mating Size</label><input type="number" id="q_ams" value="19.85" step="0.01" oninput="quickBonus()"></div>
-            <div><label>MMC Size</label><input type="number" id="q_mmc" value="19.80" step="0.01" oninput="quickBonus()"></div>
-          </div>
-          <div><label style="margin-top:10px">Stated Tolerance</label><input type="number" id="q_tol" value="0.05" step="0.01" oninput="quickBonus()"></div>
-          <div class="result-box">
-            <div class="result-row"><span class="rlab">Bonus</span><span class="rval green" id="q_bonus">0.05</span></div>
-            <div class="result-row"><span class="rlab">Total Tolerance</span><span class="rval" id="q_total">0.10</span></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title">Quick True Position</div>
-          <div class="card-sub">Measured X/Y deviation</div>
-          <div class="grid2">
-            <div><label>ΔX (measured)</label><input type="number" id="q_dx" value="0.03" step="0.01" oninput="quickTP()"></div>
-            <div><label>ΔY (measured)</label><input type="number" id="q_dy" value="0.04" step="0.01" oninput="quickTP()"></div>
-          </div>
-          <div><label style="margin-top:10px">Tolerance Diameter</label><input type="number" id="q_tpol" value="0.10" step="0.01" oninput="quickTP()"></div>
-          <div class="result-box">
-            <div class="result-row"><span class="rlab">Positional Deviation</span><span class="rval" id="q_pos">0.100</span></div>
-            <div class="result-row"><span class="rlab">Status</span><span class="rval" id="q_stat">PASS</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">What is GD&amp;T?</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.7">
+<div class="topbar">
+<h1 id="pageTitle">Dashboard</h1>
+<span class="badge">ASME Y14.5-2018</span>
+</div>
+<div class="content">
+<!-- DASHBOARD -->
+<div class="panel active" id="p-dashboard">
+<div class="grid4" style="margin-bottom:20px">
+<div class="dash-card"><div class="icon">⌀</div><div class="big">6</div><div class="sub">Calculators</div></div>
+<div class="dash-card"><div class="icon">⊕</div><div class="big">MMC</div><div class="sub">Bonus Ready</div></div>
+<div class="dash-card"><div class="icon">⊞</div><div class="big">3</div><div class="sub">Stack Methods</div></div>
+<div class="dash-card"><div class="icon">◎</div><div class="big">14</div><div class="sub">GD&amp;T Symbols</div></div>
+</div>
+<div class="grid2">
+<div class="card">
+<div class="card-title">Quick Bonus Tolerance</div>
+<div class="card-sub">MMC modifier — instant result</div>
+<div class="grid2">
+<div><label>Actual Mating Size</label><input id="q_ams" oninput="quickBonus()" step="0.01" type="number" value="19.85"/></div>
+<div><label>MMC Size</label><input id="q_mmc" oninput="quickBonus()" step="0.01" type="number" value="19.80"/></div>
+</div>
+<div><label style="margin-top:10px">Stated Tolerance</label><input id="q_tol" oninput="quickBonus()" step="0.01" type="number" value="0.05"/></div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Bonus</span><span class="rval green" id="q_bonus">0.05</span></div>
+<div class="result-row"><span class="rlab">Total Tolerance</span><span class="rval" id="q_total">0.10</span></div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">Quick True Position</div>
+<div class="card-sub">Measured X/Y deviation</div>
+<div class="grid2">
+<div><label>ΔX (measured)</label><input id="q_dx" oninput="quickTP()" step="0.01" type="number" value="0.03"/></div>
+<div><label>ΔY (measured)</label><input id="q_dy" oninput="quickTP()" step="0.01" type="number" value="0.04"/></div>
+</div>
+<div><label style="margin-top:10px">Tolerance Diameter</label><input id="q_tpol" oninput="quickTP()" step="0.01" type="number" value="0.10"/></div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Positional Deviation</span><span class="rval" id="q_pos">0.100</span></div>
+<div class="result-row"><span class="rlab">Status</span><span class="rval" id="q_stat">PASS</span></div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title">What is GD&amp;T?</div>
+<div style="font-size:13px;color:var(--muted);line-height:1.7">
           Geometric Dimensioning and Tolerancing (GD&amp;T) is a symbolic language used on engineering drawings to describe nominal geometry and allowable variation. It communicates design intent clearly between designers, manufacturers, and inspectors per ASME Y14.5-2018 standard. Key concepts: <strong style="color:var(--text)">MMC</strong> (Maximum Material Condition), <strong style="color:var(--text)">LMC</strong> (Least Material Condition), <strong style="color:var(--text)">Bonus Tolerance</strong>, <strong style="color:var(--text)">True Position</strong>, and <strong style="color:var(--text)">Tolerance Stack-Up</strong>.
         </div>
-      </div>
-    </div>
-
-    <!-- TOLERANCE ZONE -->
-    <div class="panel" id="p-tol">
-      <div class="card">
-        <div class="card-title">Tolerance Zone Calculator</div>
-        <div class="card-sub">Compute upper/lower limits from nominal and bilateral/unilateral tolerances</div>
-        <div class="tabs">
-          <div class="tab active" onclick="switchTab(this,'tz-bil')">Bilateral</div>
-          <div class="tab" onclick="switchTab(this,'tz-uni')">Unilateral</div>
-          <div class="tab" onclick="switchTab(this,'tz-lim')">Limit Dims</div>
-        </div>
-        <div id="tz-bil">
-          <div class="grid3">
-            <div><label>Nominal Size</label><input type="number" id="tz_nom" value="25.00" step="0.01" oninput="calcTZ()"></div>
-            <div><label>+Tolerance</label><input type="number" id="tz_pos" value="0.05" step="0.001" oninput="calcTZ()"></div>
-            <div><label>−Tolerance</label><input type="number" id="tz_neg" value="0.05" step="0.001" oninput="calcTZ()"></div>
-          </div>
-        </div>
-        <div id="tz-uni" style="display:none">
-          <div class="grid3">
-            <div><label>Nominal Size</label><input type="number" id="tz_nom2" value="25.00" step="0.01" oninput="calcTZ2()"></div>
-            <div><label>Tolerance</label><input type="number" id="tz_uni_t" value="0.10" step="0.001" oninput="calcTZ2()"></div>
-            <div><label>Direction</label>
-              <select id="tz_dir" onchange="calcTZ2()">
-                <option value="plus">+ (Above)</option>
-                <option value="minus">− (Below)</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div id="tz-lim" style="display:none">
-          <div class="grid2">
-            <div><label>Upper Limit</label><input type="number" id="tz_ul" value="25.05" step="0.01" oninput="calcTZ3()"></div>
-            <div><label>Lower Limit</label><input type="number" id="tz_ll" value="24.95" step="0.01" oninput="calcTZ3()"></div>
-          </div>
-        </div>
-        <div class="result-box" id="tz_result">
-          <div class="result-row"><span class="rlab">Upper Limit (UL)</span><span class="rval green" id="tz_r1">25.050</span></div>
-          <div class="result-row"><span class="rlab">Lower Limit (LL)</span><span class="rlab" id="tz_r2" style="color:var(--amber)">24.950</span></div>
-          <div class="result-row"><span class="rlab">Tolerance Band</span><span class="rval" id="tz_r3">0.100</span></div>
-          <div class="result-row"><span class="rlab">Midpoint</span><span class="rval" id="tz_r4">25.000</span></div>
-        </div>
-        <div class="gauge-wrap">
-          <div class="gauge-label"><span>LL</span><span>Tolerance Band</span><span>UL</span></div>
-          <div class="gauge-track"><div class="gauge-fill" id="tz_gauge" style="width:50%;background:var(--accent)"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MMC / LMC -->
-    <div class="panel" id="p-mmc">
-      <div class="card">
-        <div class="card-title">MMC &amp; LMC Calculator</div>
-        <div class="card-sub">Maximum and Least Material Condition for holes and shafts</div>
-        <div class="grid2">
-          <div>
-            <label>Feature Type</label>
-            <select id="mmc_feat" onchange="calcMMC()">
-              <option value="hole">Hole (Internal)</option>
-              <option value="shaft">Shaft (External)</option>
-            </select>
-          </div>
-          <div><label>Nominal Diameter</label><input type="number" id="mmc_nom" value="20.00" step="0.01" oninput="calcMMC()"></div>
-          <div><label>Upper Deviation (+)</label><input type="number" id="mmc_ud" value="0.05" step="0.001" oninput="calcMMC()"></div>
-          <div><label>Lower Deviation (−)</label><input type="number" id="mmc_ld" value="0.00" step="0.001" oninput="calcMMC()"></div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">Maximum Material Condition (MMC)</span><span class="rval red" id="mmc_r1">20.000</span></div>
-          <div class="result-row"><span class="rlab">Least Material Condition (LMC)</span><span class="rval green" id="mmc_r2">20.050</span></div>
-          <div class="result-row"><span class="rlab">Tolerance Band</span><span class="rval" id="mmc_r3">0.050</span></div>
-          <div class="result-row"><span class="rlab">Mid-Tolerance</span><span class="rval" id="mmc_r4">20.025</span></div>
-        </div>
-        <div class="result-box" style="margin-top:10px;background:rgba(34,211,238,0.06);border-color:rgba(34,211,238,0.2)">
-          <p style="font-size:12px;color:var(--accent2)" id="mmc_note">For a Hole: MMC = smallest hole (least material removed). LMC = largest hole.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- BONUS TOLERANCE -->
-    <div class="panel" id="p-bonus">
-      <div class="card">
-        <div class="card-title">Bonus Tolerance Calculator</div>
-        <div class="card-sub">Applies when MMC (⊕) or LMC (⊖) modifier is used on a feature of size</div>
-        <div class="info-pill">⊕ Bonus = |AMS − MMC|</div>
-        <div class="grid2">
-          <div>
-            <label>Feature Type</label>
-            <select id="bon_feat" onchange="calcBonus()">
-              <option value="hole">Hole (Internal)</option>
-              <option value="shaft">Shaft (External)</option>
-            </select>
-          </div>
-          <div>
-            <label>Modifier</label>
-            <select id="bon_mod" onchange="calcBonus()">
-              <option value="mmc">MMC ⊕</option>
-              <option value="lmc">LMC ⊖</option>
-            </select>
-          </div>
-          <div><label>MMC Size</label><input type="number" id="bon_mmc" value="19.80" step="0.01" oninput="calcBonus()"></div>
-          <div><label>LMC Size</label><input type="number" id="bon_lmc" value="20.00" step="0.01" oninput="calcBonus()"></div>
-          <div><label>Actual Mating Size (AMS)</label><input type="number" id="bon_ams" value="19.90" step="0.01" oninput="calcBonus()"></div>
-          <div><label>Stated Geometric Tolerance</label><input type="number" id="bon_stated" value="0.05" step="0.001" oninput="calcBonus()"></div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">Bonus Tolerance</span><span class="rval amber" id="bon_r1">0.100</span></div>
-          <div class="result-row"><span class="rlab">Total Allowable Tolerance</span><span class="rval green" id="bon_r2">0.150</span></div>
-          <div class="result-row"><span class="rlab">Tolerance Zone Diameter</span><span class="rval" id="bon_r3">⌀ 0.150</span></div>
-          <div class="result-row"><span class="rlab">Feature at MMC?</span><span class="rval" id="bon_r4">No</span></div>
-          <div class="result-row"><span class="rlab">Feature at LMC?</span><span class="rval" id="bon_r5">No</span></div>
-        </div>
-        <div class="gauge-wrap">
-          <div class="gauge-label"><span>Stated: <span id="bon_g1">0.050</span></span><span>Bonus: <span id="bon_g2">0.100</span></span><span>Total: <span id="bon_g3">0.150</span></span></div>
-          <div class="gauge-track" style="height:12px">
-            <div class="gauge-fill" id="bon_gauge" style="width:33%;background:linear-gradient(90deg,var(--accent),var(--green))"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FITS & CLEARANCE -->
-    <div class="panel" id="p-fit">
-      <div class="card">
-        <div class="card-title">Fits &amp; Clearance / Interference Calculator</div>
-        <div class="card-sub">Shaft &amp; Hole assembly fit analysis</div>
-        <div class="grid2">
-          <div>
-            <div class="section-head">Hole</div>
-            <div class="grid2">
-              <div><label>MMC (Min Dia)</label><input type="number" id="fit_hmmc" value="20.000" step="0.001" oninput="calcFit()"></div>
-              <div><label>LMC (Max Dia)</label><input type="number" id="fit_hlmc" value="20.052" step="0.001" oninput="calcFit()"></div>
-            </div>
-          </div>
-          <div>
-            <div class="section-head">Shaft</div>
-            <div class="grid2">
-              <div><label>MMC (Max Dia)</label><input type="number" id="fit_smmc" value="19.987" step="0.001" oninput="calcFit()"></div>
-              <div><label>LMC (Min Dia)</label><input type="number" id="fit_slmc" value="19.960" step="0.001" oninput="calcFit()"></div>
-            </div>
-          </div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">Max Clearance</span><span class="rval green" id="fit_r1">0.092</span></div>
-          <div class="result-row"><span class="rlab">Min Clearance</span><span class="rval" id="fit_r2">0.013</span></div>
-          <div class="result-row"><span class="rlab">Fit Type</span><span class="rval amber" id="fit_r3">CLEARANCE FIT</span></div>
-          <div class="result-row"><span class="rlab">Hole Tolerance</span><span class="rval" id="fit_r4">0.052</span></div>
-          <div class="result-row"><span class="rlab">Shaft Tolerance</span><span class="rval" id="fit_r5">0.027</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TRUE POSITION -->
-    <div class="panel" id="p-true_pos">
-      <div class="card">
-        <div class="card-title">True Position Calculator</div>
-        <div class="card-sub">Determine positional deviation and pass/fail status</div>
-        <div class="tabs">
-          <div class="tab active" onclick="switchTab(this,'tp-2d')">2D (X/Y)</div>
-          <div class="tab" onclick="switchTab(this,'tp-3d')">3D (X/Y/Z)</div>
-        </div>
-        <div id="tp-2d">
-          <div class="grid2">
-            <div><label>True Position X (nominal)</label><input type="number" id="tp_nx" value="50.00" step="0.01" oninput="calcTP()"></div>
-            <div><label>True Position Y (nominal)</label><input type="number" id="tp_ny" value="30.00" step="0.01" oninput="calcTP()"></div>
-            <div><label>Measured X</label><input type="number" id="tp_mx" value="50.03" step="0.01" oninput="calcTP()"></div>
-            <div><label>Measured Y</label><input type="number" id="tp_my" value="29.96" step="0.01" oninput="calcTP()"></div>
-          </div>
-          <div style="margin-top:10px"><label>Position Tolerance Diameter (⌀)</label><input type="number" id="tp_tol" value="0.10" step="0.001" oninput="calcTP()"></div>
-        </div>
-        <div id="tp-3d" style="display:none">
-          <div class="grid3">
-            <div><label>ΔX</label><input type="number" id="tp3_dx" value="0.03" step="0.001" oninput="calcTP3()"></div>
-            <div><label>ΔY</label><input type="number" id="tp3_dy" value="0.04" step="0.001" oninput="calcTP3()"></div>
-            <div><label>ΔZ</label><input type="number" id="tp3_dz" value="0.02" step="0.001" oninput="calcTP3()"></div>
-          </div>
-          <div style="margin-top:10px"><label>Tolerance Sphere Diameter (⌀)</label><input type="number" id="tp3_tol" value="0.10" step="0.001" oninput="calcTP3()"></div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">ΔX</span><span class="rval" id="tp_dx">0.030</span></div>
-          <div class="result-row"><span class="rlab">ΔY</span><span class="rval" id="tp_dy">0.040</span></div>
-          <div class="result-row"><span class="rlab">True Position (⌀)</span><span class="rval accent2" id="tp_pos">0.100</span></div>
-          <div class="result-row"><span class="rlab">Allowed Tolerance</span><span class="rval" id="tp_allowed">0.100</span></div>
-          <div class="result-row"><span class="rlab">Deviation Used</span><span class="rval" id="tp_pct">100.0%</span></div>
-          <div class="result-row"><span class="rlab">Result</span><span class="rval green" id="tp_result">PASS</span></div>
-        </div>
-        <div class="gauge-wrap">
-          <div class="gauge-label"><span>0</span><span>Position Used</span><span>Tolerance Limit</span></div>
-          <div class="gauge-track"><div class="gauge-fill" id="tp_gauge" style="width:50%;background:var(--green)"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FLATNESS / FORM -->
-    <div class="panel" id="p-flatness">
-      <div class="card">
-        <div class="card-title">Form Tolerance Calculator</div>
-        <div class="card-sub">Flatness, Straightness, Circularity, Cylindricity</div>
-        <div class="grid2">
-          <div>
-            <label>GD&amp;T Symbol</label>
-            <select id="form_sym" onchange="calcForm()">
-              <option value="flatness">⏥ Flatness</option>
-              <option value="straight">⏤ Straightness</option>
-              <option value="circle">○ Circularity (Roundness)</option>
-              <option value="cyl">⌭ Cylindricity</option>
-            </select>
-          </div>
-          <div><label>Tolerance Value</label><input type="number" id="form_tol" value="0.02" step="0.001" oninput="calcForm()"></div>
-          <div><label>Measured Max Value</label><input type="number" id="form_meas" value="0.015" step="0.001" oninput="calcForm()"></div>
-          <div><label>Nominal Size (reference)</label><input type="number" id="form_nom" value="50.00" step="0.01" oninput="calcForm()"></div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">Symbol</span><span class="rval" id="form_sym_r">⏥ Flatness</span></div>
-          <div class="result-row"><span class="rlab">Tolerance Zone Width</span><span class="rval" id="form_r1">0.020</span></div>
-          <div class="result-row"><span class="rlab">Measured Error</span><span class="rval" id="form_r2">0.015</span></div>
-          <div class="result-row"><span class="rlab">Remaining Margin</span><span class="rval green" id="form_r3">0.005</span></div>
-          <div class="result-row"><span class="rlab">Used (%)</span><span class="rval" id="form_r4">75.0%</span></div>
-          <div class="result-row"><span class="rlab">Status</span><span class="rval green" id="form_stat">WITHIN TOLERANCE</span></div>
-        </div>
-        <div class="gauge-wrap">
-          <div class="gauge-label"><span>0</span><span id="form_g_label">Measured Error</span><span>Tol. Limit</span></div>
-          <div class="gauge-track"><div class="gauge-fill" id="form_gauge" style="width:75%;background:var(--green)"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- WORST CASE STACK -->
-    <div class="panel" id="p-wc">
-      <div class="card">
-        <div class="card-title">Worst Case Tolerance Stack-Up</div>
-        <div class="card-sub">Linear chain — all tolerances add arithmetically</div>
-        <div id="wc_rows"></div>
-        <div class="btn-row">
-          <button class="btn" onclick="addWCRow()">+ Add Dimension</button>
-          <button class="btn secondary" onclick="calcWC()">Recalculate</button>
-        </div>
-        <div class="result-box" style="margin-top:16px">
-          <div class="result-row"><span class="rlab">Nominal Gap / Closure</span><span class="rval" id="wc_nom">—</span></div>
-          <div class="result-row"><span class="rlab">Total Tolerance (±)</span><span class="rval amber" id="wc_tol">—</span></div>
-          <div class="result-row"><span class="rlab">Maximum Gap</span><span class="rval green" id="wc_max">—</span></div>
-          <div class="result-row"><span class="rlab">Minimum Gap</span><span class="rval red" id="wc_min">—</span></div>
-        </div>
-        <p style="font-size:11px;color:var(--muted);margin-top:10px">Worst case: ΔTotal = Σ|tᵢ|  — conservative, used for safety-critical parts.</p>
-      </div>
-    </div>
-
-    <!-- RSS STACK -->
-    <div class="panel" id="p-rss">
-      <div class="card">
-        <div class="card-title">RSS Tolerance Stack-Up</div>
-        <div class="card-sub">Root Sum of Squares — statistical approach (±3σ)</div>
-        <div id="rss_rows"></div>
-        <div class="btn-row">
-          <button class="btn" onclick="addRSSRow()">+ Add Dimension</button>
-          <button class="btn secondary" onclick="calcRSS()">Recalculate</button>
-        </div>
-        <div class="result-box" style="margin-top:16px">
-          <div class="result-row"><span class="rlab">Nominal Gap</span><span class="rval" id="rss_nom">—</span></div>
-          <div class="result-row"><span class="rlab">RSS Tolerance (±)</span><span class="rval green" id="rss_tol">—</span></div>
-          <div class="result-row"><span class="rlab">Max Gap</span><span class="rval green" id="rss_max">—</span></div>
-          <div class="result-row"><span class="rlab">Min Gap</span><span class="rval red" id="rss_min">—</span></div>
-          <div class="result-row"><span class="rlab">WC vs RSS Reduction</span><span class="rval amber" id="rss_vs">—</span></div>
-        </div>
-        <p style="font-size:11px;color:var(--muted);margin-top:10px">RSS: Δ = √Σtᵢ²  — more realistic, ~99.73% of assemblies within limits.</p>
-      </div>
-    </div>
-
-    <!-- 6-SIGMA STACK -->
-    <div class="panel" id="p-sixsigma">
-      <div class="card">
-        <div class="card-title">6-Sigma Tolerance Stack-Up</div>
-        <div class="card-sub">Modified RSS with Cp — accounts for process capability</div>
-        <div id="ss_rows"></div>
-        <div class="btn-row">
-          <button class="btn" onclick="addSSRow()">+ Add Dimension</button>
-          <button class="btn secondary" onclick="calcSS()">Recalculate</button>
-        </div>
-        <div style="margin-top:14px"><label>Default Cp (Process Capability)</label>
-          <input type="number" id="ss_cp" value="1.5" step="0.1" min="0.5" max="3" oninput="calcSS()">
-        </div>
-        <div class="result-box" style="margin-top:14px">
-          <div class="result-row"><span class="rlab">Nominal Gap</span><span class="rval" id="ss_nom">—</span></div>
-          <div class="result-row"><span class="rlab">6σ Tolerance (±)</span><span class="rval green" id="ss_tol">—</span></div>
-          <div class="result-row"><span class="rlab">Max Gap</span><span class="rval green" id="ss_max">—</span></div>
-          <div class="result-row"><span class="rlab">Min Gap</span><span class="rval red" id="ss_min">—</span></div>
-          <div class="result-row"><span class="rlab">DPMO (est.)</span><span class="rval" id="ss_dpmo">—</span></div>
-        </div>
-        <p style="font-size:11px;color:var(--muted);margin-top:10px">6σ Stack: Δ = (1/Cp) × √Σtᵢ²  — Cp=1.5 ≈ 3.4 DPMO.</p>
-      </div>
-    </div>
-
-    <!-- SYMBOLS REFERENCE -->
-    <div class="panel" id="p-symbols">
-      <div class="card">
-        <div class="card-title">GD&amp;T Symbol Reference</div>
-        <div class="card-sub">ASME Y14.5-2018 — click a symbol to see details</div>
-        <div id="sym_detail" style="display:none;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);border-radius:9px;padding:14px;margin-bottom:14px;font-size:13px;color:var(--accent2)"></div>
-        <div class="section-head">Form</div>
-        <div class="sym-grid" id="sym_form"></div>
-        <div class="section-head" style="margin-top:14px">Orientation</div>
-        <div class="sym-grid" id="sym_orient"></div>
-        <div class="section-head" style="margin-top:14px">Location</div>
-        <div class="sym-grid" id="sym_loc"></div>
-        <div class="section-head" style="margin-top:14px">Runout</div>
-        <div class="sym-grid" id="sym_run"></div>
-        <div class="section-head" style="margin-top:14px">Profile &amp; Modifiers</div>
-        <div class="sym-grid" id="sym_mod"></div>
-      </div>
-    </div>
-
-  </div>
 </div>
 </div>
-
+<!-- TOLERANCE ZONE -->
+<div class="panel" id="p-tol">
+<div class="card">
+<div class="card-title">Tolerance Zone Calculator</div>
+<div class="card-sub">Compute upper/lower limits from nominal and bilateral/unilateral tolerances</div>
+<div class="tabs">
+<div class="tab active" onclick="switchTab(this,'tz-bil')">Bilateral</div>
+<div class="tab" onclick="switchTab(this,'tz-uni')">Unilateral</div>
+<div class="tab" onclick="switchTab(this,'tz-lim')">Limit Dims</div>
+</div>
+<div id="tz-bil">
+<div class="grid3">
+<div><label>Nominal Size</label><input id="tz_nom" oninput="calcTZ()" step="0.01" type="number" value="25.00"/></div>
+<div><label>+Tolerance</label><input id="tz_pos" oninput="calcTZ()" step="0.001" type="number" value="0.05"/></div>
+<div><label>−Tolerance</label><input id="tz_neg" oninput="calcTZ()" step="0.001" type="number" value="0.05"/></div>
+</div>
+</div>
+<div id="tz-uni" style="display:none">
+<div class="grid3">
+<div><label>Nominal Size</label><input id="tz_nom2" oninput="calcTZ2()" step="0.01" type="number" value="25.00"/></div>
+<div><label>Tolerance</label><input id="tz_uni_t" oninput="calcTZ2()" step="0.001" type="number" value="0.10"/></div>
+<div><label>Direction</label>
+<select id="tz_dir" onchange="calcTZ2()">
+<option value="plus">+ (Above)</option>
+<option value="minus">− (Below)</option>
+</select>
+</div>
+</div>
+</div>
+<div id="tz-lim" style="display:none">
+<div class="grid2">
+<div><label>Upper Limit</label><input id="tz_ul" oninput="calcTZ3()" step="0.01" type="number" value="25.05"/></div>
+<div><label>Lower Limit</label><input id="tz_ll" oninput="calcTZ3()" step="0.01" type="number" value="24.95"/></div>
+</div>
+</div>
+<div class="result-box" id="tz_result">
+<div class="result-row"><span class="rlab">Upper Limit (UL)</span><span class="rval green" id="tz_r1">25.050</span></div>
+<div class="result-row"><span class="rlab">Lower Limit (LL)</span><span class="rlab" id="tz_r2" style="color:var(--amber)">24.950</span></div>
+<div class="result-row"><span class="rlab">Tolerance Band</span><span class="rval" id="tz_r3">0.100</span></div>
+<div class="result-row"><span class="rlab">Midpoint</span><span class="rval" id="tz_r4">25.000</span></div>
+</div>
+<div class="gauge-wrap">
+<div class="gauge-label"><span>LL</span><span>Tolerance Band</span><span>UL</span></div>
+<div class="gauge-track"><div class="gauge-fill" id="tz_gauge" style="width:50%;background:var(--accent)"></div></div>
+</div>
+</div>
+</div>
+<!-- MMC / LMC -->
+<div class="panel" id="p-mmc">
+<div class="card">
+<div class="card-title">MMC &amp; LMC Calculator</div>
+<div class="card-sub">Maximum and Least Material Condition for holes and shafts</div>
+<div class="grid2">
+<div>
+<label>Feature Type</label>
+<select id="mmc_feat" onchange="calcMMC()">
+<option value="hole">Hole (Internal)</option>
+<option value="shaft">Shaft (External)</option>
+</select>
+</div>
+<div><label>Nominal Diameter</label><input id="mmc_nom" oninput="calcMMC()" step="0.01" type="number" value="20.00"/></div>
+<div><label>Upper Deviation (+)</label><input id="mmc_ud" oninput="calcMMC()" step="0.001" type="number" value="0.05"/></div>
+<div><label>Lower Deviation (−)</label><input id="mmc_ld" oninput="calcMMC()" step="0.001" type="number" value="0.00"/></div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Maximum Material Condition (MMC)</span><span class="rval red" id="mmc_r1">20.000</span></div>
+<div class="result-row"><span class="rlab">Least Material Condition (LMC)</span><span class="rval green" id="mmc_r2">20.050</span></div>
+<div class="result-row"><span class="rlab">Tolerance Band</span><span class="rval" id="mmc_r3">0.050</span></div>
+<div class="result-row"><span class="rlab">Mid-Tolerance</span><span class="rval" id="mmc_r4">20.025</span></div>
+</div>
+<div class="result-box" style="margin-top:10px;background:rgba(34,211,238,0.06);border-color:rgba(34,211,238,0.2)">
+<p id="mmc_note" style="font-size:12px;color:var(--accent2)">For a Hole: MMC = smallest hole (least material removed). LMC = largest hole.</p>
+</div>
+</div>
+</div>
+<!-- BONUS TOLERANCE -->
+<div class="panel" id="p-bonus">
+<div class="card">
+<div class="card-title">Bonus Tolerance Calculator</div>
+<div class="card-sub">Applies when MMC (⊕) or LMC (⊖) modifier is used on a feature of size</div>
+<div class="info-pill">⊕ Bonus = |AMS − MMC|</div>
+<div class="grid2">
+<div>
+<label>Feature Type</label>
+<select id="bon_feat" onchange="calcBonus()">
+<option value="hole">Hole (Internal)</option>
+<option value="shaft">Shaft (External)</option>
+</select>
+</div>
+<div>
+<label>Modifier</label>
+<select id="bon_mod" onchange="calcBonus()">
+<option value="mmc">MMC ⊕</option>
+<option value="lmc">LMC ⊖</option>
+</select>
+</div>
+<div><label>MMC Size</label><input id="bon_mmc" oninput="calcBonus()" step="0.01" type="number" value="19.80"/></div>
+<div><label>LMC Size</label><input id="bon_lmc" oninput="calcBonus()" step="0.01" type="number" value="20.00"/></div>
+<div><label>Actual Mating Size (AMS)</label><input id="bon_ams" oninput="calcBonus()" step="0.01" type="number" value="19.90"/></div>
+<div><label>Stated Geometric Tolerance</label><input id="bon_stated" oninput="calcBonus()" step="0.001" type="number" value="0.05"/></div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Bonus Tolerance</span><span class="rval amber" id="bon_r1">0.100</span></div>
+<div class="result-row"><span class="rlab">Total Allowable Tolerance</span><span class="rval green" id="bon_r2">0.150</span></div>
+<div class="result-row"><span class="rlab">Tolerance Zone Diameter</span><span class="rval" id="bon_r3">⌀ 0.150</span></div>
+<div class="result-row"><span class="rlab">Feature at MMC?</span><span class="rval" id="bon_r4">No</span></div>
+<div class="result-row"><span class="rlab">Feature at LMC?</span><span class="rval" id="bon_r5">No</span></div>
+</div>
+<div class="gauge-wrap">
+<div class="gauge-label"><span>Stated: <span id="bon_g1">0.050</span></span><span>Bonus: <span id="bon_g2">0.100</span></span><span>Total: <span id="bon_g3">0.150</span></span></div>
+<div class="gauge-track" style="height:12px">
+<div class="gauge-fill" id="bon_gauge" style="width:33%;background:linear-gradient(90deg,var(--accent),var(--green))"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- FITS & CLEARANCE -->
+<div class="panel" id="p-fit">
+<div class="card">
+<div class="card-title">Fits &amp; Clearance / Interference Calculator</div>
+<div class="card-sub">Shaft &amp; Hole assembly fit analysis</div>
+<div class="grid2">
+<div>
+<div class="section-head">Hole</div>
+<div class="grid2">
+<div><label>MMC (Min Dia)</label><input id="fit_hmmc" oninput="calcFit()" step="0.001" type="number" value="20.000"/></div>
+<div><label>LMC (Max Dia)</label><input id="fit_hlmc" oninput="calcFit()" step="0.001" type="number" value="20.052"/></div>
+</div>
+</div>
+<div>
+<div class="section-head">Shaft</div>
+<div class="grid2">
+<div><label>MMC (Max Dia)</label><input id="fit_smmc" oninput="calcFit()" step="0.001" type="number" value="19.987"/></div>
+<div><label>LMC (Min Dia)</label><input id="fit_slmc" oninput="calcFit()" step="0.001" type="number" value="19.960"/></div>
+</div>
+</div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Max Clearance</span><span class="rval green" id="fit_r1">0.092</span></div>
+<div class="result-row"><span class="rlab">Min Clearance</span><span class="rval" id="fit_r2">0.013</span></div>
+<div class="result-row"><span class="rlab">Fit Type</span><span class="rval amber" id="fit_r3">CLEARANCE FIT</span></div>
+<div class="result-row"><span class="rlab">Hole Tolerance</span><span class="rval" id="fit_r4">0.052</span></div>
+<div class="result-row"><span class="rlab">Shaft Tolerance</span><span class="rval" id="fit_r5">0.027</span></div>
+</div>
+</div>
+</div>
+<!-- TRUE POSITION -->
+<div class="panel" id="p-true_pos">
+<div class="card">
+<div class="card-title">True Position Calculator</div>
+<div class="card-sub">Determine positional deviation and pass/fail status</div>
+<div class="tabs">
+<div class="tab active" onclick="switchTab(this,'tp-2d')">2D (X/Y)</div>
+<div class="tab" onclick="switchTab(this,'tp-3d')">3D (X/Y/Z)</div>
+</div>
+<div id="tp-2d">
+<div class="grid2">
+<div><label>True Position X (nominal)</label><input id="tp_nx" oninput="calcTP()" step="0.01" type="number" value="50.00"/></div>
+<div><label>True Position Y (nominal)</label><input id="tp_ny" oninput="calcTP()" step="0.01" type="number" value="30.00"/></div>
+<div><label>Measured X</label><input id="tp_mx" oninput="calcTP()" step="0.01" type="number" value="50.03"/></div>
+<div><label>Measured Y</label><input id="tp_my" oninput="calcTP()" step="0.01" type="number" value="29.96"/></div>
+</div>
+<div style="margin-top:10px"><label>Position Tolerance Diameter (⌀)</label><input id="tp_tol" oninput="calcTP()" step="0.001" type="number" value="0.10"/></div>
+</div>
+<div id="tp-3d" style="display:none">
+<div class="grid3">
+<div><label>ΔX</label><input id="tp3_dx" oninput="calcTP3()" step="0.001" type="number" value="0.03"/></div>
+<div><label>ΔY</label><input id="tp3_dy" oninput="calcTP3()" step="0.001" type="number" value="0.04"/></div>
+<div><label>ΔZ</label><input id="tp3_dz" oninput="calcTP3()" step="0.001" type="number" value="0.02"/></div>
+</div>
+<div style="margin-top:10px"><label>Tolerance Sphere Diameter (⌀)</label><input id="tp3_tol" oninput="calcTP3()" step="0.001" type="number" value="0.10"/></div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">ΔX</span><span class="rval" id="tp_dx">0.030</span></div>
+<div class="result-row"><span class="rlab">ΔY</span><span class="rval" id="tp_dy">0.040</span></div>
+<div class="result-row"><span class="rlab">True Position (⌀)</span><span class="rval accent2" id="tp_pos">0.100</span></div>
+<div class="result-row"><span class="rlab">Allowed Tolerance</span><span class="rval" id="tp_allowed">0.100</span></div>
+<div class="result-row"><span class="rlab">Deviation Used</span><span class="rval" id="tp_pct">100.0%</span></div>
+<div class="result-row"><span class="rlab">Result</span><span class="rval green" id="tp_result">PASS</span></div>
+</div>
+<div class="gauge-wrap">
+<div class="gauge-label"><span>0</span><span>Position Used</span><span>Tolerance Limit</span></div>
+<div class="gauge-track"><div class="gauge-fill" id="tp_gauge" style="width:50%;background:var(--green)"></div></div>
+</div>
+</div>
+</div>
+<!-- FLATNESS / FORM -->
+<div class="panel" id="p-flatness">
+<div class="card">
+<div class="card-title">Form Tolerance Calculator</div>
+<div class="card-sub">Flatness, Straightness, Circularity, Cylindricity</div>
+<div class="grid2">
+<div>
+<label>GD&amp;T Symbol</label>
+<select id="form_sym" onchange="calcForm()">
+<option value="flatness">⏥ Flatness</option>
+<option value="straight">⏤ Straightness</option>
+<option value="circle">○ Circularity (Roundness)</option>
+<option value="cyl">⌭ Cylindricity</option>
+</select>
+</div>
+<div><label>Tolerance Value</label><input id="form_tol" oninput="calcForm()" step="0.001" type="number" value="0.02"/></div>
+<div><label>Measured Max Value</label><input id="form_meas" oninput="calcForm()" step="0.001" type="number" value="0.015"/></div>
+<div><label>Nominal Size (reference)</label><input id="form_nom" oninput="calcForm()" step="0.01" type="number" value="50.00"/></div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Symbol</span><span class="rval" id="form_sym_r">⏥ Flatness</span></div>
+<div class="result-row"><span class="rlab">Tolerance Zone Width</span><span class="rval" id="form_r1">0.020</span></div>
+<div class="result-row"><span class="rlab">Measured Error</span><span class="rval" id="form_r2">0.015</span></div>
+<div class="result-row"><span class="rlab">Remaining Margin</span><span class="rval green" id="form_r3">0.005</span></div>
+<div class="result-row"><span class="rlab">Used (%)</span><span class="rval" id="form_r4">75.0%</span></div>
+<div class="result-row"><span class="rlab">Status</span><span class="rval green" id="form_stat">WITHIN TOLERANCE</span></div>
+</div>
+<div class="gauge-wrap">
+<div class="gauge-label"><span>0</span><span id="form_g_label">Measured Error</span><span>Tol. Limit</span></div>
+<div class="gauge-track"><div class="gauge-fill" id="form_gauge" style="width:75%;background:var(--green)"></div></div>
+</div>
+</div>
+</div>
+<!-- WORST CASE STACK -->
+<div class="panel" id="p-wc">
+<div class="card">
+<div class="card-title">Worst Case Tolerance Stack-Up</div>
+<div class="card-sub">Linear chain — all tolerances add arithmetically</div>
+<div id="wc_rows"></div>
+<div class="btn-row">
+<button class="btn" onclick="addWCRow()">+ Add Dimension</button>
+<button class="btn secondary" onclick="calcWC()">Recalculate</button>
+</div>
+<div class="result-box" style="margin-top:16px">
+<div class="result-row"><span class="rlab">Nominal Gap / Closure</span><span class="rval" id="wc_nom">—</span></div>
+<div class="result-row"><span class="rlab">Total Tolerance (±)</span><span class="rval amber" id="wc_tol">—</span></div>
+<div class="result-row"><span class="rlab">Maximum Gap</span><span class="rval green" id="wc_max">—</span></div>
+<div class="result-row"><span class="rlab">Minimum Gap</span><span class="rval red" id="wc_min">—</span></div>
+</div>
+<p style="font-size:11px;color:var(--muted);margin-top:10px">Worst case: ΔTotal = Σ|tᵢ|  — conservative, used for safety-critical parts.</p>
+</div>
+</div>
+<!-- RSS STACK -->
+<div class="panel" id="p-rss">
+<div class="card">
+<div class="card-title">RSS Tolerance Stack-Up</div>
+<div class="card-sub">Root Sum of Squares — statistical approach (±3σ)</div>
+<div id="rss_rows"></div>
+<div class="btn-row">
+<button class="btn" onclick="addRSSRow()">+ Add Dimension</button>
+<button class="btn secondary" onclick="calcRSS()">Recalculate</button>
+</div>
+<div class="result-box" style="margin-top:16px">
+<div class="result-row"><span class="rlab">Nominal Gap</span><span class="rval" id="rss_nom">—</span></div>
+<div class="result-row"><span class="rlab">RSS Tolerance (±)</span><span class="rval green" id="rss_tol">—</span></div>
+<div class="result-row"><span class="rlab">Max Gap</span><span class="rval green" id="rss_max">—</span></div>
+<div class="result-row"><span class="rlab">Min Gap</span><span class="rval red" id="rss_min">—</span></div>
+<div class="result-row"><span class="rlab">WC vs RSS Reduction</span><span class="rval amber" id="rss_vs">—</span></div>
+</div>
+<p style="font-size:11px;color:var(--muted);margin-top:10px">RSS: Δ = √Σtᵢ²  — more realistic, ~99.73% of assemblies within limits.</p>
+</div>
+</div>
+<!-- 6-SIGMA STACK -->
+<div class="panel" id="p-sixsigma">
+<div class="card">
+<div class="card-title">6-Sigma Tolerance Stack-Up</div>
+<div class="card-sub">Modified RSS with Cp — accounts for process capability</div>
+<div id="ss_rows"></div>
+<div class="btn-row">
+<button class="btn" onclick="addSSRow()">+ Add Dimension</button>
+<button class="btn secondary" onclick="calcSS()">Recalculate</button>
+</div>
+<div style="margin-top:14px"><label>Default Cp (Process Capability)</label>
+<input id="ss_cp" max="3" min="0.5" oninput="calcSS()" step="0.1" type="number" value="1.5"/>
+</div>
+<div class="result-box" style="margin-top:14px">
+<div class="result-row"><span class="rlab">Nominal Gap</span><span class="rval" id="ss_nom">—</span></div>
+<div class="result-row"><span class="rlab">6σ Tolerance (±)</span><span class="rval green" id="ss_tol">—</span></div>
+<div class="result-row"><span class="rlab">Max Gap</span><span class="rval green" id="ss_max">—</span></div>
+<div class="result-row"><span class="rlab">Min Gap</span><span class="rval red" id="ss_min">—</span></div>
+<div class="result-row"><span class="rlab">DPMO (est.)</span><span class="rval" id="ss_dpmo">—</span></div>
+</div>
+<p style="font-size:11px;color:var(--muted);margin-top:10px">6σ Stack: Δ = (1/Cp) × √Σtᵢ²  — Cp=1.5 ≈ 3.4 DPMO.</p>
+</div>
+</div>
+<!-- SYMBOLS REFERENCE -->
+<div class="panel" id="p-symbols">
+<div class="card">
+<div class="card-title">GD&amp;T Symbol Reference</div>
+<div class="card-sub">ASME Y14.5-2018 — click a symbol to see details</div>
+<div id="sym_detail" style="display:none;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);border-radius:9px;padding:14px;margin-bottom:14px;font-size:13px;color:var(--accent2)"></div>
+<div class="section-head">Form</div>
+<div class="sym-grid" id="sym_form"></div>
+<div class="section-head" style="margin-top:14px">Orientation</div>
+<div class="sym-grid" id="sym_orient"></div>
+<div class="section-head" style="margin-top:14px">Location</div>
+<div class="sym-grid" id="sym_loc"></div>
+<div class="section-head" style="margin-top:14px">Runout</div>
+<div class="sym-grid" id="sym_run"></div>
+<div class="section-head" style="margin-top:14px">Profile &amp; Modifiers</div>
+<div class="sym-grid" id="sym_mod"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <script>
 // Navigation
 const titles={dashboard:'Dashboard',tol:'Tolerance Zone',mmc:'MMC / LMC',bonus:'Bonus Tolerance',fit:'Fits & Clearance',true_pos:'True Position',flatness:'Form Tolerance',wc:'Worst Case Stack-Up',rss:'RSS Stack-Up',sixsigma:'6-Sigma Stack-Up',symbols:'GD&T Symbols'};
@@ -793,5 +783,15 @@ window.onload=()=>{
   buildSymbols();
 };
 </script>
-</body>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
+</footer></body>
 </html>
