@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>TaskJunction – BMI Calculator</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
   :root{--bg:#f0f6ff;--surface:#ffffff;--card:#e8f0fe;--border:#c5d5f0;--accent:#7c3aed;--accent2:#a855f7;--glow:rgba(124,58,237,0.25);--text:#1a1a2e;--muted:#5566aa;--green:#22c55e;--red:#ef4444;--orange:#f97316;--yellow:#eab308;--blue:#60a5fa;}
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -13,12 +14,12 @@
 
   /* NAV */
   nav{position:sticky;top:0;z-index:100;background:rgba(240,246,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:68px;}
-  .nav-logo{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:0.05em;}
+  .nav-logo{font-family: Arial, sans-serif;font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:0.05em;}
   .nav-logo span{color:#2196f3;}
   nav ul{list-style:none;display:flex;gap:24px;}
   nav ul a{color:#334488;text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s;}
   nav ul a:hover,nav ul a.active{color:var(--accent2);}
-  .nav-back-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Exo 2',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#0e78d2;background:rgba(14,120,210,0.08);border:1px solid rgba(14,120,210,0.25);padding:7px 16px;border-radius:7px;text-decoration:none;transition:all 0.2s;}
+  .nav-back-btn{display:inline-flex;align-items:center;gap:6px;font-family: Arial, sans-serif;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#0e78d2;background:rgba(14,120,210,0.08);border:1px solid rgba(14,120,210,0.25);padding:7px 16px;border-radius:7px;text-decoration:none;transition:all 0.2s;}
   .nav-back-btn:hover{background:rgba(14,120,210,0.18);transform:translateX(-2px);}
 
   .hero{text-align:center;padding:24px 24px 24px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.08) 0%,transparent 70%);}
@@ -54,8 +55,8 @@
   /* FOOTER */
   footer{background:var(--surface);border-top:1px solid var(--border);padding:28px 24px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;}
   .footer-divider{width:100px;height:1px;background:linear-gradient(90deg,transparent,rgba(14,120,210,0.4),transparent);margin-bottom:4px;}
-  .footer-label{font-family:'Exo 2',sans-serif;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#7fabd1;}
-  .footer-name{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.06em;color:#0e78d2;}
+  .footer-label{font-family: Arial, sans-serif;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#7fabd1;}
+  .footer-name{font-family: Arial, sans-serif;font-size:14px;font-weight:700;letter-spacing:0.06em;color:#0e78d2;}
   .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:4px 0;}
   .footer-links a{color:var(--accent2);text-decoration:none;font-size:13px;}
   footer p{font-size:12px;color:var(--muted);}
@@ -64,89 +65,88 @@
 </style>
 </head>
 <body>
-
 <!-- NAV -->
-<nav>
-  <a href="index.html" class="nav-logo">Task<span>Junction</span></a>
-  <a href="index.html" class="nav-back-btn">← Home</a>
+<nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;">🏠 Home</a>
 </nav>
-
 <section class="hero">
-  <div class="badge">💪 BMI • Ideal Weight • Health Tips</div>
-  <h1>BMI <span>Calculator</span></h1>
-  <p style="color:var(--muted);font-size:16px;">Check your Body Mass Index and healthy weight range</p>
+<div class="badge">💪 BMI • Ideal Weight • Health Tips</div>
+<h1>BMI <span>Calculator</span></h1>
+<p style="color:var(--muted);font-size:16px;">Check your Body Mass Index and healthy weight range</p>
 </section>
-
 <div class="main">
-  <div class="grid2">
-    <div>
-      <div class="card" style="margin-bottom:20px;">
-        <div class="card-title">📏 Your Details</div>
-        <div class="unit-toggle">
-          <div class="unit-btn active" onclick="setUnit('metric',this)">Metric (cm/kg)</div>
-          <div class="unit-btn" onclick="setUnit('imperial',this)">Imperial (ft/lb)</div>
-        </div>
-        <div id="metricInputs">
-          <label>Height (cm)</label><input type="number" id="heightCm" placeholder="170" oninput="calc()">
-          <label>Weight (kg)</label><input type="number" id="weightKg" placeholder="70" oninput="calc()">
-        </div>
-        <div id="imperialInputs" style="display:none;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <div><label>Feet</label><input type="number" id="heightFt" placeholder="5" oninput="calc()"></div>
-            <div><label>Inches</label><input type="number" id="heightIn" placeholder="7" oninput="calc()"></div>
-          </div>
-          <label>Weight (lbs)</label><input type="number" id="weightLb" placeholder="154" oninput="calc()">
-        </div>
-        <div style="margin-bottom:16px;"><label>Age</label><input type="number" id="age" placeholder="25" min="2" max="120" oninput="calc()" style="margin-bottom:0;"></div>
-        <div style="margin-bottom:16px;">
-          <label>Gender</label>
-          <div class="unit-toggle">
-            <div class="unit-btn active" id="gMale" onclick="setGender('male')">Male</div>
-            <div class="unit-btn" id="gFemale" onclick="setGender('female')">Female</div>
-          </div>
-        </div>
-        <button class="btn" onclick="calc()">💪 Calculate BMI</button>
-      </div>
-    </div>
-    <div>
-      <div class="card" style="margin-bottom:20px;">
-        <div class="card-title">📊 Your Result</div>
-        <div class="gauge-wrap">
-          <svg class="gauge-svg" viewBox="0 0 240 130">
-            <defs><linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#60a5fa"/><stop offset="25%" stop-color="#22c55e"/><stop offset="50%" stop-color="#eab308"/><stop offset="75%" stop-color="#f97316"/><stop offset="100%" stop-color="#ef4444"/></linearGradient></defs>
-            <path d="M 20 120 A 100 100 0 0 1 220 120" fill="none" stroke="#2a2a3a" stroke-width="16" stroke-linecap="round"/>
-            <path d="M 20 120 A 100 100 0 0 1 220 120" fill="none" stroke="url(#gaugeGrad)" stroke-width="16" stroke-linecap="round" opacity="0.7"/>
-            <line id="needle" x1="120" y1="120" x2="120" y2="30" stroke="var(--text)" stroke-width="3" stroke-linecap="round" transform="rotate(-90 120 120)" style="transition:transform 0.8s cubic-bezier(.34,1.56,.64,1)"/>
-            <circle cx="120" cy="120" r="6" fill="var(--text)"/>
-          </svg>
-          <div class="bmi-display" id="bmiVal" style="color:var(--muted)">—</div>
-          <div class="bmi-cat" id="bmiCat" style="color:var(--muted)">Enter your details</div>
-          <div class="bmi-range" id="bmiRange"></div>
-        </div>
-        <div class="res-grid">
-          <div class="res-box"><div class="res-val" id="idealMin">—</div><div class="res-lbl">Min Ideal Weight</div></div>
-          <div class="res-box"><div class="res-val" id="idealMax">—</div><div class="res-lbl">Max Ideal Weight</div></div>
-          <div class="res-box"><div class="res-val" id="weightDiff">—</div><div class="res-lbl">Weight to Lose/Gain</div></div>
-          <div class="res-box"><div class="res-val" id="bmiPrime">—</div><div class="res-lbl">BMI Prime</div></div>
-        </div>
-      </div>
-      <div class="card"><div class="card-title">📋 BMI Categories</div><div id="catTable"></div></div>
-    </div>
-  </div>
-  <div class="card" style="margin-top:20px;">
-    <div class="card-title">💡 Health Tips</div>
-    <div class="tips-list" id="tipsList"><div class="tip-item"><span class="tip-icon">ℹ️</span><span>Enter your details to get personalized health tips.</span></div></div>
-  </div>
+<div class="grid2">
+<div>
+<div class="card" style="margin-bottom:20px;">
+<div class="card-title">📏 Your Details</div>
+<div class="unit-toggle">
+<div class="unit-btn active" onclick="setUnit('metric',this)">Metric (cm/kg)</div>
+<div class="unit-btn" onclick="setUnit('imperial',this)">Imperial (ft/lb)</div>
 </div>
-
-<footer>
-  <div class="footer-divider"></div>
-  <div class="footer-name">Made by Vaibhav Dhokpande</div>
-  <div class="footer-links"><a href="index.html">Home</a><a href="index.html#privacy">Privacy</a></div>
-  <p>© 2025 · TaskJunction</p>
-  <p style="margin-top:4px;">Disclaimer: BMI is a screening tool, not a diagnostic measure. Consult a healthcare professional.</p>
+<div id="metricInputs">
+<label>Height (cm)</label><input id="heightCm" oninput="calc()" placeholder="170" type="number"/>
+<label>Weight (kg)</label><input id="weightKg" oninput="calc()" placeholder="70" type="number"/>
+</div>
+<div id="imperialInputs" style="display:none;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div><label>Feet</label><input id="heightFt" oninput="calc()" placeholder="5" type="number"/></div>
+<div><label>Inches</label><input id="heightIn" oninput="calc()" placeholder="7" type="number"/></div>
+</div>
+<label>Weight (lbs)</label><input id="weightLb" oninput="calc()" placeholder="154" type="number"/>
+</div>
+<div style="margin-bottom:16px;"><label>Age</label><input id="age" max="120" min="2" oninput="calc()" placeholder="25" style="margin-bottom:0;" type="number"/></div>
+<div style="margin-bottom:16px;">
+<label>Gender</label>
+<div class="unit-toggle">
+<div class="unit-btn active" id="gMale" onclick="setGender('male')">Male</div>
+<div class="unit-btn" id="gFemale" onclick="setGender('female')">Female</div>
+</div>
+</div>
+<button class="btn" onclick="calc()">💪 Calculate BMI</button>
+</div>
+</div>
+<div>
+<div class="card" style="margin-bottom:20px;">
+<div class="card-title">📊 Your Result</div>
+<div class="gauge-wrap">
+<svg class="gauge-svg" viewbox="0 0 240 130">
+<defs><lineargradient id="gaugeGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="#60a5fa"></stop><stop offset="25%" stop-color="#22c55e"></stop><stop offset="50%" stop-color="#eab308"></stop><stop offset="75%" stop-color="#f97316"></stop><stop offset="100%" stop-color="#ef4444"></stop></lineargradient></defs>
+<path d="M 20 120 A 100 100 0 0 1 220 120" fill="none" stroke="#2a2a3a" stroke-linecap="round" stroke-width="16"></path>
+<path d="M 20 120 A 100 100 0 0 1 220 120" fill="none" opacity="0.7" stroke="url(#gaugeGrad)" stroke-linecap="round" stroke-width="16"></path>
+<line id="needle" stroke="var(--text)" stroke-linecap="round" stroke-width="3" style="transition:transform 0.8s cubic-bezier(.34,1.56,.64,1)" transform="rotate(-90 120 120)" x1="120" x2="120" y1="120" y2="30"></line>
+<circle cx="120" cy="120" fill="var(--text)" r="6"></circle>
+</svg>
+<div class="bmi-display" id="bmiVal" style="color:var(--muted)">—</div>
+<div class="bmi-cat" id="bmiCat" style="color:var(--muted)">Enter your details</div>
+<div class="bmi-range" id="bmiRange"></div>
+</div>
+<div class="res-grid">
+<div class="res-box"><div class="res-val" id="idealMin">—</div><div class="res-lbl">Min Ideal Weight</div></div>
+<div class="res-box"><div class="res-val" id="idealMax">—</div><div class="res-lbl">Max Ideal Weight</div></div>
+<div class="res-box"><div class="res-val" id="weightDiff">—</div><div class="res-lbl">Weight to Lose/Gain</div></div>
+<div class="res-box"><div class="res-val" id="bmiPrime">—</div><div class="res-lbl">BMI Prime</div></div>
+</div>
+</div>
+<div class="card"><div class="card-title">📋 BMI Categories</div><div id="catTable"></div></div>
+</div>
+</div>
+<div class="card" style="margin-top:20px;">
+<div class="card-title">💡 Health Tips</div>
+<div class="tips-list" id="tipsList"><div class="tip-item"><span class="tip-icon">ℹ️</span><span>Enter your details to get personalized health tips.</span></div></div>
+</div>
+</div>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
 </footer>
-
 <script>
 let unit='metric',gender='male';
 const cats=[
