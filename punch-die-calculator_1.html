@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Punch & Die Calculator – TaskJunction</title>
+<meta name="description" content="Free online punch and die design calculator. Calculate clearance, blank size, cutting force, stripper force and press tonnage for sheet metal operations.">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4874098877826635" crossorigin="anonymous"></script>
+<style>
+:root {
+  --bg:#faf8f5; --white:#ffffff; --border:#e8e2d8; --border2:#d6cfc4;
+  --orange:#f4600c; --orange2:#ff7a2e; --orange-lo:#fff3ec; --orange-md:rgba(244,96,12,0.12);
+  --amber:#b45309; --amber2:#f59e0b; --amber-lo:#fff7ed; --amber-md:rgba(180,83,9,0.10);
+  --text:#0f0d0a; --text2:#6b6560; --text3:#b0a89e;
+  --green:#1c7a4a; --green-lo:rgba(28,122,74,0.09);
+  --red:#dc2626; --red-lo:rgba(220,38,38,0.08);
+  --blue:#0d74ce; --blue-lo:rgba(13,116,206,0.08);
+  --shadow:0 2px 16px rgba(15,13,10,0.07); --shadow-lg:0 8px 40px rgba(15,13,10,0.11);
+  --font-d:'Sora',sans-serif; --font-m:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-d);-webkit-text-size-adjust:100%;}
+body{display:flex;flex-direction:column;align-items:center;min-height:100vh;}
+
+/* NAV */
+nav{width:100%;height:56px;background:rgba(250,248,245,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:20;flex-shrink:0;}
+.nav-logo{font-family:var(--font-d);font-size:17px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.02em;}
+.nav-logo em{color:var(--orange);font-style:normal;}
+.nav-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--text2);text-decoration:none;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--white);transition:all 0.18s;}
+.nav-back:hover{color:var(--orange);border-color:rgba(244,96,12,0.3);background:var(--orange-lo);}
+
+/* AD */
+.ad-banner{width:100%;max-width:680px;height:60px;max-height:60px;overflow:hidden;background:var(--white);border:1px dashed var(--border2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:10px;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;flex-shrink:0;}
+.ad-banner:empty{display:none;}
+.ad-bottom{width:100%;max-width:336px;height:80px;max-height:80px;overflow:hidden;background:var(--white);border:1px dashed var(--border2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:10px;letter-spacing:0.1em;color:var(--text3);text-transform:uppercase;}
+.ad-bottom:empty{display:none;}
+
+/* WRAPPER */
+.wrapper{width:100%;max-width:700px;padding:14px 16px 0;display:flex;flex-direction:column;align-items:center;gap:12px;}
+
+/* MAIN SHELL */
+.calc-shell{width:100%;background:var(--white);border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-lg);position:relative;}
+.calc-shell::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber2),#fbbf24);z-index:1;}
+
+/* HEADER STRIP */
+.calc-header{padding:18px 22px 14px;background:linear-gradient(160deg,#fffbf5 0%,#fff7ed 100%);border-bottom:1px solid var(--border);}
+.calc-header-tag{font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;}
+.calc-header h1{font-size:19px;font-weight:700;letter-spacing:-0.02em;color:var(--text);}
+.calc-header h1 span{color:var(--amber);}
+.calc-header p{font-size:12.5px;color:var(--text2);margin-top:3px;line-height:1.55;}
+
+/* OPERATION TABS */
+.op-tabs{display:flex;gap:6px;padding:14px 20px 0;flex-wrap:wrap;}
+.op-tab{padding:7px 16px;border-radius:9px;font-size:12.5px;font-weight:600;font-family:var(--font-d);cursor:pointer;border:1px solid var(--border2);background:var(--bg);color:var(--text2);transition:all 0.15s;user-select:none;}
+.op-tab.active{background:var(--amber-lo);color:var(--amber);border-color:rgba(180,83,9,0.3);}
+
+/* TWO COLUMN BODY */
+.calc-body{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--border);margin-top:14px;}
+@media(max-width:580px){.calc-body{grid-template-columns:1fr;}}
+.col-inputs{padding:18px 20px;border-right:1px solid var(--border);}
+@media(max-width:580px){.col-inputs{border-right:none;border-bottom:1px solid var(--border);}}
+.col-results{padding:18px 20px;background:#fdfcfa;}
+
+/* FORM */
+.form-group{margin-bottom:13px;}
+label{display:block;font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);margin-bottom:5px;}
+.input-wrap{position:relative;}
+input[type=number],select{width:100%;background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font-m);font-size:13.5px;padding:9px 42px 9px 12px;border-radius:9px;outline:none;transition:border-color 0.18s,box-shadow 0.18s;-moz-appearance:textfield;appearance:textfield;}
+input[type=number]::-webkit-inner-spin-button{opacity:0;}
+input[type=number]:focus,select:focus{border-color:var(--amber2);box-shadow:0 0 0 3px rgba(245,158,11,0.12);}
+.unit{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:var(--font-m);font-size:10.5px;color:var(--text3);pointer-events:none;}
+select{padding-right:12px;}
+.hint{font-family:var(--font-m);font-size:10px;color:var(--text3);margin-top:4px;line-height:1.5;}
+
+/* CALCULATE BUTTON */
+.btn-calc{width:100%;background:linear-gradient(135deg,var(--amber),var(--amber2));color:#fff;border:none;padding:12px 20px;border-radius:10px;font-family:var(--font-d);font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;box-shadow:0 4px 16px rgba(180,83,9,0.22);transition:opacity 0.18s,transform 0.12s;letter-spacing:0.01em;}
+.btn-calc:hover{opacity:0.91;transform:translateY(-1px);}
+.btn-calc:active{transform:scale(0.98);}
+
+/* RESULTS */
+.res-primary{background:var(--amber-lo);border:1px solid rgba(180,83,9,0.22);border-radius:12px;padding:14px 16px;margin-bottom:12px;}
+.res-primary .rlabel{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber);margin-bottom:2px;}
+.res-primary .rvalue{font-family:var(--font-m);font-size:30px;font-weight:600;color:var(--amber);letter-spacing:-1px;line-height:1.05;}
+.res-primary .runit{font-size:13px;color:var(--amber);opacity:0.7;margin-left:3px;}
+.res-primary .rnote{font-size:11.5px;color:var(--amber);opacity:0.75;margin-top:3px;}
+
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.res-mini{background:var(--white);border:1px solid var(--border2);border-radius:10px;padding:11px 13px;}
+.res-mini .rlabel{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:2px;}
+.res-mini .rvalue{font-family:var(--font-m);font-size:18px;font-weight:600;color:var(--text);letter-spacing:-0.5px;}
+.res-mini .runit{font-size:10px;color:var(--text3);font-family:var(--font-m);}
+
+.res-force{background:var(--white);border:1px solid var(--border2);border-radius:12px;padding:13px 15px;margin-bottom:8px;}
+.res-force .rlabel{font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:2px;}
+.res-force .rvalue{font-family:var(--font-m);font-size:22px;font-weight:600;color:var(--text);letter-spacing:-0.5px;}
+.res-force .runit{font-size:11px;color:var(--text3);}
+.res-force .rnote{font-size:10.5px;color:var(--text2);margin-top:3px;}
+
+.summary-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.summary-box .stitle{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.summary-row:last-child{border-bottom:none;}
+.sk{font-family:var(--font-m);color:var(--text2);}
+.sv{font-family:var(--font-m);font-weight:600;color:var(--amber);}
+
+/* WARN & INFO */
+.warn-box{background:var(--red-lo);border:1px solid rgba(220,38,38,0.2);border-radius:9px;padding:10px 12px;font-size:11.5px;color:var(--red);font-family:var(--font-m);margin-bottom:8px;display:none;line-height:1.55;}
+.warn-box.show{display:block;}
+.info-box{background:var(--blue-lo);border:1px solid rgba(13,116,206,0.18);border-radius:9px;padding:10px 12px;font-size:11px;color:var(--blue);font-family:var(--font-m);line-height:1.6;}
+
+/* FOOTER */
+footer{padding:10px 0 14px;text-align:center;}
+.footer-made{font-family:var(--font-m);font-size:11px;font-weight:400;color:var(--text3);letter-spacing:0.06em;}
+.footer-made span{color:var(--orange);font-weight:500;}
+.footer-made a{color:var(--orange);text-decoration:none;}
+
+@media(max-width:420px){
+  .wrapper{padding:10px 12px 0;}
+  .calc-header h1{font-size:16px;}
+  .res-primary .rvalue{font-size:24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Task<em>Junction</em></a>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Home
+  </a>
+</nav>
+
+<div class="wrapper">
+
+  <!-- Top Ad -->
+  <ins class="adsbygoogle ad-banner"
+       style="display:flex"
+       data-ad-client="ca-pub-4874098877826635"
+       data-ad-slot="4444444444"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <div class="calc-shell">
+
+    <!-- Header -->
+    <div class="calc-header">
+      <div class="calc-header-tag">⚙️ Sheet Metal Design</div>
+      <h1>Punch & <span>Die</span> Design Calculator</h1>
+      <p>Clearance · Cutting Force · Stripper Force · Press Tonnage · Punch & Die Sizes</p>
+    </div>
+
+    <!-- Operation Tabs -->
+    <div class="op-tabs">
+      <div class="op-tab active" onclick="setOp(this,'blanking')">🔲 Blanking</div>
+      <div class="op-tab" onclick="setOp(this,'piercing')">⭕ Piercing</div>
+      <div class="op-tab" onclick="setOp(this,'notching')">📐 Notching</div>
+    </div>
+
+    <!-- Body -->
+    <div class="calc-body">
+
+      <!-- INPUTS -->
+      <div class="col-inputs">
+
+        <div class="form-group">
+          <label>Material</label>
+          <select id="material" onchange="onMaterialChange()">
+            <option value="200">Soft Aluminum — 200 MPa</option>
+            <option value="310">Hard Aluminum — 310 MPa</option>
+            <option value="420" selected>Mild Steel (MS) — 420 MPa</option>
+            <option value="550">Medium Carbon Steel — 550 MPa</option>
+            <option value="690">High Carbon Steel — 690 MPa</option>
+            <option value="500">Stainless Steel 304 — 500 MPa</option>
+            <option value="650">Stainless Steel 316 — 650 MPa</option>
+            <option value="300">Copper — 300 MPa</option>
+            <option value="250">Brass — 250 MPa</option>
+            <option value="custom">Custom Material…</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="uts-group" style="display:none">
+          <label>Custom UTS</label>
+          <div class="input-wrap">
+            <input type="number" id="customUTS" value="400" min="50" max="2000" step="10" oninput="calculate()">
+            <span class="unit">MPa</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Sheet Thickness</label>
+          <div class="input-wrap">
+            <input type="number" id="thickness" value="2" min="0.1" max="50" step="0.1" oninput="calculate()">
+            <span class="unit">mm</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Part Shape</label>
+          <select id="shape" onchange="onShapeChange()">
+            <option value="circular">Circular / Round</option>
+            <option value="rectangular">Rectangular</option>
+            <option value="square">Square</option>
+            <option value="custom-perimeter">Custom Perimeter</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="dia-group">
+          <label id="dia-label">Diameter (D)</label>
+          <div class="input-wrap">
+            <input type="number" id="diameter" value="25" min="0.5" max="2000" step="0.5" oninput="calculate()">
+            <span class="unit">mm</span>
+          </div>
+        </div>
+
+        <div class="form-group" id="length-group" style="display:none">
+          <label>Length (L)</label>
+          <div class="input-wrap">
+            <input type="number" id="length" value="50" min="0.5" max="2000" step="0.5" oninput="calculate()">
+            <span class="unit">mm</span>
+          </div>
+        </div>
+
+        <div class="form-group" id="width-group" style="display:none">
+          <label>Width (W)</label>
+          <div class="input-wrap">
+            <input type="number" id="width" value="30" min="0.5" max="2000" step="0.5" oninput="calculate()">
+            <span class="unit">mm</span>
+          </div>
+        </div>
+
+        <div class="form-group" id="perim-group" style="display:none">
+          <label>Custom Perimeter</label>
+          <div class="input-wrap">
+            <input type="number" id="perimeter" value="100" min="1" max="10000" step="1" oninput="calculate()">
+            <span class="unit">mm</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Clearance % (per side)</label>
+          <div class="input-wrap">
+            <input type="number" id="clearancePct" value="5" min="1" max="25" step="0.5" oninput="calculate()">
+            <span class="unit">%</span>
+          </div>
+          <div class="hint">Soft Al: 3–8% · MS: 5–8% · SS: 6–10%</div>
+        </div>
+
+        <div class="form-group">
+          <label>No. of Punches / Strokes</label>
+          <div class="input-wrap">
+            <input type="number" id="strokes" value="1" min="1" max="50" step="1" oninput="calculate()">
+            <span class="unit">pcs</span>
+          </div>
+        </div>
+
+        <button class="btn-calc" onclick="calculate()">⚡ Calculate</button>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="col-results">
+
+        <div class="res-primary">
+          <div class="rlabel">Die Clearance (per side)</div>
+          <div class="rvalue" id="val-clearance">—<span class="runit">mm</span></div>
+          <div class="rnote" id="note-clearance">Total gap = — mm</div>
+        </div>
+
+        <div class="res-force">
+          <div class="rlabel">Cutting / Blanking Force</div>
+          <div class="rvalue" id="val-force">—<span class="runit">kN</span></div>
+          <div class="rnote" id="note-force">F = 0.8 × UTS × t × Perimeter</div>
+        </div>
+
+        <div class="res-grid">
+          <div class="res-mini">
+            <div class="rlabel">Stripper Force</div>
+            <div class="rvalue" id="val-stripper">—</div>
+            <div class="runit">kN (≈15% of F)</div>
+          </div>
+          <div class="res-mini">
+            <div class="rlabel">Press Tonnage</div>
+            <div class="rvalue" id="val-tonnage">—</div>
+            <div class="runit">Tons</div>
+          </div>
+          <div class="res-mini">
+            <div class="rlabel">Punch Size</div>
+            <div class="rvalue" id="val-punch">—</div>
+            <div class="runit" id="unit-punch">mm</div>
+          </div>
+          <div class="res-mini">
+            <div class="rlabel">Die Size</div>
+            <div class="rvalue" id="val-die">—</div>
+            <div class="runit" id="unit-die">mm</div>
+          </div>
+          <div class="res-mini">
+            <div class="rlabel">Part / Blank</div>
+            <div class="rvalue" id="val-blank">—</div>
+            <div class="runit" id="unit-blank">mm</div>
+          </div>
+          <div class="res-mini">
+            <div class="rlabel">Perimeter</div>
+            <div class="rvalue" id="val-perim">—</div>
+            <div class="runit">mm</div>
+          </div>
+        </div>
+
+        <div class="warn-box" id="warn-box"></div>
+
+        <div class="summary-box">
+          <div class="stitle">Design Summary</div>
+          <div class="summary-row"><span class="sk">Operation</span><span class="sv" id="sum-op">—</span></div>
+          <div class="summary-row"><span class="sk">Material UTS</span><span class="sv" id="sum-uts">—</span></div>
+          <div class="summary-row"><span class="sk">Shear Strength</span><span class="sv" id="sum-shear">—</span></div>
+          <div class="summary-row"><span class="sk">t × Perimeter</span><span class="sv" id="sum-tp">—</span></div>
+          <div class="summary-row"><span class="sk">Safety Factor</span><span class="sv">1.25×</span></div>
+        </div>
+
+        <div class="info-box" style="margin-top:8px;">
+          Blanking: Punch = Part − 2c · Die = Part size<br>
+          Piercing: Die = Hole size · Punch = Hole − 2c
+        </div>
+
+      </div><!-- /col-results -->
+    </div><!-- /calc-body -->
+  </div><!-- /calc-shell -->
+
+  <!-- Bottom Ad -->
+  <ins class="adsbygoogle ad-bottom"
+       style="display:flex"
+       data-ad-client="ca-pub-4874098877826635"
+       data-ad-slot="5555555555"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-made">
+      Made with ♥ by <a href="index.html"><span>Vaibhav Dhokpande</span></a>
+    </div>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+let currentOp = 'blanking';
+
+function setOp(el, op) {
+  document.querySelectorAll('.op-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentOp = op;
+  calculate();
+}
+
+function onMaterialChange() {
+  const sel = document.getElementById('material').value;
+  document.getElementById('uts-group').style.display = sel === 'custom' ? 'block' : 'none';
+  calculate();
+}
+
+function onShapeChange() {
+  const shape = document.getElementById('shape').value;
+  document.getElementById('dia-group').style.display     = ['circular','square'].includes(shape) ? 'block' : 'none';
+  document.getElementById('length-group').style.display  = shape === 'rectangular' ? 'block' : 'none';
+  document.getElementById('width-group').style.display   = shape === 'rectangular' ? 'block' : 'none';
+  document.getElementById('perim-group').style.display   = shape === 'custom-perimeter' ? 'block' : 'none';
+  document.getElementById('dia-label').textContent       = shape === 'square' ? 'Side Length (a)' : 'Diameter (D)';
+  calculate();
+}
+
+function getUTS() {
+  const v = document.getElementById('material').value;
+  return v === 'custom' ? parseFloat(document.getElementById('customUTS').value) || 400 : parseFloat(v);
+}
+
+function getGeometry() {
+  const shape = document.getElementById('shape').value;
+  let perim = 0, mainSize = 0, sizeStr = '';
+  if (shape === 'circular') {
+    const d = parseFloat(document.getElementById('diameter').value) || 0;
+    perim = Math.PI * d; mainSize = d; sizeStr = 'Ø' + d.toFixed(2);
+  } else if (shape === 'square') {
+    const a = parseFloat(document.getElementById('diameter').value) || 0;
+    perim = 4 * a; mainSize = a; sizeStr = a.toFixed(2) + ' sq';
+  } else if (shape === 'rectangular') {
+    const l = parseFloat(document.getElementById('length').value) || 0;
+    const w = parseFloat(document.getElementById('width').value) || 0;
+    perim = 2*(l+w); mainSize = Math.max(l,w); sizeStr = l.toFixed(2)+'×'+w.toFixed(2);
+  } else {
+    perim = parseFloat(document.getElementById('perimeter').value) || 0;
+    mainSize = perim / Math.PI; sizeStr = 'Custom';
+  }
+  return { perim, mainSize, sizeStr };
+}
+
+function f2(n) { return isFinite(n) ? n.toFixed(2) : '—'; }
+function f3(n) { return isFinite(n) ? n.toFixed(3) : '—'; }
+
+function calculate() {
+  const t          = parseFloat(document.getElementById('thickness').value) || 0;
+  const clearPct   = (parseFloat(document.getElementById('clearancePct').value) || 5) / 100;
+  const strokes    = parseInt(document.getElementById('strokes').value) || 1;
+  const uts        = getUTS();
+  const { perim, mainSize, sizeStr } = getGeometry();
+
+  const c      = clearPct * t;
+  const shear  = 0.8 * uts;
+  const Fkn    = shear * t * perim / 1000;
+  const stripKN= 0.15 * Fkn;
+  const totalKN= Fkn * 1.25 * strokes;
+  const tonnage= totalKN / 9.81;
+
+  let punchSize, dieSize;
+  if (currentOp === 'blanking' || currentOp === 'piercing') {
+    punchSize = mainSize - 2*c;
+    dieSize   = mainSize;
+  } else { // notching
+    punchSize = mainSize;
+    dieSize   = mainSize + 2*c;
+  }
+
+  // Update DOM
+  document.getElementById('val-clearance').innerHTML  = f3(c) + '<span class="runit">mm</span>';
+  document.getElementById('note-clearance').textContent = 'Total gap = ' + f3(2*c) + ' mm  |  ' + (clearPct*100).toFixed(1) + '% × ' + t + ' mm';
+  document.getElementById('val-force').innerHTML       = f2(Fkn) + '<span class="runit">kN</span>';
+  document.getElementById('note-force').textContent    = '0.8 × ' + uts + ' × ' + t + ' × ' + f2(perim) + ' mm';
+  document.getElementById('val-stripper').textContent  = f2(stripKN);
+  document.getElementById('val-tonnage').textContent   = f2(tonnage);
+  document.getElementById('val-punch').textContent     = f3(punchSize);
+  document.getElementById('unit-punch').textContent    = currentOp==='blanking'?'mm (−2c)':'mm (−2c)';
+  document.getElementById('val-die').textContent       = f3(dieSize);
+  document.getElementById('unit-die').textContent      = currentOp==='blanking'?'mm (nominal)':'mm (nominal)';
+  document.getElementById('val-blank').textContent     = f2(mainSize);
+  document.getElementById('unit-blank').textContent    = 'mm ' + sizeStr;
+  document.getElementById('val-perim').textContent     = f2(perim);
+  document.getElementById('sum-op').textContent        = currentOp.charAt(0).toUpperCase()+currentOp.slice(1) + (strokes>1?' ×'+strokes:'');
+  document.getElementById('sum-uts').textContent       = uts + ' MPa';
+  document.getElementById('sum-shear').textContent     = shear.toFixed(0) + ' MPa';
+  document.getElementById('sum-tp').textContent        = t + ' × ' + f2(perim) + ' mm²';
+
+  // Warnings
+  const warnBox = document.getElementById('warn-box');
+  const warns   = [];
+  if (c < 0.03*t) warns.push('⚠ Clearance very small — risk of burrs & tool damage.');
+  if (c > 0.15*t) warns.push('⚠ Clearance too large — poor cut quality expected.');
+  if (t > 12)     warns.push('⚠ Thick material (>12 mm) — consider shear angle on punch.');
+  if (tonnage > 500) warns.push('⚠ Tonnage very high (' + f2(tonnage) + ' T) — consider multi-stage tooling.');
+  if (punchSize < 0.5 && mainSize > 0) warns.push('⚠ Punch size <0.5 mm — structural failure risk.');
+  warnBox.textContent = warns.join('  ');
+  warnBox.classList.toggle('show', warns.length > 0);
+}
+
+// Init
+calculate();
+</script>
+</body>
+</html>
