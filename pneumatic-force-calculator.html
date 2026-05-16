@@ -2,10 +2,10 @@
 
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>Pneumatic Cylinder Force Calculator – Free Online Tool</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -205,138 +205,159 @@ input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shado
 ::-webkit-scrollbar-track { background:var(--bg); }
 ::-webkit-scrollbar-thumb { background:var(--card2); border-radius:2px; }
 </style>
-
+<style id="aff-css">
+.aff-wrap{max-width:900px;margin:48px auto 0;padding:0 20px;}
+.aff-title{font-family: Arial, sans-serif,'Orbitron',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:#9e9890;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;}
+.aff-title::before{content:'';width:20px;height:1.5px;background:#9e9890;border-radius:2px;}
+.aff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;margin-bottom:12px;}
+.aff-card{background:#ffffff;border:1px solid #e8e2d9;border-radius:16px;padding:20px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;}
+.aff-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#f4600c,#ff7a2e,#fbbf24);opacity:0;transition:opacity .22s;}
+.aff-card:hover{border-color:rgba(244,96,12,.35);transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(244,96,12,.10);}
+.aff-card:hover::before{opacity:1;}
+.aff-card-top{display:flex;align-items:center;gap:12px;}
+.aff-icon{width:44px;height:44px;border-radius:12px;background:#fff0e8;
+  border:1px solid rgba(244,96,12,.15);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;}
+.aff-badge{font-family: Arial, sans-serif,'Share Tech Mono',monospace;font-size:9px;
+  font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(244,96,12,.10);
+  color:#f4600c;border:1px solid rgba(244,96,12,.20);letter-spacing:.06em;
+  text-transform:uppercase;margin-left:auto;}
+.aff-name{font-family: Arial, sans-serif,'Orbitron',sans-serif;font-size:15px;
+  font-weight:600;color:#0f0e0c;letter-spacing:-.01em;line-height:1.3;}
+.aff-desc{font-size:12.5px;color:#5a5650;line-height:1.55;flex:1;}
+.aff-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 18px;border-radius:10px;
+  font-family: Arial, sans-serif,'Exo 2','IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;
+  background:#f4600c;color:#fff;text-decoration:none;
+  transition:background .18s,transform .15s;width:100%;}
+.aff-btn:hover{background:#ff7a2e;transform:translateY(-1px);}
+.aff-disclaimer{font-size:11px;color:#9e9890;text-align:center;
+  font-family: Arial, sans-serif,'Share Tech Mono',monospace;margin-top:4px;}
+</style>
 </head>
 <body>
-
 <!-- ── TOP NAV ── -->
-<nav class="top-nav">
-  <a href="index.html" class="nav-logo">Task<span>Junction</span></a>
-  <a href="index.html" class="back-btn">← Home</a>
+<nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
 </nav>
-
 <div class="wrap">
-
-  <!-- ── HERO ── -->
-  <div class="hero">
-    <div class="hero-corners"></div>
-    <div class="hero-badge">● System Active</div>
-    <div class="hero-title">
-      <span class="accent">PNEUMA</span>CALC
+<!-- ── HERO ── -->
+<div class="hero">
+<div class="hero-corners"></div>
+<div class="hero-badge">● System Active</div>
+<div class="hero-title">
+<span class="accent">PNEUMA</span>CALC
       <span class="dim">CYLINDER FORCE CALCULATOR</span>
-    </div>
-    <div class="unit-strip" style="margin-top:16px;">
-      <button class="unit-btn active" id="btn-si" onclick="setUnit('metric')">SI · METRIC</button>
-      <button class="unit-btn" id="btn-imp" onclick="setUnit('imperial')">IMP · USC</button>
-    </div>
-  </div>
-
-  <!-- ── RESULTS ── -->
-  <div class="result-hero">
-    <div class="result-card extend">
-      <div class="result-card-label"><span class="dot-extend"></span>Extend Force</div>
-      <div class="result-val extend" id="r-extend">—</div>
-      <div class="result-unit" id="u-extend">kN</div>
-      <div class="result-dir ext">↗ PUSH</div>
-    </div>
-    <div class="result-card retract">
-      <div class="result-card-label"><span class="dot-retract"></span>Retract Force</div>
-      <div class="result-val retract" id="r-retract">—</div>
-      <div class="result-unit" id="u-retract">kN</div>
-      <div class="result-dir ret">↙ PULL</div>
-    </div>
-  </div>
-
-  <!-- ── METRICS ── -->
-  <div class="metrics-row">
-    <div class="metric-cell">
-      <div class="metric-cell-label">Piston Area</div>
-      <div class="metric-cell-val" id="m-piston">—</div>
-      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:3px;" id="u-piston">cm²</div>
-    </div>
-    <div class="metric-cell">
-      <div class="metric-cell-label">Annulus Area</div>
-      <div class="metric-cell-val" id="m-annulus">—</div>
-      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:3px;" id="u-annulus">cm²</div>
-    </div>
-    <div class="metric-cell">
-      <div class="metric-cell-label">Force Ratio</div>
-      <div class="metric-cell-val" id="m-ratio">—</div>
-      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:3px;">EXT/RET</div>
-    </div>
-  </div>
-
-  <!-- ── RATIO BAR ── -->
-  <div class="ratio-card">
-    <div class="ratio-header">
-      <span class="ratio-label">Ext / Ret Ratio</span>
-      <span class="ratio-value" id="ratio-val">—</span>
-    </div>
-    <div class="ratio-track">
-      <div class="ratio-fill" id="ratio-fill" style="width:50%"></div>
-    </div>
-  </div>
-
-  <!-- ── DIAGRAM ── -->
-  <div class="diagram-card">
-    <div class="diagram-label">Cross-Section</div>
-    <svg id="cyl-svg" viewBox="0 0 460 88" width="100%" style="display:block;"></svg>
-  </div>
-
-  <!-- ── PARAMETERS ── -->
-  <div class="params-label">Parameters</div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Bore Diameter</span>
-      <span class="slider-reading" id="r-bore">80 mm</span>
-    </div>
-    <input type="range" id="s-bore" min="10" max="320" value="80" step="1" oninput="calc()">
-    <div class="slider-ticks"><span>10</span><span>165</span><span>320</span></div>
-  </div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Rod Diameter</span>
-      <span class="slider-reading" id="r-rod">32 mm</span>
-    </div>
-    <input type="range" id="s-rod" min="5" max="160" value="32" step="1" oninput="calc()">
-    <div class="slider-ticks"><span>5</span><span>80</span><span>160</span></div>
-  </div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Supply Pressure</span>
-      <span class="slider-reading" id="r-pres">6.0 bar</span>
-    </div>
-    <input type="range" id="s-pres" min="1" max="16" value="6" step="0.1" oninput="calc()">
-    <div class="slider-ticks"><span>1</span><span>8</span><span>16</span></div>
-  </div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Back Pressure</span>
-      <span class="slider-reading" id="r-back">0.0 bar</span>
-    </div>
-    <input type="range" id="s-back" min="0" max="4" value="0" step="0.1" oninput="calc()">
-    <div class="slider-ticks"><span>0</span><span>2</span><span>4</span></div>
-  </div>
-
-  <!-- ── FORMULA ── -->
-  <div class="formula-card">
-    <div class="params-label" style="margin-bottom:8px;">Formula Reference</div>
-    <div class="formula-row">
-      <span class="formula-tag ext">EXT</span>
-      <span class="formula-expr">F = P × π(D/2)² − P<sub>back</sub> × π(D²−d²)/4</span>
-    </div>
-    <div class="formula-row">
-      <span class="formula-tag ret">RET</span>
-      <span class="formula-expr">F = P × π(D²−d²)/4 − P<sub>back</sub> × π(D/2)²</span>
-    </div>
-  </div>
-
 </div>
-
+<div class="unit-strip" style="margin-top:16px;">
+<button class="unit-btn active" id="btn-si" onclick="setUnit('metric')">SI · METRIC</button>
+<button class="unit-btn" id="btn-imp" onclick="setUnit('imperial')">IMP · USC</button>
+</div>
+</div>
+<!-- ── RESULTS ── -->
+<div class="result-hero">
+<div class="result-card extend">
+<div class="result-card-label"><span class="dot-extend"></span>Extend Force</div>
+<div class="result-val extend" id="r-extend">—</div>
+<div class="result-unit" id="u-extend">kN</div>
+<div class="result-dir ext">↗ PUSH</div>
+</div>
+<div class="result-card retract">
+<div class="result-card-label"><span class="dot-retract"></span>Retract Force</div>
+<div class="result-val retract" id="r-retract">—</div>
+<div class="result-unit" id="u-retract">kN</div>
+<div class="result-dir ret">↙ PULL</div>
+</div>
+</div>
+<!-- ── METRICS ── -->
+<div class="metrics-row">
+<div class="metric-cell">
+<div class="metric-cell-label">Piston Area</div>
+<div class="metric-cell-val" id="m-piston">—</div>
+<div id="u-piston" style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:3px;">cm²</div>
+</div>
+<div class="metric-cell">
+<div class="metric-cell-label">Annulus Area</div>
+<div class="metric-cell-val" id="m-annulus">—</div>
+<div id="u-annulus" style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:3px;">cm²</div>
+</div>
+<div class="metric-cell">
+<div class="metric-cell-label">Force Ratio</div>
+<div class="metric-cell-val" id="m-ratio">—</div>
+<div style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:3px;">EXT/RET</div>
+</div>
+</div>
+<!-- ── RATIO BAR ── -->
+<div class="ratio-card">
+<div class="ratio-header">
+<span class="ratio-label">Ext / Ret Ratio</span>
+<span class="ratio-value" id="ratio-val">—</span>
+</div>
+<div class="ratio-track">
+<div class="ratio-fill" id="ratio-fill" style="width:50%"></div>
+</div>
+</div>
+<!-- ── DIAGRAM ── -->
+<div class="diagram-card">
+<div class="diagram-label">Cross-Section</div>
+<svg id="cyl-svg" style="display:block;" viewbox="0 0 460 88" width="100%"></svg>
+</div>
+<!-- ── PARAMETERS ── -->
+<div class="params-label">Parameters</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Bore Diameter</span>
+<span class="slider-reading" id="r-bore">80 mm</span>
+</div>
+<input id="s-bore" max="320" min="10" oninput="calc()" step="1" type="range" value="80"/>
+<div class="slider-ticks"><span>10</span><span>165</span><span>320</span></div>
+</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Rod Diameter</span>
+<span class="slider-reading" id="r-rod">32 mm</span>
+</div>
+<input id="s-rod" max="160" min="5" oninput="calc()" step="1" type="range" value="32"/>
+<div class="slider-ticks"><span>5</span><span>80</span><span>160</span></div>
+</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Supply Pressure</span>
+<span class="slider-reading" id="r-pres">6.0 bar</span>
+</div>
+<input id="s-pres" max="16" min="1" oninput="calc()" step="0.1" type="range" value="6"/>
+<div class="slider-ticks"><span>1</span><span>8</span><span>16</span></div>
+</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Back Pressure</span>
+<span class="slider-reading" id="r-back">0.0 bar</span>
+</div>
+<input id="s-back" max="4" min="0" oninput="calc()" step="0.1" type="range" value="0"/>
+<div class="slider-ticks"><span>0</span><span>2</span><span>4</span></div>
+</div>
+<!-- ── FORMULA ── -->
+<div class="formula-card">
+<div class="params-label" style="margin-bottom:8px;">Formula Reference</div>
+<div class="formula-row">
+<span class="formula-tag ext">EXT</span>
+<span class="formula-expr">F = P × π(D/2)² − P<sub>back</sub> × π(D²−d²)/4</span>
+</div>
+<div class="formula-row">
+<span class="formula-tag ret">RET</span>
+<span class="formula-expr">F = P × π(D²−d²)/4 − P<sub>back</sub> × π(D/2)²</span>
+</div>
+</div>
+</div>
 <script>
 let unit = 'metric';
 function setUnit(u) {
@@ -442,13 +463,34 @@ function drawDiagram(bore_mm, rod_mm) {
 }
 calc();
 </script>
-
-<footer style="position:relative;z-index:1;text-align:center;padding:24px 16px 32px;display:flex;flex-direction:column;align-items:center;gap:8px;">
-  <div style="width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(14,120,210,0.4),transparent);margin-bottom:4px;"></div>
-  <div style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:0.12em;color:rgba(74,111,165,0.6);text-transform:uppercase;">Crafted by</div>
-  <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;color:#0e78d2;text-shadow:0 0 12px rgba(14,120,210,0.35);">Vaibhav Dhokpande</div>
-  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.16em;color:rgba(74,111,165,0.7);text-transform:uppercase;">© 2025 · PneumaCalc Pro</div>
+<div class="aff-wrap" id="aff-universal">
+<div class="aff-title">📚 Recommended Resource</div>
+<div class="aff-grid" style="grid-template-columns:1fr;">
+<div class="aff-card">
+<div class="aff-card-top">
+<div class="aff-icon">📖</div>
+<span class="aff-badge">Amazon</span>
+</div>
+<div class="aff-name">R.S. Khurmi — Theory of Machines &amp; Machine Design</div>
+<div class="aff-desc">The most trusted mechanical engineering reference book for Indian students &amp; professionals.
+        Covers gears, springs, shafts, belts, chains and more — everything this calculator is based on.</div>
+<a class="aff-btn" href="https://amzn.to/4tEIoui" rel="noopener sponsored" target="_blank">
+        🛒 Buy on Amazon India →
+      </a>
+</div>
+</div>
+<p class="aff-disclaimer">* Affiliate link — aapko koi extra cost nahi. Hum small commission earn karte hain.</p>
+</div>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
 </footer>
-
 </body>
 </html>
