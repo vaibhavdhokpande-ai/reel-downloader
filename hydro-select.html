@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>HydroSelect – Hydraulic System Design</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --bg:       #070b12;
@@ -29,15 +30,15 @@
   --text:     #e2e8f0;
   --text2:    #94a3b8;
   --text3:    #475569;
-  --font-d:   'Syne', sans-serif;
-  --font-m:   'JetBrains Mono', monospace;
+  
+  
   --r:        10px;
   --sh:       0 4px 24px rgba(0,0,0,0.4);
   --sh2:      0 8px 40px rgba(0,0,0,0.6);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:14px;scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font-m);line-height:1.6;min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:Arial, sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden}
 
 /* BACKGROUND */
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
@@ -62,7 +63,7 @@ header{position:sticky;top:0;z-index:200;background:rgba(7,11,18,0.92);backdrop-
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
 .logo-icon{width:34px;height:34px;border-radius:8px;background:var(--cyan3);border:1px solid var(--border2);
   display:flex;align-items:center;justify-content:center;font-size:16px}
-.logo-text{font-family:var(--font-d);font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.02em}
+.logo-text{font-family:Arial, sans-serif;font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.02em}
 .logo-text em{color:var(--cyan);font-style:normal}
 .logo-badge{font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
   padding:3px 10px;border-radius:20px;background:var(--cyan3);color:var(--cyan);border:1px solid var(--border2);margin-left:4px}
@@ -83,7 +84,7 @@ header{position:sticky;top:0;z-index:200;background:rgba(7,11,18,0.92);backdrop-
 
 /* UNIT TOGGLE */
 .unit-toggle{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;flex-shrink:0}
-.utbtn{padding:5px 14px;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:0.08em;
+.utbtn{padding:5px 14px;font-family:Arial, sans-serif;font-size:10px;font-weight:700;letter-spacing:0.08em;
   text-transform:uppercase;background:transparent;color:var(--text3);border:none;cursor:pointer;transition:all 0.18s}
 .utbtn.active{background:var(--cyan);color:var(--bg)}
 
@@ -102,7 +103,7 @@ header{position:sticky;top:0;z-index:200;background:rgba(7,11,18,0.92);backdrop-
 
 /* STEP HEADER */
 .step-hdr{margin-bottom:24px}
-.step-hdr h2{font-family:var(--font-d);font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:6px}
+.step-hdr h2{font-family:Arial, sans-serif;font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:6px}
 .step-hdr h2 span{color:var(--cyan)}
 .step-hdr p{font-size:12px;color:var(--text2);line-height:1.7;max-width:500px}
 
@@ -118,7 +119,7 @@ header{position:sticky;top:0;z-index:200;background:rgba(7,11,18,0.92);backdrop-
 .atype-card:hover{border-color:var(--border2);background:var(--bg4)}
 .atype-card.active{border-color:var(--cyan);background:var(--cyan4);box-shadow:0 0 0 1px rgba(56,189,248,0.1)}
 .atype-icon{font-size:28px}
-.atype-name{font-family:var(--font-d);font-size:14px;font-weight:700;color:var(--text)}
+.atype-name{font-family:Arial, sans-serif;font-size:14px;font-weight:700;color:var(--text)}
 .atype-desc{font-size:10px;color:var(--text2)}
 
 /* INPUT GRID */
@@ -129,7 +130,7 @@ header{position:sticky;top:0;z-index:200;background:rgba(7,11,18,0.92);backdrop-
 label.lbl{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2)}
 .inp-wrap{display:flex;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color 0.18s}
 .inp-wrap:focus-within{border-color:var(--border3);box-shadow:0 0 0 3px rgba(56,189,248,0.06)}
-input[type=number],input[type=range],select{background:transparent;border:none;outline:none;font-family:var(--font-m);color:var(--text)}
+input[type=number],input[type=range],select{background:transparent;border:none;outline:none;font-family:Arial, sans-serif;color:var(--text)}
 input[type=number]{flex:1;padding:9px 12px;font-size:13px;width:100%}
 input[type=number]::-webkit-inner-spin-button{opacity:0.3}
 input[type=number]::placeholder{color:var(--text3)}
@@ -154,7 +155,7 @@ select option{background:#0d1420}
 /* PRESSURE SLIDER */
 .pressure-wrap{padding:20px 0 8px}
 .pressure-display{display:flex;align-items:baseline;gap:6px;margin-bottom:16px}
-.pressure-val{font-family:var(--font-d);font-size:48px;font-weight:800;color:var(--cyan);letter-spacing:-0.03em;line-height:1}
+.pressure-val{font-family:Arial, sans-serif;font-size:48px;font-weight:800;color:var(--cyan);letter-spacing:-0.03em;line-height:1}
 .pressure-unit{font-size:16px;color:var(--text2)}
 .pressure-label{font-size:10px;color:var(--text3);margin-top:2px}
 input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;outline:none;
@@ -169,7 +170,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
 .calc-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
 .ci-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
-.ci-value{font-family:var(--font-d);font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1}
+.ci-value{font-family:Arial, sans-serif;font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1}
 .ci-value .civ-num{color:var(--cyan)}
 .ci-unit{font-size:11px;color:var(--text2);margin-left:4px}
 .ci-sub{font-size:10px;color:var(--text3);margin-top:4px}
@@ -179,7 +180,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 /* COMPONENT CARDS */
 .comp-section{margin-top:14px}
 .comp-section+.comp-section{margin-top:20px}
-.comp-section-title{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;
+.comp-section-title{font-family:Arial, sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;
   display:flex;align-items:center;gap:8px}
 .comp-section-title .icon{font-size:16px}
 .comp-grid{display:grid;grid-template-columns:1fr;gap:8px}
@@ -194,7 +195,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   background:var(--bg4);border:1px solid var(--border);font-size:17px;flex-shrink:0}
 .cc-info{flex:1;min-width:0}
 .cc-brand{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3)}
-.cc-name{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--text);margin:2px 0 5px}
+.cc-name{font-family:Arial, sans-serif;font-size:13px;font-weight:700;color:var(--text);margin:2px 0 5px}
 .cc-specs{display:flex;flex-wrap:wrap;gap:5px}
 .cc-spec{font-size:9px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--bg4);
   color:var(--text2);border:1px solid var(--border);letter-spacing:0.04em}
@@ -206,12 +207,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 /* STEP NAV BUTTONS */
 .step-nav{display:flex;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 .btn-next{flex:1;padding:13px;background:var(--cyan);color:var(--bg);border:none;border-radius:10px;
-  font-family:var(--font-d);font-size:14px;font-weight:700;cursor:pointer;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:700;cursor:pointer;
   display:flex;align-items:center;justify-content:center;gap:8px;
   transition:all 0.18s;box-shadow:0 4px 20px rgba(56,189,248,0.25)}
 .btn-next:hover{background:#7dd3fc;transform:translateY(-1px);box-shadow:0 8px 28px rgba(56,189,248,0.3)}
 .btn-back{padding:13px 22px;background:transparent;color:var(--text2);border:1px solid var(--border);border-radius:10px;
-  font-family:var(--font-m);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.18s}
+  font-family:Arial, sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.18s}
 .btn-back:hover{border-color:var(--border2);color:var(--text)}
 
 /* ── RIGHT SIDEBAR ── */
@@ -225,7 +226,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .param-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
 .param-row:last-child{border-bottom:none;padding-bottom:0}
 .pr-lbl{font-size:10px;color:var(--text2)}
-.pr-val{font-size:11px;font-weight:700;color:var(--text);font-family:var(--font-m)}
+.pr-val{font-size:11px;font-weight:700;color:var(--text);font-family:Arial, sans-serif}
 .pr-val.hi{color:var(--cyan)}
 .pr-val.ok{color:var(--green)}
 .pr-val.warn{color:var(--amber)}
@@ -242,7 +243,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .summary-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px}
 .summary-card.full{grid-column:span 2}
-.sc-title{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;
+.sc-title{font-family:Arial, sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;
   display:flex;align-items:center;gap:8px}
 .sc-title .icon{font-size:16px}
 
@@ -259,7 +260,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 /* PERF GRID */
 .perf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .perf-item{text-align:center;padding:14px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)}
-.perf-num{font-family:var(--font-d);font-size:22px;font-weight:800;color:var(--cyan);letter-spacing:-0.02em}
+.perf-num{font-family:Arial, sans-serif;font-size:22px;font-weight:800;color:var(--cyan);letter-spacing:-0.02em}
 .perf-lbl{font-size:9px;color:var(--text3);margin-top:3px;letter-spacing:0.06em;text-transform:uppercase}
 
 /* SCHEMATIC */
@@ -274,7 +275,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
 /* PRINT / EXPORT */
 .export-btn{width:100%;padding:12px;background:transparent;border:1px solid var(--border2);border-radius:10px;
-  font-family:var(--font-m);font-size:12px;font-weight:600;color:var(--cyan);cursor:pointer;transition:all 0.18s;
+  font-family:Arial, sans-serif;font-size:12px;font-weight:600;color:var(--cyan);cursor:pointer;transition:all 0.18s;
   display:flex;align-items:center;justify-content:center;gap:7px}
 .export-btn:hover{background:var(--cyan4);border-color:var(--border3)}
 
@@ -303,318 +304,299 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 }
 </style>
 </head>
-<body>
-
+<body><nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
+</nav>
 <!-- HEADER -->
 <header class="z1">
-  <a href="#" class="logo">
-    <div class="logo-icon">💧</div>
-    <div class="logo-text">Hydro<em>Select</em></div>
-    <span class="logo-badge">v2.0</span>
-  </a>
-  <div class="step-progress" id="stepProgress"></div>
-  <div class="unit-toggle">
-    <button class="utbtn active" onclick="setUnit('si')" id="btnSI">SI</button>
-    <button class="utbtn" onclick="setUnit('imp')" id="btnIMP">IMP</button>
-  </div>
+<a class="logo" href="#">
+<div class="logo-icon">💧</div>
+<div class="logo-text">Hydro<em>Select</em></div>
+<span class="logo-badge">v2.0</span>
+</a>
+<div class="step-progress" id="stepProgress"></div>
+<div class="unit-toggle">
+<button class="utbtn active" id="btnSI" onclick="setUnit('si')">SI</button>
+<button class="utbtn" id="btnIMP" onclick="setUnit('imp')">IMP</button>
+</div>
 </header>
-
 <!-- MAIN -->
 <div class="main z1">
-
-  <!-- STEP FORMS -->
-  <div>
-    <!-- ══ STEP 1 ══ -->
-    <div class="step-content active" id="step1">
-      <div class="step-hdr">
-        <div class="sec-label">Step 1 of 4</div>
-        <h2>Application <span>Requirements</span></h2>
-        <p>Define the mechanical requirements: output force or torque, operating speed, duty cycle, and environmental conditions.</p>
-      </div>
-
-      <!-- Actuator type -->
-      <div class="card">
-        <div class="sec-label">Actuator Type</div>
-        <div class="type-grid">
-          <div class="atype-card active" id="at-linear" onclick="setActuator('linear')">
-            <div class="atype-icon">↕️</div>
-            <div class="atype-name">Linear (Cylinder)</div>
-            <div class="atype-desc">Push / pull motion. Hydraulic cylinder extends and retracts.</div>
-          </div>
-          <div class="atype-card" id="at-rotary" onclick="setActuator('rotary')">
-            <div class="atype-icon">🔄</div>
-            <div class="atype-name">Rotary (Motor)</div>
-            <div class="atype-desc">Continuous rotation. Hydraulic motor drives shaft.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Force / Speed -->
-      <div class="card">
-        <div class="sec-label" id="lbl-force-sec">Force & Speed Parameters</div>
-        <div class="inp-grid">
-          <div class="inp-group">
-            <label class="lbl" id="lbl-force">Required Force</label>
-            <div class="inp-wrap">
-              <input type="number" id="inp-force" value="50000" min="100" step="500">
-              <span class="utag" id="utag-force">N</span>
-            </div>
-          </div>
-          <div class="inp-group">
-            <label class="lbl" id="lbl-speed">Piston Speed</label>
-            <div class="inp-wrap">
-              <input type="number" id="inp-speed" value="150" min="1" step="10">
-              <span class="utag" id="utag-speed">mm/s</span>
-            </div>
-          </div>
-          <div class="inp-group">
-            <label class="lbl" id="lbl-stroke">Stroke Length</label>
-            <div class="inp-wrap">
-              <input type="number" id="inp-stroke" value="500" min="10" step="10">
-              <span class="utag" id="utag-stroke">mm</span>
-            </div>
-          </div>
-          <div class="inp-group">
-            <label class="lbl">Cycles / Hour</label>
-            <div class="inp-wrap">
-              <input type="number" id="inp-cycles" value="60" min="1" step="5">
-              <span class="utag">cyc/h</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Duty Cycle & Load -->
-      <div class="card">
-        <div class="sec-label">Operating Conditions</div>
-        <div class="inp-grid">
-          <div class="inp-group">
-            <label class="lbl">Duty Cycle</label>
-            <div class="inp-wrap">
-              <input type="number" id="inp-duty" value="60" min="5" max="100" step="5">
-              <span class="utag">%</span>
-            </div>
-          </div>
-          <div class="inp-group">
-            <label class="lbl">Pump Drive Speed</label>
-            <div class="inp-wrap">
-              <input type="number" id="inp-pumpRpm" value="1450" min="750" max="4000" step="50">
-              <span class="utag">RPM</span>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:14px">
-          <label class="lbl" style="display:block;margin-bottom:8px">Load Type</label>
-          <div class="radio-grid">
-            <div class="radio-opt"><input type="radio" name="loadType" value="static" id="lt-static">
-              <label class="radio-label" for="lt-static"><span class="r-icon">🏋️</span><span class="r-name">Static</span><span style="font-size:9px;color:var(--text3)">SF 1.1</span></label></div>
-            <div class="radio-opt"><input type="radio" name="loadType" value="dynamic" id="lt-dynamic" checked>
-              <label class="radio-label" for="lt-dynamic"><span class="r-icon">⚡</span><span class="r-name">Dynamic</span><span style="font-size:9px;color:var(--text3)">SF 1.25</span></label></div>
-            <div class="radio-opt"><input type="radio" name="loadType" value="shock" id="lt-shock">
-              <label class="radio-label" for="lt-shock"><span class="r-icon">💥</span><span class="r-name">Shock</span><span style="font-size:9px;color:var(--text3)">SF 1.5</span></label></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Environment -->
-      <div class="card">
-        <div class="sec-label">Environment & Temperature</div>
-        <div class="inp-grid">
-          <div class="inp-group">
-            <label class="lbl">Environment</label>
-            <div class="inp-wrap">
-              <select id="inp-env">
-                <option value="clean">Indoor – Clean</option>
-                <option value="industrial" selected>Industrial – General</option>
-                <option value="outdoor">Outdoor / Mobile</option>
-                <option value="hazardous">Hazardous / Offshore</option>
-              </select>
-            </div>
-          </div>
-          <div class="inp-group">
-            <label class="lbl">Contamination Level</label>
-            <div class="inp-wrap">
-              <select id="inp-contam">
-                <option value="low">Low – Clean room</option>
-                <option value="medium" selected>Medium – Factory</option>
-                <option value="high">High – Mining / Marine</option>
-              </select>
-            </div>
-          </div>
-          <div class="inp-group">
-            <label class="lbl" id="lbl-tmin">Min. Temperature</label>
-            <div class="inp-wrap">
-              <input type="number" id="inp-tmin" value="5" step="5">
-              <span class="utag" id="utag-temp">°C</span>
-            </div>
-          </div>
-          <div class="inp-group">
-            <label class="lbl" id="lbl-tmax">Max. Temperature</label>
-            <div class="inp-wrap">
-              <input type="number" id="inp-tmax" value="60" step="5">
-              <span class="utag" id="utag-temp2">°C</span>
-            </div>
-          </div>
-          <div class="inp-group full" style="flex-direction:row;gap:20px;align-items:center;padding-top:4px">
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11px;color:var(--text2)">
-              <input type="checkbox" id="inp-fire" style="width:14px;height:14px;accent-color:var(--cyan)">
+<!-- STEP FORMS -->
+<div>
+<!-- ══ STEP 1 ══ -->
+<div class="step-content active" id="step1">
+<div class="step-hdr">
+<div class="sec-label">Step 1 of 4</div>
+<h2>Application <span>Requirements</span></h2>
+<p>Define the mechanical requirements: output force or torque, operating speed, duty cycle, and environmental conditions.</p>
+</div>
+<!-- Actuator type -->
+<div class="card">
+<div class="sec-label">Actuator Type</div>
+<div class="type-grid">
+<div class="atype-card active" id="at-linear" onclick="setActuator('linear')">
+<div class="atype-icon">↕️</div>
+<div class="atype-name">Linear (Cylinder)</div>
+<div class="atype-desc">Push / pull motion. Hydraulic cylinder extends and retracts.</div>
+</div>
+<div class="atype-card" id="at-rotary" onclick="setActuator('rotary')">
+<div class="atype-icon">🔄</div>
+<div class="atype-name">Rotary (Motor)</div>
+<div class="atype-desc">Continuous rotation. Hydraulic motor drives shaft.</div>
+</div>
+</div>
+</div>
+<!-- Force / Speed -->
+<div class="card">
+<div class="sec-label" id="lbl-force-sec">Force &amp; Speed Parameters</div>
+<div class="inp-grid">
+<div class="inp-group">
+<label class="lbl" id="lbl-force">Required Force</label>
+<div class="inp-wrap">
+<input id="inp-force" min="100" step="500" type="number" value="50000"/>
+<span class="utag" id="utag-force">N</span>
+</div>
+</div>
+<div class="inp-group">
+<label class="lbl" id="lbl-speed">Piston Speed</label>
+<div class="inp-wrap">
+<input id="inp-speed" min="1" step="10" type="number" value="150"/>
+<span class="utag" id="utag-speed">mm/s</span>
+</div>
+</div>
+<div class="inp-group">
+<label class="lbl" id="lbl-stroke">Stroke Length</label>
+<div class="inp-wrap">
+<input id="inp-stroke" min="10" step="10" type="number" value="500"/>
+<span class="utag" id="utag-stroke">mm</span>
+</div>
+</div>
+<div class="inp-group">
+<label class="lbl">Cycles / Hour</label>
+<div class="inp-wrap">
+<input id="inp-cycles" min="1" step="5" type="number" value="60"/>
+<span class="utag">cyc/h</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Duty Cycle & Load -->
+<div class="card">
+<div class="sec-label">Operating Conditions</div>
+<div class="inp-grid">
+<div class="inp-group">
+<label class="lbl">Duty Cycle</label>
+<div class="inp-wrap">
+<input id="inp-duty" max="100" min="5" step="5" type="number" value="60"/>
+<span class="utag">%</span>
+</div>
+</div>
+<div class="inp-group">
+<label class="lbl">Pump Drive Speed</label>
+<div class="inp-wrap">
+<input id="inp-pumpRpm" max="4000" min="750" step="50" type="number" value="1450"/>
+<span class="utag">RPM</span>
+</div>
+</div>
+</div>
+<div style="margin-top:14px">
+<label class="lbl" style="display:block;margin-bottom:8px">Load Type</label>
+<div class="radio-grid">
+<div class="radio-opt"><input id="lt-static" name="loadType" type="radio" value="static"/>
+<label class="radio-label" for="lt-static"><span class="r-icon">🏋️</span><span class="r-name">Static</span><span style="font-size:9px;color:var(--text3)">SF 1.1</span></label></div>
+<div class="radio-opt"><input checked="" id="lt-dynamic" name="loadType" type="radio" value="dynamic"/>
+<label class="radio-label" for="lt-dynamic"><span class="r-icon">⚡</span><span class="r-name">Dynamic</span><span style="font-size:9px;color:var(--text3)">SF 1.25</span></label></div>
+<div class="radio-opt"><input id="lt-shock" name="loadType" type="radio" value="shock"/>
+<label class="radio-label" for="lt-shock"><span class="r-icon">💥</span><span class="r-name">Shock</span><span style="font-size:9px;color:var(--text3)">SF 1.5</span></label></div>
+</div>
+</div>
+</div>
+<!-- Environment -->
+<div class="card">
+<div class="sec-label">Environment &amp; Temperature</div>
+<div class="inp-grid">
+<div class="inp-group">
+<label class="lbl">Environment</label>
+<div class="inp-wrap">
+<select id="inp-env">
+<option value="clean">Indoor – Clean</option>
+<option selected="" value="industrial">Industrial – General</option>
+<option value="outdoor">Outdoor / Mobile</option>
+<option value="hazardous">Hazardous / Offshore</option>
+</select>
+</div>
+</div>
+<div class="inp-group">
+<label class="lbl">Contamination Level</label>
+<div class="inp-wrap">
+<select id="inp-contam">
+<option value="low">Low – Clean room</option>
+<option selected="" value="medium">Medium – Factory</option>
+<option value="high">High – Mining / Marine</option>
+</select>
+</div>
+</div>
+<div class="inp-group">
+<label class="lbl" id="lbl-tmin">Min. Temperature</label>
+<div class="inp-wrap">
+<input id="inp-tmin" step="5" type="number" value="5"/>
+<span class="utag" id="utag-temp">°C</span>
+</div>
+</div>
+<div class="inp-group">
+<label class="lbl" id="lbl-tmax">Max. Temperature</label>
+<div class="inp-wrap">
+<input id="inp-tmax" step="5" type="number" value="60"/>
+<span class="utag" id="utag-temp2">°C</span>
+</div>
+</div>
+<div class="inp-group full" style="flex-direction:row;gap:20px;align-items:center;padding-top:4px">
+<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11px;color:var(--text2)">
+<input id="inp-fire" style="width:14px;height:14px;accent-color:var(--cyan)" type="checkbox"/>
               Fire / explosion hazard (requires HF fluid)
             </label>
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11px;color:var(--text2)">
-              <input type="checkbox" id="inp-bio" style="width:14px;height:14px;accent-color:var(--cyan)">
+<label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11px;color:var(--text2)">
+<input id="inp-bio" style="width:14px;height:14px;accent-color:var(--cyan)" type="checkbox"/>
               Biodegradable fluid required
             </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="step-nav">
-        <button class="btn-next" onclick="goStep(2)">Calculate System Parameters →</button>
-      </div>
-    </div>
-
-    <!-- ══ STEP 2 ══ -->
-    <div class="step-content" id="step2">
-      <div class="step-hdr">
-        <div class="sec-label">Step 2 of 4</div>
-        <h2>System Design <span>Parameters</span></h2>
-        <p>Adjust the target operating pressure. All system parameters recalculate in real time.</p>
-      </div>
-
-      <div class="card">
-        <div class="sec-label">Target System Pressure</div>
-        <div class="pressure-wrap">
-          <div class="pressure-display">
-            <span class="pressure-val" id="pres-display">200</span>
-            <div>
-              <div class="pressure-unit" id="pres-unit">bar</div>
-              <div class="pressure-label">System Pressure</div>
-            </div>
-          </div>
-          <input type="range" id="pres-slider" min="50" max="480" value="200" step="5" oninput="onPressureChange(this.value)">
-          <div class="pressure-marks">
-            <span id="pm0">50 bar</span><span id="pm1">100 bar</span><span id="pm2">200 bar</span><span id="pm3">320 bar</span><span id="pm4">480 bar</span>
-          </div>
-        </div>
-        <div class="pump-reco" id="pumpTypeReco">⚙️ Adjust pressure to determine optimal pump type</div>
-      </div>
-
-      <div class="calc-grid">
-        <div class="calc-item">
-          <div class="ci-label" id="ci-bore-lbl">Cylinder Bore</div>
-          <div class="ci-value"><span class="civ-num" id="ci-bore">—</span><span class="ci-unit" id="ci-bore-u">mm</span></div>
-          <div class="ci-sub" id="ci-bore-sub">Required bore diameter</div>
-          <div class="ci-bar"><div class="ci-bar-fill" id="bar-bore" style="width:0%"></div></div>
-        </div>
-        <div class="calc-item">
-          <div class="ci-label">Flow Rate (max)</div>
-          <div class="ci-value"><span class="civ-num" id="ci-flow">—</span><span class="ci-unit" id="ci-flow-u">L/min</span></div>
-          <div class="ci-sub" id="ci-flow-sub">At operating speed</div>
-          <div class="ci-bar"><div class="ci-bar-fill" id="bar-flow" style="width:0%"></div></div>
-        </div>
-        <div class="calc-item">
-          <div class="ci-label">Pump Power</div>
-          <div class="ci-value"><span class="civ-num" id="ci-power">—</span><span class="ci-unit" id="ci-power-u">kW</span></div>
-          <div class="ci-sub">Including 85% sys. efficiency</div>
-          <div class="ci-bar"><div class="ci-bar-fill" id="bar-power" style="width:0%;background:linear-gradient(90deg,var(--amber),var(--orange))"></div></div>
-        </div>
-        <div class="calc-item">
-          <div class="ci-label">Pump Displacement</div>
-          <div class="ci-value"><span class="civ-num" id="ci-displ">—</span><span class="ci-unit" id="ci-displ-u">cc/rev</span></div>
-          <div class="ci-sub" id="ci-displ-sub">At drive speed</div>
-          <div class="ci-bar"><div class="ci-bar-fill" id="bar-displ" style="width:0%"></div></div>
-        </div>
-        <div class="calc-item">
-          <div class="ci-label">Heat Generation</div>
-          <div class="ci-value"><span class="civ-num" id="ci-heat">—</span><span class="ci-unit" id="ci-heat-u">kW</span></div>
-          <div class="ci-sub" id="ci-heat-sub">At duty cycle</div>
-        </div>
-        <div class="calc-item">
-          <div class="ci-label">Reservoir Volume</div>
-          <div class="ci-value"><span class="civ-num" id="ci-res">—</span><span class="ci-unit" id="ci-res-u">L</span></div>
-          <div class="ci-sub">3× pump flow rule</div>
-        </div>
-      </div>
-
-      <div id="step2-status" style="margin-top:14px"></div>
-
-      <div class="step-nav">
-        <button class="btn-back" onclick="goStep(1)">← Back</button>
-        <button class="btn-next" onclick="goStep(3)">Select Components →</button>
-      </div>
-    </div>
-
-    <!-- ══ STEP 3 ══ -->
-    <div class="step-content" id="step3">
-      <div class="step-hdr">
-        <div class="sec-label">Step 3 of 4</div>
-        <h2>Component <span>Selection</span></h2>
-        <p>Catalog-matched components based on your calculated parameters. Select one per category.</p>
-      </div>
-
-      <div id="comp-content">
-        <!-- dynamically built -->
-      </div>
-
-      <div class="step-nav">
-        <button class="btn-back" onclick="goStep(2)">← Back</button>
-        <button class="btn-next" onclick="goStep(4)">Generate System Report →</button>
-      </div>
-    </div>
-
-    <!-- ══ STEP 4 ══ -->
-    <div class="step-content" id="step4">
-      <div class="step-hdr">
-        <div class="sec-label">Step 4 of 4</div>
-        <h2>System <span>Summary</span></h2>
-        <p>Complete hydraulic system specification with schematic, bill of materials, and design notes.</p>
-      </div>
-      <div id="summary-content"></div>
-      <div class="step-nav" style="margin-top:20px">
-        <button class="btn-back" onclick="goStep(3)">← Back</button>
-        <button class="export-btn" onclick="window.print()">🖨️ Print / Export Report</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ SIDEBAR ══ -->
-  <div class="sidebar">
-    <div class="param-card">
-      <div class="param-title">Live Parameters</div>
-      <div class="param-row"><span class="pr-lbl">Actuator Type</span><span class="pr-val hi" id="sp-type">Linear</span></div>
-      <div class="param-row"><span class="pr-lbl">Design Force</span><span class="pr-val" id="sp-force">—</span></div>
-      <div class="param-row"><span class="pr-lbl">System Pressure</span><span class="pr-val hi" id="sp-pres">200 bar</span></div>
-      <div class="param-row"><span class="pr-lbl">Flow Rate</span><span class="pr-val" id="sp-flow">—</span></div>
-      <div class="param-row"><span class="pr-lbl">Pump Power</span><span class="pr-val" id="sp-power">—</span></div>
-      <div class="param-row"><span class="pr-lbl" id="sp-bore-lbl">Bore Diameter</span><span class="pr-val" id="sp-bore">—</span></div>
-      <div class="param-row"><span class="pr-lbl">Heat Load</span><span class="pr-val" id="sp-heat">—</span></div>
-      <div class="param-row"><span class="pr-lbl">Reservoir</span><span class="pr-val" id="sp-res">—</span></div>
-    </div>
-
-    <div class="param-card">
-      <div class="param-title">ISO Cleanliness</div>
-      <div class="param-row"><span class="pr-lbl">Target Class</span><span class="pr-val hi" id="sp-iso">—</span></div>
-      <div class="param-row"><span class="pr-lbl">Filter Rating</span><span class="pr-val" id="sp-filter">—</span></div>
-      <div class="param-row"><span class="pr-lbl">Filter β</span><span class="pr-val" id="sp-beta">—</span></div>
-    </div>
-
-    <div class="param-card">
-      <div class="param-title">Safety Factors</div>
-      <div class="param-row"><span class="pr-lbl">Load SF</span><span class="pr-val" id="sp-sf">1.25</span></div>
-      <div class="param-row"><span class="pr-lbl">PRV Setting</span><span class="pr-val" id="sp-prv">—</span></div>
-      <div class="param-row"><span class="pr-lbl">Pressure Ratio</span><span class="pr-val" id="sp-ratio">—</span></div>
-    </div>
-
-    <!-- Mini Schematic Preview -->
-    <div class="param-card">
-      <div class="param-title">Circuit Preview</div>
-      <div class="schematic-wrap">
-        <svg id="miniSchematic" viewBox="0 0 300 220" style="display:block;width:100%" xmlns="http://www.w3.org/2000/svg"></svg>
-      </div>
-    </div>
-  </div>
 </div>
-
+</div>
+</div>
+<div class="step-nav">
+<button class="btn-next" onclick="goStep(2)">Calculate System Parameters →</button>
+</div>
+</div>
+<!-- ══ STEP 2 ══ -->
+<div class="step-content" id="step2">
+<div class="step-hdr">
+<div class="sec-label">Step 2 of 4</div>
+<h2>System Design <span>Parameters</span></h2>
+<p>Adjust the target operating pressure. All system parameters recalculate in real time.</p>
+</div>
+<div class="card">
+<div class="sec-label">Target System Pressure</div>
+<div class="pressure-wrap">
+<div class="pressure-display">
+<span class="pressure-val" id="pres-display">200</span>
+<div>
+<div class="pressure-unit" id="pres-unit">bar</div>
+<div class="pressure-label">System Pressure</div>
+</div>
+</div>
+<input id="pres-slider" max="480" min="50" oninput="onPressureChange(this.value)" step="5" type="range" value="200"/>
+<div class="pressure-marks">
+<span id="pm0">50 bar</span><span id="pm1">100 bar</span><span id="pm2">200 bar</span><span id="pm3">320 bar</span><span id="pm4">480 bar</span>
+</div>
+</div>
+<div class="pump-reco" id="pumpTypeReco">⚙️ Adjust pressure to determine optimal pump type</div>
+</div>
+<div class="calc-grid">
+<div class="calc-item">
+<div class="ci-label" id="ci-bore-lbl">Cylinder Bore</div>
+<div class="ci-value"><span class="civ-num" id="ci-bore">—</span><span class="ci-unit" id="ci-bore-u">mm</span></div>
+<div class="ci-sub" id="ci-bore-sub">Required bore diameter</div>
+<div class="ci-bar"><div class="ci-bar-fill" id="bar-bore" style="width:0%"></div></div>
+</div>
+<div class="calc-item">
+<div class="ci-label">Flow Rate (max)</div>
+<div class="ci-value"><span class="civ-num" id="ci-flow">—</span><span class="ci-unit" id="ci-flow-u">L/min</span></div>
+<div class="ci-sub" id="ci-flow-sub">At operating speed</div>
+<div class="ci-bar"><div class="ci-bar-fill" id="bar-flow" style="width:0%"></div></div>
+</div>
+<div class="calc-item">
+<div class="ci-label">Pump Power</div>
+<div class="ci-value"><span class="civ-num" id="ci-power">—</span><span class="ci-unit" id="ci-power-u">kW</span></div>
+<div class="ci-sub">Including 85% sys. efficiency</div>
+<div class="ci-bar"><div class="ci-bar-fill" id="bar-power" style="width:0%;background:linear-gradient(90deg,var(--amber),var(--orange))"></div></div>
+</div>
+<div class="calc-item">
+<div class="ci-label">Pump Displacement</div>
+<div class="ci-value"><span class="civ-num" id="ci-displ">—</span><span class="ci-unit" id="ci-displ-u">cc/rev</span></div>
+<div class="ci-sub" id="ci-displ-sub">At drive speed</div>
+<div class="ci-bar"><div class="ci-bar-fill" id="bar-displ" style="width:0%"></div></div>
+</div>
+<div class="calc-item">
+<div class="ci-label">Heat Generation</div>
+<div class="ci-value"><span class="civ-num" id="ci-heat">—</span><span class="ci-unit" id="ci-heat-u">kW</span></div>
+<div class="ci-sub" id="ci-heat-sub">At duty cycle</div>
+</div>
+<div class="calc-item">
+<div class="ci-label">Reservoir Volume</div>
+<div class="ci-value"><span class="civ-num" id="ci-res">—</span><span class="ci-unit" id="ci-res-u">L</span></div>
+<div class="ci-sub">3× pump flow rule</div>
+</div>
+</div>
+<div id="step2-status" style="margin-top:14px"></div>
+<div class="step-nav">
+<button class="btn-back" onclick="goStep(1)">← Back</button>
+<button class="btn-next" onclick="goStep(3)">Select Components →</button>
+</div>
+</div>
+<!-- ══ STEP 3 ══ -->
+<div class="step-content" id="step3">
+<div class="step-hdr">
+<div class="sec-label">Step 3 of 4</div>
+<h2>Component <span>Selection</span></h2>
+<p>Catalog-matched components based on your calculated parameters. Select one per category.</p>
+</div>
+<div id="comp-content">
+<!-- dynamically built -->
+</div>
+<div class="step-nav">
+<button class="btn-back" onclick="goStep(2)">← Back</button>
+<button class="btn-next" onclick="goStep(4)">Generate System Report →</button>
+</div>
+</div>
+<!-- ══ STEP 4 ══ -->
+<div class="step-content" id="step4">
+<div class="step-hdr">
+<div class="sec-label">Step 4 of 4</div>
+<h2>System <span>Summary</span></h2>
+<p>Complete hydraulic system specification with schematic, bill of materials, and design notes.</p>
+</div>
+<div id="summary-content"></div>
+<div class="step-nav" style="margin-top:20px">
+<button class="btn-back" onclick="goStep(3)">← Back</button>
+<button class="export-btn" onclick="window.print()">🖨️ Print / Export Report</button>
+</div>
+</div>
+</div>
+<!-- ══ SIDEBAR ══ -->
+<div class="sidebar">
+<div class="param-card">
+<div class="param-title">Live Parameters</div>
+<div class="param-row"><span class="pr-lbl">Actuator Type</span><span class="pr-val hi" id="sp-type">Linear</span></div>
+<div class="param-row"><span class="pr-lbl">Design Force</span><span class="pr-val" id="sp-force">—</span></div>
+<div class="param-row"><span class="pr-lbl">System Pressure</span><span class="pr-val hi" id="sp-pres">200 bar</span></div>
+<div class="param-row"><span class="pr-lbl">Flow Rate</span><span class="pr-val" id="sp-flow">—</span></div>
+<div class="param-row"><span class="pr-lbl">Pump Power</span><span class="pr-val" id="sp-power">—</span></div>
+<div class="param-row"><span class="pr-lbl" id="sp-bore-lbl">Bore Diameter</span><span class="pr-val" id="sp-bore">—</span></div>
+<div class="param-row"><span class="pr-lbl">Heat Load</span><span class="pr-val" id="sp-heat">—</span></div>
+<div class="param-row"><span class="pr-lbl">Reservoir</span><span class="pr-val" id="sp-res">—</span></div>
+</div>
+<div class="param-card">
+<div class="param-title">ISO Cleanliness</div>
+<div class="param-row"><span class="pr-lbl">Target Class</span><span class="pr-val hi" id="sp-iso">—</span></div>
+<div class="param-row"><span class="pr-lbl">Filter Rating</span><span class="pr-val" id="sp-filter">—</span></div>
+<div class="param-row"><span class="pr-lbl">Filter β</span><span class="pr-val" id="sp-beta">—</span></div>
+</div>
+<div class="param-card">
+<div class="param-title">Safety Factors</div>
+<div class="param-row"><span class="pr-lbl">Load SF</span><span class="pr-val" id="sp-sf">1.25</span></div>
+<div class="param-row"><span class="pr-lbl">PRV Setting</span><span class="pr-val" id="sp-prv">—</span></div>
+<div class="param-row"><span class="pr-lbl">Pressure Ratio</span><span class="pr-val" id="sp-ratio">—</span></div>
+</div>
+<!-- Mini Schematic Preview -->
+<div class="param-card">
+<div class="param-title">Circuit Preview</div>
+<div class="schematic-wrap">
+<svg id="miniSchematic" style="display:block;width:100%" viewbox="0 0 300 220" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+</div>
+</div>
+</div>
 <script>
 /* ══════════════════════════════════════
    STATE
@@ -1504,5 +1486,15 @@ document.addEventListener('input', e=>{
   }
 });
 </script>
-</body>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
+</footer></body>
 </html>
