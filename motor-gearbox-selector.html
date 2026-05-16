@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motor & Gearbox Selector – TaskJunction</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0b0d0f;
+  --bg2:      #111418;
+  --bg3:      #181c22;
+  --border:   #252a32;
+  --border2:  #2e3540;
+  --orange:   #f4600c;
+  --orange2:  #ff7a2e;
+  --orange3:  rgba(244,96,12,0.12);
+  --orange4:  rgba(244,96,12,0.06);
+  --text:     #edeae4;
+  --text2:    #8a8680;
+  --text3:    #4e5058;
+  --green:    #22c55e;
+  --blue:     #38bdf8;
+  --yellow:   #fbbf24;
+  --red:      #ef4444;
+  --shadow:   0 2px 16px rgba(0,0,0,0.4);
+  --shadow-lg:0 8px 48px rgba(0,0,0,0.6);
+  --font-d:   'Clash Display', sans-serif;
+  --font-b:   'Sora', sans-serif;
+  --font-m:   'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-b); min-height: 100vh; overflow-x: hidden; }
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0;
+  background-image: linear-gradient(rgba(244,96,12,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(244,96,12,0.03) 1px, transparent 1px);
+  background-size: 48px 48px; pointer-events: none;
+}
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(11,13,15,0.92); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px;
+}
+.logo { font-family: var(--font-d); font-size: 20px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+.logo em { color: var(--orange); font-style: normal; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-tag { font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); background: var(--orange3); border: 1px solid rgba(244,96,12,0.25); padding: 4px 12px; border-radius: 99px; }
+.nav-back { font-size: 13px; color: var(--text2); text-decoration: none; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border); transition: all 0.18s; }
+.nav-back:hover { color: var(--text); border-color: var(--border2); background: var(--bg3); }
+.hero { position: relative; z-index: 1; padding: 44px 32px 28px; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, rgba(244,96,12,0.07) 0%, transparent 100%); }
+.hero-inner { max-width: 1200px; margin: 0 auto; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 99px; padding: 5px 14px; font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
+.hero-badge span { color: var(--orange); }
+.hero h1 { font-family: var(--font-d); font-size: clamp(30px, 5vw, 52px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 8px; }
+.hero h1 em { color: var(--orange); font-style: normal; }
+.hero p { font-size: 14px; color: var(--text2); max-width: 500px; }
+.main { max-width: 1200px; margin: 0 auto; padding: 28px 32px 60px; position: relative; z-index: 1; }
+.layout { display: grid; grid-template-columns: 400px 1fr; gap: 22px; align-items: start; }
+.panel { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); }
+.panel-header { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); background: var(--bg3); display: flex; align-items: center; gap: 12px; }
+.panel-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--orange3); border: 1px solid rgba(244,96,12,0.25); display: flex; align-items: center; justify-content: center; font-size: 17px; }
+.panel-title { font-family: var(--font-d); font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+.panel-title em { color: var(--orange); font-style: normal; }
+.panel-body { padding: 20px 22px; }
+.sec-label { font-family: var(--font-m); font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; margin-top: 20px; display: flex; align-items: center; gap: 8px; }
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.sec-label:first-child { margin-top: 0; }
+.field { margin-bottom: 12px; }
+.field:last-child { margin-bottom: 0; }
+label { display: block; font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); margin-bottom: 5px; }
+.input-wrap { position: relative; }
+.input-unit { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: var(--font-m); font-size: 11px; color: var(--text3); pointer-events: none; font-weight: 500; }
+input[type=number], select { width: 100%; background: var(--bg); border: 1.5px solid var(--border2); color: var(--text); padding: 9px 46px 9px 13px; border-radius: 10px; font-family: var(--font-d); font-size: 17px; font-weight: 600; outline: none; transition: border-color 0.2s, box-shadow 0.2s; -moz-appearance: textfield; }
+select { padding: 9px 13px; font-size: 13px; font-family: var(--font-b); font-weight: 500; cursor: pointer; }
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type=number]:focus, select:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(244,96,12,0.12); }
+select option { background: var(--bg2); }
+.dual { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.calc-btn { width: 100%; margin-top: 18px; padding: 13px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-family: var(--font-d); font-size: 15px; font-weight: 700; letter-spacing: -0.01em; cursor: pointer; box-shadow: 0 4px 20px rgba(244,96,12,0.35); transition: background 0.18s, transform 0.15s, box-shadow 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.calc-btn:hover { background: var(--orange2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(244,96,12,0.4); }
+.calc-btn:active { transform: translateY(0); }
+.right-col { display: flex; flex-direction: column; gap: 18px; }
+.status-badge { font-family: var(--font-m); font-size: 10px; font-weight: 600; padding: 4px 12px; border-radius: 99px; letter-spacing: 0.08em; text-transform: uppercase; }
+.status-ok   { background: rgba(34,197,94,0.12);  color: var(--green);  border: 1px solid rgba(34,197,94,0.25); }
+.status-warn { background: rgba(251,191,36,0.12); color: var(--yellow); border: 1px solid rgba(251,191,36,0.25); }
+.status-err  { background: rgba(239,68,68,0.12);  color: var(--red);    border: 1px solid rgba(239,68,68,0.25); }
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.kpi { background: var(--bg3); border: 1px solid var(--border); border-radius: 13px; padding: 16px 14px; transition: border-color 0.2s, transform 0.2s; }
+.kpi:hover { border-color: var(--border2); transform: translateY(-2px); }
+.kpi.highlight { border-color: rgba(244,96,12,0.35); background: var(--orange4); }
+.kpi.highlight .kpi-val { color: var(--orange); }
+.kpi.good .kpi-val { color: var(--green); }
+.kpi.info .kpi-val  { color: var(--blue); }
+.kpi-label { font-family: var(--font-m); font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); margin-bottom: 7px; }
+.kpi-val   { font-family: var(--font-d); font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
+.kpi-unit  { font-family: var(--font-m); font-size: 10px; color: var(--text3); margin-top: 3px; }
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.match-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: 15px; padding: 18px; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; cursor: pointer; position: relative; overflow: hidden; }
+.match-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--orange), var(--orange2)); opacity: 0; transition: opacity 0.2s; }
+.match-card:hover { border-color: rgba(244,96,12,0.4); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+.match-card:hover::before, .match-card.selected::before { opacity: 1; }
+.match-card.selected { border-color: var(--orange); box-shadow: 0 0 0 2px rgba(244,96,12,0.18); }
+.match-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.match-type-icon { font-size: 22px; }
+.match-fit-badge { font-family: var(--font-m); font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 99px; letter-spacing: 0.08em; text-transform: uppercase; }
+.fit-excellent { background: rgba(34,197,94,0.15);  color: var(--green);  border: 1px solid rgba(34,197,94,0.3); }
+.fit-good      { background: rgba(56,189,248,0.15);  color: var(--blue);   border: 1px solid rgba(56,189,248,0.3); }
+.fit-fair      { background: rgba(251,191,36,0.15); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+.match-name    { font-family: var(--font-d); font-size: 14px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 2px; }
+.match-series  { font-family: var(--font-m); font-size: 10px; color: var(--text3); font-weight: 500; letter-spacing: 0.06em; margin-bottom: 10px; }
+.match-specs   { display: flex; flex-direction: column; gap: 5px; }
+.match-spec    { display: flex; justify-content: space-between; align-items: center; }
+.match-spec-label { color: var(--text3); font-family: var(--font-m); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; }
+.match-spec-val   { font-family: var(--font-d); font-size: 13px; font-weight: 600; color: var(--text); }
+.match-spec-val.ok   { color: var(--green); }
+.match-spec-val.warn { color: var(--yellow); }
+.match-bar      { height: 3px; background: var(--border); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+.match-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--orange), var(--orange2)); transition: width 0.7s cubic-bezier(0.4,0,0.2,1); }
+.formula-box { background: var(--bg); border: 1px solid var(--border); border-radius: 11px; padding: 14px 16px; font-family: var(--font-m); font-size: 11.5px; color: var(--text2); line-height: 2.1; white-space: pre-wrap; }
+.formula-box .fv { color: var(--orange); font-weight: 600; }
+.formula-box .fk { color: var(--blue); }
+.warn-box { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.25); border-radius: 11px; padding: 12px 14px; font-size: 12.5px; color: var(--yellow); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
+.info-box { background: rgba(56,189,248,0.07); border: 1px solid rgba(56,189,248,0.2); border-radius: 11px; padding: 12px 14px; font-size: 12.5px; color: var(--blue); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
+.unit-toggle { display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 9px; overflow: hidden; margin-bottom: 16px; }
+.unit-btn { flex: 1; padding: 7px 12px; font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); background: transparent; border: none; cursor: pointer; transition: all 0.18s; }
+.unit-btn.active { background: var(--orange); color: #fff; }
+.empty-state { text-align: center; padding: 44px 24px; color: var(--text3); }
+.empty-state .big-icon { font-size: 44px; margin-bottom: 12px; opacity: 0.4; }
+.empty-state p { font-size: 14px; line-height: 1.7; }
+.summary-card { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-radius: 13px; padding: 16px; }
+.summary-card-label { font-family: var(--font-m); font-size: 9px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 9px; }
+.summary-card-name { font-family: var(--font-d); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.summary-card-series { font-family: var(--font-m); font-size: 10px; color: var(--orange); margin-bottom: 8px; }
+.summary-card-spec { font-size: 12px; color: var(--text2); }
+footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 22px 32px; text-align: center; font-family: var(--font-m); font-size: 11px; color: var(--text3); letter-spacing: 0.08em; position: relative; z-index: 1; }
+footer em { color: var(--orange); font-style: normal; }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, 1fr); } .match-grid { grid-template-columns: 1fr; } .main { padding: 20px 16px 60px; } nav { padding: 0 16px; } }
+@media (max-width: 480px) { .dual { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Task<em>Junction</em></a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Home</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">⚙️ Drive System Design &nbsp;·&nbsp; <span>Motor & Gearbox</span></div>
+    <h1>Motor & Gearbox <em>Selector</em></h1>
+    <p>Enter application requirements — velocity, load, RPM, duty cycle — and get matched motors & gearboxes instantly.</p>
+  </div>
+</section>
+
+<div class="main">
+  <div class="layout">
+
+    <!-- LEFT INPUT -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-icon">🎛️</div>
+          <div><div class="panel-title">Application <em>Requirements</em></div></div>
+        </div>
+        <div class="panel-body">
+
+          <div class="unit-toggle">
+            <button class="unit-btn active" onclick="setUnit('si',this)">SI  (N·m / m/s)</button>
+            <button class="unit-btn" onclick="setUnit('imp',this)">Imperial (lb·ft / fpm)</button>
+          </div>
+
+          <div class="sec-label">Application Type</div>
+          <div class="field">
+            <label>Select Application</label>
+            <select id="appType" onchange="onAppChange()">
+              <option value="conveyor">🏭 Conveyor Belt</option>
+              <option value="agv">🤖 AGV / Robot Drive</option>
+              <option value="pump">💧 Pump / Fan</option>
+              <option value="hoist">🏗️ Hoist / Crane</option>
+              <option value="mixer">🌀 Mixer / Agitator</option>
+              <option value="custom">⚙️ Custom / Other</option>
+            </select>
+          </div>
+
+          <div class="sec-label">Motion Requirements</div>
+          <div class="dual">
+            <div class="field">
+              <label>Linear Velocity</label>
+              <div class="input-wrap">
+                <input type="number" id="linVel" value="0.5" min="0.01" step="0.01" oninput="onVelChange()">
+                <span class="input-unit" id="velUnit">m/s</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Wheel / Sprocket Ø</label>
+              <div class="input-wrap">
+                <input type="number" id="wheelDia" value="100" min="1" oninput="onVelChange()">
+                <span class="input-unit">mm</span>
+              </div>
+            </div>
+          </div>
+          <div class="dual">
+            <div class="field">
+              <label>Output RPM</label>
+              <div class="input-wrap">
+                <input type="number" id="outRPM" value="95.5" min="1" step="0.1" oninput="onRPMChange()">
+                <span class="input-unit">RPM</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Motor Base RPM</label>
+              <div class="input-wrap">
+                <input type="number" id="motorRPM" value="1450" min="100" oninput="calculate()">
+                <span class="input-unit">RPM</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sec-label">Load Parameters</div>
+          <div class="dual">
+            <div class="field">
+              <label>Load Mass</label>
+              <div class="input-wrap">
+                <input type="number" id="loadMass" value="200" min="0" oninput="calculate()">
+                <span class="input-unit" id="massUnit">kg</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Load Radius</label>
+              <div class="input-wrap">
+                <input type="number" id="loadRadius" value="50" min="1" oninput="calculate()">
+                <span class="input-unit">mm</span>
+              </div>
+            </div>
+          </div>
+          <div class="dual">
+            <div class="field">
+              <label>Required Torque</label>
+              <div class="input-wrap">
+                <input type="number" id="reqTorque" value="98.1" min="0" step="0.1" oninput="calculate()">
+                <span class="input-unit" id="torqUnit">N·m</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Safety Factor</label>
+              <div class="input-wrap">
+                <input type="number" id="safetyFactor" value="1.5" min="1" max="5" step="0.1" oninput="calculate()">
+                <span class="input-unit">×</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sec-label">Duty & Environment</div>
+          <div class="dual">
+            <div class="field">
+              <label>Duty Cycle</label>
+              <div class="input-wrap">
+                <input type="number" id="dutyCycle" value="80" min="1" max="100" oninput="calculate()">
+                <span class="input-unit">%</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Ambient Temp</label>
+              <div class="input-wrap">
+                <input type="number" id="ambTemp" value="40" min="-20" max="80" oninput="calculate()">
+                <span class="input-unit">°C</span>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Mounting Orientation</label>
+            <select id="mounting" onchange="calculate()">
+              <option value="horizontal">Horizontal (Standard)</option>
+              <option value="vertical_up">Vertical – Shaft Up</option>
+              <option value="vertical_down">Vertical – Shaft Down</option>
+              <option value="flange">Flange Mount</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Gearbox Type Preference</label>
+            <select id="gbPref" onchange="calculate()">
+              <option value="all">All Types</option>
+              <option value="helical">Helical Inline</option>
+              <option value="parallel">Parallel Shaft</option>
+              <option value="bevel">Bevel-Helical</option>
+              <option value="planetary">Planetary</option>
+            </select>
+          </div>
+
+          <button class="calc-btn" onclick="calculate()">⚡ Find Best Match</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT RESULTS -->
+    <div class="right-col" id="rightCol">
+      <div class="panel" id="emptyPanel">
+        <div class="panel-body">
+          <div class="empty-state">
+            <div class="big-icon">⚙️</div>
+            <p>Fill in your application parameters on the left and click <strong style="color:var(--orange)">Find Best Match</strong> to get motor & gearbox recommendations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Motor & Gearbox Selector &nbsp;·&nbsp; © 2025 &nbsp;·&nbsp; Made with ❤️ by Vaibhav Dhokpande
+</footer>
+
+<script>
+/* ── STATE ── */
+let unitMode = 'si';
+let syncing  = false;
+
+/* ── PRESETS ── */
+const presets = {
+  conveyor: { linVel:0.5,  wheelDia:100, loadMass:200, loadRadius:50,  motorRPM:1450, dutyCycle:80,  reqTorque:98.1 },
+  agv:      { linVel:1.2,  wheelDia:150, loadMass:80,  loadRadius:75,  motorRPM:3000, dutyCycle:60,  reqTorque:58.9 },
+  pump:     { linVel:0.8,  wheelDia:120, loadMass:50,  loadRadius:30,  motorRPM:2900, dutyCycle:100, reqTorque:14.7 },
+  hoist:    { linVel:0.2,  wheelDia:200, loadMass:500, loadRadius:100, motorRPM:1450, dutyCycle:40,  reqTorque:490.5 },
+  mixer:    { linVel:0.3,  wheelDia:80,  loadMass:150, loadRadius:40,  motorRPM:1450, dutyCycle:90,  reqTorque:58.9 },
+  custom:   { linVel:0.5,  wheelDia:100, loadMass:100, loadRadius:50,  motorRPM:1450, dutyCycle:70,  reqTorque:49.1 },
+};
+
+function onAppChange() {
+  const p = presets[document.getElementById('appType').value];
+  if (!p) return;
+  document.getElementById('linVel').value    = p.linVel;
+  document.getElementById('wheelDia').value  = p.wheelDia;
+  document.getElementById('loadMass').value  = p.loadMass;
+  document.getElementById('loadRadius').value= p.loadRadius;
+  document.getElementById('motorRPM').value  = p.motorRPM;
+  document.getElementById('dutyCycle').value = p.dutyCycle;
+  document.getElementById('reqTorque').value = p.reqTorque;
+  syncVelToRPM();
+}
+
+/* ── UNIT TOGGLE ── */
+function setUnit(mode, el) {
+  const prevMode = unitMode;
+  unitMode = mode;
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('velUnit').textContent  = mode === 'si' ? 'm/s'   : 'ft/min';
+  document.getElementById('massUnit').textContent = mode === 'si' ? 'kg'    : 'lb';
+  document.getElementById('torqUnit').textContent = mode === 'si' ? 'N·m'   : 'lb·ft';
+
+  // Convert values
+  if (prevMode !== mode) {
+    const vel   = parseFloat(document.getElementById('linVel').value)    || 0;
+    const mass  = parseFloat(document.getElementById('loadMass').value)  || 0;
+    const torq  = parseFloat(document.getElementById('reqTorque').value) || 0;
+    if (mode === 'imp') {
+      document.getElementById('linVel').value    = (vel  / 0.00508).toFixed(1);
+      document.getElementById('loadMass').value  = (mass / 0.453592).toFixed(1);
+      document.getElementById('reqTorque').value = (torq / 1.35582).toFixed(2);
+    } else {
+      document.getElementById('linVel').value    = (vel  * 0.00508).toFixed(3);
+      document.getElementById('loadMass').value  = (mass * 0.453592).toFixed(1);
+      document.getElementById('reqTorque').value = (torq * 1.35582).toFixed(2);
+    }
+  }
+  calculate();
+}
+
+/* ── SYNC HELPERS ── */
+function onVelChange() {
+  if (syncing) return;
+  syncing = true;
+  syncVelToRPM();
+  calculate();
+  syncing = false;
+}
+function onRPMChange() {
+  if (syncing) return;
+  syncing = true;
+  syncRPMToVel();
+  calculate();
+  syncing = false;
+}
+function syncVelToRPM() {
+  let vel = parseFloat(document.getElementById('linVel').value) || 0;
+  const dia = parseFloat(document.getElementById('wheelDia').value) || 100;
+  if (unitMode === 'imp') vel = vel * 0.00508; // ft/min → m/s
+  const circ = Math.PI * (dia / 1000);
+  document.getElementById('outRPM').value = circ > 0 ? (vel / circ * 60).toFixed(1) : 0;
+}
+function syncRPMToVel() {
+  const rpm = parseFloat(document.getElementById('outRPM').value) || 0;
+  const dia = parseFloat(document.getElementById('wheelDia').value) || 100;
+  const circ = Math.PI * (dia / 1000);
+  let vel = (rpm / 60) * circ;
+  if (unitMode === 'imp') vel = vel / 0.00508;
+  document.getElementById('linVel').value = vel.toFixed(unitMode === 'si' ? 3 : 1);
+}
+
+/* ── MOTOR & GEARBOX DATABASE ── */
+const motorDB = [
+  { name:'Siemens 1LA7', series:'SIMOTICS GP IE2', power:0.37,  rpm:1450, torque:2.4,   frame:'71',  ip:'IP55', insClass:'F', voltage:'230/400V', weight:4.5,  icon:'🔵' },
+  { name:'Siemens 1LA7', series:'SIMOTICS GP IE2', power:0.75,  rpm:1450, torque:4.9,   frame:'80',  ip:'IP55', insClass:'F', voltage:'230/400V', weight:6.2,  icon:'🔵' },
+  { name:'Siemens 1LA7', series:'SIMOTICS GP IE2', power:1.5,   rpm:1450, torque:9.9,   frame:'90S', ip:'IP55', insClass:'F', voltage:'230/400V', weight:9.8,  icon:'🔵' },
+  { name:'Siemens 1LA7', series:'SIMOTICS GP IE2', power:2.2,   rpm:1450, torque:14.5,  frame:'90L', ip:'IP55', insClass:'F', voltage:'230/400V', weight:12.5, icon:'🔵' },
+  { name:'Siemens 1LA7', series:'SIMOTICS GP IE2', power:3.0,   rpm:1450, torque:19.7,  frame:'100L',ip:'IP55', insClass:'F', voltage:'230/400V', weight:17.0, icon:'🔵' },
+  { name:'Siemens 1LA7', series:'SIMOTICS GP IE2', power:4.0,   rpm:1450, torque:26.3,  frame:'112M',ip:'IP55', insClass:'F', voltage:'230/400V', weight:23.0, icon:'🔵' },
+  { name:'Siemens 1LA7', series:'SIMOTICS GP IE2', power:5.5,   rpm:1450, torque:36.2,  frame:'132S',ip:'IP55', insClass:'F', voltage:'230/400V', weight:32.0, icon:'🔵' },
+  { name:'ABB M2AA',     series:'IE2 General Perf',power:0.55,  rpm:1450, torque:3.6,   frame:'71',  ip:'IP55', insClass:'F', voltage:'230/400V', weight:4.8,  icon:'🟡' },
+  { name:'ABB M2AA',     series:'IE2 General Perf',power:1.1,   rpm:1450, torque:7.2,   frame:'80',  ip:'IP55', insClass:'F', voltage:'230/400V', weight:7.5,  icon:'🟡' },
+  { name:'ABB M2AA',     series:'IE2 General Perf',power:2.2,   rpm:1450, torque:14.5,  frame:'90L', ip:'IP55', insClass:'F', voltage:'230/400V', weight:13.0, icon:'🟡' },
+  { name:'ABB M2AA',     series:'IE2 General Perf',power:4.0,   rpm:1450, torque:26.3,  frame:'112M',ip:'IP55', insClass:'F', voltage:'230/400V', weight:24.0, icon:'🟡' },
+  { name:'WEG W22',      series:'IE3 Premium Eff.', power:0.75, rpm:1450, torque:4.9,   frame:'80',  ip:'IP55', insClass:'F', voltage:'230/400V', weight:6.8,  icon:'🟢' },
+  { name:'WEG W22',      series:'IE3 Premium Eff.', power:1.5,  rpm:1450, torque:9.9,   frame:'90S', ip:'IP55', insClass:'F', voltage:'230/400V', weight:10.5, icon:'🟢' },
+  { name:'WEG W22',      series:'IE3 Premium Eff.', power:3.0,  rpm:1450, torque:19.7,  frame:'100L',ip:'IP55', insClass:'F', voltage:'230/400V', weight:18.5, icon:'🟢' },
+  { name:'WEG W22',      series:'IE3 Premium Eff.', power:5.5,  rpm:1450, torque:36.2,  frame:'132S',ip:'IP55', insClass:'F', voltage:'230/400V', weight:35.0, icon:'🟢' },
+  { name:'Leroy-Somer',  series:'LSMV Severe Duty', power:2.2,  rpm:1450, torque:14.5,  frame:'90L', ip:'IP65', insClass:'H', voltage:'400V',     weight:14.0, icon:'🔴' },
+  { name:'Leroy-Somer',  series:'LSMV Severe Duty', power:5.5,  rpm:1450, torque:36.2,  frame:'132S',ip:'IP65', insClass:'H', voltage:'400V',     weight:36.0, icon:'🔴' },
+  { name:'Leroy-Somer',  series:'LSMV Severe Duty', power:7.5,  rpm:1450, torque:49.3,  frame:'132M',ip:'IP65', insClass:'H', voltage:'400V',     weight:46.0, icon:'🔴' },
+];
+
+const gearboxDB = [
+  { name:'SEW R37',     series:'Helical Inline',    type:'helical',   ratio:5,   efficiency:0.97, maxTorque:130, stages:1, backlash:"<15'", weight:3.2,  icon:'⚙️' },
+  { name:'SEW R47',     series:'Helical Inline',    type:'helical',   ratio:10,  efficiency:0.96, maxTorque:200, stages:2, backlash:"<15'", weight:5.1,  icon:'⚙️' },
+  { name:'SEW R57',     series:'Helical Inline',    type:'helical',   ratio:15,  efficiency:0.95, maxTorque:360, stages:2, backlash:"<15'", weight:7.8,  icon:'⚙️' },
+  { name:'SEW R67',     series:'Helical Inline',    type:'helical',   ratio:20,  efficiency:0.94, maxTorque:500, stages:3, backlash:"<20'", weight:11.5, icon:'⚙️' },
+  { name:'SEW R77',     series:'Helical Inline',    type:'helical',   ratio:28,  efficiency:0.93, maxTorque:700, stages:3, backlash:"<20'", weight:14.0, icon:'⚙️' },
+  { name:'SEW R87',     series:'Helical Inline',    type:'helical',   ratio:35,  efficiency:0.93, maxTorque:1100,stages:3, backlash:"<20'", weight:22.0, icon:'⚙️' },
+  { name:'SEW F37',     series:'Parallel Shaft',    type:'parallel',  ratio:8,   efficiency:0.96, maxTorque:180, stages:2, backlash:"<20'", weight:4.5,  icon:'🔩' },
+  { name:'SEW F47',     series:'Parallel Shaft',    type:'parallel',  ratio:12,  efficiency:0.95, maxTorque:280, stages:2, backlash:"<20'", weight:6.9,  icon:'🔩' },
+  { name:'SEW F57',     series:'Parallel Shaft',    type:'parallel',  ratio:22,  efficiency:0.94, maxTorque:450, stages:3, backlash:"<20'", weight:10.5, icon:'🔩' },
+  { name:'SEW K37',     series:'Bevel-Helical',     type:'bevel',     ratio:10,  efficiency:0.95, maxTorque:200, stages:2, backlash:"<20'", weight:5.5,  icon:'🔧' },
+  { name:'SEW K47',     series:'Bevel-Helical',     type:'bevel',     ratio:18,  efficiency:0.94, maxTorque:380, stages:3, backlash:"<20'", weight:9.0,  icon:'🔧' },
+  { name:'SEW K57',     series:'Bevel-Helical',     type:'bevel',     ratio:30,  efficiency:0.93, maxTorque:700, stages:3, backlash:"<22'", weight:14.0, icon:'🔧' },
+  { name:'Flender B3',  series:'Helical Inline',    type:'helical',   ratio:25,  efficiency:0.94, maxTorque:800, stages:3, backlash:"<18'", weight:16.0, icon:'⚙️' },
+  { name:'Neugart PL60',series:'Planetary',         type:'planetary', ratio:10,  efficiency:0.97, maxTorque:160, stages:1, backlash:"<8'",  weight:2.8,  icon:'🌀' },
+  { name:'Neugart PL90',series:'Planetary',         type:'planetary', ratio:25,  efficiency:0.95, maxTorque:320, stages:2, backlash:"<10'", weight:4.5,  icon:'🌀' },
+  { name:'Neugart PLE', series:'Planetary Prec.',   type:'planetary', ratio:16,  efficiency:0.97, maxTorque:240, stages:2, backlash:"<3'",  weight:3.9,  icon:'🌀' },
+];
+
+/* ── MAIN CALCULATION ── */
+function calculate() {
+  let vel   = parseFloat(document.getElementById('linVel').value)    || 0.5;
+  let mass  = parseFloat(document.getElementById('loadMass').value)  || 0;
+  let torq  = parseFloat(document.getElementById('reqTorque').value) || 0;
+  const dia    = parseFloat(document.getElementById('wheelDia').value)  || 100;
+  const mRPM   = parseFloat(document.getElementById('motorRPM').value)  || 1450;
+  const rLoad  = parseFloat(document.getElementById('loadRadius').value)|| 50;
+  const sf     = parseFloat(document.getElementById('safetyFactor').value)|| 1.5;
+  const duty   = parseFloat(document.getElementById('dutyCycle').value)  || 80;
+  const temp   = parseFloat(document.getElementById('ambTemp').value)    || 40;
+  const gbPref = document.getElementById('gbPref').value;
+  const mount  = document.getElementById('mounting').value;
+
+  // To SI
+  let velSI  = unitMode === 'imp' ? vel * 0.00508 : vel;
+  let massSI = unitMode === 'imp' ? mass * 0.453592 : mass;
+  let torqSI = unitMode === 'imp' ? torq * 1.35582 : torq;
+
+  // Derived torque from mass if torque=0
+  if (torqSI <= 0) {
+    torqSI = massSI * 9.81 * (rLoad / 1000);
+    const displayTorq = unitMode === 'si' ? torqSI : torqSI / 1.35582;
+    document.getElementById('reqTorque').value = displayTorq.toFixed(2);
+  }
+
+  const wheelCirc   = Math.PI * (dia / 1000);
+  const outRPM      = velSI > 0 ? (velSI / wheelCirc) * 60 : parseFloat(document.getElementById('outRPM').value) || 95;
+  if (!syncing) document.getElementById('outRPM').value = outRPM.toFixed(1);
+
+  const gearRatio    = mRPM / outRPM;
+  const designTorque = torqSI * sf;
+  const omega        = (outRPM * 2 * Math.PI) / 60;
+  const outputPower  = torqSI * omega;
+  const motorPower   = outputPower / 0.92;
+  const tempDerate   = temp > 40 ? 1 + (temp - 40) * 0.01 : 1.0;
+  const designPower  = motorPower * sf * tempDerate;
+  const motorTorque  = torqSI / Math.max(gearRatio, 0.1) / 0.92;
+
+  // Filter motors
+  const neededKW = designPower / 1000;
+  const motorMatches = motorDB
+    .filter(m => m.power >= neededKW * 0.85)
+    .sort((a, b) => a.power - b.power)
+    .slice(0, 4);
+
+  // Filter gearboxes
+  const gbFilter = gbPref === 'all' ? gearboxDB : gearboxDB.filter(g => g.type === gbPref);
+  const gearboxMatches = gbFilter
+    .filter(g => g.maxTorque >= designTorque)
+    .sort((a, b) => Math.abs(a.ratio - gearRatio) - Math.abs(b.ratio - gearRatio))
+    .slice(0, 4);
+
+  const status = motorMatches.length === 0 ? 'err' :
+                 gearRatio < 2 || temp > 60 ? 'warn' : 'ok';
+  const statusLabel = status === 'err' ? '✗ No Match' :
+                      status === 'warn' ? '⚠ Check Inputs' : '✓ Feasible';
+
+  renderResults({
+    velSI, massSI, torqSI, designTorque, gearRatio,
+    outputPower, motorPower, designPower, outRPM, mRPM,
+    sf, duty, temp, tempDerate, motorTorque, omega,
+    wheelCirc, dia, neededKW, motorMatches, gearboxMatches,
+    status, statusLabel, mount, gbPref
+  });
+}
+
+/* ── RENDER ── */
+function renderResults(d) {
+  const rc  = document.getElementById('rightCol');
+  const fT  = v => unitMode === 'si' ? v.toFixed(2) : (v / 1.35582).toFixed(2);
+  const uT  = unitMode === 'si' ? 'N·m' : 'lb·ft';
+  const pKW = v => (v / 1000).toFixed(3);
+
+  rc.innerHTML = `
+  <!-- KPI -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon">📊</div>
+      <div style="flex:1"><div class="panel-title">Calculated <em>Results</em></div></div>
+      <span class="status-badge status-${d.status}">${d.statusLabel}</span>
+    </div>
+    <div class="panel-body">
+      <div class="kpi-grid">
+        <div class="kpi highlight">
+          <div class="kpi-label">Required Ratio</div>
+          <div class="kpi-val">${d.gearRatio.toFixed(2)}</div>
+          <div class="kpi-unit">: 1</div>
+        </div>
+        <div class="kpi good">
+          <div class="kpi-label">Output RPM</div>
+          <div class="kpi-val">${d.outRPM.toFixed(1)}</div>
+          <div class="kpi-unit">RPM</div>
+        </div>
+        <div class="kpi info">
+          <div class="kpi-label">Output Torque</div>
+          <div class="kpi-val">${fT(d.torqSI)}</div>
+          <div class="kpi-unit">${uT}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Design Torque × SF</div>
+          <div class="kpi-val">${fT(d.designTorque)}</div>
+          <div class="kpi-unit">${uT}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Motor Power (derated)</div>
+          <div class="kpi-val">${pKW(d.designPower)}</div>
+          <div class="kpi-unit">kW</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Motor Input Torque</div>
+          <div class="kpi-val">${fT(d.motorTorque)}</div>
+          <div class="kpi-unit">${uT}</div>
+        </div>
+      </div>
+
+      <!-- BARS -->
+      <div style="margin-top:16px;">
+        <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">Utilisation Overview</div>
+        ${[
+          { label:'Power Utilisation',  val: Math.min(100,(d.outputPower/d.designPower*100)), color:'var(--orange)' },
+          { label:'Safety Margin Used', val: Math.min(100,(1/d.sf*100)),                       color:'var(--blue)'   },
+          { label:'Duty Cycle',         val: d.duty,                                            color:'var(--green)'  },
+        ].map(b => `
+          <div style="margin-bottom:9px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+              <span style="font-family:var(--font-m);font-size:10px;color:var(--text2);">${b.label}</span>
+              <span style="font-family:var(--font-d);font-size:13px;font-weight:700;color:${b.color};">${b.val.toFixed(0)}%</span>
+            </div>
+            <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
+              <div style="height:100%;width:${b.val}%;background:${b.color};border-radius:2px;"></div>
+            </div>
+          </div>`).join('')}
+      </div>
+
+      <!-- FORMULA -->
+      <div style="margin-top:14px;">
+        <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:7px;">Key Equations</div>
+        <div class="formula-box"><span class="fk">OutRPM</span>  = v ÷ (π×d) × 60  =  <span class="fv">${d.outRPM.toFixed(1)} RPM</span>
+<span class="fk">Ratio</span>    = N_motor ÷ N_out   =  <span class="fv">${d.gearRatio.toFixed(3)} : 1</span>
+<span class="fk">Torque</span>   = m × g × r         =  <span class="fv">${fT(d.torqSI)} ${uT}</span>
+<span class="fk">Power</span>    = τ × ω             =  <span class="fv">${pKW(d.outputPower)} kW</span>
+<span class="fk">Design P</span> = P × SF × k_temp  =  <span class="fv">${pKW(d.designPower)} kW</span></div>
+      </div>
+
+      ${d.temp > 40 ? `<div class="warn-box" style="margin-top:12px;"><span>🌡️</span><span>Ambient ${d.temp}°C exceeds 40°C. Power derated by <strong>${((d.tempDerate-1)*100).toFixed(1)}%</strong>. Consider Class H insulation motor.</span></div>` : ''}
+      ${d.gearRatio < 2 ? `<div class="info-box" style="margin-top:12px;"><span>⚡</span><span>Ratio <strong>${d.gearRatio.toFixed(2)}</strong> is very low. Consider direct drive or belt/chain transmission.</span></div>` : ''}
+      ${d.gearRatio > 50 ? `<div class="warn-box" style="margin-top:12px;"><span>⚠️</span><span>Ratio <strong>${d.gearRatio.toFixed(1)}</strong> is very high. Consider a 2-stage gearbox or worm gear.</span></div>` : ''}
+    </div>
+  </div>
+
+  <!-- MOTOR MATCHES -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon">⚡</div>
+      <div style="flex:1"><div class="panel-title">Matched <em>Motors</em></div></div>
+      <span style="font-family:var(--font-m);font-size:10px;color:var(--text3);">Need: ${pKW(d.designPower)} kW</span>
+    </div>
+    <div class="panel-body">
+      ${d.motorMatches.length === 0
+        ? `<div class="empty-state"><p>No motors found for <strong>${pKW(d.designPower)} kW</strong>. Try reducing safety factor or splitting the drive.</p></div>`
+        : `<div class="match-grid">${d.motorMatches.map((m, i) => {
+            const util = Math.min(100, (d.designPower / (m.power * 1000) * 100)).toFixed(0);
+            const over = ((m.power * 1000 - d.designPower) / d.designPower * 100).toFixed(0);
+            const fit  = +over < 25 ? 'excellent' : +over < 65 ? 'good' : 'fair';
+            const fitL = +over < 25 ? 'Best Fit'  : +over < 65 ? 'Good Fit' : 'Oversized';
+            return `
+            <div class="match-card${i===0?' selected':''}" onclick="selectCard(this)">
+              <div class="match-card-header">
+                <span class="match-type-icon">${m.icon}</span>
+                <span class="match-fit-badge fit-${fit}">${fitL}</span>
+              </div>
+              <div class="match-name">${m.name}</div>
+              <div class="match-series">${m.series}</div>
+              <div class="match-specs">
+                <div class="match-spec"><span class="match-spec-label">Power</span><span class="match-spec-val ok">${m.power} kW</span></div>
+                <div class="match-spec"><span class="match-spec-label">Speed</span><span class="match-spec-val">${m.rpm} RPM</span></div>
+                <div class="match-spec"><span class="match-spec-label">Frame</span><span class="match-spec-val">${m.frame}</span></div>
+                <div class="match-spec"><span class="match-spec-label">Protection</span><span class="match-spec-val">${m.ip}</span></div>
+                <div class="match-spec"><span class="match-spec-label">Ins. Class</span><span class="match-spec-val">${m.insClass}</span></div>
+                <div class="match-spec"><span class="match-spec-label">Weight</span><span class="match-spec-val">${m.weight} kg</span></div>
+              </div>
+              <div class="match-bar"><div class="match-bar-fill" style="width:${util}%"></div></div>
+              <div style="font-family:var(--font-m);font-size:9px;color:var(--text3);margin-top:4px;text-align:right;">${util}% utilisation</div>
+            </div>`;
+          }).join('')}</div>`
+      }
+    </div>
+  </div>
+
+  <!-- GEARBOX MATCHES -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon">⚙️</div>
+      <div style="flex:1"><div class="panel-title">Matched <em>Gearboxes</em></div></div>
+      <span style="font-family:var(--font-m);font-size:10px;color:var(--text3);">Need: ${d.gearRatio.toFixed(1)}:1 / ${fT(d.designTorque)} ${uT}</span>
+    </div>
+    <div class="panel-body">
+      ${d.gearboxMatches.length === 0
+        ? `<div class="empty-state"><p>No gearboxes found for ratio <strong>${d.gearRatio.toFixed(1)}:1</strong> and torque <strong>${fT(d.designTorque)} ${uT}</strong>. Change the gearbox type filter or reduce safety factor.</p></div>`
+        : `<div class="match-grid">${d.gearboxMatches.map((g, i) => {
+            const rDiff  = Math.abs(g.ratio - d.gearRatio) / d.gearRatio * 100;
+            const fit    = rDiff < 12 ? 'excellent' : rDiff < 35 ? 'good' : 'fair';
+            const fitL   = rDiff < 12 ? 'Best Ratio' : rDiff < 35 ? 'Good Match' : 'Approximate';
+            const tUtil  = Math.min(100, (d.designTorque / g.maxTorque * 100)).toFixed(0);
+            const actRPM = d.mRPM / g.ratio;
+            const actVel = (actRPM / 60) * (Math.PI * (d.dia / 1000));
+            return `
+            <div class="match-card${i===0?' selected':''}" onclick="selectCard(this)">
+              <div class="match-card-header">
+                <span class="match-type-icon">${g.icon}</span>
+                <span class="match-fit-badge fit-${fit}">${fitL}</span>
+              </div>
+              <div class="match-name">${g.name}</div>
+              <div class="match-series">${g.series}</div>
+              <div class="match-specs">
+                <div class="match-spec"><span class="match-spec-label">Ratio</span><span class="match-spec-val ok">${g.ratio} : 1</span></div>
+                <div class="match-spec"><span class="match-spec-label">Max Torque</span><span class="match-spec-val ${d.designTorque > g.maxTorque*0.85?'warn':'ok'}">${g.maxTorque} N·m</span></div>
+                <div class="match-spec"><span class="match-spec-label">Efficiency</span><span class="match-spec-val">${(g.efficiency*100).toFixed(0)}%</span></div>
+                <div class="match-spec"><span class="match-spec-label">Act. Out RPM</span><span class="match-spec-val">${actRPM.toFixed(1)}</span></div>
+                <div class="match-spec"><span class="match-spec-label">Act. Velocity</span><span class="match-spec-val">${actVel.toFixed(3)} m/s</span></div>
+                <div class="match-spec"><span class="match-spec-label">Backlash</span><span class="match-spec-val">${g.backlash}</span></div>
+              </div>
+              <div class="match-bar"><div class="match-bar-fill" style="width:${tUtil}%"></div></div>
+              <div style="font-family:var(--font-m);font-size:9px;color:var(--text3);margin-top:4px;text-align:right;">${tUtil}% torque load</div>
+            </div>`;
+          }).join('')}</div>`
+      }
+    </div>
+  </div>
+
+  <!-- SYSTEM SUMMARY -->
+  ${d.motorMatches.length > 0 && d.gearboxMatches.length > 0 ? (() => {
+    const bm = d.motorMatches[0], bg = d.gearboxMatches[0];
+    const sysEff     = 0.95 * bg.efficiency;
+    const actOutTorq = bm.torque * bg.ratio * bg.efficiency;
+    const actOutRPM  = bm.rpm / bg.ratio;
+    const actVel     = (actOutRPM / 60) * (Math.PI * (d.dia / 1000));
+    return `
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon">📋</div>
+        <div><div class="panel-title">Drive System <em>Summary</em></div></div>
+      </div>
+      <div class="panel-body">
+        <div class="kpi-grid" style="margin-bottom:16px;">
+          <div class="kpi good">
+            <div class="kpi-label">System Efficiency</div>
+            <div class="kpi-val">${(sysEff*100).toFixed(1)}</div>
+            <div class="kpi-unit">%</div>
+          </div>
+          <div class="kpi highlight">
+            <div class="kpi-label">Actual Out Torque</div>
+            <div class="kpi-val">${fT(actOutTorq)}</div>
+            <div class="kpi-unit">${uT}</div>
+          </div>
+          <div class="kpi info">
+            <div class="kpi-label">Actual Velocity</div>
+            <div class="kpi-val">${actVel.toFixed(3)}</div>
+            <div class="kpi-unit">m/s</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <div class="summary-card">
+            <div class="summary-card-label">Selected Motor</div>
+            <div class="summary-card-name">${bm.name}</div>
+            <div class="summary-card-series">${bm.series}</div>
+            <div class="summary-card-spec">${bm.power} kW · ${bm.rpm} RPM · Frame ${bm.frame} · ${bm.ip} · Class ${bm.insClass}</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">Selected Gearbox</div>
+            <div class="summary-card-name">${bg.name}</div>
+            <div class="summary-card-series">${bg.series}</div>
+            <div class="summary-card-spec">${bg.ratio}:1 ratio · ${(bg.efficiency*100).toFixed(0)}% eff · ${bg.maxTorque} N·m max · ${bg.stages} stage(s)</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  })() : ''}
+  `;
+}
+
+function selectCard(el) {
+  const grid = el.closest('.match-grid');
+  if (!grid) return;
+  grid.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded', () => { calculate(); });
+</script>
+</body>
+</html>
