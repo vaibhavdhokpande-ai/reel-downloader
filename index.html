@@ -36,7 +36,7 @@ nav ul li a:hover{background:var(--orange4);color:var(--orange);}
 .menu-btn.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
 .menu-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
 .menu-btn.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
-.dropdown{position:absolute;top:50px;right:0;min-width:270px;background:var(--white);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden;padding:6px;opacity:0;transform:translateY(-6px) scale(0.98);pointer-events:none;transition:opacity 0.2s,transform 0.2s;z-index:200;}
+.dropdown{position:absolute;top:50px;right:0;min-width:270px;background:var(--white);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden;padding:6px;opacity:0;transform:translateY(-6px) scale(0.98);pointer-events:none;transition:opacity 0.2s,transform 0.2s;z-index:200;max-height:80vh;overflow-y:auto;}
 .dropdown.show{opacity:1;transform:none;pointer-events:all;}
 .dd-label{font-family:var(--font-m);font-size:9.5px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);padding:10px 12px 6px;}
 .dd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-size:13.5px;font-weight:500;color:var(--text);text-decoration:none;transition:background 0.15s;cursor:pointer;border:none;background:none;width:100%;font-family:var(--font-b);}
@@ -118,15 +118,24 @@ nav ul li a:hover{background:var(--orange4);color:var(--orange);}
 .mech-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#b45309,#f59e0b,#fbbf24);opacity:0;transition:opacity 0.22s;}
 .mech-card:hover{border-color:rgba(180,83,9,0.35);transform:translateY(-4px);box-shadow:0 10px 36px rgba(180,83,9,0.10);}
 .mech-card:hover::before{opacity:1;}
+/* Metal selector card — steel blue accent */
+.mech-card.metal-card{border-color:#dde8f0;}
+.mech-card.metal-card::before{background:linear-gradient(90deg,#0d74ce,#38bdf8,#7dd3fc);}
+.mech-card.metal-card:hover{border-color:rgba(13,116,206,0.40);box-shadow:0 10px 36px rgba(13,116,206,0.12);}
 .mech-card-top{display:flex;align-items:center;justify-content:space-between;}
 .mech-icon{width:48px;height:48px;border-radius:13px;background:rgba(251,191,36,0.12);border:1px solid rgba(180,83,9,0.18);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.mech-icon-blue{background:rgba(13,116,206,0.10)!important;border-color:rgba(13,116,206,0.22)!important;}
 .mech-badge-live{font-family:var(--font-m);font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(180,83,9,0.10);color:#b45309;border:1px solid rgba(180,83,9,0.22);letter-spacing:0.08em;text-transform:uppercase;}
+.mech-badge-blue{background:rgba(13,116,206,0.10)!important;color:#0d74ce!important;border-color:rgba(13,116,206,0.25)!important;}
 .mech-card-name{font-family:var(--font-d);font-size:17px;font-weight:600;letter-spacing:-0.01em;color:var(--text);}
 .mech-card-desc{font-size:13px;color:var(--text2);line-height:1.65;flex:1;}
 .mech-tags{display:flex;gap:6px;flex-wrap:wrap;}
 .mech-tag{font-family:var(--font-m);font-size:10px;font-weight:500;padding:3px 9px;border-radius:100px;background:rgba(244,96,12,0.07);color:var(--orange);border:1px solid rgba(244,96,12,0.18);letter-spacing:0.04em;}
+.mech-tag-blue{background:rgba(13,116,206,0.07)!important;color:#0d74ce!important;border-color:rgba(13,116,206,0.2)!important;}
 .mech-open-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 18px;border-radius:10px;font-family:var(--font-b);font-size:13px;font-weight:600;letter-spacing:0.01em;background:rgba(180,83,9,0.10);color:#b45309;border:1px solid rgba(180,83,9,0.22);text-decoration:none;transition:background 0.18s,transform 0.15s;cursor:pointer;}
 .mech-open-btn:hover{background:rgba(180,83,9,0.18);transform:translateY(-1px);}
+.mech-open-btn-blue{background:rgba(13,116,206,0.10)!important;color:#0d74ce!important;border-color:rgba(13,116,206,0.22)!important;}
+.mech-open-btn-blue:hover{background:rgba(13,116,206,0.18)!important;}
 .privacy-wrap{max-width:720px;margin:0 auto;}
 .privacy-wrap h2{font-family:var(--font-d);font-size:44px;font-weight:700;letter-spacing:-0.03em;margin-bottom:6px;}
 .privacy-updated{font-family:var(--font-m);font-size:11px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:40px;display:block;}
@@ -150,9 +159,6 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
 @media(max-width:768px){nav ul{display:none;}.nav-cta{display:none;}.stats{grid-template-columns:repeat(2,1fr);}.stat{border-bottom:1px solid var(--border);}.about-grid{grid-template-columns:1fr;gap:40px;}.hero h1{font-size:40px;}.sec{padding:60px 20px;}.apps-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}.mech-grid{grid-template-columns:1fr;}}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.55s ease,transform 0.55s ease;}
 .reveal.visible{opacity:1;transform:none;}
-
-/* External link icon */
-.ext-svg { display:inline-block; vertical-align:middle; }
 </style>
 </head>
 <body>
@@ -162,12 +168,12 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
   <a href="#" class="logo">Task<em>Junction</em></a>
   <ul>
     <li><a href="#about">About</a></li>
-    <li><a href="#apps">Apps</a></li>
     <li><a href="#mechanical">⚙️ Mechanical</a></li>
+    <li><a href="#apps">Apps</a></li>
     <li><a href="#games">Games</a></li>
     <li><a href="#privacy">Privacy</a></li>
   </ul>
-  <a href="#apps" class="nav-cta">Explore Apps →</a>
+  <a href="#mechanical" class="nav-cta">Explore Tools →</a>
   <div class="menu-wrap">
     <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">
       <span></span><span></span><span></span>
@@ -180,6 +186,9 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
 
       <div class="dd-divider"></div>
       <div class="dd-label" style="color:#b45309;">⚙️ Mechanical Design</div>
+
+      <!-- ✅ Metal Weight & Price Selector — NEW -->
+      <a href="metal_weight_price_calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech" style="background:rgba(13,116,206,0.10)!important;border-color:rgba(13,116,206,0.18)!important;">🔩</div> Metal Weight &amp; Price Selector <span class="badge-mech-live" style="background:rgba(13,116,206,0.10);color:#0d74ce;border-color:rgba(13,116,206,0.25);">● Live</span></a>
 
       <a href="pneumatic-force-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">🔧</div> Pneumatic Cylinder Force <span class="badge-mech-live">● Live</span></a>
       <a href="gear-ratio-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">⚙️</div> Gear Ratio Calculator <span class="badge-mech-live">● Live</span></a>
@@ -215,7 +224,7 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
     <h1>Grab Every Idea,<br><span class="o">Build</span> Every <span class="outline">Skill</span></h1>
     <p class="hero-sub">Free web apps, Android tools, calculators, converters — all in one place. No login. No subscription. Just tools that work.</p>
     <div class="hero-btns">
-      <a href="#apps" class="btn-primary">🚀 Explore Apps</a>
+      <a href="#mechanical" class="btn-primary">🚀 Explore Tools</a>
       <a href="#about" class="btn-secondary">Meet the Founder ↓</a>
     </div>
   </div>
@@ -223,7 +232,7 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-num">15+</div><div class="stat-lbl">Free Tools</div></div>
+  <div class="stat"><div class="stat-num">16+</div><div class="stat-lbl">Free Tools</div></div>
   <div class="stat"><div class="stat-num">0</div><div class="stat-lbl">Login Needed</div></div>
   <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">Free Forever</div></div>
   <div class="stat"><div class="stat-num">∞</div><div class="stat-lbl">Ideas to Build</div></div>
@@ -254,48 +263,33 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
   </div>
 </section>
 
-<!-- APPS -->
-<section id="apps" class="sec" style="background:#fff;">
-  <div class="sec-inner">
-    <div class="sec-tag">By VD</div>
-    <div class="sec-title">Our <span>Applications</span></div>
-    <div class="apps-grid">
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.2);">🧮</div><div class="app-name">Calculator</div><div class="app-desc">Smart &amp; minimal calculator</div><div class="app-btn-wrap"><a href="calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(13,116,206,0.10);border:1px solid rgba(13,116,206,0.2);">🔬</div><div class="app-name">Scientific Calculator</div><div class="app-desc">Trig, logs, powers &amp; more</div><div class="app-btn-wrap"><a href="scientific_calculator_lightblue.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);">📐</div><div class="app-name">Unit Converter</div><div class="app-desc">Length, Weight, Temp &amp; more</div><div class="app-btn-wrap"><a href="unit-converter.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);">⏱️</div><div class="app-name">Timer &amp; Stopwatch</div><div class="app-desc">Countdown &amp; stopwatch tool</div><div class="app-btn-wrap"><a href="timer.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);">🎨</div><div class="app-name">Color Picker</div><div class="app-desc">Pick HEX, RGB &amp; HSL colors</div><div class="app-btn-wrap"><a href="color-picker.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.2);">🎂</div><div class="app-name">Age Calculator</div><div class="app-desc">Know your exact age in days</div><div class="app-btn-wrap"><a href="age-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(244,96,12,0.08);border:1px solid rgba(244,96,12,0.15);">💳</div><div class="app-name">Tip Calculator</div><div class="app-desc">Split bills &amp; calculate tips</div><div class="app-btn-wrap"><a href="tip-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);">✅</div><div class="app-name">To-Do List</div><div class="app-desc">Plan tasks, stay productive</div><div class="app-btn-wrap"><a href="todo.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">⚖️</div><div class="app-name">BMI Calculator</div><div class="app-desc">Check your body mass index</div><div class="app-btn-wrap"><a href="bmi-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card disabled reveal"><div class="app-icon" style="background:#f0eeeb;border:1px solid var(--border);">📦</div><div class="app-name">More Coming</div><div class="app-desc">New apps in development</div><div class="app-btn-wrap"><span class="app-btn app-btn-soon">Coming Soon</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- GAMES -->
-<section id="games" class="sec games-sec">
-  <div class="sec-inner">
-    <div class="sec-tag">Play &amp; Learn</div>
-    <div class="sec-title">Web <span>Games</span></div>
-    <div class="apps-grid" style="max-width:500px;">
-      <div class="app-card reveal"><div class="app-icon" style="background:rgba(255,140,66,0.12);border:1px solid rgba(255,140,66,0.25);">🧩</div><div class="app-name">PuzzlePals</div><div class="app-desc">Fun puzzle game for kids!</div><div class="app-btn-wrap"><a href="kids-puzzle-game.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
-      <div class="app-card disabled reveal"><div class="app-icon" style="background:#f0eeeb;border:1px solid var(--border);">🎮</div><div class="app-name">More Games</div><div class="app-desc">New games coming soon!</div><div class="app-btn-wrap"><span class="app-btn app-btn-soon">Coming Soon</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- MECHANICAL DESIGN -->
+<!-- ===================== MECHANICAL DESIGN — MOVED BEFORE APPS ===================== -->
 <section id="mechanical" class="sec" style="background:linear-gradient(160deg,#fffbf5 0%,#fff7ee 100%);border-top:1px solid #eddfc8;border-bottom:1px solid #eddfc8;">
   <div class="sec-inner">
     <div class="sec-tag" style="color:#b45309;">⚙️ Engineering Tools</div>
     <div class="sec-title">Mechanical <span style="color:#b45309;">Design</span> Calculators</div>
     <p style="font-size:15px;color:var(--text2);max-width:600px;margin-bottom:44px;line-height:1.75;">
-      Professional-grade mechanical engineering calculators — pneumatics, gear systems, drive selection, conveyor design and more. All tools run in your browser. No install, no account required.
+      Professional-grade mechanical engineering calculators — pneumatics, gear systems, drive selection, metal weight &amp; pricing, conveyor design and more. All tools run in your browser. No install, no account required.
     </p>
 
     <div class="mech-grid">
+
+      <!-- ✅ NEW — Metal Weight & Price Selector -->
+      <div class="mech-card metal-card reveal">
+        <div class="mech-card-top">
+          <div class="mech-icon mech-icon-blue">🔩</div>
+          <span class="mech-badge-live mech-badge-blue">● Live</span>
+        </div>
+        <div class="mech-card-name">Metal Weight &amp; Price Selector</div>
+        <p class="mech-card-desc">Select from 12 metal shapes (square bar, rectangular bar, flat plate, round bar, hex bar, hollow pipe, angle, channel, T-section, I-beam, square tube, sheet/coil) and 13 materials. Enter dimensions, quantity and price/kg — live weight &amp; total cost calculated instantly.</p>
+        <div class="mech-tags">
+          <span class="mech-tag mech-tag-blue">Metal Shapes</span>
+          <span class="mech-tag mech-tag-blue">Weight Calc</span>
+          <span class="mech-tag mech-tag-blue">Live Price ₹</span>
+          <span class="mech-tag mech-tag-blue">Density</span>
+        </div>
+        <a href="metal_weight_price_calculator.html" target="_blank" class="mech-open-btn mech-open-btn-blue">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      </div>
 
       <!-- Pneumatic -->
       <div class="mech-card reveal">
@@ -351,7 +345,7 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
         <a href="spring-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
-      <!-- ✅ Motor & Gearbox Selector -->
+      <!-- Motor & Gearbox Selector -->
       <div class="mech-card reveal">
         <div class="mech-card-top"><div class="mech-icon">⚡</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Motor &amp; Gearbox Selector</div>
@@ -360,7 +354,7 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
         <a href="motor-gearbox-selector.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
-      <!-- ✅ Chain Drive Calculator -->
+      <!-- Chain Drive Calculator -->
       <div class="mech-card reveal">
         <div class="mech-card-top"><div class="mech-icon">🔗</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Chain Drive Calculator</div>
@@ -369,7 +363,7 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
         <a href="chain-drive-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
-      <!-- ✅ Belt Drive Calculator -->
+      <!-- Belt Drive Calculator -->
       <div class="mech-card reveal">
         <div class="mech-card-top"><div class="mech-icon">🔄</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Belt Drive Calculator</div>
@@ -378,7 +372,7 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
         <a href="belt-drive-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
-      <!-- ✅ Conveyor Calculator -->
+      <!-- Conveyor Calculator -->
       <div class="mech-card reveal">
         <div class="mech-card-top"><div class="mech-icon">🏭</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Conveyor Calculator</div>
@@ -387,6 +381,38 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
         <a href="conveyor-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ===================== APPS — after Mechanical ===================== -->
+<section id="apps" class="sec" style="background:#fff;">
+  <div class="sec-inner">
+    <div class="sec-tag">By VD</div>
+    <div class="sec-title">Our <span>Applications</span></div>
+    <div class="apps-grid">
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.2);">🧮</div><div class="app-name">Calculator</div><div class="app-desc">Smart &amp; minimal calculator</div><div class="app-btn-wrap"><a href="calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(13,116,206,0.10);border:1px solid rgba(13,116,206,0.2);">🔬</div><div class="app-name">Scientific Calculator</div><div class="app-desc">Trig, logs, powers &amp; more</div><div class="app-btn-wrap"><a href="scientific_calculator_lightblue.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);">📐</div><div class="app-name">Unit Converter</div><div class="app-desc">Length, Weight, Temp &amp; more</div><div class="app-btn-wrap"><a href="unit-converter.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);">⏱️</div><div class="app-name">Timer &amp; Stopwatch</div><div class="app-desc">Countdown &amp; stopwatch tool</div><div class="app-btn-wrap"><a href="timer.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);">🎨</div><div class="app-name">Color Picker</div><div class="app-desc">Pick HEX, RGB &amp; HSL colors</div><div class="app-btn-wrap"><a href="color-picker.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.2);">🎂</div><div class="app-name">Age Calculator</div><div class="app-desc">Know your exact age in days</div><div class="app-btn-wrap"><a href="age-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(244,96,12,0.08);border:1px solid rgba(244,96,12,0.15);">💳</div><div class="app-name">Tip Calculator</div><div class="app-desc">Split bills &amp; calculate tips</div><div class="app-btn-wrap"><a href="tip-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);">✅</div><div class="app-name">To-Do List</div><div class="app-desc">Plan tasks, stay productive</div><div class="app-btn-wrap"><a href="todo.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">⚖️</div><div class="app-name">BMI Calculator</div><div class="app-desc">Check your body mass index</div><div class="app-btn-wrap"><a href="bmi-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card disabled reveal"><div class="app-icon" style="background:#f0eeeb;border:1px solid var(--border);">📦</div><div class="app-name">More Coming</div><div class="app-desc">New apps in development</div><div class="app-btn-wrap"><span class="app-btn app-btn-soon">Coming Soon</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMES -->
+<section id="games" class="sec games-sec">
+  <div class="sec-inner">
+    <div class="sec-tag">Play &amp; Learn</div>
+    <div class="sec-title">Web <span>Games</span></div>
+    <div class="apps-grid" style="max-width:500px;">
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(255,140,66,0.12);border:1px solid rgba(255,140,66,0.25);">🧩</div><div class="app-name">PuzzlePals</div><div class="app-desc">Fun puzzle game for kids!</div><div class="app-btn-wrap"><a href="kids-puzzle-game.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card disabled reveal"><div class="app-icon" style="background:#f0eeeb;border:1px solid var(--border);">🎮</div><div class="app-name">More Games</div><div class="app-desc">New games coming soon!</div><div class="app-btn-wrap"><span class="app-btn app-btn-soon">Coming Soon</span></div></div>
     </div>
   </div>
 </section>
@@ -417,8 +443,8 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
   </div>
   <div class="footer-links">
     <a href="#about">About</a>
-    <a href="#apps">Apps</a>
     <a href="#mechanical">⚙️ Mechanical</a>
+    <a href="#apps">Apps</a>
     <a href="#games">Games</a>
     <a href="#privacy">Privacy Policy</a>
     <a href="mailto:vaibhavdhokpande@gmail.com">Contact</a>
