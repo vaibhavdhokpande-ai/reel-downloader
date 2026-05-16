@@ -3,53 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ColorVD – Color Picker</title>
+<title>TaskJunction – Color Picker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--border:#2a2a3a;--accent:#7c3aed;--accent2:#a855f7;--glow:rgba(124,58,237,0.25);--text:#f0f0f8;--muted:#8888aa;}
+  :root{
+    --bg:#f0f7ff;--surface:#e3f0fd;--card:#ffffff;--border:#bcd8f5;
+    --accent:#0e78d2;--accent2:#2196f3;--glow:rgba(14,120,210,0.18);
+    --text:#0a2540;--muted:#4a6fa5;
+  }
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;
+    background-image:linear-gradient(rgba(14,120,210,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(14,120,210,0.06) 1px,transparent 1px);
+    background-size:40px 40px;}
   h1,h2,h3,.logo{font-family:'Rajdhani',sans-serif;letter-spacing:0.02em;}
-  nav{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
+  nav{position:sticky;top:0;z-index:100;background:rgba(240,247,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
   .logo{font-size:22px;font-weight:700;color:var(--text);text-decoration:none;}.logo span{color:var(--accent2);}
   nav ul{list-style:none;display:flex;gap:24px;}
   nav ul a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s;}
   nav ul a:hover,nav ul a.active{color:var(--accent2);}
-  .hero{text-align:center;padding:50px 24px 30px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.15) 0%,transparent 70%);}
-  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.4);border-radius:99px;padding:6px 16px;font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:16px;}
+  .nav-back-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;color:var(--accent);background:rgba(14,120,210,0.08);border:1px solid rgba(14,120,210,0.25);padding:7px 16px;border-radius:7px;text-decoration:none;transition:all 0.2s;}
+  .nav-back-btn:hover{background:rgba(14,120,210,0.18);transform:translateX(-2px);}
+  .hero{text-align:center;padding:50px 24px 30px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(33,150,243,0.12) 0%,transparent 70%);}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(14,120,210,0.10);border:1px solid rgba(14,120,210,0.35);border-radius:99px;padding:6px 16px;font-size:13px;color:var(--accent);font-weight:500;margin-bottom:16px;}
   .hero h1{font-size:clamp(30px,5vw,52px);font-weight:700;margin-bottom:8px;}.hero h1 span{color:var(--accent2);}
   .main{max-width:1000px;margin:0 auto;padding:32px 24px 80px;}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;}
-  .card-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--accent2);margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:0 2px 16px rgba(14,120,210,0.06);}
+  .card-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:20px;}
   label{display:block;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
   input[type=text],input[type=number]{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:border-color 0.2s;}
   input:focus{border-color:var(--accent2);}
   .color-preview{width:100%;height:180px;border-radius:16px;border:1px solid var(--border);margin-bottom:20px;transition:background 0.2s;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;}
-  .preview-label{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;padding:8px 16px;background:rgba(0,0,0,0.4);border-radius:8px;backdrop-filter:blur(4px);}
+  .preview-label{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;padding:8px 16px;background:rgba(255,255,255,0.45);border-radius:8px;backdrop-filter:blur(4px);}
   .native-picker{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
   .color-info{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
   .info-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;}
   .info-label{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
   .info-val{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;justify-content:space-between;}
   .copy-btn{background:none;border:none;color:var(--accent2);cursor:pointer;font-size:16px;padding:2px 6px;border-radius:6px;transition:background 0.2s;}
-  .copy-btn:hover{background:rgba(124,58,237,0.15);}
+  .copy-btn:hover{background:rgba(14,120,210,0.12);}
   .sliders{display:flex;flex-direction:column;gap:14px;margin-bottom:20px;}
   .slider-row{display:grid;grid-template-columns:14px 1fr 56px;align-items:center;gap:10px;}
   .slider-label{font-size:11px;font-weight:700;color:var(--text);}
   input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;outline:none;cursor:pointer;}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent2);cursor:pointer;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent2);cursor:pointer;box-shadow:0 0 0 3px rgba(14,120,210,0.18);}
   .slider-num{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;text-align:center;width:56px;outline:none;}
   .palette-section{margin-top:20px;}
   .palette-title{font-family:'Rajdhani',sans-serif;font-size:16px;color:var(--muted);margin-bottom:12px;}
   .palette-grid{display:flex;flex-wrap:wrap;gap:8px;}
   .swatch{width:44px;height:44px;border-radius:10px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;flex-shrink:0;}
-  .swatch:hover{transform:scale(1.15);border-color:var(--text);}
+  .swatch:hover{transform:scale(1.15);border-color:var(--accent);}
   .harmony-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px;}
   .harm-swatch{height:64px;border-radius:12px;cursor:pointer;border:1px solid var(--border);transition:transform 0.2s;display:flex;align-items:flex-end;padding:6px;}
   .harm-swatch:hover{transform:scale(1.05);}
-  .harm-label{font-size:10px;font-weight:600;padding:2px 6px;background:rgba(0,0,0,0.5);border-radius:4px;}
+  .harm-label{font-size:10px;font-weight:600;padding:2px 6px;background:rgba(255,255,255,0.5);border-radius:4px;color:#0a2540;}
   .saved-colors{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;min-height:52px;}
   .saved-swatch{width:44px;height:44px;border-radius:10px;cursor:pointer;border:2px solid var(--border);transition:all 0.2s;flex-shrink:0;}
   .saved-swatch:hover{transform:scale(1.1);border-color:var(--accent2);}
@@ -57,19 +65,23 @@
   .btn:hover{background:var(--accent2);transform:translateY(-1px);}
   .btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted);}
   .btn-outline:hover{border-color:var(--accent);color:var(--text);}
-  .toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--accent2);color:var(--accent2);padding:12px 20px;border-radius:10px;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;transform:translateY(100px);opacity:0;transition:all 0.3s;z-index:999;}
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--accent2);color:var(--accent);padding:12px 20px;border-radius:10px;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;transform:translateY(100px);opacity:0;transition:all 0.3s;z-index:999;}
   .toast.show{transform:translateY(0);opacity:1;}
-  footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
-  .footer-logo{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;}.footer-logo span{color:var(--accent2);}
+  footer{background:var(--card);border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
+  .footer-logo{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;color:var(--text);}.footer-logo span{color:var(--accent2);}
   footer p{font-size:13px;color:var(--muted);}
   .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
   .footer-links a{color:var(--accent2);text-decoration:none;font-size:13px;}
+  .back-home-btn{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:0.08em;color:var(--accent);background:rgba(14,120,210,0.08);border:1px solid rgba(14,120,210,0.25);padding:10px 24px;border-radius:8px;text-decoration:none;transition:all 0.2s;}
+  .back-home-btn:hover{background:rgba(14,120,210,0.18);transform:translateY(-1px);}
+  .crafted-by{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--accent2);letter-spacing:0.04em;margin:6px 0 2px;}
+  .crafted-label{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);}
   @media(max-width:700px){nav ul{display:none;}.grid2{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <nav>
-  <a href="index.html" class="logo">Grab<span>VD</span></a>
+  <a href="index.html" class="logo">Task<span>Junction</span></a>
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="unit-converter.html">Converter</a></li>
@@ -80,30 +92,33 @@
     <li><a href="todo.html">To-Do</a></li>
     <li><a href="bmi-calculator.html">BMI</a></li>
   </ul>
+  <a href="index.html" class="nav-back-btn">← Home</a>
 </nav>
+
 <section class="hero">
   <div class="badge">🎨 HEX • RGB • HSL • Palettes</div>
   <h1>Color <span>Picker</span></h1>
 </section>
+
 <div class="main">
   <div class="grid2">
     <div>
       <div class="card" style="margin-bottom:20px;">
         <div class="card-title">🎨 Pick a Color</div>
         <div class="color-preview" id="colorPreview">
-          <input type="color" class="native-picker" id="nativePicker" value="#7c3aed" oninput="onPickerChange(this.value)">
-          <div class="preview-label" id="previewHex">#7C3AED</div>
+          <input type="color" class="native-picker" id="nativePicker" value="#2196f3" oninput="onPickerChange(this.value)">
+          <div class="preview-label" id="previewHex">#2196F3</div>
         </div>
         <div class="color-info">
-          <div class="info-box"><div class="info-label">HEX</div><div class="info-val"><span id="hexVal">#7C3AED</span><button class="copy-btn" onclick="copyVal('hexVal')">⎘</button></div></div>
-          <div class="info-box"><div class="info-label">RGB</div><div class="info-val"><span id="rgbVal">rgb(124,58,237)</span><button class="copy-btn" onclick="copyVal('rgbVal')">⎘</button></div></div>
-          <div class="info-box"><div class="info-label">HSL</div><div class="info-val"><span id="hslVal">hsl(263,82%,58%)</span><button class="copy-btn" onclick="copyVal('hslVal')">⎘</button></div></div>
-          <div class="info-box"><div class="info-label">CSS</div><div class="info-val"><span id="cssVal">color:#7C3AED</span><button class="copy-btn" onclick="copyVal('cssVal')">⎘</button></div></div>
+          <div class="info-box"><div class="info-label">HEX</div><div class="info-val"><span id="hexVal">#2196F3</span><button class="copy-btn" onclick="copyVal('hexVal')">⎘</button></div></div>
+          <div class="info-box"><div class="info-label">RGB</div><div class="info-val"><span id="rgbVal">rgb(33,150,243)</span><button class="copy-btn" onclick="copyVal('rgbVal')">⎘</button></div></div>
+          <div class="info-box"><div class="info-label">HSL</div><div class="info-val"><span id="hslVal">hsl(207,90%,54%)</span><button class="copy-btn" onclick="copyVal('hslVal')">⎘</button></div></div>
+          <div class="info-box"><div class="info-label">CSS</div><div class="info-val"><span id="cssVal">color:#2196F3</span><button class="copy-btn" onclick="copyVal('cssVal')">⎘</button></div></div>
         </div>
         <div class="sliders">
-          <div class="slider-row"><span class="slider-label" style="color:#ef4444">R</span><input type="range" id="rSlider" min="0" max="255" value="124" oninput="onRGBChange()"><input class="slider-num" type="number" id="rNum" value="124" min="0" max="255" oninput="onRGBNumChange()"></div>
-          <div class="slider-row"><span class="slider-label" style="color:#22c55e">G</span><input type="range" id="gSlider" min="0" max="255" value="58" oninput="onRGBChange()"><input class="slider-num" type="number" id="gNum" value="58" min="0" max="255" oninput="onRGBNumChange()"></div>
-          <div class="slider-row"><span class="slider-label" style="color:#60a5fa">B</span><input type="range" id="bSlider" min="0" max="255" value="237" oninput="onRGBChange()"><input class="slider-num" type="number" id="bNum" value="237" min="0" max="255" oninput="onRGBNumChange()"></div>
+          <div class="slider-row"><span class="slider-label" style="color:#ef4444">R</span><input type="range" id="rSlider" min="0" max="255" value="33" oninput="onRGBChange()"><input class="slider-num" type="number" id="rNum" value="33" min="0" max="255" oninput="onRGBNumChange()"></div>
+          <div class="slider-row"><span class="slider-label" style="color:#22c55e">G</span><input type="range" id="gSlider" min="0" max="255" value="150" oninput="onRGBChange()"><input class="slider-num" type="number" id="gNum" value="150" min="0" max="255" oninput="onRGBNumChange()"></div>
+          <div class="slider-row"><span class="slider-label" style="color:#60a5fa">B</span><input type="range" id="bSlider" min="0" max="255" value="243" oninput="onRGBChange()"><input class="slider-num" type="number" id="bNum" value="243" min="0" max="255" oninput="onRGBNumChange()"></div>
         </div>
         <div style="display:flex;gap:10px;">
           <button class="btn" onclick="saveColor()">+ Save Color</button>
@@ -127,14 +142,24 @@
     </div>
   </div>
 </div>
+
 <div class="toast" id="toast">✓ Copied!</div>
+
 <footer>
-  <div class="footer-logo">Grab<span>VD</span></div>
-  <div class="footer-links"><a href="index.html">Home</a><a href="index.html#privacy">Privacy</a></div>
-  <p>Made with ♥ by Vaibhav Dhokpande • © 2025 GrabVD</p>
+  <div class="footer-logo">Task<span>Junction</span></div>
+  <div style="width:100px;height:1px;background:linear-gradient(90deg,transparent,rgba(14,120,210,0.4),transparent);margin:10px auto 14px;"></div>
+  <div class="crafted-label">Crafted by</div>
+  <div class="crafted-by">Vaibhav Dhokpande</div>
+  <div class="footer-links" style="margin-top:14px;">
+    <a href="index.html">Home</a>
+    <a href="index.html#privacy">Privacy</a>
+  </div>
+  <p>© 2025 TaskJunction · All rights reserved</p>
+  <a href="index.html" class="back-home-btn">← Back to Home</a>
 </footer>
+
 <script>
-let currentHex='#7c3aed',savedColors=[];
+let currentHex='#2196f3',savedColors=[];
 function hexToRgb(h){h=h.replace('#','');const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);return{r,g,b};}
 function rgbToHex(r,g,b){return'#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');}
 function rgbToHsl(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);let h,s,l=(max+min)/2;if(max===min){h=s=0;}else{const d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break;}h/=6;}return{h:Math.round(h*360),s:Math.round(s*100),l:Math.round(l*100)};}
@@ -143,7 +168,7 @@ function updateUI(hex){
   currentHex=hex;const{r,g,b}=hexToRgb(hex);const{h,s,l}=rgbToHsl(r,g,b);
   document.getElementById('colorPreview').style.background=hex;
   document.getElementById('previewHex').textContent=hex.toUpperCase();
-  document.getElementById('previewHex').style.color=l>50?'#000':'#fff';
+  document.getElementById('previewHex').style.color=l>55?'#0a2540':'#fff';
   document.getElementById('hexVal').textContent=hex.toUpperCase();
   document.getElementById('rgbVal').textContent='rgb('+r+','+g+','+b+')';
   document.getElementById('hslVal').textContent='hsl('+h+','+s+'%,'+l+'%)';
@@ -162,7 +187,7 @@ function onRGBChange(){const r=parseInt(document.getElementById('rSlider').value
 function onRGBNumChange(){const r=Math.min(255,Math.max(0,parseInt(document.getElementById('rNum').value)||0)),g=Math.min(255,Math.max(0,parseInt(document.getElementById('gNum').value)||0)),b=Math.min(255,Math.max(0,parseInt(document.getElementById('bNum').value)||0));updateUI(rgbToHex(r,g,b));}
 function buildHarmonies(h,s,l){
   const harmonies=[{name:'Base',h,s,l},{name:'Complement',h:(h+180)%360,s,l},{name:'Triadic 1',h:(h+120)%360,s,l},{name:'Triadic 2',h:(h+240)%360,s,l},{name:'Analogous',h:(h+30)%360,s,l}];
-  document.getElementById('harmonyGrid').innerHTML=harmonies.map(x=>{const{r,g,b}=hslToRgb(x.h,x.s,x.l);const hex=rgbToHex(r,g,b);return '<div class="harm-swatch" style="background:'+hex+'" onclick="updateUI(\''+hex+'\')" title="'+hex+'"><span class="harm-label" style="color:'+(x.l>50?'#000':'#fff')+'">'+x.name+'</span></div>';}).join('');}
+  document.getElementById('harmonyGrid').innerHTML=harmonies.map(x=>{const{r,g,b}=hslToRgb(x.h,x.s,x.l);const hex=rgbToHex(r,g,b);const{l:lv}=rgbToHsl(r,g,b);return '<div class="harm-swatch" style="background:'+hex+'" onclick="updateUI(\''+hex+'\')" title="'+hex+'"><span class="harm-label" style="color:'+(lv>55?'#0a2540':'#fff')+'">'+x.name+'</span></div>';}).join('');}
 const materialColors=['#f44336','#e91e63','#9c27b0','#673ab7','#3f51b5','#2196f3','#03a9f4','#00bcd4','#009688','#4caf50','#8bc34a','#cddc39','#ffeb3b','#ffc107','#ff9800','#ff5722','#795548','#607d8b'];
 const pastelColors=['#ffb3ba','#ffdfba','#ffffba','#baffc9','#bae1ff','#e8baff','#ffd1dc','#b5ead7','#c7ceea','#ffdac1','#e2f0cb','#b5d5f5'];
 const neonColors=['#ff0080','#ff00ff','#00ff80','#00ffff','#0080ff','#8000ff','#ff8000','#00ff00','#ff0040','#40ff00'];
@@ -174,7 +199,7 @@ function randomColor(){updateUI('#'+Math.floor(Math.random()*16777215).toString(
 function copyStr(s){navigator.clipboard.writeText(s).catch(()=>{});showToast('Copied: '+s);}
 function copyVal(id){copyStr(document.getElementById(id).textContent);}
 function showToast(msg){const t=document.getElementById('toast');t.textContent='✓ '+msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
-updateUI('#7c3aed');
+updateUI('#2196f3');
 </script>
 </body>
 </html>
