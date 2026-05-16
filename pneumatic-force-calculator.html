@@ -9,15 +9,15 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg:#ffffff; --bg2:#fafafa; --panel:#f7f7f7; --panel2:#efefef;
-  --card:#ffffff; --card2:#f0f0f0;
-  --line:rgba(234,88,12,0.12); --line2:rgba(234,88,12,0.22);
-  --cyan:#ea580c; --cyan2:#f97316;
-  --cyan-lo:rgba(234,88,12,0.07); --cyan-md:rgba(234,88,12,0.15);
-  --amber:#c2410c; --amber-lo:rgba(194,65,12,0.08);
-  --green:#16a34a; --green-lo:rgba(22,163,74,0.10);
-  --red:#dc2626;
-  --text:#111111; --text2:#6b7280; --text3:#9ca3af;
+  --bg:#f0f7ff; --bg2:#e8f3ff; --panel:#ddeeff; --panel2:#cce4ff;
+  --card:#ffffff; --card2:#d6eaff;
+  --line:rgba(14,120,210,0.12); --line2:rgba(14,120,210,0.22);
+  --cyan:#0e78d2; --cyan2:#2196f3;
+  --cyan-lo:rgba(14,120,210,0.07); --cyan-md:rgba(14,120,210,0.15);
+  --amber:#0d47a1; --amber-lo:rgba(13,71,161,0.08);
+  --green:#0288d1; --green-lo:rgba(2,136,209,0.10);
+  --red:#1565c0;
+  --text:#0a2540; --text2:#4a6fa5; --text3:#7fabd1;
   --mono:'Share Tech Mono',monospace;
   --display:'Orbitron',sans-serif;
   --body:'Exo 2',sans-serif;
@@ -32,164 +32,164 @@ body {
 body::before {
   content:''; position:fixed; inset:0; z-index:0;
   background-image:
-    linear-gradient(rgba(234,88,12,0.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(234,88,12,0.06) 1px,transparent 1px);
+    linear-gradient(rgba(14,120,210,0.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(14,120,210,0.07) 1px,transparent 1px);
   background-size:40px 40px; pointer-events:none;
 }
 body::after {
   content:''; position:fixed; inset:0; z-index:0;
-  background:radial-gradient(ellipse 120% 80% at 50% 0%,rgba(234,88,12,0.05) 0%,transparent 60%);
+  background:radial-gradient(ellipse 120% 80% at 50% 0%,rgba(33,150,243,0.10) 0%,transparent 60%);
   pointer-events:none;
 }
 
 /* ── NAV ── */
 .top-nav {
-position:sticky; top:0; z-index:100;
-background:rgba(255,255,255,0.92);
-backdrop-filter:blur(16px);
-border-bottom:1px solid rgba(234,88,12,0.15);
-padding:0 20px; height:54px;
-display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:100;
+  background:rgba(240,247,255,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(14,120,210,0.18);
+  padding:0 20px; height:54px;
+  display:flex; align-items:center; justify-content:space-between;
 }
 .nav-logo {
-font-family:var(–display); font-size:14px; font-weight:700;
-letter-spacing:0.06em; color:var(–text); text-decoration:none;
+  font-family:var(--display); font-size:14px; font-weight:700;
+  letter-spacing:0.06em; color:var(--text); text-decoration:none;
 }
-.nav-logo span { color:var(–cyan); }
+.nav-logo span { color:var(--cyan); }
 .back-btn {
-display:inline-flex; align-items:center; gap:7px;
-font-family:var(–mono); font-size:10px; font-weight:600;
-letter-spacing:0.12em; text-transform:uppercase;
-background:rgba(234,88,12,0.08); border:1px solid rgba(234,88,12,0.25);
-color:var(–cyan); padding:7px 16px; border-radius:6px;
-text-decoration:none; transition:all 0.2s;
+  display:inline-flex; align-items:center; gap:7px;
+  font-family:var(--mono); font-size:10px; font-weight:600;
+  letter-spacing:0.12em; text-transform:uppercase;
+  background:rgba(14,120,210,0.08); border:1px solid rgba(14,120,210,0.25);
+  color:var(--cyan); padding:7px 16px; border-radius:6px;
+  text-decoration:none; transition:all 0.2s;
 }
-.back-btn:hover { background:rgba(234,88,12,0.16); transform:translateX(-2px); }
+.back-btn:hover { background:rgba(14,120,210,0.18); transform:translateX(-2px); }
 
 .wrap {
-position:relative; z-index:1;
-max-width:520px; margin:0 auto;
-padding:0 16px 60px;
+  position:relative; z-index:1;
+  max-width:520px; margin:0 auto;
+  padding:0 16px 60px;
 }
 
 /* ── HERO ── */
 .hero { padding:32px 0 24px; text-align:center; position:relative; }
 .hero-badge {
-display:inline-flex; align-items:center; gap:8px;
-font-family:var(–mono); font-size:9px; letter-spacing:0.2em;
-color:var(–cyan); text-transform:uppercase;
-border:1px solid rgba(234,88,12,0.3);
-padding:5px 14px; border-radius:2px; margin-bottom:16px;
-background:var(–cyan-lo); position:relative;
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:9px; letter-spacing:0.2em;
+  color:var(--cyan); text-transform:uppercase;
+  border:1px solid rgba(14,120,210,0.3);
+  padding:5px 14px; border-radius:2px; margin-bottom:16px;
+  background:var(--cyan-lo); position:relative;
 }
 .hero-badge::before {
-content:’’; width:6px; height:6px; border-radius:50%;
-background:var(–green);
-animation:pulse 2s ease-in-out infinite;
+  content:''; width:6px; height:6px; border-radius:50%;
+  background:var(--green);
+  animation:pulse 2s ease-in-out infinite;
 }
-@keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(22,163,74,0.5);}50%{opacity:0.7;box-shadow:0 0 0 4px rgba(22,163,74,0);} }
+@keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(2,136,209,0.5);}50%{opacity:0.7;box-shadow:0 0 0 4px rgba(2,136,209,0);} }
 .hero-title {
-font-family:var(–display);
-font-size:clamp(22px,6vw,32px); font-weight:900;
-letter-spacing:0.06em; line-height:1.1; margin-bottom:8px; color:var(–text);
+  font-family:var(--display);
+  font-size:clamp(22px,6vw,32px); font-weight:900;
+  letter-spacing:0.06em; line-height:1.1; margin-bottom:8px; color:var(--text);
 }
-.hero-title .accent { color:var(–cyan); }
+.hero-title .accent { color:var(--cyan); }
 .hero-title .dim {
-display:block; font-size:0.55em; font-weight:400;
-letter-spacing:0.18em; color:var(–text2); margin-top:4px;
+  display:block; font-size:0.55em; font-weight:400;
+  letter-spacing:0.18em; color:var(--text2); margin-top:4px;
 }
 .hero-corners { position:absolute; top:24px; left:0; right:0; height:60px; pointer-events:none; }
 .hero-corners::before,.hero-corners::after {
-content:’’; position:absolute; top:0;
-width:20px; height:20px; border-top:1.5px solid var(–cyan);
+  content:''; position:absolute; top:0;
+  width:20px; height:20px; border-top:1.5px solid var(--cyan);
 }
-.hero-corners::before { left:0; border-left:1.5px solid var(–cyan); }
-.hero-corners::after  { right:0; border-right:1.5px solid var(–cyan); }
+.hero-corners::before { left:0; border-left:1.5px solid var(--cyan); }
+.hero-corners::after  { right:0; border-right:1.5px solid var(--cyan); }
 
 /* unit toggle */
 .unit-strip {
-display:flex; align-items:center; justify-content:center;
-gap:0; margin-bottom:20px;
-border:1px solid var(–line2); border-radius:var(–r);
-overflow:hidden; width:fit-content; margin:0 auto 20px;
+  display:flex; align-items:center; justify-content:center;
+  gap:0; margin-bottom:20px;
+  border:1px solid var(--line2); border-radius:var(--r);
+  overflow:hidden; width:fit-content; margin:0 auto 20px;
 }
 .unit-btn {
-font-family:var(–mono); font-size:10px; font-weight:600;
-letter-spacing:0.14em; text-transform:uppercase;
-padding:8px 20px; border:none; cursor:pointer;
-background:var(–panel); color:var(–text2); transition:all 0.2s;
+  font-family:var(--mono); font-size:10px; font-weight:600;
+  letter-spacing:0.14em; text-transform:uppercase;
+  padding:8px 20px; border:none; cursor:pointer;
+  background:var(--panel); color:var(--text2); transition:all 0.2s;
 }
-.unit-btn.active { background:var(–cyan); color:var(–bg); }
-.unit-btn:first-child { border-right:1px solid var(–line2); }
+.unit-btn.active { background:var(--cyan); color:#ffffff; }
+.unit-btn:first-child { border-right:1px solid var(--line2); }
 
 /* results */
 .result-hero { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
 .result-card {
-background:var(–card); border:1px solid var(–line2);
-border-radius:var(–r); padding:18px 16px;
-position:relative; overflow:hidden; transition:border-color 0.3s;
+  background:var(--card); border:1px solid var(--line2);
+  border-radius:var(--r); padding:18px 16px;
+  position:relative; overflow:hidden; transition:border-color 0.3s;
 }
-.result-card::before { content:’’; position:absolute; top:0; left:0; right:0; height:2px; }
-.result-card.extend::before { background:linear-gradient(90deg,var(–cyan),var(–cyan2)); }
-.result-card.retract::before { background:linear-gradient(90deg,var(–amber),#f97316); }
+.result-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+.result-card.extend::before { background:linear-gradient(90deg,#0e78d2,#2196f3); }
+.result-card.retract::before { background:linear-gradient(90deg,#0d47a1,#1976d2); }
 .result-card-label {
-font-family:var(–mono); font-size:8px; letter-spacing:0.18em;
-text-transform:uppercase; color:var(–text2); margin-bottom:10px;
-display:flex; align-items:center; gap:6px;
+  font-family:var(--mono); font-size:8px; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--text2); margin-bottom:10px;
+  display:flex; align-items:center; gap:6px;
 }
-.dot-extend { width:5px; height:5px; border-radius:50%; background:var(–cyan); }
-.dot-retract { width:5px; height:5px; border-radius:50%; background:var(–amber); }
-.result-val { font-family:var(–display); font-size:30px; font-weight:700; letter-spacing:-0.01em; line-height:1; color:var(–text); }
-.result-val.extend { color:var(–cyan); }
-.result-val.retract { color:var(–amber); }
-.result-unit { font-family:var(–mono); font-size:11px; color:var(–text2); margin-top:4px; }
-.result-dir { position:absolute; bottom:12px; right:12px; font-family:var(–mono); font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:3px 8px; border-radius:3px; }
-.result-dir.ext { background:rgba(234,88,12,0.10); color:var(–cyan); border:1px solid rgba(234,88,12,0.25); }
-.result-dir.ret { background:var(–amber-lo); color:var(–amber); border:1px solid rgba(194,65,12,0.25); }
+.dot-extend { width:5px; height:5px; border-radius:50%; background:var(--cyan); }
+.dot-retract { width:5px; height:5px; border-radius:50%; background:var(--amber); }
+.result-val { font-family:var(--display); font-size:30px; font-weight:700; letter-spacing:-0.01em; line-height:1; color:var(--text); }
+.result-val.extend { color:var(--cyan); }
+.result-val.retract { color:var(--amber); }
+.result-unit { font-family:var(--mono); font-size:11px; color:var(--text2); margin-top:4px; }
+.result-dir { position:absolute; bottom:12px; right:12px; font-family:var(--mono); font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:3px 8px; border-radius:3px; }
+.result-dir.ext { background:rgba(14,120,210,0.10); color:var(--cyan); border:1px solid rgba(14,120,210,0.25); }
+.result-dir.ret { background:var(--amber-lo); color:var(--amber); border:1px solid rgba(13,71,161,0.25); }
 
 /* metrics */
 .metrics-row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px; }
-.metric-cell { background:var(–panel); border:1px solid var(–line); border-radius:var(–r); padding:12px 10px; text-align:center; }
-.metric-cell-label { font-family:var(–mono); font-size:7px; letter-spacing:0.14em; text-transform:uppercase; color:var(–text3); margin-bottom:6px; }
-.metric-cell-val { font-family:var(–mono); font-size:13px; font-weight:600; color:var(–text); }
+.metric-cell { background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:12px 10px; text-align:center; }
+.metric-cell-label { font-family:var(--mono); font-size:7px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text3); margin-bottom:6px; }
+.metric-cell-val { font-family:var(--mono); font-size:13px; font-weight:600; color:var(--text); }
 
 /* ratio */
-.ratio-card { background:var(–panel); border:1px solid var(–line); border-radius:var(–r); padding:14px 16px; margin-bottom:14px; }
+.ratio-card { background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; margin-bottom:14px; }
 .ratio-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-.ratio-label { font-family:var(–mono); font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(–text3); }
-.ratio-value { font-family:var(–mono); font-size:13px; font-weight:600; color:var(–cyan); }
-.ratio-track { height:3px; background:var(–card2); border-radius:2px; position:relative; overflow:hidden; }
-.ratio-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(–cyan),var(–amber)); transition:width 0.35s ease; }
+.ratio-label { font-family:var(--mono); font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text3); }
+.ratio-value { font-family:var(--mono); font-size:13px; font-weight:600; color:var(--cyan); }
+.ratio-track { height:3px; background:var(--card2); border-radius:2px; position:relative; overflow:hidden; }
+.ratio-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--cyan),var(--amber)); transition:width 0.35s ease; }
 
 /* diagram */
-.diagram-card { background:var(–panel); border:1px solid var(–line); border-radius:var(–r); padding:16px; margin-bottom:14px; }
-.diagram-label { font-family:var(–mono); font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(–text3); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-.diagram-label::after { content:’’; flex:1; height:1px; background:var(–line2); }
+.diagram-card { background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:16px; margin-bottom:14px; }
+.diagram-label { font-family:var(--mono); font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text3); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.diagram-label::after { content:''; flex:1; height:1px; background:var(--line2); }
 
 /* sliders */
-.params-label { font-family:var(–mono); font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(–text3); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
-.params-label::after { content:’’; flex:1; height:1px; background:var(–line2); }
-.slider-card { background:var(–card); border:1px solid var(–line); border-radius:var(–r); padding:16px 18px; margin-bottom:8px; transition:border-color 0.2s; position:relative; }
-.slider-card::before { content:’’; position:absolute; left:0; top:50%; transform:translateY(-50%); width:2px; height:0; background:var(–cyan); border-radius:0 2px 2px 0; transition:height 0.3s; }
-.slider-card:focus-within { border-color:rgba(234,88,12,0.35); }
+.params-label { font-family:var(--mono); font-size:8px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text3); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+.params-label::after { content:''; flex:1; height:1px; background:var(--line2); }
+.slider-card { background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:16px 18px; margin-bottom:8px; transition:border-color 0.2s; position:relative; }
+.slider-card::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:2px; height:0; background:var(--cyan); border-radius:0 2px 2px 0; transition:height 0.3s; }
+.slider-card:focus-within { border-color:rgba(14,120,210,0.35); }
 .slider-card:focus-within::before { height:60%; }
 .slider-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px; }
-.slider-name { font-family:var(–body); font-size:13px; font-weight:500; color:var(–text); }
-.slider-reading { font-family:var(–mono); font-size:14px; font-weight:600; color:var(–cyan); }
-input[type=range] { -webkit-appearance:none; appearance:none; width:100%; height:2px; background:var(–card2); border-radius:1px; outline:none; cursor:pointer; }
-input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(–cyan); box-shadow:0 0 0 4px rgba(234,88,12,0.15),0 2px 8px rgba(234,88,12,0.3); transition:transform 0.15s,box-shadow 0.15s; }
-input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shadow:0 0 0 6px rgba(234,88,12,0.2),0 2px 16px rgba(234,88,12,0.4); }
+.slider-name { font-family:var(--body); font-size:13px; font-weight:500; color:var(--text); }
+.slider-reading { font-family:var(--mono); font-size:14px; font-weight:600; color:var(--cyan); }
+input[type=range] { -webkit-appearance:none; appearance:none; width:100%; height:2px; background:var(--card2); border-radius:1px; outline:none; cursor:pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(--cyan); box-shadow:0 0 0 4px rgba(14,120,210,0.15),0 2px 8px rgba(14,120,210,0.3); transition:transform 0.15s,box-shadow 0.15s; }
+input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shadow:0 0 0 6px rgba(14,120,210,0.2),0 2px 16px rgba(14,120,210,0.4); }
 .slider-ticks { display:flex; justify-content:space-between; margin-top:8px; }
-.slider-ticks span { font-family:var(–mono); font-size:8px; color:var(–text3); }
+.slider-ticks span { font-family:var(--mono); font-size:8px; color:var(--text3); }
 
 /* formula */
-.formula-card { background:var(–panel); border:1px solid var(–line); border-radius:var(–r); padding:14px 16px; margin-top:14px; }
-.formula-row { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(–line); }
+.formula-card { background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; margin-top:14px; }
+.formula-row { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); }
 .formula-row:last-child { border-bottom:none; padding-bottom:0; }
-.formula-tag { font-family:var(–mono); font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:3px 8px; border-radius:3px; flex-shrink:0; margin-top:1px; }
-.formula-tag.ext { background:var(–cyan-lo); color:var(–cyan); border:1px solid rgba(234,88,12,0.25); }
-.formula-tag.ret { background:var(–amber-lo); color:var(–amber); border:1px solid rgba(194,65,12,0.25); }
-.formula-expr { font-family:var(–mono); font-size:10px; color:var(–text2); line-height:1.6; }
+.formula-tag { font-family:var(--mono); font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:3px 8px; border-radius:3px; flex-shrink:0; margin-top:1px; }
+.formula-tag.ext { background:var(--cyan-lo); color:var(--cyan); border:1px solid rgba(14,120,210,0.25); }
+.formula-tag.ret { background:var(--amber-lo); color:var(--amber); border:1px solid rgba(13,71,161,0.25); }
+.formula-expr { font-family:var(--mono); font-size:10px; color:var(--text2); line-height:1.6; }
 
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
 .hero         { animation:fadeUp 0.4s ease 0s both; }
@@ -202,15 +202,14 @@ input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shado
 .formula-card { animation:fadeUp 0.4s ease 0.38s both; }
 
 ::-webkit-scrollbar { width:4px; }
-::-webkit-scrollbar-track { background:var(–bg); }
-::-webkit-scrollbar-thumb { background:var(–card2); border-radius:2px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--card2); border-radius:2px; }
 </style>
 
 </head>
 <body>
 
 <!-- ── TOP NAV ── -->
-
 <nav class="top-nav">
   <a href="index.html" class="nav-logo">Task<span>Junction</span></a>
   <a href="index.html" class="back-btn">← Home</a>
@@ -219,7 +218,6 @@ input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shado
 <div class="wrap">
 
   <!-- ── HERO ── -->
-
   <div class="hero">
     <div class="hero-corners"></div>
     <div class="hero-badge">● System Active</div>
@@ -234,7 +232,6 @@ input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shado
   </div>
 
   <!-- ── RESULTS ── -->
-
   <div class="result-hero">
     <div class="result-card extend">
       <div class="result-card-label"><span class="dot-extend"></span>Extend Force</div>
@@ -251,7 +248,6 @@ input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shado
   </div>
 
   <!-- ── METRICS ── -->
-
   <div class="metrics-row">
     <div class="metric-cell">
       <div class="metric-cell-label">Piston Area</div>
@@ -271,7 +267,6 @@ input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shado
   </div>
 
   <!-- ── RATIO BAR ── -->
-
   <div class="ratio-card">
     <div class="ratio-header">
       <span class="ratio-label">Ext / Ret Ratio</span>
@@ -283,14 +278,12 @@ input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shado
   </div>
 
   <!-- ── DIAGRAM ── -->
-
   <div class="diagram-card">
     <div class="diagram-label">Cross-Section</div>
     <svg id="cyl-svg" viewBox="0 0 460 88" width="100%" style="display:block;"></svg>
   </div>
 
   <!-- ── PARAMETERS ── -->
-
   <div class="params-label">Parameters</div>
 
   <div class="slider-card">
@@ -330,7 +323,6 @@ input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); box-shado
   </div>
 
   <!-- ── FORMULA ── -->
-
   <div class="formula-card">
     <div class="params-label" style="margin-bottom:8px;">Formula Reference</div>
     <div class="formula-row">
@@ -415,41 +407,47 @@ function drawDiagram(bore_mm, rod_mm) {
   const y0=cy-cylH/2,y1=cy+cylH/2;
   const ry0=cy-rodH/2,ry1=cy+rodH/2;
   const pistonX=cx-pistonW/2;
-  const C={body:'#0d1120',bodyStroke:'rgba(41,182,246,0.22)',rod:'#111829',rodStroke:'rgba(41,182,246,0.15)',piston:'#141c2e',pistonStroke:'rgba(41,182,246,0.35)',ext:'#29b6f6',ret:'#ffa726',pressureFill:'rgba(41,182,246,0.04)',rodFill:'rgba(255,167,38,0.04)'};
+  const C={
+    body:'#cde8ff',bodyStroke:'rgba(14,120,210,0.35)',
+    rod:'#b8d9f7',rodStroke:'rgba(14,120,210,0.25)',
+    piston:'#90c4f0',pistonStroke:'rgba(14,120,210,0.55)',
+    ext:'#0e78d2',ret:'#0d47a1',
+    pressureFill:'rgba(14,120,210,0.08)',rodFill:'rgba(13,71,161,0.06)'
+  };
   svg.innerHTML=`
   <defs>
     <marker id="mE" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5z" fill="${C.ext}"/></marker>
     <marker id="mR" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto"><path d="M7,0 L7,7 L0,3.5z" fill="${C.ret}"/></marker>
     <linearGradient id="cylGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.04)"/><stop offset="100%" stop-color="rgba(0,0,0,0.12)"/>
+      <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/><stop offset="100%" stop-color="rgba(14,120,210,0.08)"/>
     </linearGradient>
   </defs>
   <rect x="${x0+1}" y="${y0+1}" width="${pistonX-x0-1}" height="${cylH-2}" rx="3" fill="${C.pressureFill}"/>
   <rect x="${pistonX+pistonW}" y="${y0+1}" width="${x1-pistonX-pistonW-1}" height="${cylH-2}" rx="3" fill="${C.rodFill}"/>
   <rect x="${x0}" y="${y0}" width="${cylW}" height="${cylH}" rx="6" fill="${C.body}" stroke="${C.bodyStroke}" stroke-width="1"/>
   <rect x="${x0}" y="${y0}" width="${cylW}" height="${cylH}" rx="6" fill="url(#cylGrad)"/>
-  <rect x="${x0}" y="${y0}" width="10" height="${cylH}" rx="4" fill="#0a0d18" stroke="${C.bodyStroke}" stroke-width="1"/>
-  <rect x="${x1-10}" y="${y0}" width="10" height="${cylH}" rx="4" fill="#0a0d18" stroke="${C.bodyStroke}" stroke-width="1"/>
+  <rect x="${x0}" y="${y0}" width="10" height="${cylH}" rx="4" fill="#a8d4f5" stroke="${C.bodyStroke}" stroke-width="1"/>
+  <rect x="${x1-10}" y="${y0}" width="10" height="${cylH}" rx="4" fill="#a8d4f5" stroke="${C.bodyStroke}" stroke-width="1"/>
   <rect x="${x1}" y="${ry0}" width="${rodW}" height="${rodH}" rx="3" fill="${C.rod}" stroke="${C.rodStroke}" stroke-width="1"/>
   <rect x="${pistonX}" y="${y0}" width="${pistonW}" height="${cylH}" rx="2" fill="${C.piston}" stroke="${C.pistonStroke}" stroke-width="1.5"/>
-  <line x1="${cx}" y1="${y0+4}" x2="${cx}" y2="${y1-4}" stroke="rgba(41,182,246,0.15)" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <line x1="${cx}" y1="${y0+4}" x2="${cx}" y2="${y1-4}" stroke="rgba(14,120,210,0.2)" stroke-width="0.5" stroke-dasharray="3,3"/>
   <line x1="${x1+rodW+4}" y1="${cy}" x2="${x1+rodW+36}" y2="${cy}" stroke="${C.ext}" stroke-width="1.5" marker-end="url(#mE)"/>
   <line x1="${x0-4}" y1="${cy}" x2="${x0-36}" y2="${cy}" stroke="${C.ret}" stroke-width="1.5" marker-end="url(#mR)"/>
   <text x="${(x0+pistonX)/2}" y="${y0-8}" text-anchor="middle" font-family="'Share Tech Mono'" font-size="7.5" fill="${C.ext}" letter-spacing="0.1em">PRESSURE</text>
   <text x="${(x1+pistonX+pistonW)/2}" y="${y0-8}" text-anchor="middle" font-family="'Share Tech Mono'" font-size="7.5" fill="${C.ret}" letter-spacing="0.1em">ROD SIDE</text>
   <text x="${x1+rodW+38}" y="${cy-8}" font-family="'Share Tech Mono'" font-size="8" fill="${C.ext}">EXT →</text>
   <text x="${x0-60}" y="${cy-8}" font-family="'Share Tech Mono'" font-size="8" fill="${C.ret}">← RET</text>
-  <line x1="${x0+12}" y1="${y1+8}" x2="${x1-12}" y2="${y1+8}" stroke="rgba(41,182,246,0.2)" stroke-width="0.8" stroke-dasharray="2,2"/>
-  <text x="${cx}" y="${y1+18}" text-anchor="middle" font-family="'Share Tech Mono'" font-size="7" fill="rgba(41,182,246,0.35)" letter-spacing="0.08em">BORE Ø${bore_mm}mm</text>`;
+  <line x1="${x0+12}" y1="${y1+8}" x2="${x1-12}" y2="${y1+8}" stroke="rgba(14,120,210,0.25)" stroke-width="0.8" stroke-dasharray="2,2"/>
+  <text x="${cx}" y="${y1+18}" text-anchor="middle" font-family="'Share Tech Mono'" font-size="7" fill="rgba(14,120,210,0.5)" letter-spacing="0.08em">BORE Ø${bore_mm}mm</text>`;
 }
 calc();
 </script>
 
 <footer style="position:relative;z-index:1;text-align:center;padding:24px 16px 32px;display:flex;flex-direction:column;align-items:center;gap:8px;">
-  <div style="width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(41,182,246,0.35),transparent);margin-bottom:4px;"></div>
-  <div style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:0.12em;color:rgba(107,133,184,0.5);text-transform:uppercase;">Crafted by</div>
-  <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;color:#29b6f6;text-shadow:0 0 12px rgba(41,182,246,0.4);">Vaibhav Dhokpande</div>
-  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.16em;color:rgba(58,79,120,0.8);text-transform:uppercase;">© 2025 · PneumaCalc Pro</div>
+  <div style="width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(14,120,210,0.4),transparent);margin-bottom:4px;"></div>
+  <div style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:0.12em;color:rgba(74,111,165,0.6);text-transform:uppercase;">Crafted by</div>
+  <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;color:#0e78d2;text-shadow:0 0 12px rgba(14,120,210,0.35);">Vaibhav Dhokpande</div>
+  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.16em;color:rgba(74,111,165,0.7);text-transform:uppercase;">© 2025 · PneumaCalc Pro</div>
 </footer>
 
 </body>
