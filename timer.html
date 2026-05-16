@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TaskJunction – Timer & Stopwatch</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@400;500&family=Orbitron:wght@700&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskJunction – Timer &amp; Stopwatch</title>
+
+
 <style>
   :root{
     --bg:#f0f7ff;--surface:#e3f0fd;--card:#ffffff;--border:#bcd8f5;
@@ -13,7 +14,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{
-    background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;
+    background:var(--bg);color:var(--text);font-family: Arial, sans-serif;min-height:100vh;
     background-image:linear-gradient(rgba(14,120,210,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(14,120,210,0.06) 1px,transparent 1px);
     background-size:40px 40px;
   }
@@ -21,9 +22,9 @@
 
   /* NAV */
   nav{position:sticky;top:0;z-index:100;background:rgba(240,247,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;}
-  .nav-logo{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:0.05em;}
+  .nav-logo{font-family: Arial, sans-serif;font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:0.05em;}
   .nav-logo span{color:var(--accent2);}
-  .nav-back-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Exo 2',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:rgba(14,120,210,0.08);border:1px solid rgba(14,120,210,0.25);padding:7px 16px;border-radius:7px;text-decoration:none;transition:all 0.2s;}
+  .nav-back-btn{display:inline-flex;align-items:center;gap:6px;font-family: Arial, sans-serif;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:rgba(14,120,210,0.08);border:1px solid rgba(14,120,210,0.25);padding:7px 16px;border-radius:7px;text-decoration:none;transition:all 0.2s;}
   .nav-back-btn:hover{background:rgba(14,120,210,0.18);transform:translateX(-2px);}
 
   .hero{text-align:center;padding:50px 24px 30px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(33,150,243,0.12) 0%,transparent 70%);}
@@ -84,7 +85,7 @@
   /* FOOTER */
   footer{background:var(--card);border-top:1px solid var(--border);padding:28px 24px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;}
   .footer-divider{width:100px;height:1px;background:linear-gradient(90deg,transparent,rgba(14,120,210,0.4),transparent);margin-bottom:4px;}
-  .footer-name{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.06em;color:var(--accent);}
+  .footer-name{font-family: Arial, sans-serif;font-size:14px;font-weight:700;letter-spacing:0.06em;color:var(--accent);}
   .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:4px 0;}
   .footer-links a{color:var(--accent2);text-decoration:none;font-size:13px;}
   footer p{font-size:12px;color:var(--muted);}
@@ -93,85 +94,83 @@
 </style>
 </head>
 <body>
-
-<nav>
-  <a href="index.html" class="nav-logo">Task<span>Junction</span></a>
-  <a href="index.html" class="nav-back-btn">← Home</a>
+<nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
 </nav>
-
 <section class="hero">
-  <div class="badge">⏱️ Stopwatch + ⏲️ Countdown Timer</div>
-  <h1>Timer & <span>Stopwatch</span></h1>
+<div class="badge">⏱️ Stopwatch + ⏲️ Countdown Timer</div>
+<h1>Timer &amp; <span>Stopwatch</span></h1>
 </section>
-
 <div class="main">
-  <div class="mode-tabs">
-    <div class="mode-tab active" onclick="switchMode('sw',this)">⏱ Stopwatch</div>
-    <div class="mode-tab" onclick="switchMode('timer',this)">⏲ Countdown</div>
-  </div>
-
-  <div class="panel active" id="swPanel">
-    <div class="clock-face">
-      <div class="time-display" id="swTime">00:00:00</div>
-      <div class="ms-display" id="swMs">.000</div>
-    </div>
-    <div class="ctrl-btns">
-      <button class="ctrl-btn btn-start" id="swStartBtn" onclick="swToggle()">▶ Start</button>
-      <button class="ctrl-btn btn-lap" onclick="addLap()">⚑ Lap</button>
-      <button class="ctrl-btn btn-reset" onclick="swReset()">↺ Reset</button>
-    </div>
-    <div class="laps-box">
-      <div class="laps-header"><span>Laps</span><span id="lapCount">0 laps</span></div>
-      <div class="laps-list" id="lapsList"><div class="empty-laps">No laps recorded yet</div></div>
-    </div>
-  </div>
-
-  <div class="panel" id="timerPanel">
-    <div class="timer-setup" id="timerSetup">
-      <div class="time-inputs">
-        <div class="time-unit"><label>Hours</label><input type="number" id="tHr" value="0" min="0" max="23"></div>
-        <div class="time-sep">:</div>
-        <div class="time-unit"><label>Minutes</label><input type="number" id="tMin" value="5" min="0" max="59"></div>
-        <div class="time-sep">:</div>
-        <div class="time-unit"><label>Seconds</label><input type="number" id="tSec" value="0" min="0" max="59"></div>
-      </div>
-      <div class="presets">
-        <div class="preset" onclick="setPreset(0,1,0)">1 min</div>
-        <div class="preset" onclick="setPreset(0,3,0)">3 min</div>
-        <div class="preset" onclick="setPreset(0,5,0)">5 min</div>
-        <div class="preset" onclick="setPreset(0,10,0)">10 min</div>
-        <div class="preset" onclick="setPreset(0,15,0)">15 min</div>
-        <div class="preset" onclick="setPreset(0,25,0)">25 min</div>
-        <div class="preset" onclick="setPreset(0,30,0)">30 min</div>
-        <div class="preset" onclick="setPreset(1,0,0)">1 hr</div>
-      </div>
-    </div>
-    <div class="timer-display">
-      <div class="progress-ring">
-        <svg viewBox="0 0 200 200" width="200" height="200">
-          <circle class="ring-bg" cx="100" cy="100" r="90"/>
-          <circle class="ring-fill" id="ringFill" cx="100" cy="100" r="90"/>
-        </svg>
-        <div style="margin-top:-130px;">
-          <div class="timer-time" id="timerDisplay">05:00</div>
-          <div class="timer-label" id="timerLabel">Ready to start</div>
-        </div>
-      </div>
-    </div>
-    <div class="ctrl-btns">
-      <button class="ctrl-btn btn-start" id="timerStartBtn" onclick="timerToggle()">▶ Start</button>
-      <button class="ctrl-btn btn-reset" onclick="timerReset()">↺ Reset</button>
-    </div>
-  </div>
+<div class="mode-tabs">
+<div class="mode-tab active" onclick="switchMode('sw',this)">⏱ Stopwatch</div>
+<div class="mode-tab" onclick="switchMode('timer',this)">⏲ Countdown</div>
 </div>
-
-<footer>
-  <div class="footer-divider"></div>
-  <div class="footer-name">Made by Vaibhav Dhokpande</div>
-  <div class="footer-links"><a href="index.html">Home</a><a href="index.html#privacy">Privacy</a></div>
-  <p>© 2025 · TaskJunction</p>
+<div class="panel active" id="swPanel">
+<div class="clock-face">
+<div class="time-display" id="swTime">00:00:00</div>
+<div class="ms-display" id="swMs">.000</div>
+</div>
+<div class="ctrl-btns">
+<button class="ctrl-btn btn-start" id="swStartBtn" onclick="swToggle()">▶ Start</button>
+<button class="ctrl-btn btn-lap" onclick="addLap()">⚑ Lap</button>
+<button class="ctrl-btn btn-reset" onclick="swReset()">↺ Reset</button>
+</div>
+<div class="laps-box">
+<div class="laps-header"><span>Laps</span><span id="lapCount">0 laps</span></div>
+<div class="laps-list" id="lapsList"><div class="empty-laps">No laps recorded yet</div></div>
+</div>
+</div>
+<div class="panel" id="timerPanel">
+<div class="timer-setup" id="timerSetup">
+<div class="time-inputs">
+<div class="time-unit"><label>Hours</label><input id="tHr" max="23" min="0" type="number" value="0"/></div>
+<div class="time-sep">:</div>
+<div class="time-unit"><label>Minutes</label><input id="tMin" max="59" min="0" type="number" value="5"/></div>
+<div class="time-sep">:</div>
+<div class="time-unit"><label>Seconds</label><input id="tSec" max="59" min="0" type="number" value="0"/></div>
+</div>
+<div class="presets">
+<div class="preset" onclick="setPreset(0,1,0)">1 min</div>
+<div class="preset" onclick="setPreset(0,3,0)">3 min</div>
+<div class="preset" onclick="setPreset(0,5,0)">5 min</div>
+<div class="preset" onclick="setPreset(0,10,0)">10 min</div>
+<div class="preset" onclick="setPreset(0,15,0)">15 min</div>
+<div class="preset" onclick="setPreset(0,25,0)">25 min</div>
+<div class="preset" onclick="setPreset(0,30,0)">30 min</div>
+<div class="preset" onclick="setPreset(1,0,0)">1 hr</div>
+</div>
+</div>
+<div class="timer-display">
+<div class="progress-ring">
+<svg height="200" viewbox="0 0 200 200" width="200">
+<circle class="ring-bg" cx="100" cy="100" r="90"></circle>
+<circle class="ring-fill" cx="100" cy="100" id="ringFill" r="90"></circle>
+</svg>
+<div style="margin-top:-130px;">
+<div class="timer-time" id="timerDisplay">05:00</div>
+<div class="timer-label" id="timerLabel">Ready to start</div>
+</div>
+</div>
+</div>
+<div class="ctrl-btns">
+<button class="ctrl-btn btn-start" id="timerStartBtn" onclick="timerToggle()">▶ Start</button>
+<button class="ctrl-btn btn-reset" onclick="timerReset()">↺ Reset</button>
+</div>
+</div>
+</div>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
 </footer>
-
 <script>
 function switchMode(mode,el){document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(mode==='sw'?'swPanel':'timerPanel').classList.add('active');}
 let swRunning=false,swStart=0,swElapsed=0,swInterval=null,laps=[],lapStart=0;
