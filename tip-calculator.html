@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Tip Calculator – TaskJunction</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+
 <style>
   :root{
     --bg:#faf9f7;
@@ -23,16 +24,16 @@
     --green:#1a9952;
     --shadow:0 2px 12px rgba(15,14,12,0.06);
     --shadow-lg:0 8px 40px rgba(15,14,12,0.10);
-    --font-d:'Clash Display',sans-serif;
-    --font-b:'Sora',sans-serif;
-    --font-m:'JetBrains Mono',monospace;
+    
+    
+    
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--bg);color:var(--text);font-family:var(--font-b);min-height:100vh;line-height:1.6;}
+  body{background:var(--bg);color:var(--text);font-family:Arial, sans-serif;min-height:100vh;line-height:1.6;}
 
   /* NAV */
   nav{position:sticky;top:0;z-index:100;background:rgba(250,249,247,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px;}
-  .logo{font-family:var(--font-d);font-size:22px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.02em;}
+  .logo{font-family:Arial, sans-serif;font-size:22px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.02em;}
   .logo em{color:var(--orange);font-style:normal;}
   nav ul{list-style:none;display:flex;gap:4px;}
   nav ul a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;padding:6px 11px;border-radius:8px;transition:all 0.18s;}
@@ -44,7 +45,7 @@
   .hero::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(15,14,12,0.05) 1px,transparent 1px);background-size:28px 28px;-webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 80%);mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 80%);pointer-events:none;}
   .badge{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);border-radius:99px;padding:6px 18px;font-size:12.5px;color:var(--text2);font-weight:500;margin-bottom:18px;box-shadow:var(--shadow);position:relative;z-index:1;}
   .badge span{color:var(--orange);font-weight:600;}
-  .hero h1{font-family:var(--font-d);font-size:clamp(34px,6vw,60px);font-weight:700;letter-spacing:-0.04em;line-height:1.05;margin-bottom:12px;position:relative;z-index:1;}
+  .hero h1{font-family:Arial, sans-serif;font-size:clamp(34px,6vw,60px);font-weight:700;letter-spacing:-0.04em;line-height:1.05;margin-bottom:12px;position:relative;z-index:1;}
   .hero h1 em{color:var(--orange);font-style:normal;}
   .hero p{font-size:16px;color:var(--text2);position:relative;z-index:1;}
 
@@ -54,21 +55,21 @@
   /* CARD */
   .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:20px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
   .card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--orange2),#fbbf24);}
-  .card-title{font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--text);margin-bottom:24px;letter-spacing:-0.02em;}
+  .card-title{font-family:Arial, sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:24px;letter-spacing:-0.02em;}
   .card-title span{color:var(--orange);}
 
   /* FORM */
-  label{display:block;font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+  label{display:block;font-family:Arial, sans-serif;font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
   .input-wrap{position:relative;margin-bottom:22px;}
-  .input-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--orange);pointer-events:none;}
-  input[type=number]{width:100%;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:12px 16px 12px 36px;border-radius:11px;font-family:var(--font-d);font-size:22px;font-weight:700;outline:none;transition:border-color 0.2s,box-shadow 0.2s;-moz-appearance:textfield;}
+  .input-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-family:Arial, sans-serif;font-size:20px;font-weight:700;color:var(--orange);pointer-events:none;}
+  input[type=number]{width:100%;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:12px 16px 12px 36px;border-radius:11px;font-family:Arial, sans-serif;font-size:22px;font-weight:700;outline:none;transition:border-color 0.2s,box-shadow 0.2s;-moz-appearance:textfield;}
   input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
   input[type=number]:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,96,12,0.1);}
   input.no-prefix{padding-left:16px;}
 
   /* TIP BUTTONS */
   .tip-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;}
-  .tip-btn{background:var(--bg);border:1.5px solid var(--border);color:var(--text2);padding:9px 20px;border-radius:99px;font-family:var(--font-d);font-size:15px;font-weight:600;cursor:pointer;transition:all 0.18s;letter-spacing:0.01em;}
+  .tip-btn{background:var(--bg);border:1.5px solid var(--border);color:var(--text2);padding:9px 20px;border-radius:99px;font-family:Arial, sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.18s;letter-spacing:0.01em;}
   .tip-btn:hover{border-color:var(--orange2);background:var(--orange3);color:var(--orange);}
   .tip-btn.active{background:var(--orange);border-color:var(--orange);color:#fff;box-shadow:0 4px 14px rgba(244,96,12,0.3);}
 
@@ -77,21 +78,21 @@
   .res-box{background:var(--bg);border:1.5px solid var(--border);border-radius:14px;padding:20px;text-align:center;transition:border-color 0.2s,transform 0.2s;}
   .res-box:hover{border-color:rgba(244,96,12,0.35);transform:translateY(-3px);}
   .res-box.highlight{background:var(--orange3);border-color:rgba(244,96,12,0.35);}
-  .res-val{font-family:var(--font-d);font-size:26px;font-weight:700;color:var(--orange);letter-spacing:-0.02em;}
-  .res-lbl{font-family:var(--font-m);font-size:10px;font-weight:500;color:var(--text3);margin-top:5px;letter-spacing:0.08em;text-transform:uppercase;}
+  .res-val{font-family:Arial, sans-serif;font-size:26px;font-weight:700;color:var(--orange);letter-spacing:-0.02em;}
+  .res-lbl{font-family:Arial, sans-serif;font-size:10px;font-weight:500;color:var(--text3);margin-top:5px;letter-spacing:0.08em;text-transform:uppercase;}
 
   /* TABLE */
   .split-table{width:100%;border-collapse:collapse;margin-top:8px;}
-  .split-table th{font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);text-align:left;padding:10px 0;border-bottom:1.5px solid var(--border);}
+  .split-table th{font-family:Arial, sans-serif;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);text-align:left;padding:10px 0;border-bottom:1.5px solid var(--border);}
   .split-table td{padding:11px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--text2);}
   .split-table tr:last-child td{border-bottom:none;}
-  .split-table .num{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--text);}
+  .split-table .num{font-family:Arial, sans-serif;font-size:18px;font-weight:700;color:var(--text);}
   .split-table tr:first-child td{color:var(--orange);}
   .split-table tr:first-child .num{color:var(--orange);}
 
   /* FOOTER */
   footer{background:var(--text);color:#fff;padding:48px 32px 32px;text-align:center;}
-  .footer-logo{font-family:var(--font-d);font-size:24px;font-weight:700;letter-spacing:-0.03em;margin-bottom:16px;}
+  .footer-logo{font-family:Arial, sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.03em;margin-bottom:16px;}
   .footer-logo em{color:var(--orange);font-style:normal;}
   .footer-links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
   .footer-links a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:13px;padding:5px 12px;border-radius:7px;transition:all 0.15s;}
@@ -107,95 +108,74 @@
 </style>
 </head>
 <body>
-
-<nav>
-  <a href="index.html" class="logo">Task<em>Junction</em></a>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="unit-converter.html">Converter</a></li>
-    <li><a href="timer.html">Timer</a></li>
-    <li><a href="color-picker.html">Colors</a></li>
-    <li><a href="age-calculator.html">Age</a></li>
-    <li><a href="tip-calculator.html" class="active">Tip</a></li>
-    <li><a href="todo.html">To-Do</a></li>
-    <li><a href="bmi-calculator.html">BMI</a></li>
-  </ul>
+<nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
 </nav>
-
 <section class="hero">
-  <div class="badge">💳 Tip &nbsp;·&nbsp; <span>Split Bill</span> &nbsp;·&nbsp; Per Person</div>
-  <h1>Tip <em>Calculator</em></h1>
-  <p>Calculate tip and split the bill easily — no login needed</p>
+<div class="badge">💳 Tip  ·  <span>Split Bill</span>  ·  Per Person</div>
+<h1>Tip <em>Calculator</em></h1>
+<p>Calculate tip and split the bill easily — no login needed</p>
 </section>
-
 <div class="main">
-
-  <!-- Bill Details -->
-  <div class="card">
-    <div class="card-title">🧾 Bill <span>Details</span></div>
-
-    <label>Bill Amount (₹)</label>
-    <div class="input-wrap">
-      <span class="input-prefix">₹</span>
-      <input type="number" id="billAmt" placeholder="0.00" oninput="calc()">
-    </div>
-
-    <label>Tip Percentage</label>
-    <div class="tip-btns">
-      <button class="tip-btn" onclick="setTip(5,this)">5%</button>
-      <button class="tip-btn active" onclick="setTip(10,this)">10%</button>
-      <button class="tip-btn" onclick="setTip(15,this)">15%</button>
-      <button class="tip-btn" onclick="setTip(18,this)">18%</button>
-      <button class="tip-btn" onclick="setTip(20,this)">20%</button>
-      <button class="tip-btn" onclick="setTip(25,this)">25%</button>
-    </div>
-
-    <label>Custom Tip %</label>
-    <div class="input-wrap">
-      <span class="input-prefix" style="font-size:16px;color:var(--text3);">%</span>
-      <input type="number" id="customTip" placeholder="Enter custom %" oninput="setCustomTip()">
-    </div>
-
-    <label>Number of People</label>
-    <div class="input-wrap">
-      <span class="input-prefix" style="font-size:16px;">👥</span>
-      <input type="number" id="numPeople" placeholder="1" value="1" min="1" oninput="calc()" class="no-prefix" style="padding-left:40px;">
-    </div>
-  </div>
-
-  <!-- Results -->
-  <div class="card">
-    <div class="card-title">💰 <span>Results</span></div>
-    <div class="results-grid">
-      <div class="res-box"><div class="res-val" id="tipAmt">₹0</div><div class="res-lbl">Tip Amount</div></div>
-      <div class="res-box highlight"><div class="res-val" id="totalAmt">₹0</div><div class="res-lbl">Total Bill</div></div>
-      <div class="res-box highlight"><div class="res-val" id="perPerson">₹0</div><div class="res-lbl">Per Person</div></div>
-      <div class="res-box"><div class="res-val" id="tipPer">₹0</div><div class="res-lbl">Tip Per Person</div></div>
-    </div>
-  </div>
-
-  <!-- Split Summary -->
-  <div class="card">
-    <div class="card-title">👥 Split <span>Summary</span></div>
-    <table class="split-table">
-      <thead><tr><th>People</th><th>Each Pays</th><th>Each Tips</th></tr></thead>
-      <tbody id="splitBody"></tbody>
-    </table>
-  </div>
-
+<!-- Bill Details -->
+<div class="card">
+<div class="card-title">🧾 Bill <span>Details</span></div>
+<label>Bill Amount (₹)</label>
+<div class="input-wrap">
+<span class="input-prefix">₹</span>
+<input id="billAmt" oninput="calc()" placeholder="0.00" type="number"/>
 </div>
-
-<footer>
-  <div class="footer-logo">Task<em>Junction</em></div>
-  <div class="footer-links">
-    <a href="index.html">Home</a>
-    <a href="index.html#apps">Apps</a>
-    <a href="index.html#privacy">Privacy</a>
-    <a href="mailto:vaibhavdhokpande@gmail.com">Contact</a>
-  </div>
-  <p>Made with ❤️ by Vaibhav Dhokpande &nbsp;·&nbsp; © 2025 TaskJunction. All rights reserved.</p>
+<label>Tip Percentage</label>
+<div class="tip-btns">
+<button class="tip-btn" onclick="setTip(5,this)">5%</button>
+<button class="tip-btn active" onclick="setTip(10,this)">10%</button>
+<button class="tip-btn" onclick="setTip(15,this)">15%</button>
+<button class="tip-btn" onclick="setTip(18,this)">18%</button>
+<button class="tip-btn" onclick="setTip(20,this)">20%</button>
+<button class="tip-btn" onclick="setTip(25,this)">25%</button>
+</div>
+<label>Custom Tip %</label>
+<div class="input-wrap">
+<span class="input-prefix" style="font-size:16px;color:var(--text3);">%</span>
+<input id="customTip" oninput="setCustomTip()" placeholder="Enter custom %" type="number"/>
+</div>
+<label>Number of People</label>
+<div class="input-wrap">
+<span class="input-prefix" style="font-size:16px;">👥</span>
+<input class="no-prefix" id="numPeople" min="1" oninput="calc()" placeholder="1" style="padding-left:40px;" type="number" value="1"/>
+</div>
+</div>
+<!-- Results -->
+<div class="card">
+<div class="card-title">💰 <span>Results</span></div>
+<div class="results-grid">
+<div class="res-box"><div class="res-val" id="tipAmt">₹0</div><div class="res-lbl">Tip Amount</div></div>
+<div class="res-box highlight"><div class="res-val" id="totalAmt">₹0</div><div class="res-lbl">Total Bill</div></div>
+<div class="res-box highlight"><div class="res-val" id="perPerson">₹0</div><div class="res-lbl">Per Person</div></div>
+<div class="res-box"><div class="res-val" id="tipPer">₹0</div><div class="res-lbl">Tip Per Person</div></div>
+</div>
+</div>
+<!-- Split Summary -->
+<div class="card">
+<div class="card-title">👥 Split <span>Summary</span></div>
+<table class="split-table">
+<thead><tr><th>People</th><th>Each Pays</th><th>Each Tips</th></tr></thead>
+<tbody id="splitBody"></tbody>
+</table>
+</div>
+</div>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
 </footer>
-
 <script>
 let tipPct = 10;
 
