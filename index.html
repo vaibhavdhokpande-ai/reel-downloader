@@ -160,6 +160,44 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
 .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.55s ease,transform 0.55s ease;}
 .reveal.visible{opacity:1;transform:none;}
 </style>
+
+<style id="aff-css">
+.aff-wrap{max-width:900px;margin:48px auto 0;padding:0 20px;}
+.aff-title{font-family:'Clash Display','Orbitron',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:#9e9890;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;}
+.aff-title::before{content:'';width:20px;height:1.5px;background:#9e9890;border-radius:2px;}
+.aff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;margin-bottom:12px;}
+.aff-card{background:#ffffff;border:1px solid #e8e2d9;border-radius:16px;padding:20px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;}
+.aff-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#f4600c,#ff7a2e,#fbbf24);opacity:0;transition:opacity .22s;}
+.aff-card:hover{border-color:rgba(244,96,12,.35);transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(244,96,12,.10);}
+.aff-card:hover::before{opacity:1;}
+.aff-card-top{display:flex;align-items:center;gap:12px;}
+.aff-icon{width:44px;height:44px;border-radius:12px;background:#fff0e8;
+  border:1px solid rgba(244,96,12,.15);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;}
+.aff-badge{font-family:'JetBrains Mono','Share Tech Mono',monospace;font-size:9px;
+  font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(244,96,12,.10);
+  color:#f4600c;border:1px solid rgba(244,96,12,.20);letter-spacing:.06em;
+  text-transform:uppercase;margin-left:auto;}
+.aff-name{font-family:'Clash Display','Orbitron',sans-serif;font-size:15px;
+  font-weight:600;color:#0f0e0c;letter-spacing:-.01em;line-height:1.3;}
+.aff-desc{font-size:12.5px;color:#5a5650;line-height:1.55;flex:1;}
+.aff-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 18px;border-radius:10px;
+  font-family:'Sora','Exo 2','IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;
+  background:#f4600c;color:#fff;text-decoration:none;
+  transition:background .18s,transform .15s;width:100%;}
+.aff-btn:hover{background:#ff7a2e;transform:translateY(-1px);}
+.aff-disclaimer{font-size:11px;color:#9e9890;text-align:center;
+  font-family:'JetBrains Mono','Share Tech Mono',monospace;margin-top:4px;}
+</style>
 </head>
 <body>
 
@@ -434,6 +472,47 @@ footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:cente
 </section>
 
 <!-- FOOTER -->
+
+<div class="aff-wrap" id="aff-full" style="margin:48px auto;">
+  <div class="aff-title">🛠️ Recommended Products for Engineers</div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon">📖</div>
+        <span class="aff-badge">Amazon</span>
+      </div>
+      <div class="aff-name">R.S. Khurmi — Machine Design</div>
+      <div class="aff-desc">Best mechanical engineering reference book. Used by every BE/Diploma student in India.</div>
+      <a href="https://amzn.to/4tEIoui" target="_blank" rel="noopener sponsored" class="aff-btn">
+        🛒 Buy on Amazon →
+      </a>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon">📏</div>
+        <span class="aff-badge">Amazon</span>
+      </div>
+      <div class="aff-name">Digital Vernier Caliper</div>
+      <div class="aff-desc">Precision measuring tool — measure OD, ID, depth. Essential for any mechanical workshop.</div>
+      <a href="https://amzn.to/496rn4W" target="_blank" rel="noopener sponsored" class="aff-btn">
+        🛒 Buy on Amazon →
+      </a>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon">🔩</div>
+        <span class="aff-badge">Amazon</span>
+      </div>
+      <div class="aff-name">Digital Torque Wrench</div>
+      <div class="aff-desc">Apply precise torque values from your calculations in real life. Professional grade quality.</div>
+      <a href="https://amzn.to/4nwun0v" target="_blank" rel="noopener sponsored" class="aff-btn">
+        🛒 Buy on Amazon →
+      </a>
+    </div>
+  </div>
+  <p class="aff-disclaimer">* Affiliate links — aapko koi extra cost nahi padta.
+    TaskJunction small commission earn karta hai jo site ko free rakhne mein help karta hai.</p>
+</div>
 <footer>
   <div class="footer-logo">Task<em>Junction</em></div>
   <div class="footer-socials">
