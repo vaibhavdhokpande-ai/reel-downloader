@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GD&T Calculator</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh}
+:root{--bg1:#0f1117;--bg2:#1a1d2e;--bg3:#242840;--accent:#6366f1;--accent2:#22d3ee;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--border:rgba(255,255,255,0.08);--text:#e2e8f0;--muted:#94a3b8}
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sidebar-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border)}
+.sidebar-logo h2{font-size:15px;font-weight:700;color:#fff}
+.sidebar-logo span{font-size:11px;color:var(--muted)}
+.nav-section{padding:10px 0}
+.nav-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:6px 16px 4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 16px;cursor:pointer;font-size:13px;color:var(--muted);border-left:3px solid transparent;transition:all .15s}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.04)}
+.nav-item.active{color:#fff;background:rgba(99,102,241,0.12);border-left-color:var(--accent)}
+.nav-item .icon{font-size:15px;width:18px;text-align:center}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+.topbar h1{font-size:17px;font-weight:600}
+.badge{background:rgba(99,102,241,0.2);color:#a5b4fc;font-size:11px;padding:3px 10px;border-radius:20px}
+.content{flex:1;overflow-y:auto;padding:24px}
+.panel{display:none}
+.panel.active{display:block}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
+.card-title{font-size:14px;font-weight:600;margin-bottom:4px;color:#fff}
+.card-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+/* Form */
+label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}
+input[type=number],select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:#fff;padding:8px 11px;font-size:13px;outline:none;transition:border .15s}
+input[type=number]:focus,select:focus{border-color:var(--accent)}
+select option{background:#1a1d2e}
+
+/* Result box */
+.result-box{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:14px 16px;margin-top:14px}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}
+.result-row:last-child{border-bottom:none}
+.result-row .rlab{color:var(--muted)}
+.result-row .rval{font-weight:600;color:var(--accent2)}
+.result-row .rval.green{color:var(--green)}
+.result-row .rval.amber{color:var(--amber)}
+.result-row .rval.red{color:var(--red)}
+
+/* Button */
+.btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn.secondary{background:var(--bg3);border:1px solid var(--border);color:var(--muted)}
+.btn-row{display:flex;gap:10px;margin-top:14px}
+
+/* Stack table */
+.stack-table{width:100%;border-collapse:collapse;font-size:13px}
+.stack-table th{background:var(--bg3);color:var(--muted);font-weight:500;padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.stack-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.stack-table tr:last-child td{border-bottom:none}
+.stack-table input[type=number]{padding:5px 8px;font-size:12px}
+.stack-table select{padding:5px 8px;font-size:12px}
+.delete-btn{background:rgba(239,68,68,0.15);color:var(--red);border:none;border-radius:5px;padding:4px 8px;cursor:pointer;font-size:12px}
+
+/* Gauge bar */
+.gauge-wrap{margin-top:12px}
+.gauge-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+.gauge-track{background:var(--bg3);border-radius:4px;height:8px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:4px;transition:width .4s}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:0}
+.tab{padding:8px 16px;font-size:13px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab.active{color:#fff;border-bottom-color:var(--accent)}
+
+/* Symbol selector */
+.sym-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.sym-btn{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:6px 12px;font-size:13px;cursor:pointer;color:var(--muted);transition:all .15s;white-space:nowrap}
+.sym-btn.active{background:rgba(99,102,241,0.2);border-color:var(--accent);color:#fff}
+
+/* Info pill */
+.info-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(34,211,238,0.1);color:var(--accent2);font-size:11px;padding:3px 9px;border-radius:20px;margin-bottom:10px}
+
+/* Dashboard cards */
+.dash-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.dash-card .big{font-size:28px;font-weight:700;color:#fff;line-height:1.2}
+.dash-card .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.dash-card .icon{font-size:22px;margin-bottom:6px}
+
+.section-head{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
+
+.sidebar-footer{margin-top:auto;padding:14px 16px;border-top:1px solid var(--border);text-align:center;font-size:11px;color:var(--muted)}
+.sidebar-footer span{color:var(--accent);font-weight:500}
+/* Scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:5px}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--accent2);text-transform:uppercase;margin-bottom:4px">TaskJunction</div>
+    <h2>GD&amp;T Calc</h2>
+    <span>Engineering Tolerances</span>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" onclick="nav(this,'dashboard')"><span class="icon">⊞</span>Dashboard</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Calculators</div>
+    <div class="nav-item" onclick="nav(this,'tol')"><span class="icon">⌀</span>Tolerance Zone</div>
+    <div class="nav-item" onclick="nav(this,'mmc')"><span class="icon">⊕</span>MMC / LMC</div>
+    <div class="nav-item" onclick="nav(this,'bonus')"><span class="icon">＋</span>Bonus Tolerance</div>
+    <div class="nav-item" onclick="nav(this,'fit')"><span class="icon">⚙</span>Fits &amp; Clearance</div>
+    <div class="nav-item" onclick="nav(this,'true_pos')"><span class="icon">⊕</span>True Position</div>
+    <div class="nav-item" onclick="nav(this,'flatness')"><span class="icon">⏥</span>Flatness / Form</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Stack-Up</div>
+    <div class="nav-item" onclick="nav(this,'wc')"><span class="icon">⊞</span>Worst Case</div>
+    <div class="nav-item" onclick="nav(this,'rss')"><span class="icon">∿</span>RSS Method</div>
+    <div class="nav-item" onclick="nav(this,'sixsigma')"><span class="icon">σ</span>6-Sigma Stack</div>
+  </div>
+  <div style="flex:1"></div>
+  <div class="nav-section">
+    <div class="nav-label">Reference</div>
+    <div class="nav-item" onclick="nav(this,'symbols')"><span class="icon">◎</span>GD&amp;T Symbols</div>
+  </div>
+  <div class="sidebar-footer">Made by<br><span>Vaibhav Dhokpande</span></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <h1 id="pageTitle">Dashboard</h1>
+    <span class="badge">ASME Y14.5-2018</span>
+  </div>
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="panel active" id="p-dashboard">
+      <div class="grid4" style="margin-bottom:20px">
+        <div class="dash-card"><div class="icon">⌀</div><div class="big">6</div><div class="sub">Calculators</div></div>
+        <div class="dash-card"><div class="icon">⊕</div><div class="big">MMC</div><div class="sub">Bonus Ready</div></div>
+        <div class="dash-card"><div class="icon">⊞</div><div class="big">3</div><div class="sub">Stack Methods</div></div>
+        <div class="dash-card"><div class="icon">◎</div><div class="big">14</div><div class="sub">GD&amp;T Symbols</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Quick Bonus Tolerance</div>
+          <div class="card-sub">MMC modifier — instant result</div>
+          <div class="grid2">
+            <div><label>Actual Mating Size</label><input type="number" id="q_ams" value="19.85" step="0.01" oninput="quickBonus()"></div>
+            <div><label>MMC Size</label><input type="number" id="q_mmc" value="19.80" step="0.01" oninput="quickBonus()"></div>
+          </div>
+          <div><label style="margin-top:10px">Stated Tolerance</label><input type="number" id="q_tol" value="0.05" step="0.01" oninput="quickBonus()"></div>
+          <div class="result-box">
+            <div class="result-row"><span class="rlab">Bonus</span><span class="rval green" id="q_bonus">0.05</span></div>
+            <div class="result-row"><span class="rlab">Total Tolerance</span><span class="rval" id="q_total">0.10</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Quick True Position</div>
+          <div class="card-sub">Measured X/Y deviation</div>
+          <div class="grid2">
+            <div><label>ΔX (measured)</label><input type="number" id="q_dx" value="0.03" step="0.01" oninput="quickTP()"></div>
+            <div><label>ΔY (measured)</label><input type="number" id="q_dy" value="0.04" step="0.01" oninput="quickTP()"></div>
+          </div>
+          <div><label style="margin-top:10px">Tolerance Diameter</label><input type="number" id="q_tpol" value="0.10" step="0.01" oninput="quickTP()"></div>
+          <div class="result-box">
+            <div class="result-row"><span class="rlab">Positional Deviation</span><span class="rval" id="q_pos">0.100</span></div>
+            <div class="result-row"><span class="rlab">Status</span><span class="rval" id="q_stat">PASS</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">What is GD&amp;T?</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">
+          Geometric Dimensioning and Tolerancing (GD&amp;T) is a symbolic language used on engineering drawings to describe nominal geometry and allowable variation. It communicates design intent clearly between designers, manufacturers, and inspectors per ASME Y14.5-2018 standard. Key concepts: <strong style="color:var(--text)">MMC</strong> (Maximum Material Condition), <strong style="color:var(--text)">LMC</strong> (Least Material Condition), <strong style="color:var(--text)">Bonus Tolerance</strong>, <strong style="color:var(--text)">True Position</strong>, and <strong style="color:var(--text)">Tolerance Stack-Up</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- TOLERANCE ZONE -->
+    <div class="panel" id="p-tol">
+      <div class="card">
+        <div class="card-title">Tolerance Zone Calculator</div>
+        <div class="card-sub">Compute upper/lower limits from nominal and bilateral/unilateral tolerances</div>
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab(this,'tz-bil')">Bilateral</div>
+          <div class="tab" onclick="switchTab(this,'tz-uni')">Unilateral</div>
+          <div class="tab" onclick="switchTab(this,'tz-lim')">Limit Dims</div>
+        </div>
+        <div id="tz-bil">
+          <div class="grid3">
+            <div><label>Nominal Size</label><input type="number" id="tz_nom" value="25.00" step="0.01" oninput="calcTZ()"></div>
+            <div><label>+Tolerance</label><input type="number" id="tz_pos" value="0.05" step="0.001" oninput="calcTZ()"></div>
+            <div><label>−Tolerance</label><input type="number" id="tz_neg" value="0.05" step="0.001" oninput="calcTZ()"></div>
+          </div>
+        </div>
+        <div id="tz-uni" style="display:none">
+          <div class="grid3">
+            <div><label>Nominal Size</label><input type="number" id="tz_nom2" value="25.00" step="0.01" oninput="calcTZ2()"></div>
+            <div><label>Tolerance</label><input type="number" id="tz_uni_t" value="0.10" step="0.001" oninput="calcTZ2()"></div>
+            <div><label>Direction</label>
+              <select id="tz_dir" onchange="calcTZ2()">
+                <option value="plus">+ (Above)</option>
+                <option value="minus">− (Below)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="tz-lim" style="display:none">
+          <div class="grid2">
+            <div><label>Upper Limit</label><input type="number" id="tz_ul" value="25.05" step="0.01" oninput="calcTZ3()"></div>
+            <div><label>Lower Limit</label><input type="number" id="tz_ll" value="24.95" step="0.01" oninput="calcTZ3()"></div>
+          </div>
+        </div>
+        <div class="result-box" id="tz_result">
+          <div class="result-row"><span class="rlab">Upper Limit (UL)</span><span class="rval green" id="tz_r1">25.050</span></div>
+          <div class="result-row"><span class="rlab">Lower Limit (LL)</span><span class="rlab" id="tz_r2" style="color:var(--amber)">24.950</span></div>
+          <div class="result-row"><span class="rlab">Tolerance Band</span><span class="rval" id="tz_r3">0.100</span></div>
+          <div class="result-row"><span class="rlab">Midpoint</span><span class="rval" id="tz_r4">25.000</span></div>
+        </div>
+        <div class="gauge-wrap">
+          <div class="gauge-label"><span>LL</span><span>Tolerance Band</span><span>UL</span></div>
+          <div class="gauge-track"><div class="gauge-fill" id="tz_gauge" style="width:50%;background:var(--accent)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MMC / LMC -->
+    <div class="panel" id="p-mmc">
+      <div class="card">
+        <div class="card-title">MMC &amp; LMC Calculator</div>
+        <div class="card-sub">Maximum and Least Material Condition for holes and shafts</div>
+        <div class="grid2">
+          <div>
+            <label>Feature Type</label>
+            <select id="mmc_feat" onchange="calcMMC()">
+              <option value="hole">Hole (Internal)</option>
+              <option value="shaft">Shaft (External)</option>
+            </select>
+          </div>
+          <div><label>Nominal Diameter</label><input type="number" id="mmc_nom" value="20.00" step="0.01" oninput="calcMMC()"></div>
+          <div><label>Upper Deviation (+)</label><input type="number" id="mmc_ud" value="0.05" step="0.001" oninput="calcMMC()"></div>
+          <div><label>Lower Deviation (−)</label><input type="number" id="mmc_ld" value="0.00" step="0.001" oninput="calcMMC()"></div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">Maximum Material Condition (MMC)</span><span class="rval red" id="mmc_r1">20.000</span></div>
+          <div class="result-row"><span class="rlab">Least Material Condition (LMC)</span><span class="rval green" id="mmc_r2">20.050</span></div>
+          <div class="result-row"><span class="rlab">Tolerance Band</span><span class="rval" id="mmc_r3">0.050</span></div>
+          <div class="result-row"><span class="rlab">Mid-Tolerance</span><span class="rval" id="mmc_r4">20.025</span></div>
+        </div>
+        <div class="result-box" style="margin-top:10px;background:rgba(34,211,238,0.06);border-color:rgba(34,211,238,0.2)">
+          <p style="font-size:12px;color:var(--accent2)" id="mmc_note">For a Hole: MMC = smallest hole (least material removed). LMC = largest hole.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BONUS TOLERANCE -->
+    <div class="panel" id="p-bonus">
+      <div class="card">
+        <div class="card-title">Bonus Tolerance Calculator</div>
+        <div class="card-sub">Applies when MMC (⊕) or LMC (⊖) modifier is used on a feature of size</div>
+        <div class="info-pill">⊕ Bonus = |AMS − MMC|</div>
+        <div class="grid2">
+          <div>
+            <label>Feature Type</label>
+            <select id="bon_feat" onchange="calcBonus()">
+              <option value="hole">Hole (Internal)</option>
+              <option value="shaft">Shaft (External)</option>
+            </select>
+          </div>
+          <div>
+            <label>Modifier</label>
+            <select id="bon_mod" onchange="calcBonus()">
+              <option value="mmc">MMC ⊕</option>
+              <option value="lmc">LMC ⊖</option>
+            </select>
+          </div>
+          <div><label>MMC Size</label><input type="number" id="bon_mmc" value="19.80" step="0.01" oninput="calcBonus()"></div>
+          <div><label>LMC Size</label><input type="number" id="bon_lmc" value="20.00" step="0.01" oninput="calcBonus()"></div>
+          <div><label>Actual Mating Size (AMS)</label><input type="number" id="bon_ams" value="19.90" step="0.01" oninput="calcBonus()"></div>
+          <div><label>Stated Geometric Tolerance</label><input type="number" id="bon_stated" value="0.05" step="0.001" oninput="calcBonus()"></div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">Bonus Tolerance</span><span class="rval amber" id="bon_r1">0.100</span></div>
+          <div class="result-row"><span class="rlab">Total Allowable Tolerance</span><span class="rval green" id="bon_r2">0.150</span></div>
+          <div class="result-row"><span class="rlab">Tolerance Zone Diameter</span><span class="rval" id="bon_r3">⌀ 0.150</span></div>
+          <div class="result-row"><span class="rlab">Feature at MMC?</span><span class="rval" id="bon_r4">No</span></div>
+          <div class="result-row"><span class="rlab">Feature at LMC?</span><span class="rval" id="bon_r5">No</span></div>
+        </div>
+        <div class="gauge-wrap">
+          <div class="gauge-label"><span>Stated: <span id="bon_g1">0.050</span></span><span>Bonus: <span id="bon_g2">0.100</span></span><span>Total: <span id="bon_g3">0.150</span></span></div>
+          <div class="gauge-track" style="height:12px">
+            <div class="gauge-fill" id="bon_gauge" style="width:33%;background:linear-gradient(90deg,var(--accent),var(--green))"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FITS & CLEARANCE -->
+    <div class="panel" id="p-fit">
+      <div class="card">
+        <div class="card-title">Fits &amp; Clearance / Interference Calculator</div>
+        <div class="card-sub">Shaft &amp; Hole assembly fit analysis</div>
+        <div class="grid2">
+          <div>
+            <div class="section-head">Hole</div>
+            <div class="grid2">
+              <div><label>MMC (Min Dia)</label><input type="number" id="fit_hmmc" value="20.000" step="0.001" oninput="calcFit()"></div>
+              <div><label>LMC (Max Dia)</label><input type="number" id="fit_hlmc" value="20.052" step="0.001" oninput="calcFit()"></div>
+            </div>
+          </div>
+          <div>
+            <div class="section-head">Shaft</div>
+            <div class="grid2">
+              <div><label>MMC (Max Dia)</label><input type="number" id="fit_smmc" value="19.987" step="0.001" oninput="calcFit()"></div>
+              <div><label>LMC (Min Dia)</label><input type="number" id="fit_slmc" value="19.960" step="0.001" oninput="calcFit()"></div>
+            </div>
+          </div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">Max Clearance</span><span class="rval green" id="fit_r1">0.092</span></div>
+          <div class="result-row"><span class="rlab">Min Clearance</span><span class="rval" id="fit_r2">0.013</span></div>
+          <div class="result-row"><span class="rlab">Fit Type</span><span class="rval amber" id="fit_r3">CLEARANCE FIT</span></div>
+          <div class="result-row"><span class="rlab">Hole Tolerance</span><span class="rval" id="fit_r4">0.052</span></div>
+          <div class="result-row"><span class="rlab">Shaft Tolerance</span><span class="rval" id="fit_r5">0.027</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRUE POSITION -->
+    <div class="panel" id="p-true_pos">
+      <div class="card">
+        <div class="card-title">True Position Calculator</div>
+        <div class="card-sub">Determine positional deviation and pass/fail status</div>
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab(this,'tp-2d')">2D (X/Y)</div>
+          <div class="tab" onclick="switchTab(this,'tp-3d')">3D (X/Y/Z)</div>
+        </div>
+        <div id="tp-2d">
+          <div class="grid2">
+            <div><label>True Position X (nominal)</label><input type="number" id="tp_nx" value="50.00" step="0.01" oninput="calcTP()"></div>
+            <div><label>True Position Y (nominal)</label><input type="number" id="tp_ny" value="30.00" step="0.01" oninput="calcTP()"></div>
+            <div><label>Measured X</label><input type="number" id="tp_mx" value="50.03" step="0.01" oninput="calcTP()"></div>
+            <div><label>Measured Y</label><input type="number" id="tp_my" value="29.96" step="0.01" oninput="calcTP()"></div>
+          </div>
+          <div style="margin-top:10px"><label>Position Tolerance Diameter (⌀)</label><input type="number" id="tp_tol" value="0.10" step="0.001" oninput="calcTP()"></div>
+        </div>
+        <div id="tp-3d" style="display:none">
+          <div class="grid3">
+            <div><label>ΔX</label><input type="number" id="tp3_dx" value="0.03" step="0.001" oninput="calcTP3()"></div>
+            <div><label>ΔY</label><input type="number" id="tp3_dy" value="0.04" step="0.001" oninput="calcTP3()"></div>
+            <div><label>ΔZ</label><input type="number" id="tp3_dz" value="0.02" step="0.001" oninput="calcTP3()"></div>
+          </div>
+          <div style="margin-top:10px"><label>Tolerance Sphere Diameter (⌀)</label><input type="number" id="tp3_tol" value="0.10" step="0.001" oninput="calcTP3()"></div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">ΔX</span><span class="rval" id="tp_dx">0.030</span></div>
+          <div class="result-row"><span class="rlab">ΔY</span><span class="rval" id="tp_dy">0.040</span></div>
+          <div class="result-row"><span class="rlab">True Position (⌀)</span><span class="rval accent2" id="tp_pos">0.100</span></div>
+          <div class="result-row"><span class="rlab">Allowed Tolerance</span><span class="rval" id="tp_allowed">0.100</span></div>
+          <div class="result-row"><span class="rlab">Deviation Used</span><span class="rval" id="tp_pct">100.0%</span></div>
+          <div class="result-row"><span class="rlab">Result</span><span class="rval green" id="tp_result">PASS</span></div>
+        </div>
+        <div class="gauge-wrap">
+          <div class="gauge-label"><span>0</span><span>Position Used</span><span>Tolerance Limit</span></div>
+          <div class="gauge-track"><div class="gauge-fill" id="tp_gauge" style="width:50%;background:var(--green)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLATNESS / FORM -->
+    <div class="panel" id="p-flatness">
+      <div class="card">
+        <div class="card-title">Form Tolerance Calculator</div>
+        <div class="card-sub">Flatness, Straightness, Circularity, Cylindricity</div>
+        <div class="grid2">
+          <div>
+            <label>GD&amp;T Symbol</label>
+            <select id="form_sym" onchange="calcForm()">
+              <option value="flatness">⏥ Flatness</option>
+              <option value="straight">⏤ Straightness</option>
+              <option value="circle">○ Circularity (Roundness)</option>
+              <option value="cyl">⌭ Cylindricity</option>
+            </select>
+          </div>
+          <div><label>Tolerance Value</label><input type="number" id="form_tol" value="0.02" step="0.001" oninput="calcForm()"></div>
+          <div><label>Measured Max Value</label><input type="number" id="form_meas" value="0.015" step="0.001" oninput="calcForm()"></div>
+          <div><label>Nominal Size (reference)</label><input type="number" id="form_nom" value="50.00" step="0.01" oninput="calcForm()"></div>
+        </div>
+        <div class="result-box">
+          <div class="result-row"><span class="rlab">Symbol</span><span class="rval" id="form_sym_r">⏥ Flatness</span></div>
+          <div class="result-row"><span class="rlab">Tolerance Zone Width</span><span class="rval" id="form_r1">0.020</span></div>
+          <div class="result-row"><span class="rlab">Measured Error</span><span class="rval" id="form_r2">0.015</span></div>
+          <div class="result-row"><span class="rlab">Remaining Margin</span><span class="rval green" id="form_r3">0.005</span></div>
+          <div class="result-row"><span class="rlab">Used (%)</span><span class="rval" id="form_r4">75.0%</span></div>
+          <div class="result-row"><span class="rlab">Status</span><span class="rval green" id="form_stat">WITHIN TOLERANCE</span></div>
+        </div>
+        <div class="gauge-wrap">
+          <div class="gauge-label"><span>0</span><span id="form_g_label">Measured Error</span><span>Tol. Limit</span></div>
+          <div class="gauge-track"><div class="gauge-fill" id="form_gauge" style="width:75%;background:var(--green)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORST CASE STACK -->
+    <div class="panel" id="p-wc">
+      <div class="card">
+        <div class="card-title">Worst Case Tolerance Stack-Up</div>
+        <div class="card-sub">Linear chain — all tolerances add arithmetically</div>
+        <div id="wc_rows"></div>
+        <div class="btn-row">
+          <button class="btn" onclick="addWCRow()">+ Add Dimension</button>
+          <button class="btn secondary" onclick="calcWC()">Recalculate</button>
+        </div>
+        <div class="result-box" style="margin-top:16px">
+          <div class="result-row"><span class="rlab">Nominal Gap / Closure</span><span class="rval" id="wc_nom">—</span></div>
+          <div class="result-row"><span class="rlab">Total Tolerance (±)</span><span class="rval amber" id="wc_tol">—</span></div>
+          <div class="result-row"><span class="rlab">Maximum Gap</span><span class="rval green" id="wc_max">—</span></div>
+          <div class="result-row"><span class="rlab">Minimum Gap</span><span class="rval red" id="wc_min">—</span></div>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:10px">Worst case: ΔTotal = Σ|tᵢ|  — conservative, used for safety-critical parts.</p>
+      </div>
+    </div>
+
+    <!-- RSS STACK -->
+    <div class="panel" id="p-rss">
+      <div class="card">
+        <div class="card-title">RSS Tolerance Stack-Up</div>
+        <div class="card-sub">Root Sum of Squares — statistical approach (±3σ)</div>
+        <div id="rss_rows"></div>
+        <div class="btn-row">
+          <button class="btn" onclick="addRSSRow()">+ Add Dimension</button>
+          <button class="btn secondary" onclick="calcRSS()">Recalculate</button>
+        </div>
+        <div class="result-box" style="margin-top:16px">
+          <div class="result-row"><span class="rlab">Nominal Gap</span><span class="rval" id="rss_nom">—</span></div>
+          <div class="result-row"><span class="rlab">RSS Tolerance (±)</span><span class="rval green" id="rss_tol">—</span></div>
+          <div class="result-row"><span class="rlab">Max Gap</span><span class="rval green" id="rss_max">—</span></div>
+          <div class="result-row"><span class="rlab">Min Gap</span><span class="rval red" id="rss_min">—</span></div>
+          <div class="result-row"><span class="rlab">WC vs RSS Reduction</span><span class="rval amber" id="rss_vs">—</span></div>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:10px">RSS: Δ = √Σtᵢ²  — more realistic, ~99.73% of assemblies within limits.</p>
+      </div>
+    </div>
+
+    <!-- 6-SIGMA STACK -->
+    <div class="panel" id="p-sixsigma">
+      <div class="card">
+        <div class="card-title">6-Sigma Tolerance Stack-Up</div>
+        <div class="card-sub">Modified RSS with Cp — accounts for process capability</div>
+        <div id="ss_rows"></div>
+        <div class="btn-row">
+          <button class="btn" onclick="addSSRow()">+ Add Dimension</button>
+          <button class="btn secondary" onclick="calcSS()">Recalculate</button>
+        </div>
+        <div style="margin-top:14px"><label>Default Cp (Process Capability)</label>
+          <input type="number" id="ss_cp" value="1.5" step="0.1" min="0.5" max="3" oninput="calcSS()">
+        </div>
+        <div class="result-box" style="margin-top:14px">
+          <div class="result-row"><span class="rlab">Nominal Gap</span><span class="rval" id="ss_nom">—</span></div>
+          <div class="result-row"><span class="rlab">6σ Tolerance (±)</span><span class="rval green" id="ss_tol">—</span></div>
+          <div class="result-row"><span class="rlab">Max Gap</span><span class="rval green" id="ss_max">—</span></div>
+          <div class="result-row"><span class="rlab">Min Gap</span><span class="rval red" id="ss_min">—</span></div>
+          <div class="result-row"><span class="rlab">DPMO (est.)</span><span class="rval" id="ss_dpmo">—</span></div>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:10px">6σ Stack: Δ = (1/Cp) × √Σtᵢ²  — Cp=1.5 ≈ 3.4 DPMO.</p>
+      </div>
+    </div>
+
+    <!-- SYMBOLS REFERENCE -->
+    <div class="panel" id="p-symbols">
+      <div class="card">
+        <div class="card-title">GD&amp;T Symbol Reference</div>
+        <div class="card-sub">ASME Y14.5-2018 — click a symbol to see details</div>
+        <div id="sym_detail" style="display:none;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);border-radius:9px;padding:14px;margin-bottom:14px;font-size:13px;color:var(--accent2)"></div>
+        <div class="section-head">Form</div>
+        <div class="sym-grid" id="sym_form"></div>
+        <div class="section-head" style="margin-top:14px">Orientation</div>
+        <div class="sym-grid" id="sym_orient"></div>
+        <div class="section-head" style="margin-top:14px">Location</div>
+        <div class="sym-grid" id="sym_loc"></div>
+        <div class="section-head" style="margin-top:14px">Runout</div>
+        <div class="sym-grid" id="sym_run"></div>
+        <div class="section-head" style="margin-top:14px">Profile &amp; Modifiers</div>
+        <div class="sym-grid" id="sym_mod"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+// Navigation
+const titles={dashboard:'Dashboard',tol:'Tolerance Zone',mmc:'MMC / LMC',bonus:'Bonus Tolerance',fit:'Fits & Clearance',true_pos:'True Position',flatness:'Form Tolerance',wc:'Worst Case Stack-Up',rss:'RSS Stack-Up',sixsigma:'6-Sigma Stack-Up',symbols:'GD&T Symbols'};
+function nav(el,id){
+  document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.getElementById('pageTitle').textContent=titles[id]||id;
+}
+function switchTab(el,id){
+  const tabs=el.parentElement.querySelectorAll('.tab');
+  tabs.forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const card=el.closest('.card');
+  const allPanes=card.querySelectorAll('[id^="'+id.split('-')[0]+'"]');
+  allPanes.forEach(p=>{if(p.tagName!=='INPUT'&&p.tagName!=='SELECT')p.style.display='none'});
+  document.getElementById(id).style.display='';
+  if(id==='tp-2d')calcTP(); else if(id==='tp-3d')calcTP3();
+  if(id==='tz-bil')calcTZ(); else if(id==='tz-uni')calcTZ2(); else if(id==='tz-lim')calcTZ3();
+}
+const r=(v,d=3)=>parseFloat(v.toFixed(d));
+const g=id=>parseFloat(document.getElementById(id).value)||0;
+const s=(id,v)=>document.getElementById(id).textContent=v;
+
+// Dashboard quick calcs
+function quickBonus(){
+  const ams=g('q_ams'),mmc=g('q_mmc'),tol=g('q_tol');
+  const bonus=Math.abs(ams-mmc);
+  document.getElementById('q_bonus').textContent=r(bonus,4);
+  document.getElementById('q_total').textContent=r(bonus+tol,4);
+}
+function quickTP(){
+  const dx=g('q_dx'),dy=g('q_dy'),tol=g('q_tpol');
+  const pos=2*Math.sqrt(dx*dx+dy*dy);
+  const el=document.getElementById('q_stat');
+  document.getElementById('q_pos').textContent=r(pos,4);
+  el.textContent=pos<=tol?'PASS':'FAIL';
+  el.className='rval '+(pos<=tol?'green':'red');
+}
+
+// Tolerance Zone
+function calcTZ(){
+  const nom=g('tz_nom'),pos=g('tz_pos'),neg=g('tz_neg');
+  const ul=nom+pos,ll=nom-neg;
+  document.getElementById('tz_r1').textContent=r(ul,4);
+  document.getElementById('tz_r2').textContent=r(ll,4);
+  document.getElementById('tz_r3').textContent=r(ul-ll,4);
+  document.getElementById('tz_r4').textContent=r((ul+ll)/2,4);
+}
+function calcTZ2(){
+  const nom=g('tz_nom2'),t=g('tz_uni_t'),dir=document.getElementById('tz_dir').value;
+  const ul=dir==='plus'?nom+t:nom, ll=dir==='minus'?nom-t:nom;
+  document.getElementById('tz_r1').textContent=r(ul,4);
+  document.getElementById('tz_r2').textContent=r(ll,4);
+  document.getElementById('tz_r3').textContent=r(t,4);
+  document.getElementById('tz_r4').textContent=r((ul+ll)/2,4);
+}
+function calcTZ3(){
+  const ul=g('tz_ul'),ll=g('tz_ll');
+  document.getElementById('tz_r1').textContent=r(ul,4);
+  document.getElementById('tz_r2').textContent=r(ll,4);
+  document.getElementById('tz_r3').textContent=r(ul-ll,4);
+  document.getElementById('tz_r4').textContent=r((ul+ll)/2,4);
+}
+
+// MMC / LMC
+function calcMMC(){
+  const feat=document.getElementById('mmc_feat').value;
+  const nom=g('mmc_nom'),ud=g('mmc_ud'),ld=g('mmc_ld');
+  const ul=nom+ud,ll=nom-ld;
+  let mmc,lmc;
+  if(feat==='hole'){mmc=ll;lmc=ul;}
+  else{mmc=ul;lmc=ll;}
+  document.getElementById('mmc_r1').textContent=r(mmc,4);
+  document.getElementById('mmc_r2').textContent=r(lmc,4);
+  document.getElementById('mmc_r3').textContent=r(ul-ll,4);
+  document.getElementById('mmc_r4').textContent=r((ul+ll)/2,4);
+  document.getElementById('mmc_note').textContent=feat==='hole'?'For a Hole: MMC = smallest hole (most material). LMC = largest hole (least material).':'For a Shaft: MMC = largest shaft (most material). LMC = smallest shaft (least material).';
+}
+
+// Bonus Tolerance
+function calcBonus(){
+  const feat=document.getElementById('bon_feat').value;
+  const mod=document.getElementById('bon_mod').value;
+  const mmc=g('bon_mmc'),lmc=g('bon_lmc'),ams=g('bon_ams'),stated=g('bon_stated');
+  const ref=mod==='mmc'?mmc:lmc;
+  const bonus=Math.abs(ams-ref);
+  const total=stated+bonus;
+  const maxTol=Math.abs(lmc-mmc)+stated;
+  document.getElementById('bon_r1').textContent=r(bonus,4);
+  document.getElementById('bon_r2').textContent=r(total,4);
+  document.getElementById('bon_r3').textContent='⌀ '+r(total,4);
+  document.getElementById('bon_r4').textContent=Math.abs(ams-mmc)<0.0001?'YES':'No';
+  document.getElementById('bon_r5').textContent=Math.abs(ams-lmc)<0.0001?'YES':'No';
+  document.getElementById('bon_g1').textContent=r(stated,4);
+  document.getElementById('bon_g2').textContent=r(bonus,4);
+  document.getElementById('bon_g3').textContent=r(total,4);
+  const pct=maxTol>0?Math.min(100,(total/maxTol)*100):0;
+  document.getElementById('bon_gauge').style.width=pct+'%';
+}
+
+// Fits
+function calcFit(){
+  const hmmc=g('fit_hmmc'),hlmc=g('fit_hlmc'),smmc=g('fit_smmc'),slmc=g('fit_slmc');
+  const maxClear=hlmc-slmc, minClear=hmmc-smmc;
+  let fitType,col;
+  if(minClear>0){fitType='CLEARANCE FIT';col='green';}
+  else if(maxClear<0){fitType='INTERFERENCE FIT';col='red';}
+  else{fitType='TRANSITION FIT';col='amber';}
+  document.getElementById('fit_r1').textContent=r(maxClear,4);
+  document.getElementById('fit_r2').textContent=r(minClear,4);
+  const el=document.getElementById('fit_r3');
+  el.textContent=fitType; el.className='rval '+col;
+  document.getElementById('fit_r4').textContent=r(hlmc-hmmc,4);
+  document.getElementById('fit_r5').textContent=r(smmc-slmc,4);
+}
+
+// True Position
+function calcTP(){
+  const nx=g('tp_nx'),ny=g('tp_ny'),mx=g('tp_mx'),my=g('tp_my'),tol=g('tp_tol');
+  const dx=mx-nx,dy=my-ny;
+  const pos=2*Math.sqrt(dx*dx+dy*dy);
+  const pct=tol>0?Math.min(150,pos/tol*100):0;
+  document.getElementById('tp_dx').textContent=r(dx,4);
+  document.getElementById('tp_dy').textContent=r(dy,4);
+  document.getElementById('tp_pos').textContent=r(pos,4);
+  document.getElementById('tp_allowed').textContent=r(tol,4);
+  document.getElementById('tp_pct').textContent=r(pct,1)+'%';
+  const res=document.getElementById('tp_result');
+  res.textContent=pos<=tol?'PASS':'FAIL';
+  res.className='rval '+(pos<=tol?'green':'red');
+  const g2=document.getElementById('tp_gauge');
+  g2.style.width=Math.min(100,pct)+'%';
+  g2.style.background=pos<=tol?'var(--green)':'var(--red)';
+}
+function calcTP3(){
+  const dx=g('tp3_dx'),dy=g('tp3_dy'),dz=g('tp3_dz'),tol=g('tp3_tol');
+  const pos=2*Math.sqrt(dx*dx+dy*dy+dz*dz);
+  const pct=tol>0?Math.min(150,pos/tol*100):0;
+  document.getElementById('tp_dx').textContent=r(dx,4);
+  document.getElementById('tp_dy').textContent=r(dy,4);
+  document.getElementById('tp_pos').textContent=r(pos,4)+' (3D)';
+  document.getElementById('tp_allowed').textContent=r(tol,4);
+  document.getElementById('tp_pct').textContent=r(pct,1)+'%';
+  const res=document.getElementById('tp_result');
+  res.textContent=pos<=tol?'PASS':'FAIL';
+  res.className='rval '+(pos<=tol?'green':'red');
+  const g2=document.getElementById('tp_gauge');
+  g2.style.width=Math.min(100,pct)+'%';
+  g2.style.background=pos<=tol?'var(--green)':'var(--red)';
+}
+
+// Form
+const formSyms={'flatness':'⏥ Flatness','straight':'⏤ Straightness','circle':'○ Circularity','cyl':'⌭ Cylindricity'};
+function calcForm(){
+  const sym=document.getElementById('form_sym').value;
+  const tol=g('form_tol'),meas=g('form_meas');
+  const margin=tol-meas,pct=tol>0?meas/tol*100:0;
+  document.getElementById('form_sym_r').textContent=formSyms[sym]||sym;
+  document.getElementById('form_r1').textContent=r(tol,4);
+  document.getElementById('form_r2').textContent=r(meas,4);
+  document.getElementById('form_r3').textContent=r(margin,4);
+  document.getElementById('form_r4').textContent=r(pct,1)+'%';
+  const st=document.getElementById('form_stat');
+  st.textContent=meas<=tol?'WITHIN TOLERANCE':'OUT OF TOLERANCE';
+  st.className='rval '+(meas<=tol?'green':'red');
+  const gf=document.getElementById('form_gauge');
+  gf.style.width=Math.min(100,pct)+'%';
+  gf.style.background=meas<=tol?'var(--green)':'var(--red)';
+}
+
+// Stack-Up rows
+let wcRows=[],rssRows=[],ssRows=[];
+function makeRow(type,idx,dim=10,tol=0.05,dir='+'){
+  return `<tr id="${type}_row_${idx}">
+    <td><input type="number" id="${type}_d_${idx}" value="${dim}" step="0.01" style="width:90px" oninput="calc${type.toUpperCase()}()"></td>
+    <td><input type="number" id="${type}_t_${idx}" value="${tol}" step="0.001" style="width:80px" oninput="calc${type.toUpperCase()}()"></td>
+    <td><select id="${type}_dir_${idx}" style="width:70px" onchange="calc${type.toUpperCase()}()">
+      <option value="+" ${dir==='+'?'selected':''}>+</option>
+      <option value="-" ${dir==='-'?'selected':''}>−</option>
+    </select></td>
+    <td><button class="delete-btn" onclick="delRow('${type}',${idx})">✕</button></td>
+  </tr>`;
+}
+function renderTable(type,rows){
+  const cont=document.getElementById(type+'_rows');
+  cont.innerHTML=`<table class="stack-table" style="width:100%">
+    <thead><tr><th>Nominal (mm)</th><th>Tolerance (±)</th><th>Direction</th><th></th></tr></thead>
+    <tbody>${rows.map((r,i)=>makeRow(type,i,r.d,r.t,r.dir)).join('')}</tbody></table>`;
+}
+function addWCRow(){wcRows.push({d:10,t:0.05,dir:'+'});renderTable('wc',wcRows);calcWC();}
+function addRSSRow(){rssRows.push({d:10,t:0.05,dir:'+'});renderTable('rss',rssRows);calcRSS();}
+function addSSRow(){ssRows.push({d:10,t:0.05,dir:'+'});renderTable('ss',ssRows);calcSS();}
+function delRow(type,idx){
+  if(type==='wc')wcRows.splice(idx,1);
+  else if(type==='rss')rssRows.splice(idx,1);
+  else ssRows.splice(idx,1);
+  renderTable(type,type==='wc'?wcRows:type==='rss'?rssRows:ssRows);
+  if(type==='wc')calcWC(); else if(type==='rss')calcRSS(); else calcSS();
+}
+function readRows(type,rows){
+  rows.forEach((row,i)=>{
+    row.d=parseFloat(document.getElementById(type+'_d_'+i).value)||0;
+    row.t=parseFloat(document.getElementById(type+'_t_'+i).value)||0;
+    row.dir=document.getElementById(type+'_dir_'+i).value;
+  });
+}
+function calcWC(){
+  readRows('wc',wcRows);
+  let nom=0,tol=0;
+  wcRows.forEach(r=>{nom+=(r.dir==='+'?1:-1)*r.d; tol+=r.t;});
+  s('wc_nom',r(nom,4));s('wc_tol','± '+r(tol,4));
+  s('wc_max',r(nom+tol,4));s('wc_min',r(nom-tol,4));
+}
+function calcRSS(){
+  readRows('rss',rssRows);
+  let nom=0,ss=0,wcTol=0;
+  rssRows.forEach(r=>{nom+=(r.dir==='+'?1:-1)*r.d; ss+=r.t*r.t; wcTol+=r.t;});
+  const rssTol=Math.sqrt(ss);
+  s('rss_nom',r(nom,4));s('rss_tol','± '+r(rssTol,4));
+  s('rss_max',r(nom+rssTol,4));s('rss_min',r(nom-rssTol,4));
+  const reduction=wcTol>0?((wcTol-rssTol)/wcTol*100):0;
+  s('rss_vs',r(reduction,1)+'% smaller than WC');
+}
+function calcSS(){
+  readRows('ss',ssRows);
+  const cp=parseFloat(document.getElementById('ss_cp').value)||1.5;
+  let nom=0,ss=0;
+  ssRows.forEach(r=>{nom+=(r.dir==='+'?1:-1)*r.d; ss+=r.t*r.t;});
+  const ssTol=(1/cp)*Math.sqrt(ss);
+  // Approximate DPMO based on sigma level
+  const sigmaLevel=3*cp;
+  const dpmo=sigmaLevel>=6?3.4:sigmaLevel>=5?233:sigmaLevel>=4?6210:sigmaLevel>=3?66807:308538;
+  s('ss_nom',r(nom,4));s('ss_tol','± '+r(ssTol,4));
+  s('ss_max',r(nom+ssTol,4));s('ss_min',r(nom-ssTol,4));
+  s('ss_dpmo',dpmo.toLocaleString());
+}
+
+// Symbols reference
+const SYMBOLS=[
+  {cat:'form',sym:'⏥',name:'Flatness',desc:'Controls how flat a surface is. Two parallel planes define the zone. No datum required.'},
+  {cat:'form',sym:'⏤',name:'Straightness',desc:'Controls how straight a line element or axis is. Applied to surface lines or feature axes.'},
+  {cat:'form',sym:'○',name:'Circularity',desc:'Controls how round a cross-section is. Each circular cross-section must lie within two coaxial circles.'},
+  {cat:'form',sym:'⌭',name:'Cylindricity',desc:'Controls the form of a full cylinder — roundness + straightness + taper. No datum required.'},
+  {cat:'orient',sym:'∠',name:'Angularity',desc:'Controls the angle of a surface, axis, or center plane relative to a datum. Requires datum reference.'},
+  {cat:'orient',sym:'⊥',name:'Perpendicularity',desc:'90° orientation relative to a datum. Controls how square a feature is to the datum.'},
+  {cat:'orient',sym:'∥',name:'Parallelism',desc:'Controls how parallel a surface or axis is to a datum reference. Requires datum.'},
+  {cat:'loc',sym:'⊕',name:'True Position',desc:'Controls location of a feature center relative to true (theoretical) position. Most common GD&T callout.'},
+  {cat:'loc',sym:'◎',name:'Concentricity',desc:'Controls the median points of a feature to be coaxial with a datum axis. Replaced by Symmetry in Y14.5-2018.'},
+  {cat:'loc',sym:'⌯',name:'Symmetry',desc:'Controls median points of a feature to be symmetric about a datum plane.'},
+  {cat:'run',sym:'↗',name:'Circular Runout',desc:'Controls surface variation during one full rotation about a datum axis. 2D check per cross-section.'},
+  {cat:'run',sym:'⇗',name:'Total Runout',desc:'Controls full surface variation during rotation about a datum axis. 3D — combines circularity and coaxiality.'},
+  {cat:'mod',sym:'⌒',name:'Profile of a Line',desc:'Controls the form of any line element on a surface. Can be used with or without a datum.'},
+  {cat:'mod',sym:'⌓',name:'Profile of a Surface',desc:'Controls the 3D form of a surface. Most powerful GD&T tool — can control all aspects of a surface.'},
+  {cat:'mod',sym:'Ⓜ',name:'MMC Modifier',desc:'Maximum Material Condition — feature has most material. Allows bonus tolerance. Applied with ⊕.'},
+  {cat:'mod',sym:'Ⓛ',name:'LMC Modifier',desc:'Least Material Condition — feature has least material. Allows bonus tolerance. Used for edge protection.'},
+  {cat:'mod',sym:'Ⓢ',name:'RFS (Default)',desc:'Regardless of Feature Size — tolerance applies at all sizes. Default when no modifier shown.'},
+];
+function buildSymbols(){
+  const cats={form:'sym_form',orient:'sym_orient',loc:'sym_loc',run:'sym_run',mod:'sym_mod'};
+  Object.entries(cats).forEach(([cat,id])=>{
+    const el=document.getElementById(id); el.innerHTML='';
+    SYMBOLS.filter(s=>s.cat===cat).forEach(s=>{
+      const btn=document.createElement('div');
+      btn.className='sym-btn';
+      btn.innerHTML=`<span style="font-size:16px">${s.sym}</span> ${s.name}`;
+      btn.onclick=()=>{
+        document.querySelectorAll('.sym-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const d=document.getElementById('sym_detail');
+        d.style.display='block';
+        d.innerHTML=`<strong>${s.sym} ${s.name}</strong><br>${s.desc}`;
+      };
+      el.appendChild(btn);
+    });
+  });
+}
+
+// Initialize
+window.onload=()=>{
+  quickBonus();quickTP();calcTZ();calcMMC();calcBonus();calcFit();calcTP();calcForm();
+  // Default stack rows
+  wcRows=[{d:50,t:0.05,dir:'+'},{d:30,t:0.03,dir:'+'},{d:20,t:0.04,dir:'-'}];
+  rssRows=[...wcRows.map(r=>({...r}))];
+  ssRows=[...wcRows.map(r=>({...r}))];
+  renderTable('wc',wcRows);renderTable('rss',rssRows);renderTable('ss',ssRows);
+  calcWC();calcRSS();calcSS();
+  buildSymbols();
+};
+</script>
+</body>
+</html>
