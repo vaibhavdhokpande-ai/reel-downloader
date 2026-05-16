@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>TaskJunction – Calculator</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&family=Orbitron:wght@700&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -14,7 +15,7 @@ body {
     linear-gradient(rgba(14,120,210,0.06) 1px,transparent 1px),
     linear-gradient(90deg,rgba(14,120,210,0.06) 1px,transparent 1px);
   background-size:40px 40px;
-  font-family:'DM Sans',sans-serif;
+  font-family: Arial, sans-serif;
   display:flex; flex-direction:column;
 }
 
@@ -28,13 +29,13 @@ nav {
   display:flex; align-items:center; justify-content:space-between;
 }
 .nav-logo {
-  font-family:'Orbitron',sans-serif; font-size:15px; font-weight:700;
+  font-family: Arial, sans-serif; font-size:15px; font-weight:700;
   letter-spacing:0.05em; color:#0a2540; text-decoration:none;
 }
 .nav-logo span { color:#2196f3; }
 .nav-back-btn {
   display:inline-flex; align-items:center; gap:6px;
-  font-family:'Exo 2',sans-serif; font-size:12px; font-weight:600;
+  font-family: Arial, sans-serif; font-size:12px; font-weight:600;
   letter-spacing:0.1em; text-transform:uppercase;
   color:#0e78d2; background:rgba(14,120,210,0.08);
   border:1px solid rgba(14,120,210,0.25);
@@ -51,18 +52,18 @@ nav {
 }
 
 /* ORIGINAL CALC STYLES */
-.calc-wrap { display:flex; justify-content:center; font-family:'DM Sans',sans-serif; }
+.calc-wrap { display:flex; justify-content:center; font-family: Arial, sans-serif; }
 .calc { width:340px; background:#e8f4fd; border-radius:24px; padding:20px; box-shadow:0 0 0 1.5px #b0d8f5; }
 .display-area { background:#ffffff; border-radius:14px; padding:16px 18px 14px; margin-bottom:16px; min-height:90px; display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-end; overflow:hidden; box-shadow:0 0 0 1px #c8e6f8; }
-.expr-line { font-family:'Space Mono',monospace; font-size:13px; color:#90bcd8; min-height:18px; word-break:break-all; text-align:right; margin-bottom:4px; }
-.result-line { font-family:'Space Mono',monospace; font-size:28px; font-weight:700; color:#1a5a8a; word-break:break-all; text-align:right; line-height:1.1; }
+.expr-line { font-family: Arial, monospace; font-size:13px; color:#90bcd8; min-height:18px; word-break:break-all; text-align:right; margin-bottom:4px; }
+.result-line { font-family: Arial, monospace; font-size:28px; font-weight:700; color:#1a5a8a; word-break:break-all; text-align:right; line-height:1.1; }
 .mode-bar { display:flex; gap:6px; margin-bottom:14px; }
-.mode-btn { flex:1; padding:7px 0; border-radius:8px; border:1px solid #b0d8f5; background:transparent; color:#6aaad4; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all 0.15s; letter-spacing:0.02em; }
+.mode-btn { flex:1; padding:7px 0; border-radius:8px; border:1px solid #b0d8f5; background:transparent; color:#6aaad4; font-family: Arial, sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all 0.15s; letter-spacing:0.02em; }
 .mode-btn.active { background:#ffffff; border-color:#5aaae0; color:#1a72b8; }
 .grid { display:grid; gap:8px; }
 .grid-sci { grid-template-columns:repeat(5,1fr); }
 .grid-main { grid-template-columns:repeat(4,1fr); margin-top:8px; }
-.btn { border:none; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:400; cursor:pointer; transition:all 0.1s; padding:0; height:48px; display:flex; align-items:center; justify-content:center; letter-spacing:0.01em; }
+.btn { border:none; border-radius:10px; font-family: Arial, sans-serif; font-size:14px; font-weight:400; cursor:pointer; transition:all 0.1s; padding:0; height:48px; display:flex; align-items:center; justify-content:center; letter-spacing:0.01em; }
 .btn:active { transform:scale(0.94); }
 .btn-sci { background:#d0eaf8; color:#3a88c0; font-size:12px; height:40px; }
 .btn-sci:hover { background:#c0e0f5; color:#1a6aaa; }
@@ -75,7 +76,7 @@ nav {
 .btn-clear { background:#fce8e8; color:#d04040; }
 .btn-clear:hover { background:#f8d8d8; }
 .btn-zero { grid-column:span 2; }
-.angle-chip { font-size:11px; text-align:right; margin-bottom:8px; font-family:'Space Mono',monospace; cursor:pointer; user-select:none; }
+.angle-chip { font-size:11px; text-align:right; margin-bottom:8px; font-family: Arial, monospace; cursor:pointer; user-select:none; }
 .angle-chip span { background:#d0eaf8; border:1px solid #b0d8f5; border-radius:5px; padding:2px 8px; color:#6aaad4; }
 .angle-chip span.active-angle { border-color:#5aaae0; color:#1a72b8; background:#ffffff; }
 
@@ -85,67 +86,68 @@ footer {
   display:flex; flex-direction:column; align-items:center; gap:6px;
 }
 .footer-divider { width:100px; height:1px; background:linear-gradient(90deg,transparent,rgba(14,120,210,0.4),transparent); margin-bottom:4px; }
-.footer-label { font-family:'Exo 2',sans-serif; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:#7fabd1; }
-.footer-name { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700; letter-spacing:0.06em; color:#0e78d2; }
-.footer-copy { font-family:'Exo 2',sans-serif; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:#a0bdd6; margin-top:2px; }
+.footer-label { font-family: Arial, sans-serif; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:#7fabd1; }
+.footer-name { font-family: Arial, sans-serif; font-size:14px; font-weight:700; letter-spacing:0.06em; color:#0e78d2; }
+.footer-copy { font-family: Arial, sans-serif; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:#a0bdd6; margin-top:2px; }
 </style>
 </head>
 <body>
-
-<nav>
-  <a href="index.html" class="nav-logo">Task<span>Junction</span></a>
-  <a href="index.html" class="nav-back-btn">← Home</a>
+<nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
 </nav>
-
 <div class="page-body">
-  <div class="calc-wrap">
-    <div class="calc">
-      <div class="display-area">
-        <div class="expr-line" id="expr"></div>
-        <div class="result-line" id="result">0</div>
-      </div>
-      <div class="angle-chip">
-        <span id="deg-btn" class="active-angle" onclick="setAngle('deg')">DEG</span>
-        <span id="rad-btn" onclick="setAngle('rad')">RAD</span>
-      </div>
-      <div class="mode-bar">
-        <button class="mode-btn active" id="mode-basic" onclick="setMode('basic')">Basic</button>
-        <button class="mode-btn" id="mode-sci" onclick="setMode('sci')">Scientific</button>
-        <button class="mode-btn" id="mode-trig" onclick="setMode('trig')">Trig</button>
-      </div>
-      <div class="grid grid-sci" id="sci-grid"></div>
-      <div class="grid grid-main">
-        <button class="btn btn-clear" onclick="press('clear')">AC</button>
-        <button class="btn btn-clear" onclick="press('backspace')">⌫</button>
-        <button class="btn btn-op" onclick="press('%')">%</button>
-        <button class="btn btn-op" onclick="press('/')">÷</button>
-        <button class="btn btn-num" onclick="press('7')">7</button>
-        <button class="btn btn-num" onclick="press('8')">8</button>
-        <button class="btn btn-num" onclick="press('9')">9</button>
-        <button class="btn btn-op" onclick="press('*')">×</button>
-        <button class="btn btn-num" onclick="press('4')">4</button>
-        <button class="btn btn-num" onclick="press('5')">5</button>
-        <button class="btn btn-num" onclick="press('6')">6</button>
-        <button class="btn btn-op" onclick="press('-')">−</button>
-        <button class="btn btn-num" onclick="press('1')">1</button>
-        <button class="btn btn-num" onclick="press('2')">2</button>
-        <button class="btn btn-num" onclick="press('3')">3</button>
-        <button class="btn btn-op" onclick="press('+')">+</button>
-        <button class="btn btn-num btn-zero" onclick="press('0')">0</button>
-        <button class="btn btn-num" onclick="press('.')">.</button>
-        <button class="btn btn-eq" onclick="press('=')">=</button>
-      </div>
-    </div>
-  </div>
+<div class="calc-wrap">
+<div class="calc">
+<div class="display-area">
+<div class="expr-line" id="expr"></div>
+<div class="result-line" id="result">0</div>
 </div>
-
-<footer>
-  <div class="footer-divider"></div>
-  <div class="footer-label">Crafted by</div>
-  <div class="footer-name">Vaibhav Dhokpande</div>
-  <div class="footer-copy">© 2025 · TaskJunction</div>
+<div class="angle-chip">
+<span class="active-angle" id="deg-btn" onclick="setAngle('deg')">DEG</span>
+<span id="rad-btn" onclick="setAngle('rad')">RAD</span>
+</div>
+<div class="mode-bar">
+<button class="mode-btn active" id="mode-basic" onclick="setMode('basic')">Basic</button>
+<button class="mode-btn" id="mode-sci" onclick="setMode('sci')">Scientific</button>
+<button class="mode-btn" id="mode-trig" onclick="setMode('trig')">Trig</button>
+</div>
+<div class="grid grid-sci" id="sci-grid"></div>
+<div class="grid grid-main">
+<button class="btn btn-clear" onclick="press('clear')">AC</button>
+<button class="btn btn-clear" onclick="press('backspace')">⌫</button>
+<button class="btn btn-op" onclick="press('%')">%</button>
+<button class="btn btn-op" onclick="press('/')">÷</button>
+<button class="btn btn-num" onclick="press('7')">7</button>
+<button class="btn btn-num" onclick="press('8')">8</button>
+<button class="btn btn-num" onclick="press('9')">9</button>
+<button class="btn btn-op" onclick="press('*')">×</button>
+<button class="btn btn-num" onclick="press('4')">4</button>
+<button class="btn btn-num" onclick="press('5')">5</button>
+<button class="btn btn-num" onclick="press('6')">6</button>
+<button class="btn btn-op" onclick="press('-')">−</button>
+<button class="btn btn-num" onclick="press('1')">1</button>
+<button class="btn btn-num" onclick="press('2')">2</button>
+<button class="btn btn-num" onclick="press('3')">3</button>
+<button class="btn btn-op" onclick="press('+')">+</button>
+<button class="btn btn-num btn-zero" onclick="press('0')">0</button>
+<button class="btn btn-num" onclick="press('.')">.</button>
+<button class="btn btn-eq" onclick="press('=')">=</button>
+</div>
+</div>
+</div>
+</div>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
 </footer>
-
 <script>
 const sciSets = {
   basic: [],
