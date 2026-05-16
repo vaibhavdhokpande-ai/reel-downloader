@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Motor & Gearbox Selector – TaskJunction</title>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Motor &amp; Gearbox Selector – TaskJunction</title>
+
 <style>
 :root {
   --bg:       #0b0d0f;
@@ -25,13 +26,13 @@
   --red:      #ef4444;
   --shadow:   0 2px 16px rgba(0,0,0,0.4);
   --shadow-lg:0 8px 48px rgba(0,0,0,0.6);
-  --font-d:   'Clash Display', sans-serif;
-  --font-b:   'Sora', sans-serif;
-  --font-m:   'JetBrains Mono', monospace;
+  
+  
+  
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--text); font-family: var(--font-b); min-height: 100vh; overflow-x: hidden; }
+body { background: var(--bg); color: var(--text); font-family: Arial, sans-serif; min-height: 100vh; overflow-x: hidden; }
 body::before {
   content: ''; position: fixed; inset: 0; z-index: 0;
   background-image: linear-gradient(rgba(244,96,12,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(244,96,12,0.03) 1px, transparent 1px);
@@ -43,17 +44,17 @@ nav {
   border-bottom: 1px solid var(--border);
   padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px;
 }
-.logo { font-family: var(--font-d); font-size: 20px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+.logo { font-family: Arial, sans-serif; font-size: 20px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
 .logo em { color: var(--orange); font-style: normal; }
 .nav-right { display: flex; align-items: center; gap: 12px; }
-.nav-tag { font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); background: var(--orange3); border: 1px solid rgba(244,96,12,0.25); padding: 4px 12px; border-radius: 99px; }
+.nav-tag { font-family: Arial, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); background: var(--orange3); border: 1px solid rgba(244,96,12,0.25); padding: 4px 12px; border-radius: 99px; }
 .nav-back { font-size: 13px; color: var(--text2); text-decoration: none; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border); transition: all 0.18s; }
 .nav-back:hover { color: var(--text); border-color: var(--border2); background: var(--bg3); }
 .hero { position: relative; z-index: 1; padding: 44px 32px 28px; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, rgba(244,96,12,0.07) 0%, transparent 100%); }
 .hero-inner { max-width: 1200px; margin: 0 auto; }
-.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 99px; padding: 5px 14px; font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 99px; padding: 5px 14px; font-family: Arial, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
 .hero-badge span { color: var(--orange); }
-.hero h1 { font-family: var(--font-d); font-size: clamp(30px, 5vw, 52px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 8px; }
+.hero h1 { font-family: Arial, sans-serif; font-size: clamp(30px, 5vw, 52px); font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 8px; }
 .hero h1 em { color: var(--orange); font-style: normal; }
 .hero p { font-size: 14px; color: var(--text2); max-width: 500px; }
 .main { max-width: 1200px; margin: 0 auto; padding: 28px 32px 60px; position: relative; z-index: 1; }
@@ -61,28 +62,28 @@ nav {
 .panel { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); }
 .panel-header { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); background: var(--bg3); display: flex; align-items: center; gap: 12px; }
 .panel-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--orange3); border: 1px solid rgba(244,96,12,0.25); display: flex; align-items: center; justify-content: center; font-size: 17px; }
-.panel-title { font-family: var(--font-d); font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
+.panel-title { font-family: Arial, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: -0.02em; }
 .panel-title em { color: var(--orange); font-style: normal; }
 .panel-body { padding: 20px 22px; }
-.sec-label { font-family: var(--font-m); font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; margin-top: 20px; display: flex; align-items: center; gap: 8px; }
+.sec-label { font-family: Arial, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; margin-top: 20px; display: flex; align-items: center; gap: 8px; }
 .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .sec-label:first-child { margin-top: 0; }
 .field { margin-bottom: 12px; }
 .field:last-child { margin-bottom: 0; }
-label { display: block; font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); margin-bottom: 5px; }
+label { display: block; font-family: Arial, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); margin-bottom: 5px; }
 .input-wrap { position: relative; }
-.input-unit { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: var(--font-m); font-size: 11px; color: var(--text3); pointer-events: none; font-weight: 500; }
-input[type=number], select { width: 100%; background: var(--bg); border: 1.5px solid var(--border2); color: var(--text); padding: 9px 46px 9px 13px; border-radius: 10px; font-family: var(--font-d); font-size: 17px; font-weight: 600; outline: none; transition: border-color 0.2s, box-shadow 0.2s; -moz-appearance: textfield; }
-select { padding: 9px 13px; font-size: 13px; font-family: var(--font-b); font-weight: 500; cursor: pointer; }
+.input-unit { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: Arial, sans-serif; font-size: 11px; color: var(--text3); pointer-events: none; font-weight: 500; }
+input[type=number], select { width: 100%; background: var(--bg); border: 1.5px solid var(--border2); color: var(--text); padding: 9px 46px 9px 13px; border-radius: 10px; font-family: Arial, sans-serif; font-size: 17px; font-weight: 600; outline: none; transition: border-color 0.2s, box-shadow 0.2s; -moz-appearance: textfield; }
+select { padding: 9px 13px; font-size: 13px; font-family: Arial, sans-serif; font-weight: 500; cursor: pointer; }
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
 input[type=number]:focus, select:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(244,96,12,0.12); }
 select option { background: var(--bg2); }
 .dual { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.calc-btn { width: 100%; margin-top: 18px; padding: 13px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-family: var(--font-d); font-size: 15px; font-weight: 700; letter-spacing: -0.01em; cursor: pointer; box-shadow: 0 4px 20px rgba(244,96,12,0.35); transition: background 0.18s, transform 0.15s, box-shadow 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.calc-btn { width: 100%; margin-top: 18px; padding: 13px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-family: Arial, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: -0.01em; cursor: pointer; box-shadow: 0 4px 20px rgba(244,96,12,0.35); transition: background 0.18s, transform 0.15s, box-shadow 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .calc-btn:hover { background: var(--orange2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(244,96,12,0.4); }
 .calc-btn:active { transform: translateY(0); }
 .right-col { display: flex; flex-direction: column; gap: 18px; }
-.status-badge { font-family: var(--font-m); font-size: 10px; font-weight: 600; padding: 4px 12px; border-radius: 99px; letter-spacing: 0.08em; text-transform: uppercase; }
+.status-badge { font-family: Arial, sans-serif; font-size: 10px; font-weight: 600; padding: 4px 12px; border-radius: 99px; letter-spacing: 0.08em; text-transform: uppercase; }
 .status-ok   { background: rgba(34,197,94,0.12);  color: var(--green);  border: 1px solid rgba(34,197,94,0.25); }
 .status-warn { background: rgba(251,191,36,0.12); color: var(--yellow); border: 1px solid rgba(251,191,36,0.25); }
 .status-err  { background: rgba(239,68,68,0.12);  color: var(--red);    border: 1px solid rgba(239,68,68,0.25); }
@@ -93,9 +94,9 @@ select option { background: var(--bg2); }
 .kpi.highlight .kpi-val { color: var(--orange); }
 .kpi.good .kpi-val { color: var(--green); }
 .kpi.info .kpi-val  { color: var(--blue); }
-.kpi-label { font-family: var(--font-m); font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); margin-bottom: 7px; }
-.kpi-val   { font-family: var(--font-d); font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
-.kpi-unit  { font-family: var(--font-m); font-size: 10px; color: var(--text3); margin-top: 3px; }
+.kpi-label { font-family: Arial, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); margin-bottom: 7px; }
+.kpi-val   { font-family: Arial, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
+.kpi-unit  { font-family: Arial, sans-serif; font-size: 10px; color: var(--text3); margin-top: 3px; }
 .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .match-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: 15px; padding: 18px; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; cursor: pointer; position: relative; overflow: hidden; }
 .match-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--orange), var(--orange2)); opacity: 0; transition: opacity 0.2s; }
@@ -104,218 +105,265 @@ select option { background: var(--bg2); }
 .match-card.selected { border-color: var(--orange); box-shadow: 0 0 0 2px rgba(244,96,12,0.18); }
 .match-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .match-type-icon { font-size: 22px; }
-.match-fit-badge { font-family: var(--font-m); font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 99px; letter-spacing: 0.08em; text-transform: uppercase; }
+.match-fit-badge { font-family: Arial, sans-serif; font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 99px; letter-spacing: 0.08em; text-transform: uppercase; }
 .fit-excellent { background: rgba(34,197,94,0.15);  color: var(--green);  border: 1px solid rgba(34,197,94,0.3); }
 .fit-good      { background: rgba(56,189,248,0.15);  color: var(--blue);   border: 1px solid rgba(56,189,248,0.3); }
 .fit-fair      { background: rgba(251,191,36,0.15); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
-.match-name    { font-family: var(--font-d); font-size: 14px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 2px; }
-.match-series  { font-family: var(--font-m); font-size: 10px; color: var(--text3); font-weight: 500; letter-spacing: 0.06em; margin-bottom: 10px; }
+.match-name    { font-family: Arial, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 2px; }
+.match-series  { font-family: Arial, sans-serif; font-size: 10px; color: var(--text3); font-weight: 500; letter-spacing: 0.06em; margin-bottom: 10px; }
 .match-specs   { display: flex; flex-direction: column; gap: 5px; }
 .match-spec    { display: flex; justify-content: space-between; align-items: center; }
-.match-spec-label { color: var(--text3); font-family: var(--font-m); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; }
-.match-spec-val   { font-family: var(--font-d); font-size: 13px; font-weight: 600; color: var(--text); }
+.match-spec-label { color: var(--text3); font-family: Arial, sans-serif; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; }
+.match-spec-val   { font-family: Arial, sans-serif; font-size: 13px; font-weight: 600; color: var(--text); }
 .match-spec-val.ok   { color: var(--green); }
 .match-spec-val.warn { color: var(--yellow); }
 .match-bar      { height: 3px; background: var(--border); border-radius: 2px; margin-top: 10px; overflow: hidden; }
 .match-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--orange), var(--orange2)); transition: width 0.7s cubic-bezier(0.4,0,0.2,1); }
-.formula-box { background: var(--bg); border: 1px solid var(--border); border-radius: 11px; padding: 14px 16px; font-family: var(--font-m); font-size: 11.5px; color: var(--text2); line-height: 2.1; white-space: pre-wrap; }
+.formula-box { background: var(--bg); border: 1px solid var(--border); border-radius: 11px; padding: 14px 16px; font-family: Arial, sans-serif; font-size: 11.5px; color: var(--text2); line-height: 2.1; white-space: pre-wrap; }
 .formula-box .fv { color: var(--orange); font-weight: 600; }
 .formula-box .fk { color: var(--blue); }
 .warn-box { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.25); border-radius: 11px; padding: 12px 14px; font-size: 12.5px; color: var(--yellow); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
 .info-box { background: rgba(56,189,248,0.07); border: 1px solid rgba(56,189,248,0.2); border-radius: 11px; padding: 12px 14px; font-size: 12.5px; color: var(--blue); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
 .unit-toggle { display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 9px; overflow: hidden; margin-bottom: 16px; }
-.unit-btn { flex: 1; padding: 7px 12px; font-family: var(--font-m); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); background: transparent; border: none; cursor: pointer; transition: all 0.18s; }
+.unit-btn { flex: 1; padding: 7px 12px; font-family: Arial, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); background: transparent; border: none; cursor: pointer; transition: all 0.18s; }
 .unit-btn.active { background: var(--orange); color: #fff; }
 .empty-state { text-align: center; padding: 44px 24px; color: var(--text3); }
 .empty-state .big-icon { font-size: 44px; margin-bottom: 12px; opacity: 0.4; }
 .empty-state p { font-size: 14px; line-height: 1.7; }
 .summary-card { flex: 1; background: var(--bg3); border: 1px solid var(--border); border-radius: 13px; padding: 16px; }
-.summary-card-label { font-family: var(--font-m); font-size: 9px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 9px; }
-.summary-card-name { font-family: var(--font-d); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
-.summary-card-series { font-family: var(--font-m); font-size: 10px; color: var(--orange); margin-bottom: 8px; }
+.summary-card-label { font-family: Arial, sans-serif; font-size: 9px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 9px; }
+.summary-card-name { font-family: Arial, sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.summary-card-series { font-family: Arial, sans-serif; font-size: 10px; color: var(--orange); margin-bottom: 8px; }
 .summary-card-spec { font-size: 12px; color: var(--text2); }
-footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 22px 32px; text-align: center; font-family: var(--font-m); font-size: 11px; color: var(--text3); letter-spacing: 0.08em; position: relative; z-index: 1; }
+footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 22px 32px; text-align: center; font-family: Arial, sans-serif; font-size: 11px; color: var(--text3); letter-spacing: 0.08em; position: relative; z-index: 1; }
 footer em { color: var(--orange); font-style: normal; }
 @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: repeat(2, 1fr); } .match-grid { grid-template-columns: 1fr; } .main { padding: 20px 16px 60px; } nav { padding: 0 16px; } }
 @media (max-width: 480px) { .dual { grid-template-columns: 1fr; } .kpi-grid { grid-template-columns: 1fr 1fr; } }
 </style>
+<style id="aff-css">
+.aff-wrap{max-width:900px;margin:48px auto 0;padding:0 20px;}
+.aff-title{font-family: Arial, sans-serif,'Orbitron',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:#9e9890;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;}
+.aff-title::before{content:'';width:20px;height:1.5px;background:#9e9890;border-radius:2px;}
+.aff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;margin-bottom:12px;}
+.aff-card{background:#ffffff;border:1px solid #e8e2d9;border-radius:16px;padding:20px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;}
+.aff-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#f4600c,#ff7a2e,#fbbf24);opacity:0;transition:opacity .22s;}
+.aff-card:hover{border-color:rgba(244,96,12,.35);transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(244,96,12,.10);}
+.aff-card:hover::before{opacity:1;}
+.aff-card-top{display:flex;align-items:center;gap:12px;}
+.aff-icon{width:44px;height:44px;border-radius:12px;background:#fff0e8;
+  border:1px solid rgba(244,96,12,.15);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;}
+.aff-badge{font-family: Arial, sans-serif,'Share Tech Mono',monospace;font-size:9px;
+  font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(244,96,12,.10);
+  color:#f4600c;border:1px solid rgba(244,96,12,.20);letter-spacing:.06em;
+  text-transform:uppercase;margin-left:auto;}
+.aff-name{font-family: Arial, sans-serif,'Orbitron',sans-serif;font-size:15px;
+  font-weight:600;color:#0f0e0c;letter-spacing:-.01em;line-height:1.3;}
+.aff-desc{font-size:12.5px;color:#5a5650;line-height:1.55;flex:1;}
+.aff-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 18px;border-radius:10px;
+  font-family: Arial, sans-serif,'Exo 2','IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;
+  background:#f4600c;color:#fff;text-decoration:none;
+  transition:background .18s,transform .15s;width:100%;}
+.aff-btn:hover{background:#ff7a2e;transform:translateY(-1px);}
+.aff-disclaimer{font-size:11px;color:#9e9890;text-align:center;
+  font-family: Arial, sans-serif,'Share Tech Mono',monospace;margin-top:4px;}
+</style>
 </head>
 <body>
-
-<nav>
-  <a href="index.html" class="logo">Task<em>Junction</em></a>
-  <div class="nav-right">
-    <a href="index.html" class="nav-back">← Home</a>
-  </div>
+<nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
 </nav>
-
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-badge">⚙️ Drive System Design &nbsp;·&nbsp; <span>Motor & Gearbox</span></div>
-    <h1>Motor & Gearbox <em>Selector</em></h1>
-    <p>Enter application requirements — velocity, load, RPM, duty cycle — and get matched motors & gearboxes instantly.</p>
-  </div>
-</section>
-
-<div class="main">
-  <div class="layout">
-
-    <!-- LEFT INPUT -->
-    <div>
-      <div class="panel">
-        <div class="panel-header">
-          <div class="panel-icon">🎛️</div>
-          <div><div class="panel-title">Application <em>Requirements</em></div></div>
-        </div>
-        <div class="panel-body">
-
-          <div class="unit-toggle">
-            <button class="unit-btn active" onclick="setUnit('si',this)">SI  (N·m / m/s)</button>
-            <button class="unit-btn" onclick="setUnit('imp',this)">Imperial (lb·ft / fpm)</button>
-          </div>
-
-          <div class="sec-label">Application Type</div>
-          <div class="field">
-            <label>Select Application</label>
-            <select id="appType" onchange="onAppChange()">
-              <option value="conveyor">🏭 Conveyor Belt</option>
-              <option value="agv">🤖 AGV / Robot Drive</option>
-              <option value="pump">💧 Pump / Fan</option>
-              <option value="hoist">🏗️ Hoist / Crane</option>
-              <option value="mixer">🌀 Mixer / Agitator</option>
-              <option value="custom">⚙️ Custom / Other</option>
-            </select>
-          </div>
-
-          <div class="sec-label">Motion Requirements</div>
-          <div class="dual">
-            <div class="field">
-              <label>Linear Velocity</label>
-              <div class="input-wrap">
-                <input type="number" id="linVel" value="0.5" min="0.01" step="0.01" oninput="onVelChange()">
-                <span class="input-unit" id="velUnit">m/s</span>
-              </div>
-            </div>
-            <div class="field">
-              <label>Wheel / Sprocket Ø</label>
-              <div class="input-wrap">
-                <input type="number" id="wheelDia" value="100" min="1" oninput="onVelChange()">
-                <span class="input-unit">mm</span>
-              </div>
-            </div>
-          </div>
-          <div class="dual">
-            <div class="field">
-              <label>Output RPM</label>
-              <div class="input-wrap">
-                <input type="number" id="outRPM" value="95.5" min="1" step="0.1" oninput="onRPMChange()">
-                <span class="input-unit">RPM</span>
-              </div>
-            </div>
-            <div class="field">
-              <label>Motor Base RPM</label>
-              <div class="input-wrap">
-                <input type="number" id="motorRPM" value="1450" min="100" oninput="calculate()">
-                <span class="input-unit">RPM</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="sec-label">Load Parameters</div>
-          <div class="dual">
-            <div class="field">
-              <label>Load Mass</label>
-              <div class="input-wrap">
-                <input type="number" id="loadMass" value="200" min="0" oninput="calculate()">
-                <span class="input-unit" id="massUnit">kg</span>
-              </div>
-            </div>
-            <div class="field">
-              <label>Load Radius</label>
-              <div class="input-wrap">
-                <input type="number" id="loadRadius" value="50" min="1" oninput="calculate()">
-                <span class="input-unit">mm</span>
-              </div>
-            </div>
-          </div>
-          <div class="dual">
-            <div class="field">
-              <label>Required Torque</label>
-              <div class="input-wrap">
-                <input type="number" id="reqTorque" value="98.1" min="0" step="0.1" oninput="calculate()">
-                <span class="input-unit" id="torqUnit">N·m</span>
-              </div>
-            </div>
-            <div class="field">
-              <label>Safety Factor</label>
-              <div class="input-wrap">
-                <input type="number" id="safetyFactor" value="1.5" min="1" max="5" step="0.1" oninput="calculate()">
-                <span class="input-unit">×</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="sec-label">Duty & Environment</div>
-          <div class="dual">
-            <div class="field">
-              <label>Duty Cycle</label>
-              <div class="input-wrap">
-                <input type="number" id="dutyCycle" value="80" min="1" max="100" oninput="calculate()">
-                <span class="input-unit">%</span>
-              </div>
-            </div>
-            <div class="field">
-              <label>Ambient Temp</label>
-              <div class="input-wrap">
-                <input type="number" id="ambTemp" value="40" min="-20" max="80" oninput="calculate()">
-                <span class="input-unit">°C</span>
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <label>Mounting Orientation</label>
-            <select id="mounting" onchange="calculate()">
-              <option value="horizontal">Horizontal (Standard)</option>
-              <option value="vertical_up">Vertical – Shaft Up</option>
-              <option value="vertical_down">Vertical – Shaft Down</option>
-              <option value="flange">Flange Mount</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Gearbox Type Preference</label>
-            <select id="gbPref" onchange="calculate()">
-              <option value="all">All Types</option>
-              <option value="helical">Helical Inline</option>
-              <option value="parallel">Parallel Shaft</option>
-              <option value="bevel">Bevel-Helical</option>
-              <option value="planetary">Planetary</option>
-            </select>
-          </div>
-
-          <button class="calc-btn" onclick="calculate()">⚡ Find Best Match</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT RESULTS -->
-    <div class="right-col" id="rightCol">
-      <div class="panel" id="emptyPanel">
-        <div class="panel-body">
-          <div class="empty-state">
-            <div class="big-icon">⚙️</div>
-            <p>Fill in your application parameters on the left and click <strong style="color:var(--orange)">Find Best Match</strong> to get motor & gearbox recommendations.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
+<div class="hero-inner">
+<div class="hero-badge">⚙️ Drive System Design  ·  <span>Motor &amp; Gearbox</span></div>
+<h1>Motor &amp; Gearbox <em>Selector</em></h1>
+<p>Enter application requirements — velocity, load, RPM, duty cycle — and get matched motors &amp; gearboxes instantly.</p>
 </div>
-
-<footer>
-  Motor & Gearbox Selector &nbsp;·&nbsp; © 2025 &nbsp;·&nbsp; Made with ❤️ by Vaibhav Dhokpande
+</section>
+<div class="main">
+<div class="layout">
+<!-- LEFT INPUT -->
+<div>
+<div class="panel">
+<div class="panel-header">
+<div class="panel-icon">🎛️</div>
+<div><div class="panel-title">Application <em>Requirements</em></div></div>
+</div>
+<div class="panel-body">
+<div class="unit-toggle">
+<button class="unit-btn active" onclick="setUnit('si',this)">SI  (N·m / m/s)</button>
+<button class="unit-btn" onclick="setUnit('imp',this)">Imperial (lb·ft / fpm)</button>
+</div>
+<div class="sec-label">Application Type</div>
+<div class="field">
+<label>Select Application</label>
+<select id="appType" onchange="onAppChange()">
+<option value="conveyor">🏭 Conveyor Belt</option>
+<option value="agv">🤖 AGV / Robot Drive</option>
+<option value="pump">💧 Pump / Fan</option>
+<option value="hoist">🏗️ Hoist / Crane</option>
+<option value="mixer">🌀 Mixer / Agitator</option>
+<option value="custom">⚙️ Custom / Other</option>
+</select>
+</div>
+<div class="sec-label">Motion Requirements</div>
+<div class="dual">
+<div class="field">
+<label>Linear Velocity</label>
+<div class="input-wrap">
+<input id="linVel" min="0.01" oninput="onVelChange()" step="0.01" type="number" value="0.5"/>
+<span class="input-unit" id="velUnit">m/s</span>
+</div>
+</div>
+<div class="field">
+<label>Wheel / Sprocket Ø</label>
+<div class="input-wrap">
+<input id="wheelDia" min="1" oninput="onVelChange()" type="number" value="100"/>
+<span class="input-unit">mm</span>
+</div>
+</div>
+</div>
+<div class="dual">
+<div class="field">
+<label>Output RPM</label>
+<div class="input-wrap">
+<input id="outRPM" min="1" oninput="onRPMChange()" step="0.1" type="number" value="95.5"/>
+<span class="input-unit">RPM</span>
+</div>
+</div>
+<div class="field">
+<label>Motor Base RPM</label>
+<div class="input-wrap">
+<input id="motorRPM" min="100" oninput="calculate()" type="number" value="1450"/>
+<span class="input-unit">RPM</span>
+</div>
+</div>
+</div>
+<div class="sec-label">Load Parameters</div>
+<div class="dual">
+<div class="field">
+<label>Load Mass</label>
+<div class="input-wrap">
+<input id="loadMass" min="0" oninput="calculate()" type="number" value="200"/>
+<span class="input-unit" id="massUnit">kg</span>
+</div>
+</div>
+<div class="field">
+<label>Load Radius</label>
+<div class="input-wrap">
+<input id="loadRadius" min="1" oninput="calculate()" type="number" value="50"/>
+<span class="input-unit">mm</span>
+</div>
+</div>
+</div>
+<div class="dual">
+<div class="field">
+<label>Required Torque</label>
+<div class="input-wrap">
+<input id="reqTorque" min="0" oninput="calculate()" step="0.1" type="number" value="98.1"/>
+<span class="input-unit" id="torqUnit">N·m</span>
+</div>
+</div>
+<div class="field">
+<label>Safety Factor</label>
+<div class="input-wrap">
+<input id="safetyFactor" max="5" min="1" oninput="calculate()" step="0.1" type="number" value="1.5"/>
+<span class="input-unit">×</span>
+</div>
+</div>
+</div>
+<div class="sec-label">Duty &amp; Environment</div>
+<div class="dual">
+<div class="field">
+<label>Duty Cycle</label>
+<div class="input-wrap">
+<input id="dutyCycle" max="100" min="1" oninput="calculate()" type="number" value="80"/>
+<span class="input-unit">%</span>
+</div>
+</div>
+<div class="field">
+<label>Ambient Temp</label>
+<div class="input-wrap">
+<input id="ambTemp" max="80" min="-20" oninput="calculate()" type="number" value="40"/>
+<span class="input-unit">°C</span>
+</div>
+</div>
+</div>
+<div class="field">
+<label>Mounting Orientation</label>
+<select id="mounting" onchange="calculate()">
+<option value="horizontal">Horizontal (Standard)</option>
+<option value="vertical_up">Vertical – Shaft Up</option>
+<option value="vertical_down">Vertical – Shaft Down</option>
+<option value="flange">Flange Mount</option>
+</select>
+</div>
+<div class="field">
+<label>Gearbox Type Preference</label>
+<select id="gbPref" onchange="calculate()">
+<option value="all">All Types</option>
+<option value="helical">Helical Inline</option>
+<option value="parallel">Parallel Shaft</option>
+<option value="bevel">Bevel-Helical</option>
+<option value="planetary">Planetary</option>
+</select>
+</div>
+<button class="calc-btn" onclick="calculate()">⚡ Find Best Match</button>
+</div>
+</div>
+</div>
+<!-- RIGHT RESULTS -->
+<div class="right-col" id="rightCol">
+<div class="panel" id="emptyPanel">
+<div class="panel-body">
+<div class="empty-state">
+<div class="big-icon">⚙️</div>
+<p>Fill in your application parameters on the left and click <strong style="color:var(--orange)">Find Best Match</strong> to get motor &amp; gearbox recommendations.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="aff-wrap" id="aff-universal">
+<div class="aff-title">📚 Recommended Resource</div>
+<div class="aff-grid" style="grid-template-columns:1fr;">
+<div class="aff-card">
+<div class="aff-card-top">
+<div class="aff-icon">📖</div>
+<span class="aff-badge">Amazon</span>
+</div>
+<div class="aff-name">R.S. Khurmi — Theory of Machines &amp; Machine Design</div>
+<div class="aff-desc">The most trusted mechanical engineering reference book for Indian students &amp; professionals.
+        Covers gears, springs, shafts, belts, chains and more — everything this calculator is based on.</div>
+<a class="aff-btn" href="https://amzn.to/4tEIoui" rel="noopener sponsored" target="_blank">
+        🛒 Buy on Amazon India →
+      </a>
+</div>
+</div>
+<p class="aff-disclaimer">* Affiliate link — aapko koi extra cost nahi. Hum small commission earn karte hain.</p>
+</div>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
 </footer>
-
 <script>
 /* ── STATE ── */
 let unitMode = 'si';
@@ -562,7 +610,7 @@ function renderResults(d) {
 
       <!-- BARS -->
       <div style="margin-top:16px;">
-        <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">Utilisation Overview</div>
+        <div style="font-family:Arial, sans-serif;font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">Utilisation Overview</div>
         ${[
           { label:'Power Utilisation',  val: Math.min(100,(d.outputPower/d.designPower*100)), color:'var(--orange)' },
           { label:'Safety Margin Used', val: Math.min(100,(1/d.sf*100)),                       color:'var(--blue)'   },
@@ -570,8 +618,8 @@ function renderResults(d) {
         ].map(b => `
           <div style="margin-bottom:9px;">
             <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-              <span style="font-family:var(--font-m);font-size:10px;color:var(--text2);">${b.label}</span>
-              <span style="font-family:var(--font-d);font-size:13px;font-weight:700;color:${b.color};">${b.val.toFixed(0)}%</span>
+              <span style="font-family:Arial, sans-serif;font-size:10px;color:var(--text2);">${b.label}</span>
+              <span style="font-family:Arial, sans-serif;font-size:13px;font-weight:700;color:${b.color};">${b.val.toFixed(0)}%</span>
             </div>
             <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
               <div style="height:100%;width:${b.val}%;background:${b.color};border-radius:2px;"></div>
@@ -581,7 +629,7 @@ function renderResults(d) {
 
       <!-- FORMULA -->
       <div style="margin-top:14px;">
-        <div style="font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:7px;">Key Equations</div>
+        <div style="font-family:Arial, sans-serif;font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:7px;">Key Equations</div>
         <div class="formula-box"><span class="fk">OutRPM</span>  = v ÷ (π×d) × 60  =  <span class="fv">${d.outRPM.toFixed(1)} RPM</span>
 <span class="fk">Ratio</span>    = N_motor ÷ N_out   =  <span class="fv">${d.gearRatio.toFixed(3)} : 1</span>
 <span class="fk">Torque</span>   = m × g × r         =  <span class="fv">${fT(d.torqSI)} ${uT}</span>
@@ -600,7 +648,7 @@ function renderResults(d) {
     <div class="panel-header">
       <div class="panel-icon">⚡</div>
       <div style="flex:1"><div class="panel-title">Matched <em>Motors</em></div></div>
-      <span style="font-family:var(--font-m);font-size:10px;color:var(--text3);">Need: ${pKW(d.designPower)} kW</span>
+      <span style="font-family:Arial, sans-serif;font-size:10px;color:var(--text3);">Need: ${pKW(d.designPower)} kW</span>
     </div>
     <div class="panel-body">
       ${d.motorMatches.length === 0
@@ -627,7 +675,7 @@ function renderResults(d) {
                 <div class="match-spec"><span class="match-spec-label">Weight</span><span class="match-spec-val">${m.weight} kg</span></div>
               </div>
               <div class="match-bar"><div class="match-bar-fill" style="width:${util}%"></div></div>
-              <div style="font-family:var(--font-m);font-size:9px;color:var(--text3);margin-top:4px;text-align:right;">${util}% utilisation</div>
+              <div style="font-family:Arial, sans-serif;font-size:9px;color:var(--text3);margin-top:4px;text-align:right;">${util}% utilisation</div>
             </div>`;
           }).join('')}</div>`
       }
@@ -639,7 +687,7 @@ function renderResults(d) {
     <div class="panel-header">
       <div class="panel-icon">⚙️</div>
       <div style="flex:1"><div class="panel-title">Matched <em>Gearboxes</em></div></div>
-      <span style="font-family:var(--font-m);font-size:10px;color:var(--text3);">Need: ${d.gearRatio.toFixed(1)}:1 / ${fT(d.designTorque)} ${uT}</span>
+      <span style="font-family:Arial, sans-serif;font-size:10px;color:var(--text3);">Need: ${d.gearRatio.toFixed(1)}:1 / ${fT(d.designTorque)} ${uT}</span>
     </div>
     <div class="panel-body">
       ${d.gearboxMatches.length === 0
@@ -668,7 +716,7 @@ function renderResults(d) {
                 <div class="match-spec"><span class="match-spec-label">Backlash</span><span class="match-spec-val">${g.backlash}</span></div>
               </div>
               <div class="match-bar"><div class="match-bar-fill" style="width:${tUtil}%"></div></div>
-              <div style="font-family:var(--font-m);font-size:9px;color:var(--text3);margin-top:4px;text-align:right;">${tUtil}% torque load</div>
+              <div style="font-family:Arial, sans-serif;font-size:9px;color:var(--text3);margin-top:4px;text-align:right;">${tUtil}% torque load</div>
             </div>`;
           }).join('')}</div>`
       }
