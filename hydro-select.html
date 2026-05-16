@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HydroSelect – Hydraulic System Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #070b12;
+  --bg2:      #0d1420;
+  --bg3:      #111928;
+  --bg4:      #161f30;
+  --border:   rgba(56,189,248,0.08);
+  --border2:  rgba(56,189,248,0.18);
+  --border3:  rgba(56,189,248,0.35);
+  --cyan:     #38bdf8;
+  --cyan2:    #7dd3fc;
+  --cyan3:    rgba(56,189,248,0.10);
+  --cyan4:    rgba(56,189,248,0.05);
+  --amber:    #fbbf24;
+  --amber2:   rgba(251,191,36,0.10);
+  --green:    #34d399;
+  --green2:   rgba(52,211,153,0.10);
+  --red:      #f87171;
+  --red2:     rgba(248,113,113,0.10);
+  --orange:   #fb923c;
+  --orange2:  rgba(251,146,60,0.10);
+  --text:     #e2e8f0;
+  --text2:    #94a3b8;
+  --text3:    #475569;
+  --font-d:   'Syne', sans-serif;
+  --font-m:   'JetBrains Mono', monospace;
+  --r:        10px;
+  --sh:       0 4px 24px rgba(0,0,0,0.4);
+  --sh2:      0 8px 40px rgba(0,0,0,0.6);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-m);line-height:1.6;min-height:100vh;overflow-x:hidden}
+
+/* BACKGROUND */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 700px 500px at 70% 10%, rgba(56,189,248,0.04) 0%,transparent 60%),
+    radial-gradient(ellipse 500px 400px at 15% 85%, rgba(251,191,36,0.03) 0%,transparent 60%),
+    radial-gradient(ellipse 300px 300px at 50% 50%, rgba(56,189,248,0.02) 0%,transparent 70%);}
+
+/* GRID TEXTURE */
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.3;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,0.03) 1px,transparent 1px);
+  background-size:40px 40px;}
+
+.z1{position:relative;z-index:1}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:200;background:rgba(7,11,18,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);padding:0 24px;height:62px;
+  display:flex;align-items:center;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-icon{width:34px;height:34px;border-radius:8px;background:var(--cyan3);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;font-size:16px}
+.logo-text{font-family:var(--font-d);font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.02em}
+.logo-text em{color:var(--cyan);font-style:normal}
+.logo-badge{font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;background:var(--cyan3);color:var(--cyan);border:1px solid var(--border2);margin-left:4px}
+
+/* STEP PROGRESS */
+.step-progress{flex:1;display:flex;align-items:center;justify-content:center;gap:0}
+.sp-item{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;
+  font-size:11px;font-weight:600;letter-spacing:0.04em;color:var(--text3);cursor:pointer;transition:all 0.2s;
+  white-space:nowrap}
+.sp-item:hover{color:var(--text2)}
+.sp-num{width:22px;height:22px;border-radius:6px;background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;transition:all 0.2s}
+.sp-item.active{color:var(--cyan)}
+.sp-item.active .sp-num{background:var(--cyan);color:var(--bg);border-color:var(--cyan)}
+.sp-item.done{color:var(--text2)}
+.sp-item.done .sp-num{background:var(--green2);color:var(--green);border-color:rgba(52,211,153,0.3)}
+.sp-arrow{color:var(--text3);font-size:12px;flex-shrink:0}
+
+/* UNIT TOGGLE */
+.unit-toggle{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;flex-shrink:0}
+.utbtn{padding:5px 14px;font-family:var(--font-m);font-size:10px;font-weight:700;letter-spacing:0.08em;
+  text-transform:uppercase;background:transparent;color:var(--text3);border:none;cursor:pointer;transition:all 0.18s}
+.utbtn.active{background:var(--cyan);color:var(--bg)}
+
+/* ── MAIN LAYOUT ── */
+.main{display:grid;grid-template-columns:1fr 340px;gap:20px;padding:24px;max-width:1300px;margin:0 auto;min-height:calc(100vh - 62px)}
+
+/* ── STEP CONTENT ── */
+.step-content{display:none}
+.step-content.active{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* SECTION LABELS */
+.sec-label{font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px}
+.sec-label::before{content:'';width:20px;height:1px;background:var(--cyan);opacity:0.5}
+
+/* STEP HEADER */
+.step-hdr{margin-bottom:24px}
+.step-hdr h2{font-family:var(--font-d);font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:6px}
+.step-hdr h2 span{color:var(--cyan)}
+.step-hdr p{font-size:12px;color:var(--text2);line-height:1.7;max-width:500px}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px;transition:border-color 0.2s}
+.card:hover{border-color:var(--border2)}
+.card+.card{margin-top:14px}
+
+/* ACTUATOR TYPE SELECTOR */
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.atype-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px;
+  cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:8px;text-align:center;align-items:center}
+.atype-card:hover{border-color:var(--border2);background:var(--bg4)}
+.atype-card.active{border-color:var(--cyan);background:var(--cyan4);box-shadow:0 0 0 1px rgba(56,189,248,0.1)}
+.atype-icon{font-size:28px}
+.atype-name{font-family:var(--font-d);font-size:14px;font-weight:700;color:var(--text)}
+.atype-desc{font-size:10px;color:var(--text2)}
+
+/* INPUT GRID */
+.inp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.inp-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.inp-group{display:flex;flex-direction:column;gap:5px}
+.inp-group.full{grid-column:span 2}
+label.lbl{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2)}
+.inp-wrap{display:flex;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color 0.18s}
+.inp-wrap:focus-within{border-color:var(--border3);box-shadow:0 0 0 3px rgba(56,189,248,0.06)}
+input[type=number],input[type=range],select{background:transparent;border:none;outline:none;font-family:var(--font-m);color:var(--text)}
+input[type=number]{flex:1;padding:9px 12px;font-size:13px;width:100%}
+input[type=number]::-webkit-inner-spin-button{opacity:0.3}
+input[type=number]::placeholder{color:var(--text3)}
+select{flex:1;padding:9px 12px;font-size:12px;cursor:pointer;
+  appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+select option{background:#0d1420}
+.utag{padding:0 11px;font-size:9px;font-weight:700;letter-spacing:0.07em;color:var(--cyan);white-space:nowrap;
+  border-left:1px solid var(--border);background:var(--cyan4)}
+
+/* RADIO GROUP */
+.radio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px}
+.radio-opt{position:relative}
+.radio-opt input{position:absolute;opacity:0;pointer-events:none}
+.radio-label{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;
+  border-radius:8px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;text-align:center;
+  transition:all 0.18s;font-size:11px;color:var(--text2)}
+.radio-opt input:checked + .radio-label{border-color:var(--cyan);background:var(--cyan4);color:var(--cyan)}
+.radio-label .r-icon{font-size:18px}
+.radio-label .r-name{font-weight:600;font-size:10px;letter-spacing:0.04em}
+
+/* PRESSURE SLIDER */
+.pressure-wrap{padding:20px 0 8px}
+.pressure-display{display:flex;align-items:baseline;gap:6px;margin-bottom:16px}
+.pressure-val{font-family:var(--font-d);font-size:48px;font-weight:800;color:var(--cyan);letter-spacing:-0.03em;line-height:1}
+.pressure-unit{font-size:16px;color:var(--text2)}
+.pressure-label{font-size:10px;color:var(--text3);margin-top:2px}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;outline:none;
+  background:linear-gradient(90deg,var(--cyan) var(--pct,40%),var(--bg4) var(--pct,40%));cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--cyan);border:2px solid var(--bg);box-shadow:0 0 0 3px var(--cyan3);cursor:pointer}
+.pressure-marks{display:flex;justify-content:space-between;margin-top:8px;font-size:9px;color:var(--text3)}
+.pump-reco{margin-top:12px;padding:10px 14px;border-radius:8px;background:var(--cyan4);border:1px solid var(--border2);
+  font-size:11px;color:var(--cyan);display:flex;align-items:center;gap:8px}
+
+/* CALC PARAMS */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.calc-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.ci-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.ci-value{font-family:var(--font-d);font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1}
+.ci-value .civ-num{color:var(--cyan)}
+.ci-unit{font-size:11px;color:var(--text2);margin-left:4px}
+.ci-sub{font-size:10px;color:var(--text3);margin-top:4px}
+.ci-bar{height:3px;background:var(--bg4);border-radius:2px;margin-top:8px;overflow:hidden}
+.ci-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width 0.4s ease}
+
+/* COMPONENT CARDS */
+.comp-section{margin-top:14px}
+.comp-section+.comp-section{margin-top:20px}
+.comp-section-title{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px}
+.comp-section-title .icon{font-size:16px}
+.comp-grid{display:grid;grid-template-columns:1fr;gap:8px}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;
+  cursor:pointer;transition:all 0.2s;display:flex;gap:12px;align-items:flex-start;position:relative}
+.comp-card:hover{border-color:var(--border2);background:var(--bg3)}
+.comp-card.selected{border-color:var(--cyan);background:var(--cyan4)}
+.comp-card.selected::before{content:'✓';position:absolute;top:10px;right:12px;
+  font-size:11px;font-weight:700;color:var(--cyan);background:var(--cyan3);
+  width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.cc-badge{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:9px;
+  background:var(--bg4);border:1px solid var(--border);font-size:17px;flex-shrink:0}
+.cc-info{flex:1;min-width:0}
+.cc-brand{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3)}
+.cc-name{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--text);margin:2px 0 5px}
+.cc-specs{display:flex;flex-wrap:wrap;gap:5px}
+.cc-spec{font-size:9px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--bg4);
+  color:var(--text2);border:1px solid var(--border);letter-spacing:0.04em}
+.cc-spec.hi{background:var(--cyan4);color:var(--cyan);border-color:var(--border2)}
+.cc-note{font-size:10px;color:var(--text3);margin-top:5px;line-height:1.5}
+.best-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;background:var(--amber2);color:var(--amber);
+  border:1px solid rgba(251,191,36,0.25);letter-spacing:0.06em;text-transform:uppercase;margin-top:6px;display:inline-block}
+
+/* STEP NAV BUTTONS */
+.step-nav{display:flex;gap:10px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.btn-next{flex:1;padding:13px;background:var(--cyan);color:var(--bg);border:none;border-radius:10px;
+  font-family:var(--font-d);font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all 0.18s;box-shadow:0 4px 20px rgba(56,189,248,0.25)}
+.btn-next:hover{background:#7dd3fc;transform:translateY(-1px);box-shadow:0 8px 28px rgba(56,189,248,0.3)}
+.btn-back{padding:13px 22px;background:transparent;color:var(--text2);border:1px solid var(--border);border-radius:10px;
+  font-family:var(--font-m);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.18s}
+.btn-back:hover{border-color:var(--border2);color:var(--text)}
+
+/* ── RIGHT SIDEBAR ── */
+.sidebar{position:sticky;top:82px;height:fit-content;display:flex;flex-direction:column;gap:14px}
+
+.param-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
+.param-title{font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;
+  display:flex;align-items:center;gap:7px}
+.param-title::before{content:'';width:3px;height:12px;border-radius:2px;background:var(--cyan);flex-shrink:0}
+
+.param-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+.param-row:last-child{border-bottom:none;padding-bottom:0}
+.pr-lbl{font-size:10px;color:var(--text2)}
+.pr-val{font-size:11px;font-weight:700;color:var(--text);font-family:var(--font-m)}
+.pr-val.hi{color:var(--cyan)}
+.pr-val.ok{color:var(--green)}
+.pr-val.warn{color:var(--amber)}
+.pr-val.bad{color:var(--red)}
+
+/* STATUS INDICATORS */
+.status-line{display:flex;align-items:center;gap:6px;font-size:10px;padding:8px 12px;border-radius:7px;margin-top:8px}
+.status-line.ok{background:var(--green2);color:var(--green);border:1px solid rgba(52,211,153,0.2)}
+.status-line.warn{background:var(--amber2);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+.status-line.bad{background:var(--red2);color:var(--red);border:1px solid rgba(248,113,113,0.2)}
+.status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+/* ── STEP 4: SUMMARY ── */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.summary-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px}
+.summary-card.full{grid-column:span 2}
+.sc-title{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;
+  display:flex;align-items:center;gap:8px}
+.sc-title .icon{font-size:16px}
+
+/* BOM TABLE */
+.bom-table{width:100%;border-collapse:collapse;font-size:11px}
+.bom-table th{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);
+  padding:6px 10px;border-bottom:1px solid var(--border);text-align:left}
+.bom-table td{padding:9px 10px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+.bom-table tr:last-child td{border-bottom:none}
+.bom-table td:first-child{color:var(--cyan);font-weight:600}
+.bom-table td:nth-child(2){color:var(--text);font-weight:600}
+.bom-table tr:hover td{background:var(--bg3)}
+
+/* PERF GRID */
+.perf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.perf-item{text-align:center;padding:14px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)}
+.perf-num{font-family:var(--font-d);font-size:22px;font-weight:800;color:var(--cyan);letter-spacing:-0.02em}
+.perf-lbl{font-size:9px;color:var(--text3);margin-top:3px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* SCHEMATIC */
+.schematic-wrap{background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+#schematic{display:block;width:100%}
+
+/* NOTES */
+.note-list{display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.note-item{display:flex;gap:9px;align-items:flex-start;font-size:11px;color:var(--text2);line-height:1.55;
+  padding:9px 12px;background:var(--bg3);border-radius:7px;border:1px solid var(--border)}
+.note-icon{flex-shrink:0;font-size:13px}
+
+/* PRINT / EXPORT */
+.export-btn{width:100%;padding:12px;background:transparent;border:1px solid var(--border2);border-radius:10px;
+  font-family:var(--font-m);font-size:12px;font-weight:600;color:var(--cyan);cursor:pointer;transition:all 0.18s;
+  display:flex;align-items:center;justify-content:center;gap:7px}
+.export-btn:hover{background:var(--cyan4);border-color:var(--border3)}
+
+/* FILTER TAG */
+.filter-tag{font-size:9px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;margin-right:4px}
+.ft-green{background:var(--green2);color:var(--green);border:1px solid rgba(52,211,153,0.2)}
+.ft-red{background:var(--red2);color:var(--red);border:1px solid rgba(248,113,113,0.2)}
+.ft-amber{background:var(--amber2);color:var(--amber);border:1px solid rgba(251,191,36,0.2)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .main{grid-template-columns:1fr}
+  .sidebar{position:static}
+  .summary-grid{grid-template-columns:1fr}
+  .summary-card.full{grid-column:span 1}
+  .perf-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .inp-grid{grid-template-columns:1fr}
+  .inp-group.full{grid-column:span 1}
+  .calc-grid{grid-template-columns:1fr}
+  .step-progress .sp-item .sp-label{display:none}
+  header{padding:0 14px;gap:12px}
+  .main{padding:14px}
+  .type-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="z1">
+  <a href="#" class="logo">
+    <div class="logo-icon">💧</div>
+    <div class="logo-text">Hydro<em>Select</em></div>
+    <span class="logo-badge">v2.0</span>
+  </a>
+  <div class="step-progress" id="stepProgress"></div>
+  <div class="unit-toggle">
+    <button class="utbtn active" onclick="setUnit('si')" id="btnSI">SI</button>
+    <button class="utbtn" onclick="setUnit('imp')" id="btnIMP">IMP</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main z1">
+
+  <!-- STEP FORMS -->
+  <div>
+    <!-- ══ STEP 1 ══ -->
+    <div class="step-content active" id="step1">
+      <div class="step-hdr">
+        <div class="sec-label">Step 1 of 4</div>
+        <h2>Application <span>Requirements</span></h2>
+        <p>Define the mechanical requirements: output force or torque, operating speed, duty cycle, and environmental conditions.</p>
+      </div>
+
+      <!-- Actuator type -->
+      <div class="card">
+        <div class="sec-label">Actuator Type</div>
+        <div class="type-grid">
+          <div class="atype-card active" id="at-linear" onclick="setActuator('linear')">
+            <div class="atype-icon">↕️</div>
+            <div class="atype-name">Linear (Cylinder)</div>
+            <div class="atype-desc">Push / pull motion. Hydraulic cylinder extends and retracts.</div>
+          </div>
+          <div class="atype-card" id="at-rotary" onclick="setActuator('rotary')">
+            <div class="atype-icon">🔄</div>
+            <div class="atype-name">Rotary (Motor)</div>
+            <div class="atype-desc">Continuous rotation. Hydraulic motor drives shaft.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Force / Speed -->
+      <div class="card">
+        <div class="sec-label" id="lbl-force-sec">Force & Speed Parameters</div>
+        <div class="inp-grid">
+          <div class="inp-group">
+            <label class="lbl" id="lbl-force">Required Force</label>
+            <div class="inp-wrap">
+              <input type="number" id="inp-force" value="50000" min="100" step="500">
+              <span class="utag" id="utag-force">N</span>
+            </div>
+          </div>
+          <div class="inp-group">
+            <label class="lbl" id="lbl-speed">Piston Speed</label>
+            <div class="inp-wrap">
+              <input type="number" id="inp-speed" value="150" min="1" step="10">
+              <span class="utag" id="utag-speed">mm/s</span>
+            </div>
+          </div>
+          <div class="inp-group">
+            <label class="lbl" id="lbl-stroke">Stroke Length</label>
+            <div class="inp-wrap">
+              <input type="number" id="inp-stroke" value="500" min="10" step="10">
+              <span class="utag" id="utag-stroke">mm</span>
+            </div>
+          </div>
+          <div class="inp-group">
+            <label class="lbl">Cycles / Hour</label>
+            <div class="inp-wrap">
+              <input type="number" id="inp-cycles" value="60" min="1" step="5">
+              <span class="utag">cyc/h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Duty Cycle & Load -->
+      <div class="card">
+        <div class="sec-label">Operating Conditions</div>
+        <div class="inp-grid">
+          <div class="inp-group">
+            <label class="lbl">Duty Cycle</label>
+            <div class="inp-wrap">
+              <input type="number" id="inp-duty" value="60" min="5" max="100" step="5">
+              <span class="utag">%</span>
+            </div>
+          </div>
+          <div class="inp-group">
+            <label class="lbl">Pump Drive Speed</label>
+            <div class="inp-wrap">
+              <input type="number" id="inp-pumpRpm" value="1450" min="750" max="4000" step="50">
+              <span class="utag">RPM</span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:14px">
+          <label class="lbl" style="display:block;margin-bottom:8px">Load Type</label>
+          <div class="radio-grid">
+            <div class="radio-opt"><input type="radio" name="loadType" value="static" id="lt-static">
+              <label class="radio-label" for="lt-static"><span class="r-icon">🏋️</span><span class="r-name">Static</span><span style="font-size:9px;color:var(--text3)">SF 1.1</span></label></div>
+            <div class="radio-opt"><input type="radio" name="loadType" value="dynamic" id="lt-dynamic" checked>
+              <label class="radio-label" for="lt-dynamic"><span class="r-icon">⚡</span><span class="r-name">Dynamic</span><span style="font-size:9px;color:var(--text3)">SF 1.25</span></label></div>
+            <div class="radio-opt"><input type="radio" name="loadType" value="shock" id="lt-shock">
+              <label class="radio-label" for="lt-shock"><span class="r-icon">💥</span><span class="r-name">Shock</span><span style="font-size:9px;color:var(--text3)">SF 1.5</span></label></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Environment -->
+      <div class="card">
+        <div class="sec-label">Environment & Temperature</div>
+        <div class="inp-grid">
+          <div class="inp-group">
+            <label class="lbl">Environment</label>
+            <div class="inp-wrap">
+              <select id="inp-env">
+                <option value="clean">Indoor – Clean</option>
+                <option value="industrial" selected>Industrial – General</option>
+                <option value="outdoor">Outdoor / Mobile</option>
+                <option value="hazardous">Hazardous / Offshore</option>
+              </select>
+            </div>
+          </div>
+          <div class="inp-group">
+            <label class="lbl">Contamination Level</label>
+            <div class="inp-wrap">
+              <select id="inp-contam">
+                <option value="low">Low – Clean room</option>
+                <option value="medium" selected>Medium – Factory</option>
+                <option value="high">High – Mining / Marine</option>
+              </select>
+            </div>
+          </div>
+          <div class="inp-group">
+            <label class="lbl" id="lbl-tmin">Min. Temperature</label>
+            <div class="inp-wrap">
+              <input type="number" id="inp-tmin" value="5" step="5">
+              <span class="utag" id="utag-temp">°C</span>
+            </div>
+          </div>
+          <div class="inp-group">
+            <label class="lbl" id="lbl-tmax">Max. Temperature</label>
+            <div class="inp-wrap">
+              <input type="number" id="inp-tmax" value="60" step="5">
+              <span class="utag" id="utag-temp2">°C</span>
+            </div>
+          </div>
+          <div class="inp-group full" style="flex-direction:row;gap:20px;align-items:center;padding-top:4px">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11px;color:var(--text2)">
+              <input type="checkbox" id="inp-fire" style="width:14px;height:14px;accent-color:var(--cyan)">
+              Fire / explosion hazard (requires HF fluid)
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11px;color:var(--text2)">
+              <input type="checkbox" id="inp-bio" style="width:14px;height:14px;accent-color:var(--cyan)">
+              Biodegradable fluid required
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-next" onclick="goStep(2)">Calculate System Parameters →</button>
+      </div>
+    </div>
+
+    <!-- ══ STEP 2 ══ -->
+    <div class="step-content" id="step2">
+      <div class="step-hdr">
+        <div class="sec-label">Step 2 of 4</div>
+        <h2>System Design <span>Parameters</span></h2>
+        <p>Adjust the target operating pressure. All system parameters recalculate in real time.</p>
+      </div>
+
+      <div class="card">
+        <div class="sec-label">Target System Pressure</div>
+        <div class="pressure-wrap">
+          <div class="pressure-display">
+            <span class="pressure-val" id="pres-display">200</span>
+            <div>
+              <div class="pressure-unit" id="pres-unit">bar</div>
+              <div class="pressure-label">System Pressure</div>
+            </div>
+          </div>
+          <input type="range" id="pres-slider" min="50" max="480" value="200" step="5" oninput="onPressureChange(this.value)">
+          <div class="pressure-marks">
+            <span id="pm0">50 bar</span><span id="pm1">100 bar</span><span id="pm2">200 bar</span><span id="pm3">320 bar</span><span id="pm4">480 bar</span>
+          </div>
+        </div>
+        <div class="pump-reco" id="pumpTypeReco">⚙️ Adjust pressure to determine optimal pump type</div>
+      </div>
+
+      <div class="calc-grid">
+        <div class="calc-item">
+          <div class="ci-label" id="ci-bore-lbl">Cylinder Bore</div>
+          <div class="ci-value"><span class="civ-num" id="ci-bore">—</span><span class="ci-unit" id="ci-bore-u">mm</span></div>
+          <div class="ci-sub" id="ci-bore-sub">Required bore diameter</div>
+          <div class="ci-bar"><div class="ci-bar-fill" id="bar-bore" style="width:0%"></div></div>
+        </div>
+        <div class="calc-item">
+          <div class="ci-label">Flow Rate (max)</div>
+          <div class="ci-value"><span class="civ-num" id="ci-flow">—</span><span class="ci-unit" id="ci-flow-u">L/min</span></div>
+          <div class="ci-sub" id="ci-flow-sub">At operating speed</div>
+          <div class="ci-bar"><div class="ci-bar-fill" id="bar-flow" style="width:0%"></div></div>
+        </div>
+        <div class="calc-item">
+          <div class="ci-label">Pump Power</div>
+          <div class="ci-value"><span class="civ-num" id="ci-power">—</span><span class="ci-unit" id="ci-power-u">kW</span></div>
+          <div class="ci-sub">Including 85% sys. efficiency</div>
+          <div class="ci-bar"><div class="ci-bar-fill" id="bar-power" style="width:0%;background:linear-gradient(90deg,var(--amber),var(--orange))"></div></div>
+        </div>
+        <div class="calc-item">
+          <div class="ci-label">Pump Displacement</div>
+          <div class="ci-value"><span class="civ-num" id="ci-displ">—</span><span class="ci-unit" id="ci-displ-u">cc/rev</span></div>
+          <div class="ci-sub" id="ci-displ-sub">At drive speed</div>
+          <div class="ci-bar"><div class="ci-bar-fill" id="bar-displ" style="width:0%"></div></div>
+        </div>
+        <div class="calc-item">
+          <div class="ci-label">Heat Generation</div>
+          <div class="ci-value"><span class="civ-num" id="ci-heat">—</span><span class="ci-unit" id="ci-heat-u">kW</span></div>
+          <div class="ci-sub" id="ci-heat-sub">At duty cycle</div>
+        </div>
+        <div class="calc-item">
+          <div class="ci-label">Reservoir Volume</div>
+          <div class="ci-value"><span class="civ-num" id="ci-res">—</span><span class="ci-unit" id="ci-res-u">L</span></div>
+          <div class="ci-sub">3× pump flow rule</div>
+        </div>
+      </div>
+
+      <div id="step2-status" style="margin-top:14px"></div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="goStep(1)">← Back</button>
+        <button class="btn-next" onclick="goStep(3)">Select Components →</button>
+      </div>
+    </div>
+
+    <!-- ══ STEP 3 ══ -->
+    <div class="step-content" id="step3">
+      <div class="step-hdr">
+        <div class="sec-label">Step 3 of 4</div>
+        <h2>Component <span>Selection</span></h2>
+        <p>Catalog-matched components based on your calculated parameters. Select one per category.</p>
+      </div>
+
+      <div id="comp-content">
+        <!-- dynamically built -->
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-back" onclick="goStep(2)">← Back</button>
+        <button class="btn-next" onclick="goStep(4)">Generate System Report →</button>
+      </div>
+    </div>
+
+    <!-- ══ STEP 4 ══ -->
+    <div class="step-content" id="step4">
+      <div class="step-hdr">
+        <div class="sec-label">Step 4 of 4</div>
+        <h2>System <span>Summary</span></h2>
+        <p>Complete hydraulic system specification with schematic, bill of materials, and design notes.</p>
+      </div>
+      <div id="summary-content"></div>
+      <div class="step-nav" style="margin-top:20px">
+        <button class="btn-back" onclick="goStep(3)">← Back</button>
+        <button class="export-btn" onclick="window.print()">🖨️ Print / Export Report</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SIDEBAR ══ -->
+  <div class="sidebar">
+    <div class="param-card">
+      <div class="param-title">Live Parameters</div>
+      <div class="param-row"><span class="pr-lbl">Actuator Type</span><span class="pr-val hi" id="sp-type">Linear</span></div>
+      <div class="param-row"><span class="pr-lbl">Design Force</span><span class="pr-val" id="sp-force">—</span></div>
+      <div class="param-row"><span class="pr-lbl">System Pressure</span><span class="pr-val hi" id="sp-pres">200 bar</span></div>
+      <div class="param-row"><span class="pr-lbl">Flow Rate</span><span class="pr-val" id="sp-flow">—</span></div>
+      <div class="param-row"><span class="pr-lbl">Pump Power</span><span class="pr-val" id="sp-power">—</span></div>
+      <div class="param-row"><span class="pr-lbl" id="sp-bore-lbl">Bore Diameter</span><span class="pr-val" id="sp-bore">—</span></div>
+      <div class="param-row"><span class="pr-lbl">Heat Load</span><span class="pr-val" id="sp-heat">—</span></div>
+      <div class="param-row"><span class="pr-lbl">Reservoir</span><span class="pr-val" id="sp-res">—</span></div>
+    </div>
+
+    <div class="param-card">
+      <div class="param-title">ISO Cleanliness</div>
+      <div class="param-row"><span class="pr-lbl">Target Class</span><span class="pr-val hi" id="sp-iso">—</span></div>
+      <div class="param-row"><span class="pr-lbl">Filter Rating</span><span class="pr-val" id="sp-filter">—</span></div>
+      <div class="param-row"><span class="pr-lbl">Filter β</span><span class="pr-val" id="sp-beta">—</span></div>
+    </div>
+
+    <div class="param-card">
+      <div class="param-title">Safety Factors</div>
+      <div class="param-row"><span class="pr-lbl">Load SF</span><span class="pr-val" id="sp-sf">1.25</span></div>
+      <div class="param-row"><span class="pr-lbl">PRV Setting</span><span class="pr-val" id="sp-prv">—</span></div>
+      <div class="param-row"><span class="pr-lbl">Pressure Ratio</span><span class="pr-val" id="sp-ratio">—</span></div>
+    </div>
+
+    <!-- Mini Schematic Preview -->
+    <div class="param-card">
+      <div class="param-title">Circuit Preview</div>
+      <div class="schematic-wrap">
+        <svg id="miniSchematic" viewBox="0 0 300 220" style="display:block;width:100%" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+const S = {
+  unit:'si', step:1,
+  actuator:'linear',
+  force:50000, speed:150, stroke:500, cycles:60,
+  duty:60, pumpRpm:1450, loadType:'dynamic',
+  env:'industrial', contam:'medium',
+  tmin:5, tmax:60, fire:false, bio:false,
+  pressure:200,
+  selPump:null, selActuator:null, selDCV:null, selPRV:null, selFluid:null, selFilter:null,
+};
+
+/* ══════════════════════════════════════
+   UNIT HELPERS
+══════════════════════════════════════ */
+const CONV = {
+  force:    {si:1,      imp:0.224809},
+  pressure: {si:1,      imp:14.5038},
+  flow:     {si:1,      imp:0.264172},
+  speed:    {si:1,      imp:0.039370},
+  length:   {si:1,      imp:0.039370},
+  power:    {si:1,      imp:1.34102},
+  torque:   {si:1,      imp:0.737562},
+  volume:   {si:1,      imp:0.264172},
+  displ:    {si:1,      imp:0.061024},
+  temp:     {si:x=>x,  imp:x=>x*9/5+32},
+};
+const ULBL = {
+  force:{si:'N',imp:'lbf'},pressure:{si:'bar',imp:'psi'},flow:{si:'L/min',imp:'GPM'},
+  speed:{si:'mm/s',imp:'in/s'},length:{si:'mm',imp:'in'},power:{si:'kW',imp:'hp'},
+  torque:{si:'N·m',imp:'lbf·ft'},volume:{si:'L',imp:'gal'},displ:{si:'cc/rev',imp:'in³/rev'},
+  temp:{si:'°C',imp:'°F'},
+};
+function cv(val,type){return val*(CONV[type][S.unit]===undefined?1:CONV[type][S.unit]);}
+function cvTemp(val){return S.unit==='si'?val:val*9/5+32;}
+function ul(type){return ULBL[type][S.unit];}
+function fmt(v,d=1){if(!isFinite(v)||isNaN(v))return '—';return parseFloat(v.toFixed(d)).toLocaleString();}
+
+/* ══════════════════════════════════════
+   CATALOG DATA
+══════════════════════════════════════ */
+const PUMPS = [
+  {id:'gear_parker',brand:'Parker',series:'PGP505',type:'gear',
+   displRange:[6,42],maxPres:240,maxRpm:3500,eff:0.88,noise:72,price:'$$',
+   icon:'⚙️',features:['Low cost','High reliability','Simple maintenance'],
+   note:'Best for low-medium pressure systems, excellent durability'},
+  {id:'gear_bosch',brand:'Bosch Rexroth',series:'AZPN External Gear',type:'gear',
+   displRange:[4,100],maxPres:250,maxRpm:4000,eff:0.89,noise:70,price:'$$',
+   icon:'⚙️',features:['Pressure balanced','Long service life','Wide displacement range'],
+   note:'Industrial-grade external gear, pressure-compensated bearings'},
+  {id:'vane_eaton',brand:'Eaton Vickers',series:'V Series Vane',type:'vane',
+   displRange:[14,100],maxPres:175,maxRpm:2800,eff:0.91,noise:65,price:'$$$',
+   icon:'🌀',features:['Ultra-low noise (65dB)','Smooth pressure','Fixed displacement'],
+   note:'Ideal for noise-sensitive industrial environments'},
+  {id:'piston_bosch_a10',brand:'Bosch Rexroth',series:'A10VSO Piston',type:'piston',
+   displRange:[10,140],maxPres:350,maxRpm:3000,eff:0.94,noise:68,price:'$$$$',
+   icon:'🔩',features:['Variable displacement','Load sensing','High efficiency 94%','Servo control'],
+   note:'Premium variable displacement, ideal for demanding duty cycles'},
+  {id:'piston_parker_p1',brand:'Parker',series:'P1/PD Axial Piston',type:'piston',
+   displRange:[28,260],maxPres:420,maxRpm:2400,eff:0.95,noise:70,price:'$$$$',
+   icon:'🔩',features:['420 bar rated','Variable displacement','CAN bus option','SAE flange'],
+   note:'High performance for heavy mobile and industrial machinery'},
+  {id:'piston_danfoss',brand:'Danfoss',series:'H1 Axial Piston',type:'piston',
+   displRange:[50,250],maxPres:480,maxRpm:2200,eff:0.96,noise:72,price:'$$$$$',
+   icon:'🔩',features:['Highest pressure class','Tandem configuration','Integrated electronics','Low ripple'],
+   note:'Extreme duty – mobile heavy machinery and offshore'},
+];
+
+const CYLINDERS = [
+  {id:'parker_cd70',brand:'Parker',series:'CD70 Tie-Rod',
+   boreRange:[25,320],maxPres:250,strokeMax:8000,seal:'Polyurethane',
+   mounting:['Foot','Clevis','Flange','Trunnion'],icon:'↕️',
+   note:'ISO 6020/6022 standard. Wide mounting options, universal industrial use'},
+  {id:'bosch_cdl',brand:'Bosch Rexroth',series:'CDL1 Tie-Rod',
+   boreRange:[32,500],maxPres:200,strokeMax:6000,seal:'NBR / Viton option',
+   mounting:['Foot','Clevis','Flange'],icon:'↕️',
+   note:'ISO 6022 heavy-duty tie-rod, excellent for machine tools'},
+  {id:'hydac_zr',brand:'HYDAC',series:'ZR Heavy-Duty',
+   boreRange:[40,250],maxPres:350,strokeMax:5000,seal:'Polyurethane / Viton',
+   mounting:['Foot','Flange','Clevis'],icon:'↕️',
+   note:'Heavy-duty construction for high-pressure applications, mining and press'},
+  {id:'bosch_cll',brand:'Bosch Rexroth',series:'CLL Mill Type',
+   boreRange:[63,500],maxPres:250,strokeMax:10000,seal:'PTFE / Viton',
+   mounting:['Front/rear flange','Side lug'],icon:'↕️',
+   note:'Mill-duty cylinder for steel and rolling mill applications, long stroke'},
+];
+
+const MOTORS = [
+  {id:'bosch_a2fm',brand:'Bosch Rexroth',series:'A2FM Fixed Piston',
+   displRange:[5,1000],maxPres:400,maxRpm:5000,type:'axial_piston',eff:0.95,icon:'🔄',
+   note:'Compact fixed displacement, high power density, wide speed range'},
+  {id:'parker_f11',brand:'Parker',series:'F11/F12 Axial Piston',
+   displRange:[5,250],maxPres:480,maxRpm:6000,type:'axial_piston',eff:0.95,icon:'🔄',
+   note:'Highest speed class, compact design, excellent for drives'},
+  {id:'eaton_gear',brand:'Eaton',series:'2000 Series Gear',
+   displRange:[36,360],maxPres:310,maxRpm:2400,type:'gear',eff:0.88,icon:'⚙️',
+   note:'Simple and robust gear motor, cost-effective for mobile applications'},
+  {id:'intermot_orbital',brand:'Intermot',series:'NES Orbital',
+   displRange:[50,2000],maxPres:250,maxRpm:500,type:'orbital',eff:0.92,icon:'🌀',
+   note:'High torque at low speed, compact orbital motor for winches and conveyors'},
+];
+
+const DCVS = [
+  {id:'parker_d1vw',brand:'Parker',series:'D1VW Directional',
+   type:'4/3 Spring-centered',size:'NG6 (D03)',maxPres:350,flowMax:80,
+   act:'Solenoid (12V/24V DC)',icon:'🔀',
+   note:'Widely available NG6 standard, full spool option range, IP65 coil'},
+  {id:'bosch_4we6',brand:'Bosch Rexroth',series:'4WE6 Directional',
+   type:'4/3 Spring-centered',size:'NG6',maxPres:350,flowMax:80,
+   act:'Solenoid / Lever',icon:'🔀',
+   note:'Industry benchmark, ISO 4401 NG6, hundreds of spool configurations'},
+  {id:'bosch_4we10',brand:'Bosch Rexroth',series:'4WE10 Directional',
+   type:'4/3 Spring-centered',size:'NG10',maxPres:315,flowMax:120,
+   act:'Solenoid',icon:'🔀',
+   note:'Higher flow NG10 size, suitable for flows up to 120 L/min'},
+  {id:'sun_ddem',brand:'Sun Hydraulics',series:'DDEM Solenoid Cartridge',
+   type:'2/2 N/C Cartridge',size:'Cartridge (7/8-14)',maxPres:345,flowMax:120,
+   act:'Solenoid',icon:'🔀',
+   note:'Space-efficient cartridge, ideal for manifold integration'},
+];
+
+const PRVS = [
+  {id:'sun_rdam',brand:'Sun Hydraulics',series:'RDAM Pilot Relief',
+   type:'Pilot-operated',maxPres:345,flowMax:150,icon:'🛡️',
+   note:'Low cracking pressure differential, stable setting, low heat'},
+  {id:'bosch_dbw',brand:'Bosch Rexroth',series:'DBW Pilot Relief',
+   type:'Pilot-operated',maxPres:315,flowMax:200,icon:'🛡️',
+   note:'Remote pressure adjustment, NG6/10, low pressure override'},
+  {id:'parker_rd',brand:'Parker',series:'RD102 Direct Relief',
+   type:'Direct-acting',maxPres:210,flowMax:40,icon:'🛡️',
+   note:'Simple direct-acting for low flow / low pressure systems'},
+];
+
+const FLUIDS = [
+  {id:'shell_tellus_vx46',brand:'Shell',name:'Tellus S2 VX 46',
+   class:'HM/HV',vg:'VG46',tempRange:[-20,90],vi:150,
+   fire:false,bio:false,icon:'💧',
+   note:'Premium wide-temp mineral oil, excellent low-temp viscosity (VI 150)'},
+  {id:'mobil_dte25',brand:'Mobil',name:'DTE 25 Hydraulic',
+   class:'HM',vg:'VG32',tempRange:[-25,80],vi:104,
+   fire:false,bio:false,icon:'💧',
+   note:'Cost-effective mineral oil, widely available, anti-wear additive package'},
+  {id:'castrol_hyspin46',brand:'Castrol',name:'Hyspin AWS 46',
+   class:'HM',vg:'VG46',tempRange:[-15,80],vi:97,
+   fire:false,bio:false,icon:'💧',
+   note:'Anti-wear mineral oil, general purpose, excellent oxidation stability'},
+  {id:'quaker_quin46',brand:'Quaker Houghton',name:'Quintolubric 888-46',
+   class:'HF-D',vg:'VG46',tempRange:[-30,90],vi:175,
+   fire:true,bio:true,icon:'🌿',
+   note:'Synthetic ester: fire-resistant + biodegradable, excellent VI 175'},
+  {id:'fuchs_renolin',brand:'Fuchs',name:'Renolin PG 46',
+   class:'HF-E',vg:'VG46',tempRange:[-40,100],vi:165,
+   fire:true,bio:false,icon:'🔥',
+   note:'PAG synthetic, widest temperature range, very low pour point −40°C'},
+  {id:'shell_naturelle',brand:'Shell',name:'Naturelle S2 46',
+   class:'HETG',vg:'VG46',tempRange:[-10,80],vi:155,
+   fire:false,bio:true,icon:'🌿',
+   note:'Rapidly biodegradable vegetable ester for environmentally sensitive areas'},
+];
+
+const FILTERS_CAT = [
+  {id:'hydac_0660',brand:'HYDAC',series:'0660 R Series',
+   rating:6,beta:'β6≥200',maxFlow:150,maxPres:10,icon:'🔽',
+   note:'Return line filter, high dirt-holding capacity, ΔP indicator'},
+  {id:'pall_hc9',brand:'Pall',series:'HC9600 Series',
+   rating:3,beta:'β3≥200',maxFlow:200,maxPres:420,icon:'🔽',
+   note:'High-pressure in-line filter, glass fiber element, up to 420 bar'},
+  {id:'parker_rfbn',brand:'Parker',series:'RFBN Return Filter',
+   rating:10,beta:'β10≥200',maxFlow:250,maxPres:10,icon:'🔽',
+   note:'High-capacity return filter for large systems, easy element change'},
+  {id:'hydac_hpfilt',brand:'HYDAC',series:'HF 3 High-Pressure',
+   rating:3,beta:'β3≥1000',maxFlow:100,maxPres:350,icon:'🔽',
+   note:'High-pressure filter for piston pump protection, absolute rated'},
+];
+
+/* ══════════════════════════════════════
+   CALCULATIONS
+══════════════════════════════════════ */
+function getSF(){return{static:1.1,dynamic:1.25,shock:1.5}[S.loadType]||1.25;}
+
+function calc(){
+  const sf = getSF();
+  const P = S.pressure; // bar
+  const P_pa = P * 1e5; // Pa
+
+  let bore=0, rodDia=0, extFlow=0, retFlow=0, maxFlow=0, motorDispl=0;
+
+  if(S.actuator==='linear'){
+    const Fd = S.force * sf; // design force N
+    const A_ext = Fd / P_pa; // m²
+    bore = Math.sqrt(4*A_ext/Math.PI)*1000; // mm
+    rodDia = bore * 0.6;
+    const A_rod = Math.PI*Math.pow(rodDia/2,2)/1e6;
+    const A_ret = A_ext - A_rod;
+    extFlow = (A_ext * S.speed/1000) * 60000; // L/min
+    retFlow = (A_ret * S.speed/1000) * 60000;
+    maxFlow = Math.max(extFlow, retFlow);
+  } else {
+    const Td = S.force * sf; // design torque N·m
+    motorDispl = (2*Math.PI*Td)/(P_pa)*1e6; // cc/rev
+    maxFlow = (motorDispl * S.speed) / 1000; // L/min (speed here = RPM)
+  }
+
+  const pumpFlow = maxFlow / 0.95; // volumetric eff
+  const pumpDispl = (pumpFlow*1000) / (S.pumpRpm*0.95); // cc/rev
+  const pumpPower = (P * pumpFlow) / (600 * 0.85); // kW
+  const heatKw = pumpPower * (1-0.85) * (S.duty/100);
+  const reservoir = pumpFlow * 3;
+  const prvSetting = P * 1.15;
+
+  // ISO cleanliness
+  let isoClass='19/17/14', filterRating=10, filterBeta='β10≥200';
+  if(P>210){isoClass='16/14/11';filterRating=3;filterBeta='β3≥1000';}
+  else if(P>70){isoClass='17/15/12';filterRating=6;filterBeta='β6≥200';}
+
+  return {bore,rodDia,extFlow,retFlow,maxFlow,pumpDispl,pumpPower,heatKw,reservoir,prvSetting,
+    motorDispl,isoClass,filterRating,filterBeta,sf,designForce:S.force*sf};
+}
+
+/* ══════════════════════════════════════
+   CATALOG MATCHING
+══════════════════════════════════════ */
+function matchPumps(c){
+  const needed = c.pumpDispl;
+  const p = S.pressure;
+  return PUMPS.filter(pm=>{
+    if(pm.maxPres<p) return false;
+    if(pm.displRange[1]<needed) return false;
+    // type suggestion
+    if(p>250&&pm.type==='vane') return false;
+    if(p>175&&pm.type==='vane') return false;
+    return true;
+  }).sort((a,b)=>{
+    // prefer type appropriate for pressure
+    const score=x=>x.maxPres>=p&&x.displRange[0]<=needed&&x.displRange[1]>=needed?0:1;
+    return score(a)-score(b);
+  }).slice(0,3);
+}
+
+function matchActuators(c){
+  if(S.actuator==='linear'){
+    return CYLINDERS.filter(cy=>
+      cy.boreRange[0]<=c.bore&&cy.boreRange[1]>=c.bore&&cy.maxPres>=S.pressure
+    ).slice(0,3);
+  } else {
+    return MOTORS.filter(m=>
+      m.displRange[0]<=c.motorDispl&&m.displRange[1]>=c.motorDispl&&m.maxPres>=S.pressure
+    ).slice(0,3);
+  }
+}
+
+function matchDCVs(c){
+  return DCVS.filter(v=>v.maxPres>=S.pressure&&v.flowMax>=c.maxFlow).slice(0,3);
+}
+
+function matchPRVs(c){
+  return PRVS.filter(v=>v.maxPres>=c.prvSetting).slice(0,2);
+}
+
+function matchFluids(){
+  return FLUIDS.filter(f=>{
+    if(S.fire&&!f.fire) return false;
+    if(S.bio&&!f.bio) return false;
+    if(f.tempRange[0]>S.tmin) return false;
+    if(f.tempRange[1]<S.tmax) return false;
+    return true;
+  }).slice(0,3);
+}
+
+function matchFilters(c){
+  return FILTERS_CAT.filter(f=>f.rating<=c.filterRating+4&&f.maxFlow>=c.maxFlow).slice(0,2);
+}
+
+/* ══════════════════════════════════════
+   PUMP TYPE RECOMMENDATION TEXT
+══════════════════════════════════════ */
+function pumpTypeText(p){
+  if(p<=175) return '⚙️ Gear pump recommended — low pressure, robust, cost-effective';
+  if(p<=200) return '🌀 Vane pump suitable — quiet operation, good for medium pressures';
+  if(p<=320) return '🔩 Piston pump recommended — high pressure, variable displacement available';
+  return '🔩 High-pressure piston pump required — 350+ bar axial piston design';
+}
+
+/* ══════════════════════════════════════
+   UI UPDATES
+══════════════════════════════════════ */
+function set(id,val){const e=document.getElementById(id);if(e)e.textContent=val;}
+function setClass(id,cls){const e=document.getElementById(id);if(e){e.className=e.className.replace(/\b(hi|ok|warn|bad)\b/g,'');if(cls)e.classList.add(cls);}}
+
+function updateSidebar(){
+  const c = calc();
+  const isLinear = S.actuator==='linear';
+
+  set('sp-type', isLinear?'Linear Cylinder':'Rotary Motor');
+  set('sp-bore-lbl', isLinear?'Bore Diameter':'Motor Displ.');
+  set('sp-force', fmt(cv(c.designForce,'force'),0)+' '+ul('force'));
+  set('sp-pres', fmt(cv(S.pressure,'pressure'),0)+' '+ul('pressure'));
+  set('sp-flow', fmt(cv(c.maxFlow,'flow'),1)+' '+ul('flow'));
+  set('sp-power', fmt(cv(c.pumpPower,'power'),2)+' '+ul('power'));
+  set('sp-bore', isLinear?fmt(cv(c.bore,'length'),1)+' '+ul('length') : fmt(cv(c.motorDispl,'displ'),1)+' '+ul('displ'));
+  set('sp-heat', fmt(cv(c.heatKw,'power'),2)+' '+ul('power'));
+  set('sp-res', fmt(cv(c.reservoir,'volume'),1)+' '+ul('volume'));
+  set('sp-iso', c.isoClass);
+  set('sp-filter', c.filterRating+'μm nominal');
+  set('sp-beta', c.filterBeta);
+  set('sp-sf', c.sf.toFixed(2));
+  set('sp-prv', fmt(cv(c.prvSetting,'pressure'),0)+' '+ul('pressure'));
+
+  const ratio = c.bore/S.pressure;
+  set('sp-ratio', isFinite(ratio)?fmt(ratio,2):'—');
+
+  drawMiniSchematic(c);
+}
+
+function updateStep2(){
+  const c = calc();
+  const isLinear = S.actuator==='linear';
+
+  set('pres-display', fmt(cv(S.pressure,'pressure'),0));
+  set('pres-unit', ul('pressure'));
+  document.getElementById('pumpTypeReco').textContent = pumpTypeText(S.pressure);
+
+  // Update marks for imperial
+  if(S.unit==='imp'){
+    set('pm0','725 psi');set('pm1','1450 psi');set('pm2','2900 psi');set('pm3','4641 psi');set('pm4','6962 psi');
+  } else {
+    set('pm0','50 bar');set('pm1','100 bar');set('pm2','200 bar');set('pm3','320 bar');set('pm4','480 bar');
+  }
+
+  // Slider percentage
+  const pct = ((S.pressure-50)/(480-50))*100;
+  document.getElementById('pres-slider').style.setProperty('--pct',pct+'%');
+
+  set('ci-bore-lbl', isLinear?'Cylinder Bore':'Motor Displacement');
+  set('ci-bore', fmt(cv(isLinear?c.bore:c.motorDispl,isLinear?'length':'displ'),1));
+  set('ci-bore-u', isLinear?ul('length'):ul('displ'));
+  set('ci-bore-sub', isLinear?`Rod dia: ${fmt(cv(c.rodDia,'length'),1)} ${ul('length')} (60% bore)`:'Calculated from torque & pressure');
+
+  set('ci-flow', fmt(cv(c.maxFlow,'flow'),1));
+  set('ci-flow-u', ul('flow'));
+  set('ci-flow-sub', isLinear?`Extend: ${fmt(cv(c.extFlow,'flow'),1)} | Retract: ${fmt(cv(c.retFlow,'flow'),1)}`:'Continuous flow');
+
+  set('ci-power', fmt(cv(c.pumpPower,'power'),2));
+  set('ci-power-u', ul('power'));
+
+  set('ci-displ', fmt(cv(c.pumpDispl,'displ'),1));
+  set('ci-displ-u', ul('displ'));
+  set('ci-displ-sub',`At ${S.pumpRpm} RPM drive`);
+
+  set('ci-heat', fmt(cv(c.heatKw,'power'),2));
+  set('ci-heat-u', ul('power'));
+  set('ci-heat-sub',`At ${S.duty}% duty cycle`);
+
+  set('ci-res', fmt(cv(c.reservoir,'volume'),1));
+  set('ci-res-u', ul('volume'));
+
+  // bar widths
+  const setBar=(id,pct)=>{const e=document.getElementById(id);if(e)e.style.width=Math.min(100,Math.max(2,pct))+'%'};
+  setBar('bar-bore', isLinear?(c.bore/300)*100:(c.motorDispl/500)*100);
+  setBar('bar-flow', (c.maxFlow/200)*100);
+  setBar('bar-power', (c.pumpPower/100)*100);
+  setBar('bar-displ', (c.pumpDispl/200)*100);
+
+  // Status messages
+  const statEl = document.getElementById('step2-status');
+  const warns = [];
+  if(c.bore>300&&isLinear) warns.push({type:'warn',msg:'Large bore (>300mm) — consider higher pressure to reduce bore size'});
+  if(c.pumpPower>75) warns.push({type:'warn',msg:`High power requirement (${fmt(cv(c.pumpPower,'power'),1)} ${ul('power')}) — verify motor sizing`});
+  if(c.heatKw>10) warns.push({type:'bad',msg:`Heat load ${fmt(cv(c.heatKw,'power'),1)} ${ul('power')} — oil cooler required`});
+  if(c.bore>0&&c.bore<25&&isLinear) warns.push({type:'bad',msg:'Bore <25mm — select higher pressure range'});
+  if(!warns.length) warns.push({type:'ok',msg:'System parameters within normal range'});
+  statEl.innerHTML = warns.map(w=>`<div class="status-line ${w.type}"><span class="status-dot"></span>${w.msg}</div>`).join('');
+}
+
+/* ══════════════════════════════════════
+   BUILD STEP 3 COMPONENTS
+══════════════════════════════════════ */
+function buildStep3(){
+  const c = calc();
+  const pumps = matchPumps(c);
+  const acts  = matchActuators(c);
+  const dcvs  = matchDCVs(c);
+  const prvs  = matchPRVs(c);
+  const fluids= matchFluids();
+  const filts = matchFilters(c);
+
+  function mkCC(item, type, selId, icon2, specs){
+    const isSel = S[selId]===item.id;
+    return `<div class="comp-card ${isSel?'selected':''}" onclick="selectComp('${selId}','${item.id}',this)">
+      <div class="cc-badge">${item.icon||icon2}</div>
+      <div class="cc-info">
+        <div class="cc-brand">${item.brand}</div>
+        <div class="cc-name">${item.series||item.name}</div>
+        <div class="cc-specs">${specs.map((s,i)=>`<span class="cc-spec ${i===0?'hi':''}">${s}</span>`).join('')}</div>
+        <div class="cc-note">${item.note}</div>
+      </div>
+    </div>`;
+  }
+
+  const boreDisp = S.actuator==='linear'
+    ? `Bore: ${fmt(c.bore,1)}+ mm`
+    : `Displ: ${fmt(c.motorDispl,1)}+ cc/rev`;
+
+  const html = `
+  <div class="comp-section">
+    <div class="comp-section-title"><span class="icon">⚙️</span> Hydraulic Pump <span style="font-size:10px;color:var(--text3);font-weight:400">— ${fmt(cv(c.pumpDispl,'displ'),1)} ${ul('displ')} @ ${S.pumpRpm} RPM</span></div>
+    <div class="comp-grid">
+      ${pumps.map((p,i)=>mkCC(p,'pump','selPump','⚙️',[
+        `Max ${fmt(cv(p.maxPres,'pressure'),0)} ${ul('pressure')}`,
+        `${p.displRange[0]}–${p.displRange[1]} ${ul('displ')}`,
+        `η=${p.eff*100}%`,
+        `${p.noise}dB`,
+        p.price,
+      ])+(i===0?'<div class="best-badge">⭐ Best Match</div>':'')).join('')}
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="comp-section-title"><span class="icon">${S.actuator==='linear'?'↕️':'🔄'}</span> ${S.actuator==='linear'?'Hydraulic Cylinder':'Hydraulic Motor'} <span style="font-size:10px;color:var(--text3);font-weight:400">— ${boreDisp}</span></div>
+    <div class="comp-grid">
+      ${acts.map((a,i)=>{
+        const isLinear=S.actuator==='linear';
+        const specs = isLinear
+          ? [`Bore ${a.boreRange[0]}–${a.boreRange[1]} mm`,`Max ${fmt(cv(a.maxPres,'pressure'),0)} ${ul('pressure')}`,`Stroke to ${a.strokeMax}mm`,a.seal]
+          : [`${a.displRange[0]}–${a.displRange[1]} cc/rev`,`Max ${fmt(cv(a.maxPres,'pressure'),0)} ${ul('pressure')}`,`Max ${a.maxRpm} RPM`,a.type];
+        return mkCC(a,'act','selActuator','↕️',specs)+(i===0?'<div class="best-badge">⭐ Best Match</div>':'');
+      }).join('')}
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="comp-section-title"><span class="icon">🔀</span> Directional Control Valve <span style="font-size:10px;color:var(--text3);font-weight:400">— ${fmt(cv(c.maxFlow,'flow'),1)} ${ul('flow')} required</span></div>
+    <div class="comp-grid">
+      ${dcvs.map((v,i)=>mkCC(v,'dcv','selDCV','🔀',[
+        v.type,v.size,
+        `Max ${fmt(cv(v.maxPres,'pressure'),0)} ${ul('pressure')}`,
+        `${fmt(cv(v.flowMax,'flow'),1)} ${ul('flow')}`,
+        v.act,
+      ])+(i===0?'<div class="best-badge">⭐ Best Match</div>':'')).join('')}
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="comp-section-title"><span class="icon">🛡️</span> Pressure Relief Valve <span style="font-size:10px;color:var(--text3);font-weight:400">— Set ${fmt(cv(c.prvSetting,'pressure'),0)} ${ul('pressure')}</span></div>
+    <div class="comp-grid">
+      ${prvs.map((v,i)=>mkCC(v,'prv','selPRV','🛡️',[
+        v.type,
+        `Max ${fmt(cv(v.maxPres,'pressure'),0)} ${ul('pressure')}`,
+        `${fmt(cv(v.flowMax,'flow'),0)} ${ul('flow')}`,
+      ])+(i===0?'<div class="best-badge">⭐ Best Match</div>':'')).join('')}
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="comp-section-title"><span class="icon">💧</span> Hydraulic Fluid <span style="font-size:10px;color:var(--text3);font-weight:400">— ${cvTemp(S.tmin)}–${cvTemp(S.tmax)} ${ul('temp')}</span></div>
+    ${fluids.length===0?'<div class="status-line bad"><span class="status-dot"></span>No fluid matches all criteria — relax constraints or consult specialist</div>':''}
+    <div class="comp-grid">
+      ${fluids.map((f,i)=>mkCC(f,'fluid','selFluid','💧',[
+        f.class, f.vg,
+        `VI ${f.vi}`,
+        `${cvTemp(f.tempRange[0])}° to ${cvTemp(f.tempRange[1])}° ${ul('temp')}`,
+        f.fire?'<span class="filter-tag ft-amber">Fire Res.</span>':'',
+        f.bio?'<span class="filter-tag ft-green">Biodeg.</span>':'',
+      ])+(i===0?'<div class="best-badge">⭐ Best Match</div>':'')).join('')}
+    </div>
+  </div>
+
+  <div class="comp-section">
+    <div class="comp-section-title"><span class="icon">🔽</span> Filtration <span style="font-size:10px;color:var(--text3);font-weight:400">— Target ${c.isoClass} ISO class</span></div>
+    <div class="comp-grid">
+      ${filts.map((f,i)=>mkCC(f,'filter','selFilter','🔽',[
+        `${f.rating}μm`,f.beta,
+        `Max ${fmt(cv(f.maxFlow,'flow'),0)} ${ul('flow')}`,
+      ])+(i===0?'<div class="best-badge">⭐ Best Match</div>':'')).join('')}
+    </div>
+  </div>`;
+
+  document.getElementById('comp-content').innerHTML = html;
+
+  // Auto-select best match if nothing selected
+  if(!S.selPump&&pumps[0])    S.selPump    = pumps[0].id;
+  if(!S.selActuator&&acts[0]) S.selActuator= acts[0].id;
+  if(!S.selDCV&&dcvs[0])     S.selDCV     = dcvs[0].id;
+  if(!S.selPRV&&prvs[0])     S.selPRV     = prvs[0].id;
+  if(!S.selFluid&&fluids[0]) S.selFluid   = fluids[0].id;
+  if(!S.selFilter&&filts[0]) S.selFilter  = filts[0].id;
+  buildStep3(); // re-render with selections
+}
+
+function selectComp(key,id,el){
+  S[key]=id;
+  // Refresh section
+  el.closest('.comp-grid').querySelectorAll('.comp-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+/* ══════════════════════════════════════
+   STEP 4: SUMMARY
+══════════════════════════════════════ */
+function buildStep4(){
+  const c = calc();
+  const isLinear = S.actuator==='linear';
+  const pump   = PUMPS.find(x=>x.id===S.selPump)||PUMPS[0];
+  const act    = (isLinear?CYLINDERS:MOTORS).find(x=>x.id===S.selActuator)||(isLinear?CYLINDERS[0]:MOTORS[0]);
+  const dcv    = DCVS.find(x=>x.id===S.selDCV)||DCVS[0];
+  const prv    = PRVS.find(x=>x.id===S.selPRV)||PRVS[0];
+  const fluid  = FLUIDS.find(x=>x.id===S.selFluid)||FLUIDS[0];
+  const filt   = FILTERS_CAT.find(x=>x.id===S.selFilter)||FILTERS_CAT[0];
+
+  const notes = [
+    {icon:'⚠️',text:`Relief valve set to ${fmt(cv(c.prvSetting,'pressure'),0)} ${ul('pressure')} (15% above working pressure ${fmt(cv(S.pressure,'pressure'),0)} ${ul('pressure')})`},
+    {icon:'🌡️',text:`System operates ${cvTemp(S.tmin)}°–${cvTemp(S.tmax)}° ${ul('temp')}. ${c.heatKw>5?'Oil cooler required: '+fmt(cv(c.heatKw,'power'),1)+' '+ul('power')+' heat rejection capacity.':'Thermal conditions within passive cooling range.'}`},
+    {icon:'🔽',text:`Maintain ISO ${c.isoClass} fluid cleanliness. Use ${c.filterRating}μm ${c.filterBeta} elements. Change at ${c.filterRating<=6?'2000':'3000'} hours or ΔP indicator.`},
+    {icon:'💧',text:`Use ${fluid.name} (${fluid.class}, ${fluid.vg}). Replace fluid every ${S.pressure>250?2000:3000} hours of operation.`},
+    {icon:'🔧',text:`Reservoir sized at ${fmt(cv(c.reservoir,'volume'),1)} ${ul('volume')} (3× pump flow). Include breather filter, level sight glass, and drain plug.`},
+    {icon:'📏',text:isLinear?`Cylinder bore ${fmt(c.bore,1)} mm with ${fmt(c.rodDia,1)} mm rod. Verify rod buckling with Euler analysis for strokes >500mm.`:`Motor displacement ${fmt(c.motorDispl,1)} cc/rev at ${S.speed} RPM. Verify case drain connection.`},
+  ];
+
+  const html = `
+  <div class="summary-grid">
+    <!-- Performance Overview -->
+    <div class="summary-card full">
+      <div class="sc-title"><span class="icon">📊</span> Operating Performance</div>
+      <div class="perf-grid">
+        <div class="perf-item"><div class="perf-num">${fmt(cv(S.pressure,'pressure'),0)}</div><div class="perf-lbl">System Pressure (${ul('pressure')})</div></div>
+        <div class="perf-item"><div class="perf-num">${fmt(cv(c.maxFlow,'flow'),1)}</div><div class="perf-lbl">Max Flow (${ul('flow')})</div></div>
+        <div class="perf-item"><div class="perf-num">${fmt(cv(c.pumpPower,'power'),1)}</div><div class="perf-lbl">Installed Power (${ul('power')})</div></div>
+        <div class="perf-item"><div class="perf-num">${isLinear?fmt(cv(c.bore,'length'),1):fmt(cv(c.motorDispl,'displ'),1)}</div><div class="perf-lbl">${isLinear?'Bore ('+ul('length')+')':'Displ. ('+ul('displ')+')'}</div></div>
+        <div class="perf-item"><div class="perf-num">${fmt(cv(c.heatKw,'power'),1)}</div><div class="perf-lbl">Heat Load (${ul('power')})</div></div>
+        <div class="perf-item"><div class="perf-num">${fmt(cv(c.reservoir,'volume'),0)}</div><div class="perf-lbl">Reservoir (${ul('volume')})</div></div>
+      </div>
+    </div>
+
+    <!-- Hydraulic Schematic -->
+    <div class="summary-card full">
+      <div class="sc-title"><span class="icon">🗺️</span> Hydraulic Circuit Schematic</div>
+      <div class="schematic-wrap">
+        <svg id="mainSchematic" viewBox="0 0 680 360" style="display:block;width:100%" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- BOM -->
+    <div class="summary-card full">
+      <div class="sc-title"><span class="icon">📋</span> Bill of Materials</div>
+      <table class="bom-table">
+        <thead><tr><th>#</th><th>Component</th><th>Brand & Model</th><th>Key Specification</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Hydraulic Pump</td><td>${pump.brand} ${pump.series}</td><td>Max ${fmt(cv(pump.maxPres,'pressure'),0)} ${ul('pressure')} · ${pump.displRange[0]}–${pump.displRange[1]} ${ul('displ')} · η=${pump.eff*100}%</td></tr>
+          <tr><td>2</td><td>${isLinear?'Hydraulic Cylinder':'Hydraulic Motor'}</td><td>${act.brand} ${act.series||act.name}</td><td>${isLinear?`Bore ${act.boreRange[0]}–${act.boreRange[1]} mm · Max ${fmt(cv(act.maxPres,'pressure'),0)} ${ul('pressure')}`:`${act.displRange[0]}–${act.displRange[1]} cc/rev · Max ${fmt(cv(act.maxPres,'pressure'),0)} ${ul('pressure')}`}</td></tr>
+          <tr><td>3</td><td>Directional Control Valve</td><td>${dcv.brand} ${dcv.series}</td><td>${dcv.type} · ${dcv.size} · Max ${fmt(cv(dcv.maxPres,'pressure'),0)} ${ul('pressure')} · ${fmt(cv(dcv.flowMax,'flow'),0)} ${ul('flow')}</td></tr>
+          <tr><td>4</td><td>Pressure Relief Valve</td><td>${prv.brand} ${prv.series}</td><td>${prv.type} · Set ${fmt(cv(c.prvSetting,'pressure'),0)} ${ul('pressure')} · ${fmt(cv(prv.flowMax,'flow'),0)} ${ul('flow')}</td></tr>
+          <tr><td>5</td><td>Return/Pressure Filter</td><td>${filt.brand} ${filt.series}</td><td>${filt.rating}μm · ${filt.beta} · ${fmt(cv(filt.maxFlow,'flow'),0)} ${ul('flow')}</td></tr>
+          <tr><td>6</td><td>Hydraulic Fluid</td><td>${fluid.brand} ${fluid.name}</td><td>${fluid.class} · ${fluid.vg} · VI ${fluid.vi} · ${cvTemp(fluid.tempRange[0])}–${cvTemp(fluid.tempRange[1])} ${ul('temp')}</td></tr>
+          <tr><td>7</td><td>Reservoir (Tank)</td><td>Custom / Standard</td><td>Min. ${fmt(cv(c.reservoir,'volume'),0)} ${ul('volume')} · Include: level gauge, breather, drain, return diffuser</td></tr>
+          <tr><td>8</td><td>Prime Mover (Motor)</td><td>Electric Motor (to spec)</td><td>Min. ${fmt(cv(c.pumpPower,'power'),1)} ${ul('power')} · ${S.pumpRpm} RPM · IP55 or higher</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Design Notes -->
+    <div class="summary-card full">
+      <div class="sc-title"><span class="icon">📝</span> Design Notes & Recommendations</div>
+      <div class="note-list">${notes.map(n=>`<div class="note-item"><span class="note-icon">${n.icon}</span><span>${n.text}</span></div>`).join('')}</div>
+    </div>
+  </div>`;
+
+  document.getElementById('summary-content').innerHTML = html;
+  setTimeout(()=>drawMainSchematic(c,pump,act,dcv,fluid), 50);
+}
+
+/* ══════════════════════════════════════
+   DRAW SCHEMATICS
+══════════════════════════════════════ */
+function drawMiniSchematic(c){
+  const svg = document.getElementById('miniSchematic');
+  if(!svg) return;
+  const isLinear = S.actuator==='linear';
+  const W=300, H=220;
+  // Colors
+  const lc='#38bdf8', tc='rgba(56,189,248,0.4)', fc='rgba(255,255,255,0.08)', sc='#0d1420';
+  const tc2='rgba(56,189,248,0.2)';
+
+  svg.innerHTML = `
+    <rect width="${W}" height="${H}" fill="${sc}"/>
+    <!-- TANK -->
+    <rect x="110" y="175" width="80" height="24" rx="2" fill="${fc}" stroke="${tc}" stroke-width="1.5"/>
+    <text x="150" y="191" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="${tc}">TANK</text>
+    <!-- PUMP -->
+    <circle cx="80" cy="140" r="18" fill="${fc}" stroke="${lc}" stroke-width="1.5"/>
+    <text x="80" y="144" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="${lc}" font-weight="700">P</text>
+    <polygon points="72,136 90,140 72,144" fill="${lc}"/>
+    <!-- MOTOR DRIVER -->
+    <rect x="40" y="128" width="22" height="22" rx="3" fill="${fc}" stroke="${tc}" stroke-width="1"/>
+    <text x="51" y="143" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="${tc}">M</text>
+    <!-- PRV -->
+    <rect x="55" y="88" width="22" height="22" rx="3" fill="${fc}" stroke="rgba(251,191,36,0.5)" stroke-width="1.5"/>
+    <text x="66" y="103" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#fbbf24">PRV</text>
+    <!-- DCV -->
+    <rect x="118" y="88" width="64" height="26" rx="3" fill="${fc}" stroke="${lc}" stroke-width="1.5"/>
+    <text x="150" y="105" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="${lc}">4/3 DCV</text>
+    <!-- ACTUATOR -->
+    ${isLinear?`
+    <rect x="134" y="30" width="32" height="45" rx="2" fill="${fc}" stroke="${lc}" stroke-width="1.5"/>
+    <rect x="146" y="18" width="8" height="15" rx="1" fill="${lc}" opacity="0.7"/>
+    <line x1="150" y1="30" x2="150" y2="33" stroke="${lc}" stroke-width="2"/>
+    <text x="150" y="88" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="${tc}">CYL</text>`:`
+    <circle cx="150" cy="48" r="20" fill="${fc}" stroke="${lc}" stroke-width="1.5"/>
+    <path d="M142,44 L160,48 L142,52Z" fill="${lc}" opacity="0.7"/>
+    <text x="150" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="${tc}">MTR</text>`}
+    <!-- Lines -->
+    <line x1="110" y1="175" x2="80" y2="165" stroke="${tc2}" stroke-width="1.5"/>
+    <line x1="80" y1="122" x2="80" y2="99" stroke="${lc}" stroke-width="2"/>
+    <line x1="80" y1="99" x2="118" y2="99" stroke="${lc}" stroke-width="2"/>
+    <line x1="66" y1="110" x2="66" y2="99" stroke="rgba(251,191,36,0.6)" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <line x1="150" y1="88" x2="150" y2="75" stroke="${lc}" stroke-width="1.5"/>
+    <line x1="150" y1="75" x2="150" y2="${isLinear?75:68}" stroke="${lc}" stroke-width="1.5"/>
+    ${isLinear?`<line x1="150" y1="75" x2="150" y2="75" stroke="${lc}" stroke-width="1.5"/>`:''}
+    <!-- Filter -->
+    <path d="M190,140 L210,140 L200,155 Z" fill="none" stroke="${tc}" stroke-width="1.5"/>
+    <line x1="200" y1="155" x2="200" y2="170" stroke="${tc}" stroke-width="1.5"/>
+    <line x1="200" y1="170" x2="190" y2="175" stroke="${tc2}" stroke-width="1.5"/>
+    <text x="218" y="145" font-family="JetBrains Mono" font-size="8" fill="${tc}">F</text>
+    <!-- Return line -->
+    <line x1="182" y1="101" x2="210" y2="101" stroke="${tc2}" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <line x1="200" y1="101" x2="200" y2="140" stroke="${tc2}" stroke-width="1.5" stroke-dasharray="4,2"/>
+  `;
+}
+
+function drawMainSchematic(c, pump, act, dcv, fluid){
+  const svg = document.getElementById('mainSchematic');
+  if(!svg) return;
+  const isLinear = S.actuator==='linear';
+  const W=680, H=360;
+  const lc='#38bdf8', tc='rgba(56,189,248,0.35)', fc='rgba(56,189,248,0.07)', sc='#070b12';
+  const ac='#fbbf24', gc='#34d399', tc2='rgba(56,189,248,0.18)';
+  const font='JetBrains Mono, monospace';
+
+  svg.innerHTML = `
+    <rect width="${W}" height="${H}" fill="${sc}"/>
+    <!-- Grid -->
+    <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
+      ${Array.from({length:17},(_,i)=>`<line x1="${i*40}" y1="0" x2="${i*40}" y2="${H}"/>`).join('')}
+      ${Array.from({length:9},(_,i)=>`<line x1="0" y1="${i*40}" x2="${W}" y2="${i*40}"/>`).join('')}
+    </g>
+
+    <!-- ── RESERVOIR ── -->
+    <rect x="290" y="295" width="100" height="40" rx="3" fill="${fc}" stroke="${tc}" stroke-width="2"/>
+    <line x1="298" y1="295" x2="290" y2="335" stroke="${tc}" stroke-width="1" opacity="0.4"/>
+    <line x1="314" y1="295" x2="306" y2="335" stroke="${tc}" stroke-width="1" opacity="0.4"/>
+    <line x1="330" y1="295" x2="322" y2="335" stroke="${tc}" stroke-width="1" opacity="0.4"/>
+    <line x1="346" y1="295" x2="338" y2="335" stroke="${tc}" stroke-width="1" opacity="0.4"/>
+    <line x1="362" y1="295" x2="354" y2="335" stroke="${tc}" stroke-width="1" opacity="0.4"/>
+    <text x="340" y="320" text-anchor="middle" font-family="${font}" font-size="11" fill="${tc}" font-weight="600">RESERVOIR</text>
+    <text x="340" y="332" text-anchor="middle" font-family="${font}" font-size="9" fill="rgba(56,189,248,0.5)">${fmt(cv(c.reservoir,'volume'),0)} ${ul('volume')}</text>
+
+    <!-- ── ELECTRIC MOTOR ── -->
+    <rect x="72" y="240" width="52" height="52" rx="6" fill="${fc}" stroke="${tc2}" stroke-width="1.5"/>
+    <text x="98" y="265" text-anchor="middle" font-family="${font}" font-size="13" fill="${tc}" font-weight="700">M</text>
+    <text x="98" y="280" text-anchor="middle" font-family="${font}" font-size="8" fill="rgba(56,189,248,0.5)">${S.pumpRpm} RPM</text>
+    <text x="98" y="310" text-anchor="middle" font-family="${font}" font-size="8" fill="rgba(56,189,248,0.4)">${fmt(cv(c.pumpPower,'power'),1)} ${ul('power')}</text>
+    
+    <!-- ── PUMP ── -->
+    <circle cx="170" cy="266" r="28" fill="${fc}" stroke="${lc}" stroke-width="2"/>
+    <polygon points="158,260 186,266 158,272" fill="${lc}" opacity="0.8"/>
+    <circle cx="170" cy="266" r="8" fill="none" stroke="${lc}" stroke-width="1.5" opacity="0.5"/>
+    <text x="170" y="302" text-anchor="middle" font-family="${font}" font-size="10" fill="${lc}" font-weight="600">${pump.brand.split(' ')[0]}</text>
+    <text x="170" y="314" text-anchor="middle" font-family="${font}" font-size="9" fill="rgba(56,189,248,0.6)">${pump.series.split(' ')[0]}</text>
+    <!-- shaft line -->
+    <line x1="124" y1="266" x2="142" y2="266" stroke="${tc2}" stroke-width="3" stroke-dasharray="4,3"/>
+
+    <!-- ── SUCTION FILTER ── -->
+    <path d="M290,266 L310,250 L310,282 Z" fill="${fc}" stroke="${tc2}" stroke-width="1.5"/>
+    <line x1="310" y1="266" x2="340" y2="266" stroke="${tc}" stroke-width="2"/>
+    <text x="300" y="296" text-anchor="middle" font-family="${font}" font-size="8" fill="rgba(56,189,248,0.5)">SUCK. FILT</text>
+
+    <!-- ── PRESSURE FILTER / HIGH PRESS ── -->
+    <circle cx="530" cy="200" r="14" fill="${fc}" stroke="${gc}" stroke-width="1.5"/>
+    <text x="530" y="204" text-anchor="middle" font-family="${font}" font-size="9" fill="${gc}" font-weight="700">F</text>
+    <text x="530" y="220" text-anchor="middle" font-family="${font}" font-size="8" fill="rgba(52,211,153,0.6)">${c.filterRating}μm</text>
+
+    <!-- ── PRV ── -->
+    <rect x="170" y="130" width="36" height="36" rx="4" fill="${fc}" stroke="${ac}" stroke-width="2"/>
+    <path d="M178,162 Q188,146 206,148" fill="none" stroke="${ac}" stroke-width="2"/>
+    <text x="188" y="181" text-anchor="middle" font-family="${font}" font-size="9" fill="${ac}" font-weight="600">PRV</text>
+    <text x="188" y="192" text-anchor="middle" font-family="${font}" font-size="8" fill="rgba(251,191,36,0.5)">${fmt(cv(c.prvSetting,'pressure'),0)} ${ul('pressure')}</text>
+
+    <!-- ── DCV 4/3 ── -->
+    <rect x="280" y="130" width="120" height="36" rx="4" fill="${fc}" stroke="${lc}" stroke-width="2"/>
+    <line x1="320" y1="130" x2="320" y2="166" stroke="${tc}" stroke-width="1"/>
+    <line x1="360" y1="130" x2="360" y2="166" stroke="${tc}" stroke-width="1"/>
+    <text x="340" y="152" text-anchor="middle" font-family="${font}" font-size="10" fill="${lc}" font-weight="700">4/3 DCV</text>
+    <text x="340" y="178" text-anchor="middle" font-family="${font}" font-size="9" fill="rgba(56,189,248,0.6)">${dcv.brand.split(' ')[0]} ${dcv.series.split(' ')[0]}</text>
+    <text x="340" y="189" text-anchor="middle" font-family="${font}" font-size="8" fill="rgba(56,189,248,0.4)">${dcv.size} · ${dcv.act.split('(')[0]}</text>
+    <!-- solenoid symbols -->
+    <rect x="238" y="136" width="40" height="24" rx="2" fill="none" stroke="${tc2}" stroke-width="1"/>
+    <text x="258" y="152" text-anchor="middle" font-family="${font}" font-size="9" fill="${tc}">SOL</text>
+    <rect x="402" y="136" width="40" height="24" rx="2" fill="none" stroke="${tc2}" stroke-width="1"/>
+    <text x="422" y="152" text-anchor="middle" font-family="${font}" font-size="9" fill="${tc}">SOL</text>
+
+    <!-- ── ACTUATOR ── -->
+    ${isLinear ? `
+    <!-- Cylinder -->
+    <rect x="480" y="30" width="50" height="80" rx="3" fill="${fc}" stroke="${lc}" stroke-width="2"/>
+    <rect x="490" y="22" width="16" height="28" rx="2" fill="none" stroke="${lc}" stroke-width="1.5"/>
+    <line x1="498" y1="22" x2="498" y2="15" stroke="${lc}" stroke-width="2.5"/>
+    <line x1="470" y1="62" x2="480" y2="62" stroke="${lc}" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="505" y="125" text-anchor="middle" font-family="${font}" font-size="10" fill="${lc}" font-weight="600">${act.brand.split(' ')[0]}</text>
+    <text x="505" y="137" text-anchor="middle" font-family="${font}" font-size="9" fill="rgba(56,189,248,0.6)">${act.series.split(' ')[0]}</text>
+    <text x="505" y="148" text-anchor="middle" font-family="${font}" font-size="8" fill="rgba(56,189,248,0.4)">Ø${fmt(c.bore,0)}mm bore</text>
+    ` : `
+    <!-- Motor -->
+    <circle cx="505" cy="70" r="32" fill="${fc}" stroke="${lc}" stroke-width="2"/>
+    <path d="M492,62 L522,70 L492,78Z" fill="${lc}" opacity="0.7"/>
+    <line x1="537" y1="70" x2="560" y2="70" stroke="${tc2}" stroke-width="3" stroke-dasharray="4,3"/>
+    <text x="505" y="116" text-anchor="middle" font-family="${font}" font-size="10" fill="${lc}" font-weight="600">${act.brand.split(' ')[0]}</text>
+    <text x="505" y="128" text-anchor="middle" font-family="${font}" font-size="9" fill="rgba(56,189,248,0.6)">${act.series.split(' ')[0]}</text>
+    <text x="505" y="139" text-anchor="middle" font-family="${font}" font-size="8" fill="rgba(56,189,248,0.4)">${fmt(c.motorDispl,0)} cc/rev</text>
+    `}
+
+    <!-- ══ PIPELINE CONNECTIONS ══ -->
+    <!-- Reservoir to pump suction -->
+    <polyline points="340,295 340,266 310,266" fill="none" stroke="${tc}" stroke-width="2" stroke-dasharray="5,3"/>
+    <!-- Pump to PRV branch point -->
+    <line x1="170" y1="238" x2="170" y2="148" stroke="${lc}" stroke-width="2.5"/>
+    <!-- PRV tank return -->
+    <line x1="170" y1="166" x2="170" y2="200" stroke="${ac}" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="170" y1="200" x2="380" y2="200" stroke="${ac}" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="380" y1="200" x2="380" y2="295" stroke="${ac}" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <!-- Pump to DCV (high pressure) -->
+    <polyline points="170,148 170,80 340,80 340,130" fill="none" stroke="${lc}" stroke-width="2.5"/>
+    <!-- Filter in pressure line -->
+    <line x1="340" y1="80" x2="530" y2="80" stroke="${lc}" stroke-width="2.5"/>
+    <line x1="530" y1="80" x2="530" y2="186" stroke="${lc}" stroke-width="2.5"/>
+    <!-- DCV to actuator -->
+    ${isLinear?`
+    <polyline points="340,130 340,55 480,55" fill="none" stroke="${lc}" stroke-width="2"/>
+    <polyline points="360,130 360,100 505,100 505,110" fill="none" stroke="${lc}" stroke-width="2" stroke-dasharray="5,3"/>
+    `:`
+    <polyline points="340,130 340,70 473,70" fill="none" stroke="${lc}" stroke-width="2"/>
+    `}
+    <!-- Return line (dashed) -->
+    <polyline points="${isLinear?'530,110':'530,100'} 530,230 380,230 380,295" fill="none" stroke="${tc}" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <!-- Return filter -->
+    <path d="M520,230 L540,218 L540,242 Z" fill="${fc}" stroke="${gc}" stroke-width="1.5"/>
+    <text x="550" y="235" font-family="${font}" font-size="8" fill="${gc}">RET.F</text>
+
+    <!-- ── LABELS ── -->
+    <text x="10" y="20" font-family="${font}" font-size="11" fill="${lc}" font-weight="700" opacity="0.8">HydroSelect — Hydraulic Circuit Schematic</text>
+    <text x="10" y="34" font-family="${font}" font-size="9" fill="rgba(56,189,248,0.4)">${fmt(cv(S.pressure,'pressure'),0)} ${ul('pressure')} · ${fmt(cv(c.maxFlow,'flow'),1)} ${ul('flow')} · ${fmt(cv(c.pumpPower,'power'),1)} ${ul('power')}</text>
+    
+    <!-- Legend -->
+    <line x1="10" y1="345" x2="35" y2="345" stroke="${lc}" stroke-width="2.5"/>
+    <text x="40" y="349" font-family="${font}" font-size="9" fill="rgba(56,189,248,0.6)">Pressure line</text>
+    <line x1="110" y1="345" x2="135" y2="345" stroke="${tc}" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="140" y="349" font-family="${font}" font-size="9" fill="rgba(56,189,248,0.4)">Return / Tank line</text>
+    <line x1="240" y1="345" x2="265" y2="345" stroke="${ac}" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="270" y="349" font-family="${font}" font-size="9" fill="rgba(251,191,36,0.5)">Relief / Drain</text>
+  `;
+}
+
+/* ══════════════════════════════════════
+   STEP NAVIGATION
+══════════════════════════════════════ */
+function goStep(n){
+  // Read inputs before leaving step 1
+  if(S.step===1) readStep1();
+
+  S.step = n;
+  document.querySelectorAll('.step-content').forEach(el=>el.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  buildStepProgress();
+
+  if(n===2) updateStep2();
+  if(n===3) { updateStep2(); buildStep3(); }
+  if(n===4) { buildStep4(); }
+
+  updateSidebar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function readStep1(){
+  S.actuator    = document.querySelector('.atype-card.active')?.id?.replace('at-','') || 'linear';
+  S.force       = parseFloat(document.getElementById('inp-force')?.value)||50000;
+  S.speed       = parseFloat(document.getElementById('inp-speed')?.value)||150;
+  S.stroke      = parseFloat(document.getElementById('inp-stroke')?.value)||500;
+  S.cycles      = parseFloat(document.getElementById('inp-cycles')?.value)||60;
+  S.duty        = parseFloat(document.getElementById('inp-duty')?.value)||60;
+  S.pumpRpm     = parseFloat(document.getElementById('inp-pumpRpm')?.value)||1450;
+  S.loadType    = document.querySelector('input[name="loadType"]:checked')?.value||'dynamic';
+  S.env         = document.getElementById('inp-env')?.value||'industrial';
+  S.contam      = document.getElementById('inp-contam')?.value||'medium';
+  S.tmin        = parseFloat(document.getElementById('inp-tmin')?.value)||5;
+  S.tmax        = parseFloat(document.getElementById('inp-tmax')?.value)||60;
+  S.fire        = document.getElementById('inp-fire')?.checked||false;
+  S.bio         = document.getElementById('inp-bio')?.checked||false;
+  // convert to SI if imperial
+  if(S.unit==='imp'){
+    S.force /= CONV.force.imp;
+    S.speed /= CONV.speed.imp;
+    S.stroke /= CONV.length.imp;
+    S.tmin = (S.tmin-32)*5/9;
+    S.tmax = (S.tmax-32)*5/9;
+  }
+}
+
+function onPressureChange(v){
+  S.pressure = parseFloat(v);
+  const pct = ((S.pressure-50)/(480-50))*100;
+  document.getElementById('pres-slider').style.setProperty('--pct',pct+'%');
+  updateStep2();
+  updateSidebar();
+}
+
+/* ══════════════════════════════════════
+   STEP PROGRESS BAR
+══════════════════════════════════════ */
+function buildStepProgress(){
+  const steps=[
+    {n:1,label:'Requirements'},
+    {n:2,label:'System Design'},
+    {n:3,label:'Components'},
+    {n:4,label:'Summary'},
+  ];
+  document.getElementById('stepProgress').innerHTML = steps.map((s,i)=>`
+    ${i>0?'<span class="sp-arrow">›</span>':''}
+    <div class="sp-item ${S.step===s.n?'active':S.step>s.n?'done':''}" onclick="goStep(${s.n})">
+      <span class="sp-num">${S.step>s.n?'✓':s.n}</span>
+      <span class="sp-label">${s.label}</span>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════
+   ACTUATOR TYPE
+══════════════════════════════════════ */
+function setActuator(type){
+  S.actuator = type;
+  document.getElementById('at-linear').classList.toggle('active',type==='linear');
+  document.getElementById('at-rotary').classList.toggle('active',type==='rotary');
+  const isLin = type==='linear';
+  document.getElementById('lbl-force').textContent     = isLin?'Required Force':'Required Torque';
+  document.getElementById('lbl-speed').textContent     = isLin?'Piston Speed':'Shaft Speed';
+  document.getElementById('lbl-stroke').textContent    = isLin?'Stroke Length':'Angular Travel';
+  document.getElementById('utag-force').textContent    = isLin?ul('force'):ul('torque');
+  document.getElementById('utag-speed').textContent    = isLin?ul('speed'):'RPM';
+  document.getElementById('utag-stroke').textContent   = isLin?ul('length'):'°';
+  document.getElementById('inp-force').value           = isLin?50000:500;
+  document.getElementById('inp-speed').value           = isLin?150:100;
+  document.getElementById('inp-stroke').value          = isLin?500:360;
+  updateSidebar();
+}
+
+/* ══════════════════════════════════════
+   UNIT TOGGLE
+══════════════════════════════════════ */
+function setUnit(u){
+  S.unit=u;
+  document.getElementById('btnSI').classList.toggle('active',u==='si');
+  document.getElementById('btnIMP').classList.toggle('active',u==='imp');
+  // Update all unit tags in step 1
+  const isLin = S.actuator==='linear';
+  document.getElementById('utag-force').textContent  = isLin?ul('force'):ul('torque');
+  document.getElementById('utag-speed').textContent  = isLin?ul('speed'):'RPM';
+  document.getElementById('utag-stroke').textContent = isLin?ul('length'):'°';
+  document.getElementById('utag-temp').textContent   = ul('temp');
+  document.getElementById('utag-temp2').textContent  = ul('temp');
+  updateSidebar();
+  if(S.step===2) updateStep2();
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+buildStepProgress();
+updateSidebar();
+drawMiniSchematic(calc());
+
+// live update sidebar on any input change
+document.addEventListener('input', e=>{
+  if(e.target.closest('.step-content')){
+    if(S.step===1){
+      readStep1();
+      updateSidebar();
+    }
+  }
+});
+</script>
+</body>
+</html>
