@@ -2,8 +2,8 @@
 
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>UnitVD – Unit Converter</title>
 <style>
   :root {
@@ -104,39 +104,43 @@
 </style>
 </head>
 <body>
-<nav>
-  <a href="index.html" class="logo">Task<span>Junction</span></a>
-  <a href="index.html" class="back-btn">← Back to Home</a>
+<nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
 </nav>
 <section class="hero">
-  <div class="badge">⚡ 7 Categories • Instant Results</div>
-  <h1>Unit <span>Converter</span></h1>
-  <p>Length, Weight, Temperature, Speed, Volume, Area & Time</p>
+<div class="badge">⚡ 7 Categories • Instant Results</div>
+<h1>Unit <span>Converter</span></h1>
+<p>Length, Weight, Temperature, Speed, Volume, Area &amp; Time</p>
 </section>
 <div class="main">
-  <div class="tabs" id="tabs"></div>
-  <div class="card">
-    <div class="card-title" id="cardTitle">📏 Length</div>
-    <div class="row">
-      <div><label>From</label><select id="fromUnit"></select></div>
-      <button class="swap" onclick="swapUnits()">⇄</button>
-      <div><label>To</label><select id="toUnit"></select></div>
-    </div>
-    <div style="margin-bottom:20px;"><label>Value</label><input type="number" id="val" placeholder="Enter value..." oninput="convert()"></div>
-    <div class="result">
-      <div class="result-val" id="res">—</div>
-      <div class="result-lbl" id="resLbl">Enter a value above</div>
-    </div>
-    <button class="btn" onclick="convert()">⚡ Convert</button>
-    <div class="ref"><h3>Quick Reference</h3><div class="ref-grid" id="refGrid"></div></div>
-  </div>
+<div class="tabs" id="tabs"></div>
+<div class="card">
+<div class="card-title" id="cardTitle">📏 Length</div>
+<div class="row">
+<div><label>From</label><select id="fromUnit"></select></div>
+<button class="swap" onclick="swapUnits()">⇄</button>
+<div><label>To</label><select id="toUnit"></select></div>
 </div>
-<footer>
-  <div class="footer-logo">Task<span>Junction</span></div>
-  <div class="footer-links">
-    <a href="index.html">Home</a><a href="index.html#privacy">Privacy</a>
-  </div>
-  <p>Made by Vaibhav Dhokpande</p>
+<div style="margin-bottom:20px;"><label>Value</label><input id="val" oninput="convert()" placeholder="Enter value..." type="number"/></div>
+<div class="result">
+<div class="result-val" id="res">—</div>
+<div class="result-lbl" id="resLbl">Enter a value above</div>
+</div>
+<button class="btn" onclick="convert()">⚡ Convert</button>
+<div class="ref"><h3>Quick Reference</h3><div class="ref-grid" id="refGrid"></div></div>
+</div>
+</div>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
 </footer>
 <script>
 const categories = {
