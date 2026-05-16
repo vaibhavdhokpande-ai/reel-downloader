@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Circular Saw Calculator</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -120,362 +121,350 @@ select option{background:#1a1d2e}
 ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:5px}
 </style>
 </head>
-<body>
+<body><nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
+</nav>
 <div class="app">
-
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="logo-wrap">
-    <div class="logo-brand">TaskJunction</div>
-    <div class="logo-title">⚙ Saw Calculator</div>
-    <div class="logo-sub">Circular Cutting Machine</div>
-  </div>
-
-  <div class="mat-selector">
-    <div class="mat-label">Material</div>
-    <button class="mat-btn active" onclick="setMat('wood',this)"><span class="dot" style="background:#a16207"></span>Wood</button>
-    <button class="mat-btn" onclick="setMat('metal',this)"><span class="dot" style="background:#6b7280"></span>Metal / Steel</button>
-    <button class="mat-btn" onclick="setMat('plastic',this)"><span class="dot" style="background:#2563eb"></span>Plastic / PVC</button>
-    <button class="mat-btn" onclick="setMat('aluminum',this)"><span class="dot" style="background:#94a3b8"></span>Aluminum</button>
-  </div>
-
-  <div class="nav-section">
-    <div class="nav-label">Calculators</div>
-    <div class="nav-item active" onclick="nav(this,'rpm')">⚡ RPM / Speed</div>
-    <div class="nav-item" onclick="nav(this,'feed')">➡ Feed Rate</div>
-    <div class="nav-item" onclick="nav(this,'time')">⏱ Cutting Time</div>
-    <div class="nav-item" onclick="nav(this,'power')">🔋 Power &amp; Torque</div>
-    <div class="nav-item" onclick="nav(this,'blade')">🪚 Blade Selection</div>
-    <div class="nav-item" onclick="nav(this,'mrr')">📦 Material Removal</div>
-  </div>
-  <div class="nav-section">
-    <div class="nav-label">Analysis</div>
-    <div class="nav-item" onclick="nav(this,'summary')">📊 Full Summary</div>
-    <div class="nav-item" onclick="nav(this,'ref')">📖 Reference Chart</div>
-  </div>
-
-  <div class="sidebar-footer">Made by<br><span>Vaibhav Dhokpande</span></div>
+<div class="logo-wrap">
+<div class="logo-brand">TaskJunction</div>
+<div class="logo-title">⚙ Saw Calculator</div>
+<div class="logo-sub">Circular Cutting Machine</div>
 </div>
-
+<div class="mat-selector">
+<div class="mat-label">Material</div>
+<button class="mat-btn active" onclick="setMat('wood',this)"><span class="dot" style="background:#a16207"></span>Wood</button>
+<button class="mat-btn" onclick="setMat('metal',this)"><span class="dot" style="background:#6b7280"></span>Metal / Steel</button>
+<button class="mat-btn" onclick="setMat('plastic',this)"><span class="dot" style="background:#2563eb"></span>Plastic / PVC</button>
+<button class="mat-btn" onclick="setMat('aluminum',this)"><span class="dot" style="background:#94a3b8"></span>Aluminum</button>
+</div>
+<div class="nav-section">
+<div class="nav-label">Calculators</div>
+<div class="nav-item active" onclick="nav(this,'rpm')">⚡ RPM / Speed</div>
+<div class="nav-item" onclick="nav(this,'feed')">➡ Feed Rate</div>
+<div class="nav-item" onclick="nav(this,'time')">⏱ Cutting Time</div>
+<div class="nav-item" onclick="nav(this,'power')">🔋 Power &amp; Torque</div>
+<div class="nav-item" onclick="nav(this,'blade')">🪚 Blade Selection</div>
+<div class="nav-item" onclick="nav(this,'mrr')">📦 Material Removal</div>
+</div>
+<div class="nav-section">
+<div class="nav-label">Analysis</div>
+<div class="nav-item" onclick="nav(this,'summary')">📊 Full Summary</div>
+<div class="nav-item" onclick="nav(this,'ref')">📖 Reference Chart</div>
+</div>
+<div class="sidebar-footer">Made by<br/><span>Vaibhav Dhokpande</span></div>
+</div>
 <!-- MAIN -->
 <div class="main">
-  <div class="topbar">
-    <h1 id="pageTitle">RPM / Cutting Speed</h1>
-    <div class="topbar-right">
-      <span class="badge badge-mat" id="matBadge">🪵 Wood</span>
-      <span class="badge badge-std">ISO 3685</span>
-    </div>
-  </div>
-  <div class="content">
-
-    <!-- RPM -->
-    <div class="panel active" id="p-rpm">
-      <div class="grid4" style="margin-bottom:18px">
-        <div class="metric-card"><div class="m-icon">⚡</div><div class="m-val" id="mc_rpm" style="color:var(--accent)">2865</div><div class="m-unit">RPM</div><div class="m-label">Blade Speed</div></div>
-        <div class="metric-card"><div class="m-icon">🔵</div><div class="m-val" id="mc_vc" style="color:var(--cyan)">45.0</div><div class="m-unit">m/min</div><div class="m-label">Cutting Speed</div></div>
-        <div class="metric-card"><div class="m-icon">⭕</div><div class="m-val" id="mc_circ" style="color:var(--green)">0.50</div><div class="m-unit">m</div><div class="m-label">Circumference</div></div>
-        <div class="metric-card"><div class="m-icon">📐</div><div class="m-val" id="mc_dia" style="color:var(--purple)">160</div><div class="m-unit">mm</div><div class="m-label">Blade Dia</div></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><span class="card-icon">⚡</span><span class="card-title">RPM Calculator</span></div>
-        <div class="card-sub">Calculate blade RPM from cutting speed and blade diameter</div>
-        <div class="tabs">
-          <div class="tab active" onclick="rpmTab(this,'rpm-from-vc')">RPM from Speed</div>
-          <div class="tab" onclick="rpmTab(this,'rpm-from-rpm')">Speed from RPM</div>
-        </div>
-        <div id="rpm-from-vc">
-          <div class="grid3">
-            <div><label>Cutting Speed Vc</label>
-              <div class="unit-input"><input type="number" id="rpm_vc" value="45" step="1" oninput="calcRPM()"><span class="unit-badge">m/min</span></div>
-            </div>
-            <div><label>Blade Diameter (D)</label>
-              <div class="unit-input"><input type="number" id="rpm_d" value="160" step="1" oninput="calcRPM()"><span class="unit-badge">mm</span></div>
-            </div>
-            <div><label>Material</label>
-              <select id="rpm_mat" onchange="applyMatPreset();calcRPM()">
-                <option value="wood">Wood</option>
-                <option value="metal">Metal / Steel</option>
-                <option value="plastic">Plastic / PVC</option>
-                <option value="aluminum">Aluminum</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div id="rpm-from-rpm" style="display:none">
-          <div class="grid2">
-            <div><label>Blade RPM</label>
-              <div class="unit-input"><input type="number" id="rev_rpm" value="2865" step="10" oninput="calcRevVC()"><span class="unit-badge">RPM</span></div>
-            </div>
-            <div><label>Blade Diameter (D)</label>
-              <div class="unit-input"><input type="number" id="rev_d" value="160" step="1" oninput="calcRevVC()"><span class="unit-badge">mm</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">Blade RPM (n)</span><span class="rval amber" id="r_rpm">2865 RPM</span></div>
-          <div class="result-row"><span class="rlab">Cutting Speed (Vc)</span><span class="rval" id="r_vc">45.0 m/min</span></div>
-          <div class="result-row"><span class="rlab">Peripheral Speed</span><span class="rval" id="r_ps">0.750 m/s</span></div>
-          <div class="result-row"><span class="rlab">Blade Circumference</span><span class="rval green" id="r_circ">502.7 mm</span></div>
-          <div class="result-row"><span class="rlab">Recommended Vc Range</span><span class="rval purple" id="r_range">30–60 m/min</span></div>
-        </div>
-        <div id="rpm_status" class="status-banner ok">✅ RPM is within the recommended range for this material.</div>
-        <div class="gauge-wrap">
-          <div class="gauge-label"><span id="rpm_g_lo">Min</span><span>Operating RPM</span><span id="rpm_g_hi">Max</span></div>
-          <div class="gauge-track"><div class="gauge-fill" id="rpm_gauge" style="width:55%;background:var(--green)"></div></div>
-        </div>
-      </div>
-      <div class="tip">Formula: <strong style="color:#fff">n = (Vc × 1000) / (π × D)</strong> &nbsp;|&nbsp; Vc in m/min, D in mm → n in RPM</div>
-    </div>
-
-    <!-- FEED RATE -->
-    <div class="panel" id="p-feed">
-      <div class="card">
-        <div class="card-head"><span class="card-icon">➡</span><span class="card-title">Feed Rate Calculator</span></div>
-        <div class="card-sub">Table feed / workpiece feed per minute and per tooth</div>
-        <div class="preset-grid" id="feed_presets"></div>
-        <div class="grid3">
-          <div><label>Blade RPM (n)</label>
-            <div class="unit-input"><input type="number" id="fr_rpm" value="2865" step="10" oninput="calcFeed()"><span class="unit-badge">RPM</span></div>
-          </div>
-          <div><label>Number of Teeth (z)</label>
-            <div class="unit-input"><input type="number" id="fr_z" value="24" step="1" min="1" oninput="calcFeed()"><span class="unit-badge">teeth</span></div>
-          </div>
-          <div><label>Feed per Tooth (fz)</label>
-            <div class="unit-input"><input type="number" id="fr_fz" value="0.05" step="0.005" oninput="calcFeed()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div><label>Blade Diameter (D)</label>
-            <div class="unit-input"><input type="number" id="fr_d" value="160" step="1" oninput="calcFeed()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div><label>Depth of Cut (ap)</label>
-            <div class="unit-input"><input type="number" id="fr_ap" value="30" step="1" oninput="calcFeed()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div><label>Width of Cut (ae)</label>
-            <div class="unit-input"><input type="number" id="fr_ae" value="2" step="0.5" oninput="calcFeed()"><span class="unit-badge">mm</span></div>
-          </div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">Table Feed Rate (Vf)</span><span class="rval amber" id="fr_vf">3438 mm/min</span></div>
-          <div class="result-row"><span class="rlab">Feed per Rev (fn)</span><span class="rval" id="fr_fn">1.20 mm/rev</span></div>
-          <div class="result-row"><span class="rlab">Feed per Tooth (fz)</span><span class="rval green" id="fr_fz_r">0.050 mm</span></div>
-          <div class="result-row"><span class="rlab">Feed Rate m/min</span><span class="rval" id="fr_mpm">3.44 m/min</span></div>
-          <div class="result-row"><span class="rlab">Chip Thickness</span><span class="rval purple" id="fr_chip">0.043 mm</span></div>
-        </div>
-        <div class="tip">Formula: <strong style="color:#fff">Vf = fz × z × n</strong> &nbsp;|&nbsp; Chip thickness: hm = fz × √(ae/D)</div>
-      </div>
-    </div>
-
-    <!-- CUTTING TIME -->
-    <div class="panel" id="p-time">
-      <div class="card">
-        <div class="card-head"><span class="card-icon">⏱</span><span class="card-title">Cutting Time Calculator</span></div>
-        <div class="card-sub">Estimate cycle time for a single cut or batch</div>
-        <div class="grid3">
-          <div><label>Cut Length (L)</label>
-            <div class="unit-input"><input type="number" id="ct_l" value="1200" step="10" oninput="calcTime()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div><label>Feed Rate (Vf)</label>
-            <div class="unit-input"><input type="number" id="ct_vf" value="3438" step="10" oninput="calcTime()"><span class="unit-badge">mm/min</span></div>
-          </div>
-          <div><label>Approach + Overrun</label>
-            <div class="unit-input"><input type="number" id="ct_app" value="20" step="1" oninput="calcTime()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div><label>Number of Cuts</label>
-            <div class="unit-input"><input type="number" id="ct_n" value="10" step="1" min="1" oninput="calcTime()"><span class="unit-badge">cuts</span></div>
-          </div>
-          <div><label>Setup Time per Cut</label>
-            <div class="unit-input"><input type="number" id="ct_setup" value="5" step="1" oninput="calcTime()"><span class="unit-badge">sec</span></div>
-          </div>
-          <div><label>Blade Return Speed</label>
-            <div class="unit-input"><input type="number" id="ct_ret" value="10000" step="100" oninput="calcTime()"><span class="unit-badge">mm/min</span></div>
-          </div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">Single Cut Time</span><span class="rval amber" id="ct_r1">—</span></div>
-          <div class="result-row"><span class="rlab">Return Time</span><span class="rval" id="ct_r2">—</span></div>
-          <div class="result-row"><span class="rlab">Cycle Time (cut + return + setup)</span><span class="rval green" id="ct_r3">—</span></div>
-          <div class="result-row"><span class="rlab">Total Batch Time (×<span id="ct_nbatch">10</span> cuts)</span><span class="rval" id="ct_r4">—</span></div>
-          <div class="result-row"><span class="rlab">Cuts per Hour</span><span class="rval purple" id="ct_r5">—</span></div>
-          <div class="result-row"><span class="rlab">Effective Feed (with return)</span><span class="rval" id="ct_r6">—</span></div>
-        </div>
-        <div class="tip">Formula: <strong style="color:#fff">tc = (L + approach) / Vf</strong> &nbsp;|&nbsp; Total = n × (tc + t_return + t_setup)</div>
-      </div>
-    </div>
-
-    <!-- POWER & TORQUE -->
-    <div class="panel" id="p-power">
-      <div class="card">
-        <div class="card-head"><span class="card-icon">🔋</span><span class="card-title">Power &amp; Torque Calculator</span></div>
-        <div class="card-sub">Motor power requirement and blade torque for the cutting operation</div>
-        <div class="grid3">
-          <div><label>Cutting Force (Fc)</label>
-            <div class="unit-input"><input type="number" id="pw_fc" value="200" step="10" oninput="calcPower()"><span class="unit-badge">N</span></div>
-          </div>
-          <div><label>Cutting Speed (Vc)</label>
-            <div class="unit-input"><input type="number" id="pw_vc" value="45" step="1" oninput="calcPower()"><span class="unit-badge">m/min</span></div>
-          </div>
-          <div><label>Blade Diameter (D)</label>
-            <div class="unit-input"><input type="number" id="pw_d" value="160" step="1" oninput="calcPower()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div><label>Specific Cutting Force (kc)</label>
-            <div class="unit-input"><input type="number" id="pw_kc" value="1500" step="50" oninput="calcPower()"><span class="unit-badge">N/mm²</span></div>
-          </div>
-          <div><label>Chip Area (ap × fz)</label>
-            <div class="unit-input"><input type="number" id="pw_area" value="1.5" step="0.1" oninput="calcPower()"><span class="unit-badge">mm²</span></div>
-          </div>
-          <div><label>Machine Efficiency (η)</label>
-            <div class="unit-input"><input type="number" id="pw_eta" value="0.85" step="0.01" min="0.1" max="1" oninput="calcPower()"><span class="unit-badge">0–1</span></div>
-          </div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">Net Cutting Power (Pc)</span><span class="rval amber" id="pw_r1">—</span></div>
-          <div class="result-row"><span class="rlab">Required Motor Power</span><span class="rval red" id="pw_r2">—</span></div>
-          <div class="result-row"><span class="rlab">Blade Torque (M)</span><span class="rval" id="pw_r3">—</span></div>
-          <div class="result-row"><span class="rlab">Power in HP</span><span class="rval green" id="pw_r4">—</span></div>
-          <div class="result-row"><span class="rlab">Specific Power</span><span class="rval purple" id="pw_r5">—</span></div>
-        </div>
-        <div id="pw_status" class="status-banner ok" style="margin-top:12px">✅ Cutting parameters within normal range.</div>
-        <div class="tip">Pc = (kc × ap × fz × Vc) / 60000 &nbsp;|&nbsp; Motor Power = Pc / η &nbsp;|&nbsp; Torque M = (Pc × 60) / (2π × n)</div>
-      </div>
-    </div>
-
-    <!-- BLADE SELECTION -->
-    <div class="panel" id="p-blade">
-      <div class="card">
-        <div class="card-head"><span class="card-icon">🪚</span><span class="card-title">Blade Selection Guide</span></div>
-        <div class="card-sub">Recommended blade specifications based on material and cut type</div>
-        <div class="grid2">
-          <div>
-            <label>Material</label>
-            <select id="bs_mat" onchange="calcBlade()">
-              <option value="softwood">Softwood (Pine, Cedar)</option>
-              <option value="hardwood">Hardwood (Oak, Maple)</option>
-              <option value="plywood">Plywood / MDF</option>
-              <option value="steel">Mild Steel</option>
-              <option value="ss">Stainless Steel</option>
-              <option value="aluminum">Aluminum</option>
-              <option value="plastic">Plastic / PVC</option>
-              <option value="acrylic">Acrylic / Perspex</option>
-            </select>
-          </div>
-          <div>
-            <label>Cut Type</label>
-            <select id="bs_cut" onchange="calcBlade()">
-              <option value="rip">Rip Cut (with grain)</option>
-              <option value="cross">Cross Cut (against grain)</option>
-              <option value="fine">Fine / Finish Cut</option>
-              <option value="rough">Rough / Fast Cut</option>
-            </select>
-          </div>
-          <div>
-            <label>Blade Diameter</label>
-            <div class="unit-input"><input type="number" id="bs_d" value="160" step="10" oninput="calcBlade()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div>
-            <label>Material Thickness</label>
-            <div class="unit-input"><input type="number" id="bs_thick" value="25" step="1" oninput="calcBlade()"><span class="unit-badge">mm</span></div>
-          </div>
-        </div>
-        <div class="result-box" style="margin-top:14px">
-          <div class="result-row"><span class="rlab">Recommended Teeth Count</span><span class="rval amber" id="bs_r1">—</span></div>
-          <div class="result-row"><span class="rlab">Tooth Type</span><span class="rval" id="bs_r2">—</span></div>
-          <div class="result-row"><span class="rlab">Pitch (gullet spacing)</span><span class="rval green" id="bs_r3">—</span></div>
-          <div class="result-row"><span class="rlab">Kerf Width</span><span class="rval" id="bs_r4">—</span></div>
-          <div class="result-row"><span class="rlab">Recommended RPM</span><span class="rval cyan" style="color:var(--cyan)" id="bs_r5">—</span></div>
-          <div class="result-row"><span class="rlab">Blade Material</span><span class="rval purple" id="bs_r6">—</span></div>
-          <div class="result-row"><span class="rlab">Cutting Fluid</span><span class="rval" id="bs_r7">—</span></div>
-        </div>
-        <div id="bs_tip" class="tip" style="margin-top:10px"></div>
-      </div>
-    </div>
-
-    <!-- MRR -->
-    <div class="panel" id="p-mrr">
-      <div class="card">
-        <div class="card-head"><span class="card-icon">📦</span><span class="card-title">Material Removal Rate (MRR)</span></div>
-        <div class="card-sub">Volume of material removed per unit time</div>
-        <div class="grid3">
-          <div><label>Width of Cut (ae)</label>
-            <div class="unit-input"><input type="number" id="mrr_ae" value="2" step="0.5" oninput="calcMRR()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div><label>Depth of Cut (ap)</label>
-            <div class="unit-input"><input type="number" id="mrr_ap" value="30" step="1" oninput="calcMRR()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div><label>Feed Rate (Vf)</label>
-            <div class="unit-input"><input type="number" id="mrr_vf" value="3438" step="10" oninput="calcMRR()"><span class="unit-badge">mm/min</span></div>
-          </div>
-          <div><label>Material Density (ρ)</label>
-            <div class="unit-input"><input type="number" id="mrr_rho" value="0.6" step="0.05" oninput="calcMRR()"><span class="unit-badge">g/cm³</span></div>
-          </div>
-          <div><label>Cut Length</label>
-            <div class="unit-input"><input type="number" id="mrr_l" value="1200" step="10" oninput="calcMRR()"><span class="unit-badge">mm</span></div>
-          </div>
-          <div><label>Number of Passes</label>
-            <div class="unit-input"><input type="number" id="mrr_n" value="1" step="1" min="1" oninput="calcMRR()"><span class="unit-badge">passes</span></div>
-          </div>
-        </div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">MRR (Volume/min)</span><span class="rval amber" id="mrr_r1">—</span></div>
-          <div class="result-row"><span class="rlab">MRR (cm³/min)</span><span class="rval" id="mrr_r2">—</span></div>
-          <div class="result-row"><span class="rlab">Mass Removal Rate</span><span class="rval green" id="mrr_r3">—</span></div>
-          <div class="result-row"><span class="rlab">Total Volume Removed</span><span class="rval" id="mrr_r4">—</span></div>
-          <div class="result-row"><span class="rlab">Total Mass Removed</span><span class="rval purple" id="mrr_r5">—</span></div>
-        </div>
-        <div class="tip">MRR = ae × ap × Vf &nbsp;(mm³/min) &nbsp;|&nbsp; Mass = MRR × ρ</div>
-      </div>
-    </div>
-
-    <!-- SUMMARY -->
-    <div class="panel" id="p-summary">
-      <div class="card">
-        <div class="card-head"><span class="card-icon">📊</span><span class="card-title">Full Cutting Summary</span></div>
-        <div class="card-sub">Enter all parameters and get complete analysis</div>
-        <div class="grid3">
-          <div><label>Blade Diameter</label><div class="unit-input"><input type="number" id="s_d" value="160" step="1" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
-          <div><label>Cutting Speed</label><div class="unit-input"><input type="number" id="s_vc" value="45" step="1" oninput="calcSummary()"><span class="unit-badge">m/min</span></div></div>
-          <div><label>Teeth Count</label><div class="unit-input"><input type="number" id="s_z" value="24" step="1" oninput="calcSummary()"><span class="unit-badge">z</span></div></div>
-          <div><label>Feed per Tooth</label><div class="unit-input"><input type="number" id="s_fz" value="0.05" step="0.005" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
-          <div><label>Depth of Cut</label><div class="unit-input"><input type="number" id="s_ap" value="30" step="1" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
-          <div><label>Width of Cut</label><div class="unit-input"><input type="number" id="s_ae" value="2" step="0.5" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
-          <div><label>Cut Length</label><div class="unit-input"><input type="number" id="s_l" value="1200" step="10" oninput="calcSummary()"><span class="unit-badge">mm</span></div></div>
-          <div><label>Num. of Cuts</label><div class="unit-input"><input type="number" id="s_nc" value="10" step="1" oninput="calcSummary()"><span class="unit-badge">cuts</span></div></div>
-          <div><label>Motor Efficiency</label><div class="unit-input"><input type="number" id="s_eta" value="0.85" step="0.01" oninput="calcSummary()"><span class="unit-badge">η</span></div></div>
-        </div>
-        <div class="divider"></div>
-        <div class="result-box">
-          <div class="result-row"><span class="rlab">🔵 Blade RPM</span><span class="rval amber" id="s_rpm">—</span></div>
-          <div class="result-row"><span class="rlab">➡ Feed Rate (Vf)</span><span class="rval" id="s_vf">—</span></div>
-          <div class="result-row"><span class="rlab">⏱ Single Cut Time</span><span class="rval green" id="s_tc">—</span></div>
-          <div class="result-row"><span class="rlab">⏱ Batch Time (<span id="s_batchn">10</span> cuts)</span><span class="rval" id="s_bt">—</span></div>
-          <div class="result-row"><span class="rlab">📦 MRR</span><span class="rval purple" id="s_mrr">—</span></div>
-          <div class="result-row"><span class="rlab">🔋 Required Motor Power</span><span class="rval red" id="s_pwr">—</span></div>
-          <div class="result-row"><span class="rlab">🪚 Chip Thickness</span><span class="rval" id="s_chip">—</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- REFERENCE -->
-    <div class="panel" id="p-ref">
-      <div class="card">
-        <div class="card-head"><span class="card-icon">📖</span><span class="card-title">Cutting Speed Reference Chart</span></div>
-        <div class="card-sub">Recommended Vc (m/min), feed/tooth, and blade specs by material</div>
-        <table style="width:100%;border-collapse:collapse;font-size:13px">
-          <thead><tr style="background:var(--bg3)">
-            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Material</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Vc (m/min)</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">fz (mm)</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Teeth/100mm</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Blade Type</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Fluid</th>
-          </tr></thead>
-          <tbody id="ref_tbody"></tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
+<div class="topbar">
+<h1 id="pageTitle">RPM / Cutting Speed</h1>
+<div class="topbar-right">
+<span class="badge badge-mat" id="matBadge">🪵 Wood</span>
+<span class="badge badge-std">ISO 3685</span>
 </div>
 </div>
-
+<div class="content">
+<!-- RPM -->
+<div class="panel active" id="p-rpm">
+<div class="grid4" style="margin-bottom:18px">
+<div class="metric-card"><div class="m-icon">⚡</div><div class="m-val" id="mc_rpm" style="color:var(--accent)">2865</div><div class="m-unit">RPM</div><div class="m-label">Blade Speed</div></div>
+<div class="metric-card"><div class="m-icon">🔵</div><div class="m-val" id="mc_vc" style="color:var(--cyan)">45.0</div><div class="m-unit">m/min</div><div class="m-label">Cutting Speed</div></div>
+<div class="metric-card"><div class="m-icon">⭕</div><div class="m-val" id="mc_circ" style="color:var(--green)">0.50</div><div class="m-unit">m</div><div class="m-label">Circumference</div></div>
+<div class="metric-card"><div class="m-icon">📐</div><div class="m-val" id="mc_dia" style="color:var(--purple)">160</div><div class="m-unit">mm</div><div class="m-label">Blade Dia</div></div>
+</div>
+<div class="card">
+<div class="card-head"><span class="card-icon">⚡</span><span class="card-title">RPM Calculator</span></div>
+<div class="card-sub">Calculate blade RPM from cutting speed and blade diameter</div>
+<div class="tabs">
+<div class="tab active" onclick="rpmTab(this,'rpm-from-vc')">RPM from Speed</div>
+<div class="tab" onclick="rpmTab(this,'rpm-from-rpm')">Speed from RPM</div>
+</div>
+<div id="rpm-from-vc">
+<div class="grid3">
+<div><label>Cutting Speed Vc</label>
+<div class="unit-input"><input id="rpm_vc" oninput="calcRPM()" step="1" type="number" value="45"/><span class="unit-badge">m/min</span></div>
+</div>
+<div><label>Blade Diameter (D)</label>
+<div class="unit-input"><input id="rpm_d" oninput="calcRPM()" step="1" type="number" value="160"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Material</label>
+<select id="rpm_mat" onchange="applyMatPreset();calcRPM()">
+<option value="wood">Wood</option>
+<option value="metal">Metal / Steel</option>
+<option value="plastic">Plastic / PVC</option>
+<option value="aluminum">Aluminum</option>
+</select>
+</div>
+</div>
+</div>
+<div id="rpm-from-rpm" style="display:none">
+<div class="grid2">
+<div><label>Blade RPM</label>
+<div class="unit-input"><input id="rev_rpm" oninput="calcRevVC()" step="10" type="number" value="2865"/><span class="unit-badge">RPM</span></div>
+</div>
+<div><label>Blade Diameter (D)</label>
+<div class="unit-input"><input id="rev_d" oninput="calcRevVC()" step="1" type="number" value="160"/><span class="unit-badge">mm</span></div>
+</div>
+</div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Blade RPM (n)</span><span class="rval amber" id="r_rpm">2865 RPM</span></div>
+<div class="result-row"><span class="rlab">Cutting Speed (Vc)</span><span class="rval" id="r_vc">45.0 m/min</span></div>
+<div class="result-row"><span class="rlab">Peripheral Speed</span><span class="rval" id="r_ps">0.750 m/s</span></div>
+<div class="result-row"><span class="rlab">Blade Circumference</span><span class="rval green" id="r_circ">502.7 mm</span></div>
+<div class="result-row"><span class="rlab">Recommended Vc Range</span><span class="rval purple" id="r_range">30–60 m/min</span></div>
+</div>
+<div class="status-banner ok" id="rpm_status">✅ RPM is within the recommended range for this material.</div>
+<div class="gauge-wrap">
+<div class="gauge-label"><span id="rpm_g_lo">Min</span><span>Operating RPM</span><span id="rpm_g_hi">Max</span></div>
+<div class="gauge-track"><div class="gauge-fill" id="rpm_gauge" style="width:55%;background:var(--green)"></div></div>
+</div>
+</div>
+<div class="tip">Formula: <strong style="color:#fff">n = (Vc × 1000) / (π × D)</strong>  |  Vc in m/min, D in mm → n in RPM</div>
+</div>
+<!-- FEED RATE -->
+<div class="panel" id="p-feed">
+<div class="card">
+<div class="card-head"><span class="card-icon">➡</span><span class="card-title">Feed Rate Calculator</span></div>
+<div class="card-sub">Table feed / workpiece feed per minute and per tooth</div>
+<div class="preset-grid" id="feed_presets"></div>
+<div class="grid3">
+<div><label>Blade RPM (n)</label>
+<div class="unit-input"><input id="fr_rpm" oninput="calcFeed()" step="10" type="number" value="2865"/><span class="unit-badge">RPM</span></div>
+</div>
+<div><label>Number of Teeth (z)</label>
+<div class="unit-input"><input id="fr_z" min="1" oninput="calcFeed()" step="1" type="number" value="24"/><span class="unit-badge">teeth</span></div>
+</div>
+<div><label>Feed per Tooth (fz)</label>
+<div class="unit-input"><input id="fr_fz" oninput="calcFeed()" step="0.005" type="number" value="0.05"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Blade Diameter (D)</label>
+<div class="unit-input"><input id="fr_d" oninput="calcFeed()" step="1" type="number" value="160"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Depth of Cut (ap)</label>
+<div class="unit-input"><input id="fr_ap" oninput="calcFeed()" step="1" type="number" value="30"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Width of Cut (ae)</label>
+<div class="unit-input"><input id="fr_ae" oninput="calcFeed()" step="0.5" type="number" value="2"/><span class="unit-badge">mm</span></div>
+</div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Table Feed Rate (Vf)</span><span class="rval amber" id="fr_vf">3438 mm/min</span></div>
+<div class="result-row"><span class="rlab">Feed per Rev (fn)</span><span class="rval" id="fr_fn">1.20 mm/rev</span></div>
+<div class="result-row"><span class="rlab">Feed per Tooth (fz)</span><span class="rval green" id="fr_fz_r">0.050 mm</span></div>
+<div class="result-row"><span class="rlab">Feed Rate m/min</span><span class="rval" id="fr_mpm">3.44 m/min</span></div>
+<div class="result-row"><span class="rlab">Chip Thickness</span><span class="rval purple" id="fr_chip">0.043 mm</span></div>
+</div>
+<div class="tip">Formula: <strong style="color:#fff">Vf = fz × z × n</strong>  |  Chip thickness: hm = fz × √(ae/D)</div>
+</div>
+</div>
+<!-- CUTTING TIME -->
+<div class="panel" id="p-time">
+<div class="card">
+<div class="card-head"><span class="card-icon">⏱</span><span class="card-title">Cutting Time Calculator</span></div>
+<div class="card-sub">Estimate cycle time for a single cut or batch</div>
+<div class="grid3">
+<div><label>Cut Length (L)</label>
+<div class="unit-input"><input id="ct_l" oninput="calcTime()" step="10" type="number" value="1200"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Feed Rate (Vf)</label>
+<div class="unit-input"><input id="ct_vf" oninput="calcTime()" step="10" type="number" value="3438"/><span class="unit-badge">mm/min</span></div>
+</div>
+<div><label>Approach + Overrun</label>
+<div class="unit-input"><input id="ct_app" oninput="calcTime()" step="1" type="number" value="20"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Number of Cuts</label>
+<div class="unit-input"><input id="ct_n" min="1" oninput="calcTime()" step="1" type="number" value="10"/><span class="unit-badge">cuts</span></div>
+</div>
+<div><label>Setup Time per Cut</label>
+<div class="unit-input"><input id="ct_setup" oninput="calcTime()" step="1" type="number" value="5"/><span class="unit-badge">sec</span></div>
+</div>
+<div><label>Blade Return Speed</label>
+<div class="unit-input"><input id="ct_ret" oninput="calcTime()" step="100" type="number" value="10000"/><span class="unit-badge">mm/min</span></div>
+</div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Single Cut Time</span><span class="rval amber" id="ct_r1">—</span></div>
+<div class="result-row"><span class="rlab">Return Time</span><span class="rval" id="ct_r2">—</span></div>
+<div class="result-row"><span class="rlab">Cycle Time (cut + return + setup)</span><span class="rval green" id="ct_r3">—</span></div>
+<div class="result-row"><span class="rlab">Total Batch Time (×<span id="ct_nbatch">10</span> cuts)</span><span class="rval" id="ct_r4">—</span></div>
+<div class="result-row"><span class="rlab">Cuts per Hour</span><span class="rval purple" id="ct_r5">—</span></div>
+<div class="result-row"><span class="rlab">Effective Feed (with return)</span><span class="rval" id="ct_r6">—</span></div>
+</div>
+<div class="tip">Formula: <strong style="color:#fff">tc = (L + approach) / Vf</strong>  |  Total = n × (tc + t_return + t_setup)</div>
+</div>
+</div>
+<!-- POWER & TORQUE -->
+<div class="panel" id="p-power">
+<div class="card">
+<div class="card-head"><span class="card-icon">🔋</span><span class="card-title">Power &amp; Torque Calculator</span></div>
+<div class="card-sub">Motor power requirement and blade torque for the cutting operation</div>
+<div class="grid3">
+<div><label>Cutting Force (Fc)</label>
+<div class="unit-input"><input id="pw_fc" oninput="calcPower()" step="10" type="number" value="200"/><span class="unit-badge">N</span></div>
+</div>
+<div><label>Cutting Speed (Vc)</label>
+<div class="unit-input"><input id="pw_vc" oninput="calcPower()" step="1" type="number" value="45"/><span class="unit-badge">m/min</span></div>
+</div>
+<div><label>Blade Diameter (D)</label>
+<div class="unit-input"><input id="pw_d" oninput="calcPower()" step="1" type="number" value="160"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Specific Cutting Force (kc)</label>
+<div class="unit-input"><input id="pw_kc" oninput="calcPower()" step="50" type="number" value="1500"/><span class="unit-badge">N/mm²</span></div>
+</div>
+<div><label>Chip Area (ap × fz)</label>
+<div class="unit-input"><input id="pw_area" oninput="calcPower()" step="0.1" type="number" value="1.5"/><span class="unit-badge">mm²</span></div>
+</div>
+<div><label>Machine Efficiency (η)</label>
+<div class="unit-input"><input id="pw_eta" max="1" min="0.1" oninput="calcPower()" step="0.01" type="number" value="0.85"/><span class="unit-badge">0–1</span></div>
+</div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">Net Cutting Power (Pc)</span><span class="rval amber" id="pw_r1">—</span></div>
+<div class="result-row"><span class="rlab">Required Motor Power</span><span class="rval red" id="pw_r2">—</span></div>
+<div class="result-row"><span class="rlab">Blade Torque (M)</span><span class="rval" id="pw_r3">—</span></div>
+<div class="result-row"><span class="rlab">Power in HP</span><span class="rval green" id="pw_r4">—</span></div>
+<div class="result-row"><span class="rlab">Specific Power</span><span class="rval purple" id="pw_r5">—</span></div>
+</div>
+<div class="status-banner ok" id="pw_status" style="margin-top:12px">✅ Cutting parameters within normal range.</div>
+<div class="tip">Pc = (kc × ap × fz × Vc) / 60000  |  Motor Power = Pc / η  |  Torque M = (Pc × 60) / (2π × n)</div>
+</div>
+</div>
+<!-- BLADE SELECTION -->
+<div class="panel" id="p-blade">
+<div class="card">
+<div class="card-head"><span class="card-icon">🪚</span><span class="card-title">Blade Selection Guide</span></div>
+<div class="card-sub">Recommended blade specifications based on material and cut type</div>
+<div class="grid2">
+<div>
+<label>Material</label>
+<select id="bs_mat" onchange="calcBlade()">
+<option value="softwood">Softwood (Pine, Cedar)</option>
+<option value="hardwood">Hardwood (Oak, Maple)</option>
+<option value="plywood">Plywood / MDF</option>
+<option value="steel">Mild Steel</option>
+<option value="ss">Stainless Steel</option>
+<option value="aluminum">Aluminum</option>
+<option value="plastic">Plastic / PVC</option>
+<option value="acrylic">Acrylic / Perspex</option>
+</select>
+</div>
+<div>
+<label>Cut Type</label>
+<select id="bs_cut" onchange="calcBlade()">
+<option value="rip">Rip Cut (with grain)</option>
+<option value="cross">Cross Cut (against grain)</option>
+<option value="fine">Fine / Finish Cut</option>
+<option value="rough">Rough / Fast Cut</option>
+</select>
+</div>
+<div>
+<label>Blade Diameter</label>
+<div class="unit-input"><input id="bs_d" oninput="calcBlade()" step="10" type="number" value="160"/><span class="unit-badge">mm</span></div>
+</div>
+<div>
+<label>Material Thickness</label>
+<div class="unit-input"><input id="bs_thick" oninput="calcBlade()" step="1" type="number" value="25"/><span class="unit-badge">mm</span></div>
+</div>
+</div>
+<div class="result-box" style="margin-top:14px">
+<div class="result-row"><span class="rlab">Recommended Teeth Count</span><span class="rval amber" id="bs_r1">—</span></div>
+<div class="result-row"><span class="rlab">Tooth Type</span><span class="rval" id="bs_r2">—</span></div>
+<div class="result-row"><span class="rlab">Pitch (gullet spacing)</span><span class="rval green" id="bs_r3">—</span></div>
+<div class="result-row"><span class="rlab">Kerf Width</span><span class="rval" id="bs_r4">—</span></div>
+<div class="result-row"><span class="rlab">Recommended RPM</span><span class="rval cyan" id="bs_r5" style="color:var(--cyan)">—</span></div>
+<div class="result-row"><span class="rlab">Blade Material</span><span class="rval purple" id="bs_r6">—</span></div>
+<div class="result-row"><span class="rlab">Cutting Fluid</span><span class="rval" id="bs_r7">—</span></div>
+</div>
+<div class="tip" id="bs_tip" style="margin-top:10px"></div>
+</div>
+</div>
+<!-- MRR -->
+<div class="panel" id="p-mrr">
+<div class="card">
+<div class="card-head"><span class="card-icon">📦</span><span class="card-title">Material Removal Rate (MRR)</span></div>
+<div class="card-sub">Volume of material removed per unit time</div>
+<div class="grid3">
+<div><label>Width of Cut (ae)</label>
+<div class="unit-input"><input id="mrr_ae" oninput="calcMRR()" step="0.5" type="number" value="2"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Depth of Cut (ap)</label>
+<div class="unit-input"><input id="mrr_ap" oninput="calcMRR()" step="1" type="number" value="30"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Feed Rate (Vf)</label>
+<div class="unit-input"><input id="mrr_vf" oninput="calcMRR()" step="10" type="number" value="3438"/><span class="unit-badge">mm/min</span></div>
+</div>
+<div><label>Material Density (ρ)</label>
+<div class="unit-input"><input id="mrr_rho" oninput="calcMRR()" step="0.05" type="number" value="0.6"/><span class="unit-badge">g/cm³</span></div>
+</div>
+<div><label>Cut Length</label>
+<div class="unit-input"><input id="mrr_l" oninput="calcMRR()" step="10" type="number" value="1200"/><span class="unit-badge">mm</span></div>
+</div>
+<div><label>Number of Passes</label>
+<div class="unit-input"><input id="mrr_n" min="1" oninput="calcMRR()" step="1" type="number" value="1"/><span class="unit-badge">passes</span></div>
+</div>
+</div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">MRR (Volume/min)</span><span class="rval amber" id="mrr_r1">—</span></div>
+<div class="result-row"><span class="rlab">MRR (cm³/min)</span><span class="rval" id="mrr_r2">—</span></div>
+<div class="result-row"><span class="rlab">Mass Removal Rate</span><span class="rval green" id="mrr_r3">—</span></div>
+<div class="result-row"><span class="rlab">Total Volume Removed</span><span class="rval" id="mrr_r4">—</span></div>
+<div class="result-row"><span class="rlab">Total Mass Removed</span><span class="rval purple" id="mrr_r5">—</span></div>
+</div>
+<div class="tip">MRR = ae × ap × Vf  (mm³/min)  |  Mass = MRR × ρ</div>
+</div>
+</div>
+<!-- SUMMARY -->
+<div class="panel" id="p-summary">
+<div class="card">
+<div class="card-head"><span class="card-icon">📊</span><span class="card-title">Full Cutting Summary</span></div>
+<div class="card-sub">Enter all parameters and get complete analysis</div>
+<div class="grid3">
+<div><label>Blade Diameter</label><div class="unit-input"><input id="s_d" oninput="calcSummary()" step="1" type="number" value="160"/><span class="unit-badge">mm</span></div></div>
+<div><label>Cutting Speed</label><div class="unit-input"><input id="s_vc" oninput="calcSummary()" step="1" type="number" value="45"/><span class="unit-badge">m/min</span></div></div>
+<div><label>Teeth Count</label><div class="unit-input"><input id="s_z" oninput="calcSummary()" step="1" type="number" value="24"/><span class="unit-badge">z</span></div></div>
+<div><label>Feed per Tooth</label><div class="unit-input"><input id="s_fz" oninput="calcSummary()" step="0.005" type="number" value="0.05"/><span class="unit-badge">mm</span></div></div>
+<div><label>Depth of Cut</label><div class="unit-input"><input id="s_ap" oninput="calcSummary()" step="1" type="number" value="30"/><span class="unit-badge">mm</span></div></div>
+<div><label>Width of Cut</label><div class="unit-input"><input id="s_ae" oninput="calcSummary()" step="0.5" type="number" value="2"/><span class="unit-badge">mm</span></div></div>
+<div><label>Cut Length</label><div class="unit-input"><input id="s_l" oninput="calcSummary()" step="10" type="number" value="1200"/><span class="unit-badge">mm</span></div></div>
+<div><label>Num. of Cuts</label><div class="unit-input"><input id="s_nc" oninput="calcSummary()" step="1" type="number" value="10"/><span class="unit-badge">cuts</span></div></div>
+<div><label>Motor Efficiency</label><div class="unit-input"><input id="s_eta" oninput="calcSummary()" step="0.01" type="number" value="0.85"/><span class="unit-badge">η</span></div></div>
+</div>
+<div class="divider"></div>
+<div class="result-box">
+<div class="result-row"><span class="rlab">🔵 Blade RPM</span><span class="rval amber" id="s_rpm">—</span></div>
+<div class="result-row"><span class="rlab">➡ Feed Rate (Vf)</span><span class="rval" id="s_vf">—</span></div>
+<div class="result-row"><span class="rlab">⏱ Single Cut Time</span><span class="rval green" id="s_tc">—</span></div>
+<div class="result-row"><span class="rlab">⏱ Batch Time (<span id="s_batchn">10</span> cuts)</span><span class="rval" id="s_bt">—</span></div>
+<div class="result-row"><span class="rlab">📦 MRR</span><span class="rval purple" id="s_mrr">—</span></div>
+<div class="result-row"><span class="rlab">🔋 Required Motor Power</span><span class="rval red" id="s_pwr">—</span></div>
+<div class="result-row"><span class="rlab">🪚 Chip Thickness</span><span class="rval" id="s_chip">—</span></div>
+</div>
+</div>
+</div>
+<!-- REFERENCE -->
+<div class="panel" id="p-ref">
+<div class="card">
+<div class="card-head"><span class="card-icon">📖</span><span class="card-title">Cutting Speed Reference Chart</span></div>
+<div class="card-sub">Recommended Vc (m/min), feed/tooth, and blade specs by material</div>
+<table style="width:100%;border-collapse:collapse;font-size:13px">
+<thead><tr style="background:var(--bg3)">
+<th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Material</th>
+<th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Vc (m/min)</th>
+<th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">fz (mm)</th>
+<th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Teeth/100mm</th>
+<th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Blade Type</th>
+<th style="padding:9px 12px;text-align:left;color:var(--muted);font-weight:500;border-bottom:1px solid var(--border)">Fluid</th>
+</tr></thead>
+<tbody id="ref_tbody"></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
 <script>
 const MAT_DATA={
   wood:{label:'🪵 Wood',vcMin:30,vcMax:60,vcDef:45,fz:0.05,kc:400,rho:0.6,rpmMin:2500,rpmMax:5500},
@@ -713,5 +702,15 @@ window.onload=()=>{
   calcRPM();calcFeed();calcTime();calcPower();calcBlade();calcMRR();calcSummary();buildRefTable();
 };
 </script>
-</body>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
+</footer></body>
 </html>
