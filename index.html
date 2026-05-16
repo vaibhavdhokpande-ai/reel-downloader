@@ -6,700 +6,157 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TaskJunction – Grab Every Idea, Build Every Skill</title>
 <meta name="google-adsense-account" content="ca-pub-4874098877826635">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4874098877826635"
-     crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4874098877826635" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
 <style>
-/* ════════════════════════════════════
-   TOKENS & RESET
-════════════════════════════════════ */
 :root {
-  --white:     #ffffff;
-  --off:       #faf9f7;
-  --cream:     #f5f0e8;
-  --border:    #e8e2d9;
-  --border2:   #d4cdc2;
-  --orange:    #f4600c;
-  --orange2:   #ff7a2e;
-  --orange3:   #fff0e8;
-  --orange4:   rgba(244,96,12,0.08);
-  --text:      #0f0e0c;
-  --text2:     #5a5650;
-  --text3:     #9e9890;
-  --green:     #1a9952;
-  --blue:      #0d74ce;
-  --shadow:    0 2px 12px rgba(15,14,12,0.06);
-  --shadow-lg: 0 8px 40px rgba(15,14,12,0.10);
-  --r:         14px;
-  --font-d:    'Clash Display', sans-serif;
-  --font-b:    'Sora', sans-serif;
-  --font-m:    'JetBrains Mono', monospace;
+  --white:#ffffff; --off:#faf9f7; --cream:#f5f0e8; --border:#e8e2d9; --border2:#d4cdc2;
+  --orange:#f4600c; --orange2:#ff7a2e; --orange3:#fff0e8; --orange4:rgba(244,96,12,0.08);
+  --text:#0f0e0c; --text2:#5a5650; --text3:#9e9890; --green:#1a9952; --blue:#0d74ce;
+  --shadow:0 2px 12px rgba(15,14,12,0.06); --shadow-lg:0 8px 40px rgba(15,14,12,0.10);
+  --font-d:'Clash Display',sans-serif; --font-b:'Sora',sans-serif; --font-m:'JetBrains Mono',monospace;
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:15px;}
+body{background:var(--off);color:var(--text);font-family:var(--font-b);line-height:1.7;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+nav{position:sticky;top:0;z-index:100;height:68px;background:rgba(250,249,247,0.92);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 32px;gap:48px;}
+.logo{font-family:var(--font-d);font-size:22px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.02em;flex-shrink:0;}
+.logo em{color:var(--orange);font-style:normal;}
+nav ul{list-style:none;display:flex;gap:8px;flex:1;}
+nav ul li a{font-size:13.5px;font-weight:500;color:var(--text2);text-decoration:none;padding:6px 12px;border-radius:8px;letter-spacing:0.01em;transition:background 0.18s,color 0.18s;}
+nav ul li a:hover{background:var(--orange4);color:var(--orange);}
+.nav-cta{font-family:var(--font-b);font-size:13px;font-weight:600;background:var(--orange);color:#fff;border:none;padding:8px 20px;border-radius:9px;cursor:pointer;text-decoration:none;transition:background 0.18s,transform 0.15s;flex-shrink:0;}
+.nav-cta:hover{background:var(--orange2);transform:translateY(-1px);}
+.menu-wrap{position:relative;margin-left:auto;}
+.menu-btn{width:40px;height:40px;border-radius:10px;background:var(--white);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:border-color 0.2s;}
+.menu-btn:hover{border-color:var(--orange);}
+.menu-btn span{width:18px;height:1.5px;background:var(--text);border-radius:2px;transition:all 0.28s cubic-bezier(0.4,0,0.2,1);display:block;}
+.menu-btn.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.menu-btn.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.menu-btn.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.dropdown{position:absolute;top:50px;right:0;min-width:270px;background:var(--white);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden;padding:6px;opacity:0;transform:translateY(-6px) scale(0.98);pointer-events:none;transition:opacity 0.2s,transform 0.2s;z-index:200;}
+.dropdown.show{opacity:1;transform:none;pointer-events:all;}
+.dd-label{font-family:var(--font-m);font-size:9.5px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);padding:10px 12px 6px;}
+.dd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-size:13.5px;font-weight:500;color:var(--text);text-decoration:none;transition:background 0.15s;cursor:pointer;border:none;background:none;width:100%;font-family:var(--font-b);}
+.dd-item:hover{background:var(--orange4);color:var(--orange);}
+.dd-icon{width:30px;height:30px;border-radius:8px;background:var(--orange3);border:1px solid rgba(244,96,12,0.15);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.badge-live{margin-left:auto;font-family:var(--font-m);font-size:9px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(26,153,82,0.1);color:var(--green);border:1px solid rgba(26,153,82,0.2);letter-spacing:0.06em;text-transform:uppercase;}
+.badge-soon{margin-left:auto;font-family:var(--font-m);font-size:9px;font-weight:600;padding:2px 8px;border-radius:20px;background:#f0eeeb;color:var(--text3);border:1px solid var(--border);letter-spacing:0.06em;text-transform:uppercase;}
+.dd-divider{height:1px;background:var(--border);margin:4px 0;}
+.dd-mech:hover{background:rgba(180,83,9,0.07);color:#b45309;}
+.dd-icon-mech{background:rgba(255,167,38,0.12)!important;border-color:rgba(180,83,9,0.18)!important;}
+.badge-mech-live{margin-left:auto;font-family:var(--font-m);font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(180,83,9,0.1);color:#b45309;border:1px solid rgba(180,83,9,0.25);letter-spacing:0.06em;text-transform:uppercase;}
+.hero{padding:100px 32px 80px;position:relative;overflow:hidden;text-align:center;}
+.hero::before{content:'';position:absolute;width:800px;height:600px;top:-200px;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(244,96,12,0.08) 0%,transparent 65%);pointer-events:none;}
+.hero::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(15,14,12,0.06) 1px,transparent 1px);background-size:32px 32px;-webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 80%);mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 80%);pointer-events:none;}
+.hero-inner{position:relative;z-index:1;max-width:820px;margin:0 auto;}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);border-radius:100px;padding:6px 16px 6px 8px;font-size:12.5px;font-weight:500;color:var(--text2);margin-bottom:32px;box-shadow:var(--shadow);animation:fadeUp 0.5s ease 0.1s both;}
+.hero-pill-dot{width:22px;height:22px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;}
+.hero-pill-pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;margin-right:2px;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(26,153,82,0.5);}50%{box-shadow:0 0 0 5px rgba(26,153,82,0);}}
+.hero h1{font-family:var(--font-d);font-size:clamp(46px,8vw,90px);font-weight:700;line-height:1.0;letter-spacing:-0.04em;margin-bottom:24px;animation:fadeUp 0.5s ease 0.2s both;}
+.hero h1 .o{color:var(--orange);}
+.hero h1 .outline{-webkit-text-stroke:1.5px var(--text);color:transparent;}
+.hero-sub{font-size:17px;color:var(--text2);font-weight:400;max-width:520px;margin:0 auto 40px;line-height:1.75;animation:fadeUp 0.5s ease 0.3s both;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.5s ease 0.4s both;}
+.btn-primary{background:var(--orange);color:#fff;padding:14px 32px;border-radius:11px;font-family:var(--font-b);font-size:14.5px;font-weight:600;text-decoration:none;letter-spacing:0.01em;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(244,96,12,0.3);transition:background 0.18s,transform 0.15s,box-shadow 0.18s;}
+.btn-primary:hover{background:var(--orange2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(244,96,12,0.35);}
+.btn-secondary{background:var(--white);color:var(--text);padding:14px 28px;border-radius:11px;font-family:var(--font-b);font-size:14.5px;font-weight:500;text-decoration:none;border:1px solid var(--border);display:inline-flex;align-items:center;gap:8px;transition:border-color 0.18s,background 0.18s,transform 0.15s;box-shadow:var(--shadow);}
+.btn-secondary:hover{border-color:var(--orange2);background:var(--orange3);color:var(--orange);transform:translateY(-2px);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--white);}
+.stat{text-align:center;padding:28px 20px;border-right:1px solid var(--border);transition:background 0.18s;}
+.stat:last-child{border-right:none;}
+.stat:hover{background:var(--orange3);}
+.stat-num{font-family:var(--font-d);font-size:38px;font-weight:700;color:var(--orange);letter-spacing:-0.03em;line-height:1;margin-bottom:4px;}
+.stat-lbl{font-family:var(--font-m);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);}
+.sec{padding:88px 32px;}
+.sec-inner{max-width:1120px;margin:0 auto;}
+.sec-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);margin-bottom:12px;}
+.sec-tag::before{content:'';width:20px;height:1.5px;background:var(--orange);border-radius:2px;}
+.sec-title{font-family:var(--font-d);font-size:clamp(32px,4vw,52px);font-weight:700;letter-spacing:-0.03em;line-height:1.08;margin-bottom:56px;}
+.sec-title span{color:var(--orange);}
+.about-sec{background:linear-gradient(160deg,#fff8f3 0%,var(--off) 60%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;max-width:1020px;margin:0 auto;}
+.about-text h2{font-family:var(--font-d);font-size:clamp(30px,4vw,48px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:20px;}
+.about-text h2 span{color:var(--orange);}
+.about-text p{font-size:15.5px;color:var(--text2);line-height:1.85;font-weight:400;margin-bottom:0;}
+.about-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;}
+.chip{font-family:var(--font-m);font-size:11px;font-weight:500;padding:5px 13px;border-radius:100px;background:var(--orange3);color:var(--orange);border:1px solid rgba(244,96,12,0.2);letter-spacing:0.04em;}
+.founder-card{background:var(--white);border:1px solid var(--border);border-radius:24px;padding:36px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;text-align:center;}
+.founder-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--orange2),#fbbf24);}
+.founder-avatar{width:96px;height:96px;border-radius:24px;background:linear-gradient(135deg,var(--orange3),#ffe4cc);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 16px;border:2px solid rgba(244,96,12,0.15);box-shadow:0 8px 24px rgba(244,96,12,0.15);}
+.founder-name{font-family:var(--font-d);font-size:22px;font-weight:700;letter-spacing:-0.02em;margin-bottom:4px;}
+.founder-name span{color:var(--orange);}
+.founder-role{font-family:var(--font-m);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange);margin-bottom:16px;display:block;}
+.founder-bio{font-size:13.5px;color:var(--text2);line-height:1.75;margin-bottom:20px;}
+.socials{display:flex;gap:10px;justify-content:center;}
+.social-btn{width:40px;height:40px;border-radius:10px;background:var(--off);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all 0.18s;}
+.social-btn:hover{background:var(--orange3);border-color:rgba(244,96,12,0.3);transform:translateY(-2px);}
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+.app-card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:24px 18px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;position:relative;overflow:hidden;cursor:default;}
+.app-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(244,96,12,0.05),transparent 55%);opacity:0;transition:opacity 0.25s;pointer-events:none;}
+.app-card:hover{border-color:rgba(244,96,12,0.35);transform:translateY(-5px);box-shadow:var(--shadow-lg);}
+.app-card:hover::after{opacity:1;}
+.app-card.disabled{opacity:0.45;pointer-events:none;}
+.app-icon{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;transition:transform 0.2s;}
+.app-card:hover .app-icon{transform:scale(1.1);}
+.app-name{font-family:var(--font-d);font-size:15px;font-weight:600;letter-spacing:-0.01em;}
+.app-desc{font-size:11.5px;color:var(--text3);line-height:1.45;}
+.app-btn-wrap{display:flex;width:100%;margin-top:6px;gap:5px;}
+.app-btn{flex:1;padding:8px 6px;border-radius:9px;font-family:var(--font-b);font-size:11px;font-weight:600;text-decoration:none;text-align:center;letter-spacing:0.04em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:4px;border:none;cursor:pointer;transition:transform 0.15s,opacity 0.15s;}
+.app-btn:hover{transform:translateY(-1px);opacity:0.85;}
+.app-btn-open{background:var(--orange3);color:var(--orange);border:1px solid rgba(244,96,12,0.22);}
+.app-btn-open:hover{background:rgba(244,96,12,0.14);}
+.app-btn-soon{background:var(--off);color:var(--text3);border:1px solid var(--border);cursor:not-allowed;}
+.app-btn-soon:hover{transform:none;opacity:1;}
+.games-sec{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.mech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.mech-card{background:var(--white);border:1px solid #e8dcc8;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;}
+.mech-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#b45309,#f59e0b,#fbbf24);opacity:0;transition:opacity 0.22s;}
+.mech-card:hover{border-color:rgba(180,83,9,0.35);transform:translateY(-4px);box-shadow:0 10px 36px rgba(180,83,9,0.10);}
+.mech-card:hover::before{opacity:1;}
+.mech-card-top{display:flex;align-items:center;justify-content:space-between;}
+.mech-icon{width:48px;height:48px;border-radius:13px;background:rgba(251,191,36,0.12);border:1px solid rgba(180,83,9,0.18);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.mech-badge-live{font-family:var(--font-m);font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(180,83,9,0.10);color:#b45309;border:1px solid rgba(180,83,9,0.22);letter-spacing:0.08em;text-transform:uppercase;}
+.mech-card-name{font-family:var(--font-d);font-size:17px;font-weight:600;letter-spacing:-0.01em;color:var(--text);}
+.mech-card-desc{font-size:13px;color:var(--text2);line-height:1.65;flex:1;}
+.mech-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.mech-tag{font-family:var(--font-m);font-size:10px;font-weight:500;padding:3px 9px;border-radius:100px;background:rgba(244,96,12,0.07);color:var(--orange);border:1px solid rgba(244,96,12,0.18);letter-spacing:0.04em;}
+.mech-open-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 18px;border-radius:10px;font-family:var(--font-b);font-size:13px;font-weight:600;letter-spacing:0.01em;background:rgba(180,83,9,0.10);color:#b45309;border:1px solid rgba(180,83,9,0.22);text-decoration:none;transition:background 0.18s,transform 0.15s;cursor:pointer;}
+.mech-open-btn:hover{background:rgba(180,83,9,0.18);transform:translateY(-1px);}
+.privacy-wrap{max-width:720px;margin:0 auto;}
+.privacy-wrap h2{font-family:var(--font-d);font-size:44px;font-weight:700;letter-spacing:-0.03em;margin-bottom:6px;}
+.privacy-updated{font-family:var(--font-m);font-size:11px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:40px;display:block;}
+.privacy-block{margin-bottom:32px;}
+.privacy-block h3{font-family:var(--font-d);font-size:17px;font-weight:600;margin-bottom:8px;color:var(--text);}
+.privacy-block p,.privacy-block ul{font-size:14.5px;color:var(--text2);line-height:1.85;}
+.privacy-block ul{padding-left:0;list-style:none;}
+.privacy-block ul li{padding:5px 0 5px 16px;position:relative;}
+.privacy-block ul li::before{content:'→';position:absolute;left:0;color:var(--orange);font-size:11px;top:7px;}
+.privacy-block a{color:var(--orange);text-decoration:underline;}
+footer{background:var(--text);color:#fff;padding:56px 32px 36px;text-align:center;}
+.footer-logo{font-family:var(--font-d);font-size:28px;font-weight:700;letter-spacing:-0.03em;margin-bottom:20px;}
+.footer-logo em{color:var(--orange);font-style:normal;}
+.footer-links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;}
+.footer-links a{font-size:13px;color:rgba(255,255,255,0.55);text-decoration:none;padding:5px 12px;border-radius:7px;transition:color 0.15s,background 0.15s;}
+.footer-links a:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.footer-copy{font-size:12.5px;color:rgba(255,255,255,0.35);}
+.footer-socials{display:flex;gap:10px;justify-content:center;margin-bottom:24px;}
+.footer-social{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all 0.18s;}
+.footer-social:hover{background:var(--orange);border-color:var(--orange);transform:translateY(-2px);}
+@media(max-width:768px){nav ul{display:none;}.nav-cta{display:none;}.stats{grid-template-columns:repeat(2,1fr);}.stat{border-bottom:1px solid var(--border);}.about-grid{grid-template-columns:1fr;gap:40px;}.hero h1{font-size:40px;}.sec{padding:60px 20px;}.apps-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}.mech-grid{grid-template-columns:1fr;}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.reveal.visible{opacity:1;transform:none;}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 15px; }
-
-body {
-  background: var(--off);
-  color: var(--text);
-  font-family: var(--font-b);
-  line-height: 1.7;
-  overflow-x: hidden;
-}
-
-/* subtle grain */
-body::after {
-  content: '';
-  position: fixed; inset: 0; z-index: 9999;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ════════════════════════════════════
-   NAV
-════════════════════════════════════ */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  height: 68px;
-  background: rgba(250,249,247,0.92);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center;
-  padding: 0 32px;
-  gap: 48px;
-}
-.logo {
-  font-family: var(--font-d);
-  font-size: 22px; font-weight: 700;
-  color: var(--text); text-decoration: none;
-  letter-spacing: -0.02em; flex-shrink: 0;
-}
-.logo em { color: var(--orange); font-style: normal; }
-
-nav ul {
-  list-style: none; display: flex; gap: 8px;
-  flex: 1;
-}
-nav ul li a {
-  font-size: 13.5px; font-weight: 500; color: var(--text2);
-  text-decoration: none; padding: 6px 12px;
-  border-radius: 8px; letter-spacing: 0.01em;
-  transition: background 0.18s, color 0.18s;
-}
-nav ul li a:hover { background: var(--orange4); color: var(--orange); }
-
-.nav-cta {
-  font-family: var(--font-b); font-size: 13px; font-weight: 600;
-  background: var(--orange); color: #fff;
-  border: none; padding: 8px 20px; border-radius: 9px;
-  cursor: pointer; text-decoration: none;
-  transition: background 0.18s, transform 0.15s;
-  flex-shrink: 0;
-}
-.nav-cta:hover { background: var(--orange2); transform: translateY(-1px); }
-
-/* hamburger */
-.menu-wrap { position: relative; margin-left: auto; }
-.menu-btn {
-  width: 40px; height: 40px; border-radius: 10px;
-  background: var(--white); border: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 5px;
-  cursor: pointer; transition: border-color 0.2s;
-}
-.menu-btn:hover { border-color: var(--orange); }
-.menu-btn span {
-  width: 18px; height: 1.5px; background: var(--text);
-  border-radius: 2px; transition: all 0.28s cubic-bezier(0.4,0,0.2,1);
-  display: block;
-}
-.menu-btn.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.menu-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.menu-btn.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-.dropdown {
-  position: absolute; top: 50px; right: 0; min-width: 240px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-lg);
-  overflow: hidden; padding: 6px;
-  opacity: 0; transform: translateY(-6px) scale(0.98);
-  pointer-events: none;
-  transition: opacity 0.2s, transform 0.2s;
-  z-index: 200;
-}
-.dropdown.show { opacity: 1; transform: none; pointer-events: all; }
-
-.dd-label {
-  font-family: var(--font-m); font-size: 9.5px; font-weight: 500;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--text3); padding: 10px 12px 6px;
-}
-.dd-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 12px; border-radius: 10px;
-  font-size: 13.5px; font-weight: 500; color: var(--text);
-  text-decoration: none; transition: background 0.15s;
-  cursor: pointer; border: none; background: none;
-  width: 100%; font-family: var(--font-b);
-}
-.dd-item:hover { background: var(--orange4); color: var(--orange); }
-.dd-icon {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: var(--orange3); border: 1px solid rgba(244,96,12,0.15);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; flex-shrink: 0;
-}
-.badge-live {
-  margin-left: auto; font-family: var(--font-m);
-  font-size: 9px; font-weight: 600; padding: 2px 8px;
-  border-radius: 20px;
-  background: rgba(26,153,82,0.1); color: var(--green);
-  border: 1px solid rgba(26,153,82,0.2);
-  letter-spacing: 0.06em; text-transform: uppercase;
-}
-.badge-soon {
-  margin-left: auto; font-family: var(--font-m);
-  font-size: 9px; font-weight: 600; padding: 2px 8px;
-  border-radius: 20px;
-  background: #f0eeeb; color: var(--text3);
-  border: 1px solid var(--border);
-  letter-spacing: 0.06em; text-transform: uppercase;
-}
-.dd-divider { height: 1px; background: var(--border); margin: 4px 0; }
-
-/* mechanical dropdown items */
-.dd-mech:hover { background: rgba(180,83,9,0.07); color: #b45309; }
-.dd-icon-mech {
-  background: rgba(255,167,38,0.12) !important;
-  border-color: rgba(180,83,9,0.18) !important;
-}
-.badge-mech-live {
-  margin-left: auto; font-family: var(--font-m);
-  font-size: 9px; font-weight: 700; padding: 2px 8px;
-  border-radius: 20px;
-  background: rgba(180,83,9,0.1); color: #b45309;
-  border: 1px solid rgba(180,83,9,0.25);
-  letter-spacing: 0.06em; text-transform: uppercase;
-}
-.dropdown { min-width: 260px; }
-
-/* ════════════════════════════════════
-   HERO
-════════════════════════════════════ */
-.hero {
-  padding: 100px 32px 80px;
-  position: relative; overflow: hidden;
-  text-align: center;
-}
-
-/* orange blob */
-.hero::before {
-  content: '';
-  position: absolute;
-  width: 800px; height: 600px;
-  top: -200px; left: 50%; transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(244,96,12,0.08) 0%, transparent 65%);
-  pointer-events: none;
-}
-/* dot grid */
-.hero::after {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(15,14,12,0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
-  pointer-events: none;
-}
-
-.hero-inner { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; }
-
-.hero-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: 100px; padding: 6px 16px 6px 8px;
-  font-size: 12.5px; font-weight: 500; color: var(--text2);
-  margin-bottom: 32px;
-  box-shadow: var(--shadow);
-  animation: fadeUp 0.5s ease 0.1s both;
-}
-.hero-pill-dot {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: var(--orange); display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
-}
-.hero-pill-pulse {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--green);
-  animation: pulse 2s infinite;
-  margin-right: 2px;
-}
-@keyframes pulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(26,153,82,0.5); }
-  50% { box-shadow: 0 0 0 5px rgba(26,153,82,0); }
-}
-
-.hero h1 {
-  font-family: var(--font-d);
-  font-size: clamp(46px, 8vw, 90px);
-  font-weight: 700; line-height: 1.0;
-  letter-spacing: -0.04em;
-  margin-bottom: 24px;
-  animation: fadeUp 0.5s ease 0.2s both;
-}
-.hero h1 .o { color: var(--orange); }
-.hero h1 .outline {
-  -webkit-text-stroke: 1.5px var(--text);
-  color: transparent;
-}
-
-.hero-sub {
-  font-size: 17px; color: var(--text2); font-weight: 400;
-  max-width: 520px; margin: 0 auto 40px;
-  line-height: 1.75;
-  animation: fadeUp 0.5s ease 0.3s both;
-}
-
-.hero-btns {
-  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-  animation: fadeUp 0.5s ease 0.4s both;
-}
-.btn-primary {
-  background: var(--orange); color: #fff;
-  padding: 14px 32px; border-radius: 11px;
-  font-family: var(--font-b); font-size: 14.5px; font-weight: 600;
-  text-decoration: none; letter-spacing: 0.01em;
-  display: inline-flex; align-items: center; gap: 8px;
-  box-shadow: 0 4px 20px rgba(244,96,12,0.3);
-  transition: background 0.18s, transform 0.15s, box-shadow 0.18s;
-}
-.btn-primary:hover {
-  background: var(--orange2); transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(244,96,12,0.35);
-}
-.btn-secondary {
-  background: var(--white); color: var(--text);
-  padding: 14px 28px; border-radius: 11px;
-  font-family: var(--font-b); font-size: 14.5px; font-weight: 500;
-  text-decoration: none;
-  border: 1px solid var(--border);
-  display: inline-flex; align-items: center; gap: 8px;
-  transition: border-color 0.18s, background 0.18s, transform 0.15s;
-  box-shadow: var(--shadow);
-}
-.btn-secondary:hover {
-  border-color: var(--orange2); background: var(--orange3);
-  color: var(--orange); transform: translateY(-2px);
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ════════════════════════════════════
-   STATS BAR
-════════════════════════════════════ */
-.stats {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--white);
-}
-.stat {
-  text-align: center; padding: 28px 20px;
-  border-right: 1px solid var(--border);
-  transition: background 0.18s;
-}
-.stat:last-child { border-right: none; }
-.stat:hover { background: var(--orange3); }
-.stat-num {
-  font-family: var(--font-d); font-size: 38px; font-weight: 700;
-  color: var(--orange); letter-spacing: -0.03em; line-height: 1;
-  margin-bottom: 4px;
-}
-.stat-lbl {
-  font-family: var(--font-m); font-size: 10px; font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3);
-}
-
-/* ════════════════════════════════════
-   SECTION UTILS
-════════════════════════════════════ */
-.sec { padding: 88px 32px; }
-.sec-inner { max-width: 1120px; margin: 0 auto; }
-.sec-tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--font-m); font-size: 10px; font-weight: 600;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--orange); margin-bottom: 12px;
-}
-.sec-tag::before {
-  content: '';
-  width: 20px; height: 1.5px; background: var(--orange);
-  border-radius: 2px;
-}
-.sec-title {
-  font-family: var(--font-d); font-size: clamp(32px, 4vw, 52px);
-  font-weight: 700; letter-spacing: -0.03em; line-height: 1.08;
-  margin-bottom: 56px;
-}
-.sec-title span { color: var(--orange); }
-
-/* ════════════════════════════════════
-   ABOUT
-════════════════════════════════════ */
-.about-sec {
-  background: linear-gradient(160deg, #fff8f3 0%, var(--off) 60%);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.about-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
-  align-items: center; max-width: 1020px; margin: 0 auto;
-}
-.about-text h2 {
-  font-family: var(--font-d); font-size: clamp(30px, 4vw, 48px);
-  font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
-  margin-bottom: 20px;
-}
-.about-text h2 span { color: var(--orange); }
-.about-text p {
-  font-size: 15.5px; color: var(--text2); line-height: 1.85;
-  font-weight: 400; margin-bottom: 0;
-}
-.about-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-.chip {
-  font-family: var(--font-m); font-size: 11px; font-weight: 500;
-  padding: 5px 13px; border-radius: 100px;
-  background: var(--orange3); color: var(--orange);
-  border: 1px solid rgba(244,96,12,0.2);
-  letter-spacing: 0.04em;
-}
-
-/* ════════════════════════════════════
-   FOUNDER CARD
-════════════════════════════════════ */
-.founder-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 36px;
-  box-shadow: var(--shadow-lg);
-  position: relative; overflow: hidden;
-  text-align: center;
-}
-.founder-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--orange), var(--orange2), #fbbf24);
-}
-.founder-avatar {
-  width: 96px; height: 96px; border-radius: 24px;
-  background: linear-gradient(135deg, var(--orange3), #ffe4cc);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 40px; margin: 0 auto 16px;
-  border: 2px solid rgba(244,96,12,0.15);
-  box-shadow: 0 8px 24px rgba(244,96,12,0.15);
-}
-.founder-name {
-  font-family: var(--font-d); font-size: 22px; font-weight: 700;
-  letter-spacing: -0.02em; margin-bottom: 4px;
-}
-.founder-name span { color: var(--orange); }
-.founder-role {
-  font-family: var(--font-m); font-size: 10px; font-weight: 500;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--orange); margin-bottom: 16px; display: block;
-}
-.founder-bio {
-  font-size: 13.5px; color: var(--text2); line-height: 1.75;
-  margin-bottom: 20px;
-}
-.socials { display: flex; gap: 10px; justify-content: center; }
-.social-btn {
-  width: 40px; height: 40px; border-radius: 10px;
-  background: var(--off); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  text-decoration: none; transition: all 0.18s;
-}
-.social-btn:hover { background: var(--orange3); border-color: rgba(244,96,12,0.3); transform: translateY(-2px); }
-
-/* ════════════════════════════════════
-   APPS GRID
-════════════════════════════════════ */
-.apps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 14px;
-}
-.app-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 18px; padding: 24px 18px 18px;
-  text-align: center;
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  position: relative; overflow: hidden;
-  cursor: default;
-}
-.app-card::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(244,96,12,0.05), transparent 55%);
-  opacity: 0; transition: opacity 0.25s; pointer-events: none;
-}
-.app-card:hover { border-color: rgba(244,96,12,0.35); transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-.app-card:hover::after { opacity: 1; }
-.app-card.disabled { opacity: 0.45; pointer-events: none; }
-
-.app-icon {
-  width: 60px; height: 60px; border-radius: 16px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px; flex-shrink: 0;
-  transition: transform 0.2s;
-}
-.app-card:hover .app-icon { transform: scale(1.1); }
-.app-name { font-family: var(--font-d); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
-.app-desc { font-size: 11.5px; color: var(--text3); line-height: 1.45; }
-
-.app-btn-wrap { display: flex; width: 100%; margin-top: 6px; gap: 5px; }
-.app-btn {
-  flex: 1; padding: 8px 6px; border-radius: 9px;
-  font-family: var(--font-b); font-size: 11px; font-weight: 600;
-  text-decoration: none; text-align: center;
-  letter-spacing: 0.04em; text-transform: uppercase;
-  display: flex; align-items: center; justify-content: center; gap: 4px;
-  border: none; cursor: pointer;
-  transition: transform 0.15s, opacity 0.15s;
-}
-.app-btn:hover { transform: translateY(-1px); opacity: 0.85; }
-.app-btn-open {
-  background: var(--orange3); color: var(--orange);
-  border: 1px solid rgba(244,96,12,0.22);
-}
-.app-btn-open:hover { background: rgba(244,96,12,0.14); }
-.app-btn-soon {
-  background: var(--off); color: var(--text3);
-  border: 1px solid var(--border); cursor: not-allowed;
-}
-.app-btn-soon:hover { transform: none; opacity: 1; }
-
-/* ════════════════════════════════════
-   HOW TO STEPS
-════════════════════════════════════ */
-.steps { display: flex; flex-direction: column; gap: 0; max-width: 720px; }
-.step {
-  display: flex; gap: 24px; padding: 28px 0;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.18s;
-}
-.step:last-child { border-bottom: none; }
-.step-num-wrap { flex-shrink: 0; }
-.step-num {
-  width: 44px; height: 44px; border-radius: 12px;
-  background: var(--orange3); border: 1px solid rgba(244,96,12,0.2);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-d); font-size: 18px; font-weight: 700;
-  color: var(--orange);
-}
-.step-content h3 {
-  font-family: var(--font-d); font-size: 19px; font-weight: 600;
-  letter-spacing: -0.02em; margin-bottom: 6px;
-}
-.step-content p { font-size: 14px; color: var(--text2); }
-
-/* ════════════════════════════════════
-   PRIVACY
-════════════════════════════════════ */
-.privacy-wrap {
-  max-width: 720px; margin: 0 auto;
-}
-.privacy-wrap h2 {
-  font-family: var(--font-d); font-size: 44px; font-weight: 700;
-  letter-spacing: -0.03em; margin-bottom: 6px;
-}
-.privacy-updated {
-  font-family: var(--font-m); font-size: 11px; color: var(--text3);
-  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 40px; display: block;
-}
-.privacy-block { margin-bottom: 32px; }
-.privacy-block h3 {
-  font-family: var(--font-d); font-size: 17px; font-weight: 600;
-  margin-bottom: 8px; color: var(--text);
-}
-.privacy-block p, .privacy-block ul {
-  font-size: 14.5px; color: var(--text2); line-height: 1.85;
-}
-.privacy-block ul { padding-left: 0; list-style: none; }
-.privacy-block ul li {
-  padding: 5px 0 5px 16px; position: relative;
-}
-.privacy-block ul li::before {
-  content: '→';
-  position: absolute; left: 0; color: var(--orange);
-  font-size: 11px; top: 7px;
-}
-.privacy-block a { color: var(--orange); text-decoration: underline; }
-
-/* ════════════════════════════════════
-   MECHANICAL DESIGN SECTION
-════════════════════════════════════ */
-.mech-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
-}
-.mech-card {
-  background: var(--white);
-  border: 1px solid #e8dcc8;
-  border-radius: 18px; padding: 24px;
-  display: flex; flex-direction: column; gap: 12px;
-  position: relative; overflow: hidden;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-}
-.mech-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, #b45309, #f59e0b, #fbbf24);
-  opacity: 0; transition: opacity 0.22s;
-}
-.mech-card:hover {
-  border-color: rgba(180,83,9,0.35);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 36px rgba(180,83,9,0.10);
-}
-.mech-card:hover::before { opacity: 1; }
-.mech-card-soon { opacity: 0.58; pointer-events: none; }
-
-.mech-card-top {
-  display: flex; align-items: center; justify-content: space-between;
-}
-.mech-icon {
-  width: 48px; height: 48px; border-radius: 13px;
-  background: rgba(251,191,36,0.12);
-  border: 1px solid rgba(180,83,9,0.18);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-}
-.mech-badge-live {
-  font-family: var(--font-m); font-size: 9px; font-weight: 700;
-  padding: 3px 10px; border-radius: 20px;
-  background: rgba(180,83,9,0.10); color: #b45309;
-  border: 1px solid rgba(180,83,9,0.22);
-  letter-spacing: 0.08em; text-transform: uppercase;
-}
-.mech-card-name {
-  font-family: var(--font-d); font-size: 17px; font-weight: 600;
-  letter-spacing: -0.01em; color: var(--text);
-}
-.mech-card-desc {
-  font-size: 13px; color: var(--text2); line-height: 1.65; flex: 1;
-}
-.mech-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.mech-tag {
-  font-family: var(--font-m); font-size: 10px; font-weight: 500;
-  padding: 3px 9px; border-radius: 100px;
-  background: rgba(244,96,12,0.07); color: var(--orange);
-  border: 1px solid rgba(244,96,12,0.18);
-  letter-spacing: 0.04em;
-}
-.mech-open-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  padding: 10px 18px; border-radius: 10px;
-  font-family: var(--font-b); font-size: 13px; font-weight: 600;
-  letter-spacing: 0.01em;
-  background: rgba(180,83,9,0.10); color: #b45309;
-  border: 1px solid rgba(180,83,9,0.22);
-  text-decoration: none;
-  transition: background 0.18s, transform 0.15s;
-  cursor: pointer;
-}
-.mech-open-btn:hover { background: rgba(180,83,9,0.18); transform: translateY(-1px); }
-.mech-btn-disabled {
-  opacity: 0.45; cursor: not-allowed;
-}
-.mech-btn-disabled:hover { transform: none; }
-
-@media (max-width: 768px) {
-  .mech-grid { grid-template-columns: 1fr; }
-}
-
-/* ════════════════════════════════════
-   GAMES SECTION
-════════════════════════════════════ */
-.games-sec {
-  background: var(--white);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-/* ════════════════════════════════════
-   FOOTER
-════════════════════════════════════ */
-footer {
-  background: var(--text);
-  color: #fff;
-  padding: 56px 32px 36px;
-  text-align: center;
-}
-.footer-logo {
-  font-family: var(--font-d); font-size: 28px; font-weight: 700;
-  letter-spacing: -0.03em; margin-bottom: 20px;
-}
-.footer-logo em { color: var(--orange); font-style: normal; }
-.footer-links {
-  display: flex; gap: 8px; justify-content: center;
-  flex-wrap: wrap; margin-bottom: 24px;
-}
-.footer-links a {
-  font-size: 13px; color: rgba(255,255,255,0.55);
-  text-decoration: none; padding: 5px 12px; border-radius: 7px;
-  transition: color 0.15s, background 0.15s;
-}
-.footer-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
-.footer-copy { font-size: 12.5px; color: rgba(255,255,255,0.35); }
-
-.footer-socials { display: flex; gap: 10px; justify-content: center; margin-bottom: 24px; }
-.footer-social {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
-  display: flex; align-items: center; justify-content: center;
-  text-decoration: none; transition: all 0.18s;
-}
-.footer-social:hover { background: var(--orange); border-color: var(--orange); transform: translateY(-2px); }
-
-/* ════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════ */
-@media (max-width: 768px) {
-  nav ul { display: none; }
-  .nav-cta { display: none; }
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .stat { border-bottom: 1px solid var(--border); }
-  .about-grid { grid-template-columns: 1fr; gap: 40px; }
-  .hero h1 { font-size: 40px; }
-  .sec { padding: 60px 20px; }
-  .apps-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-}
-
-/* ════════════════════════════════════
-   SCROLL ANIMATIONS
-════════════════════════════════════ */
-.reveal {
-  opacity: 0; transform: translateY(24px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
-}
-.reveal.visible { opacity: 1; transform: none; }
+/* External link icon */
+.ext-svg { display:inline-block; vertical-align:middle; }
 </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
+<!-- NAV -->
 <nav>
   <a href="#" class="logo">Task<em>Junction</em></a>
   <ul>
@@ -716,80 +173,37 @@ footer {
     </button>
     <div class="dropdown" id="dropdown">
       <div class="dd-label">Categories</div>
-      <a href="#apps" class="dd-item" onclick="closeMenu()">
-        <div class="dd-icon">🌐</div> Web Applications
-        <span class="badge-live">Live</span>
-      </a>
-      <a href="#" class="dd-item" onclick="closeMenu()">
-        <div class="dd-icon">🤖</div> Android Apps
-        <span class="badge-live">Live</span>
-      </a>
-      <a href="#games" class="dd-item" onclick="closeMenu()">
-        <div class="dd-icon">🎮</div> Web Games
-        <span class="badge-live">Live</span>
-      </a>
+      <a href="#apps" class="dd-item" onclick="closeMenu()"><div class="dd-icon">🌐</div> Web Applications <span class="badge-live">Live</span></a>
+      <a href="#" class="dd-item" onclick="closeMenu()"><div class="dd-icon">🤖</div> Android Apps <span class="badge-live">Live</span></a>
+      <a href="#games" class="dd-item" onclick="closeMenu()"><div class="dd-icon">🎮</div> Web Games <span class="badge-live">Live</span></a>
 
       <div class="dd-divider"></div>
-
-      <!-- ⚙️ MECHANICAL DESIGN -->
       <div class="dd-label" style="color:#b45309;">⚙️ Mechanical Design</div>
 
-      <a href="#mechanical" class="dd-item dd-mech" onclick="closeMenu()">
-        <div class="dd-icon dd-icon-mech">🔧</div>
-        Pneumatic Cylinder Force
-        <span class="badge-mech-live">● Live</span>
-      </a>
-      <a href="#mechanical" class="dd-item dd-mech" onclick="closeMenu()">
-        <div class="dd-icon dd-icon-mech">⚙️</div>
-        Gear Ratio Calculator
-        <span class="badge-soon">Soon</span>
-      </a>
-      <a href="#mechanical" class="dd-item dd-mech" onclick="closeMenu()">
-        <div class="dd-icon dd-icon-mech">📐</div>
-        Beam Stress &amp; Deflection
-        <span class="badge-mech-live">● Live</span>
-      </a>
-      <a href="#mechanical" class="dd-item dd-mech" onclick="closeMenu()">
-        <div class="dd-icon dd-icon-mech">🔩</div>
-        Bolt Torque Calculator
-        <span class="badge-mech-live">● Live</span>
-      </a>
-      <a href="#mechanical" class="dd-item dd-mech" onclick="closeMenu()">
-        <div class="dd-icon dd-icon-mech">💧</div>
-        Hydraulic Force Calculator
-        <span class="badge-mech-live">● Live</span>
-      </a>
-      <!-- ✅ NEW: Spring Calculator -->
-      <a href="#mechanical" class="dd-item dd-mech" onclick="closeMenu()">
-        <div class="dd-icon dd-icon-mech">🌀</div>
-        Spring Calculator
-        <span class="badge-mech-live">● Live</span>
-      </a>
+      <a href="pneumatic-force-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">🔧</div> Pneumatic Cylinder Force <span class="badge-mech-live">● Live</span></a>
+      <a href="gear-ratio-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">⚙️</div> Gear Ratio Calculator <span class="badge-mech-live">● Live</span></a>
+      <a href="beam-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">📐</div> Beam Stress &amp; Deflection <span class="badge-mech-live">● Live</span></a>
+      <a href="bolt-torque-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">🔩</div> Bolt Torque Calculator <span class="badge-mech-live">● Live</span></a>
+      <a href="hydraulic_calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">💧</div> Hydraulic Force Calculator <span class="badge-mech-live">● Live</span></a>
+      <a href="spring-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">🌀</div> Spring Calculator <span class="badge-mech-live">● Live</span></a>
+      <a href="motor-gearbox-selector.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">⚡</div> Motor &amp; Gearbox Selector <span class="badge-mech-live">● Live</span></a>
+      <a href="chain-drive-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">🔗</div> Chain Drive Calculator <span class="badge-mech-live">● Live</span></a>
+      <a href="belt-drive-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">🔄</div> Belt Drive Calculator <span class="badge-mech-live">● Live</span></a>
+      <a href="conveyor-calculator.html" class="dd-item dd-mech" onclick="closeMenu()"><div class="dd-icon dd-icon-mech">🏭</div> Conveyor Calculator <span class="badge-mech-live">● Live</span></a>
 
       <div class="dd-divider"></div>
-
-      <!-- Scientific Calculator in dropdown -->
       <div class="dd-label">🔬 Tools</div>
-      <a href="#apps" class="dd-item" onclick="closeMenu()">
-        <div class="dd-icon" style="background:rgba(13,116,206,0.1);border-color:rgba(13,116,206,0.2);">🔬</div>
-        Scientific Calculator
-        <span class="badge-live">Live</span>
+      <a href="scientific_calculator_lightblue.html" class="dd-item" onclick="closeMenu()">
+        <div class="dd-icon" style="background:rgba(13,116,206,0.1);border-color:rgba(13,116,206,0.2);">🔬</div> Scientific Calculator <span class="badge-live">Live</span>
       </a>
-
       <div class="dd-divider"></div>
-      <a href="#" class="dd-item">
-        <div class="dd-icon">🍎</div> iOS Applications
-        <span class="badge-soon">Soon</span>
-      </a>
-      <a href="#" class="dd-item">
-        <div class="dd-icon">🖥️</div> Desktop Apps
-        <span class="badge-soon">Soon</span>
-      </a>
+      <a href="#" class="dd-item"><div class="dd-icon">🍎</div> iOS Applications <span class="badge-soon">Soon</span></a>
+      <a href="#" class="dd-item"><div class="dd-icon">🖥️</div> Desktop Apps <span class="badge-soon">Soon</span></a>
     </div>
   </div>
 </nav>
 
-<!-- ── HERO ── -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-pill">
@@ -797,17 +211,8 @@ footer {
       <span class="hero-pill-pulse"></span>
       Free tools, zero login, always live
     </div>
-
-    <h1>
-      Grab Every Idea,<br>
-      <span class="o">Build</span> Every <span class="outline">Skill</span>
-    </h1>
-
-    <p class="hero-sub">
-      Free web apps, Android tools, calculators, converters —
-      all in one place. No login. No subscription. Just tools that work.
-    </p>
-
+    <h1>Grab Every Idea,<br><span class="o">Build</span> Every <span class="outline">Skill</span></h1>
+    <p class="hero-sub">Free web apps, Android tools, calculators, converters — all in one place. No login. No subscription. Just tools that work.</p>
     <div class="hero-btns">
       <a href="#apps" class="btn-primary">🚀 Explore Apps</a>
       <a href="#about" class="btn-secondary">Meet the Founder ↓</a>
@@ -815,388 +220,199 @@ footer {
   </div>
 </section>
 
-<!-- ── STATS ── -->
+<!-- STATS -->
 <div class="stats">
-  <div class="stat">
-    <div class="stat-num">10+</div>
-    <div class="stat-lbl">Free Tools</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">0</div>
-    <div class="stat-lbl">Login Needed</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">100%</div>
-    <div class="stat-lbl">Free Forever</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">∞</div>
-    <div class="stat-lbl">Ideas to Build</div>
-  </div>
+  <div class="stat"><div class="stat-num">15+</div><div class="stat-lbl">Free Tools</div></div>
+  <div class="stat"><div class="stat-num">0</div><div class="stat-lbl">Login Needed</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">Free Forever</div></div>
+  <div class="stat"><div class="stat-num">∞</div><div class="stat-lbl">Ideas to Build</div></div>
 </div>
 
-<!-- ── ABOUT ── -->
+<!-- ABOUT -->
 <section id="about" class="sec about-sec">
   <div class="about-grid">
     <div class="about-text reveal">
       <div class="sec-tag">About TaskJunction</div>
       <h2>Built for <span>Everyone</span>, by One Developer</h2>
-      <p>
-        TaskJunction is a free platform with no login, no subscription, no hidden permissions.
-        We offer web apps, Android tools, calculators, converters — all in one place.
-        Every tool is crafted with care and runs locally on your device so your data stays yours.
-        Our mission: <strong>make everyday digital tasks easier for everyone.</strong>
-      </p>
+      <p>TaskJunction is a free platform with no login, no subscription, no hidden permissions. We offer web apps, Android tools, calculators, converters — all in one place. Every tool is crafted with care and runs locally on your device so your data stays yours. Our mission: <strong>make everyday digital tasks easier for everyone.</strong></p>
       <div class="about-chips">
-        <span class="chip">Free Forever</span>
-        <span class="chip">No Login</span>
-        <span class="chip">Privacy First</span>
-        <span class="chip">Works Offline</span>
+        <span class="chip">Free Forever</span><span class="chip">No Login</span><span class="chip">Privacy First</span><span class="chip">Works Offline</span>
       </div>
     </div>
-
-    <!-- Founder card -->
     <div class="founder-card reveal">
       <div class="founder-avatar">👨‍💻</div>
       <div class="founder-name">Vaibhav <span>Dhokpande</span></div>
       <span class="founder-role">Developer & Creator · TaskJunction</span>
-      <p class="founder-bio">
-        Hi! I'm Vaibhav — an indie developer passionate about building free, useful tools for everyone.
-        TaskJunction started as a simple idea: make everyday tasks easier. Every app here is crafted with care,
-        zero cost, and no hidden permissions.
-      </p>
+      <p class="founder-bio">Hi! I'm Vaibhav — an indie developer passionate about building free, useful tools for everyone. TaskJunction started as a simple idea: make everyday tasks easier. Every app here is crafted with care, zero cost, and no hidden permissions.</p>
       <div class="socials">
-        <a href="https://www.linkedin.com/in/vaibhav-dhokpande-a87179253" target="_blank" rel="noopener" class="social-btn" title="LinkedIn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0077b5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://twitter.com" target="_blank" rel="noopener" class="social-btn" title="Twitter">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-        <a href="https://www.facebook.com/share/17bdCAiE7G/?mibextid=wwXIfr" target="_blank" rel="noopener" class="social-btn" title="Facebook">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
+        <a href="https://www.linkedin.com/in/vaibhav-dhokpande-a87179253" target="_blank" rel="noopener" class="social-btn" title="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="#0077b5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://twitter.com" target="_blank" rel="noopener" class="social-btn" title="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://www.facebook.com/share/17bdCAiE7G/?mibextid=wwXIfr" target="_blank" rel="noopener" class="social-btn" title="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── APPS ── -->
+<!-- APPS -->
 <section id="apps" class="sec" style="background:#fff;">
   <div class="sec-inner">
     <div class="sec-tag">By VD</div>
     <div class="sec-title">Our <span>Applications</span></div>
-
     <div class="apps-grid">
-
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.2);">🧮</div>
-        <div class="app-name">Calculator</div>
-        <div class="app-desc">Smart &amp; minimal calculator</div>
-        <div class="app-btn-wrap">
-          <a href="calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(13,116,206,0.10);border:1px solid rgba(13,116,206,0.2);">🔬</div>
-        <div class="app-name">Scientific Calculator</div>
-        <div class="app-desc">Trig, logs, powers &amp; more</div>
-        <div class="app-btn-wrap">
-          <a href="scientific_calculator_lightblue.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);">📐</div>
-        <div class="app-name">Unit Converter</div>
-        <div class="app-desc">Length, Weight, Temp &amp; more</div>
-        <div class="app-btn-wrap">
-          <a href="unit-converter.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);">⏱️</div>
-        <div class="app-name">Timer &amp; Stopwatch</div>
-        <div class="app-desc">Countdown &amp; stopwatch tool</div>
-        <div class="app-btn-wrap">
-          <a href="timer.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);">🎨</div>
-        <div class="app-name">Color Picker</div>
-        <div class="app-desc">Pick HEX, RGB &amp; HSL colors</div>
-        <div class="app-btn-wrap">
-          <a href="color-picker.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.2);">🎂</div>
-        <div class="app-name">Age Calculator</div>
-        <div class="app-desc">Know your exact age in days</div>
-        <div class="app-btn-wrap">
-          <a href="age-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(244,96,12,0.08);border:1px solid rgba(244,96,12,0.15);">💳</div>
-        <div class="app-name">Tip Calculator</div>
-        <div class="app-desc">Split bills &amp; calculate tips</div>
-        <div class="app-btn-wrap">
-          <a href="tip-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);">✅</div>
-        <div class="app-name">To-Do List</div>
-        <div class="app-desc">Plan tasks, stay productive</div>
-        <div class="app-btn-wrap">
-          <a href="todo.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">⚖️</div>
-        <div class="app-name">BMI Calculator</div>
-        <div class="app-desc">Check your body mass index</div>
-        <div class="app-btn-wrap">
-          <a href="bmi-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-
-      <div class="app-card disabled reveal">
-        <div class="app-icon" style="background:#f0eeeb;border:1px solid var(--border);">📦</div>
-        <div class="app-name">More Coming</div>
-        <div class="app-desc">New apps in development</div>
-        <div class="app-btn-wrap">
-          <span class="app-btn app-btn-soon">Coming Soon</span>
-        </div>
-      </div>
-
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.2);">🧮</div><div class="app-name">Calculator</div><div class="app-desc">Smart &amp; minimal calculator</div><div class="app-btn-wrap"><a href="calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(13,116,206,0.10);border:1px solid rgba(13,116,206,0.2);">🔬</div><div class="app-name">Scientific Calculator</div><div class="app-desc">Trig, logs, powers &amp; more</div><div class="app-btn-wrap"><a href="scientific_calculator_lightblue.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);">📐</div><div class="app-name">Unit Converter</div><div class="app-desc">Length, Weight, Temp &amp; more</div><div class="app-btn-wrap"><a href="unit-converter.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);">⏱️</div><div class="app-name">Timer &amp; Stopwatch</div><div class="app-desc">Countdown &amp; stopwatch tool</div><div class="app-btn-wrap"><a href="timer.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);">🎨</div><div class="app-name">Color Picker</div><div class="app-desc">Pick HEX, RGB &amp; HSL colors</div><div class="app-btn-wrap"><a href="color-picker.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.2);">🎂</div><div class="app-name">Age Calculator</div><div class="app-desc">Know your exact age in days</div><div class="app-btn-wrap"><a href="age-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(244,96,12,0.08);border:1px solid rgba(244,96,12,0.15);">💳</div><div class="app-name">Tip Calculator</div><div class="app-desc">Split bills &amp; calculate tips</div><div class="app-btn-wrap"><a href="tip-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);">✅</div><div class="app-name">To-Do List</div><div class="app-desc">Plan tasks, stay productive</div><div class="app-btn-wrap"><a href="todo.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">⚖️</div><div class="app-name">BMI Calculator</div><div class="app-desc">Check your body mass index</div><div class="app-btn-wrap"><a href="bmi-calculator.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card disabled reveal"><div class="app-icon" style="background:#f0eeeb;border:1px solid var(--border);">📦</div><div class="app-name">More Coming</div><div class="app-desc">New apps in development</div><div class="app-btn-wrap"><span class="app-btn app-btn-soon">Coming Soon</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ── GAMES ── -->
+<!-- GAMES -->
 <section id="games" class="sec games-sec">
   <div class="sec-inner">
     <div class="sec-tag">Play &amp; Learn</div>
     <div class="sec-title">Web <span>Games</span></div>
     <div class="apps-grid" style="max-width:500px;">
-      <div class="app-card reveal">
-        <div class="app-icon" style="background:rgba(255,140,66,0.12);border:1px solid rgba(255,140,66,0.25);">🧩</div>
-        <div class="app-name">PuzzlePals</div>
-        <div class="app-desc">Fun puzzle game for kids!</div>
-        <div class="app-btn-wrap">
-          <a href="kids-puzzle-game.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a>
-        </div>
-      </div>
-      <div class="app-card disabled reveal">
-        <div class="app-icon" style="background:#f0eeeb;border:1px solid var(--border);">🎮</div>
-        <div class="app-name">More Games</div>
-        <div class="app-desc">New games coming soon!</div>
-        <div class="app-btn-wrap">
-          <span class="app-btn app-btn-soon">Coming Soon</span>
-        </div>
-      </div>
+      <div class="app-card reveal"><div class="app-icon" style="background:rgba(255,140,66,0.12);border:1px solid rgba(255,140,66,0.25);">🧩</div><div class="app-name">PuzzlePals</div><div class="app-desc">Fun puzzle game for kids!</div><div class="app-btn-wrap"><a href="kids-puzzle-game.html" class="app-btn app-btn-open" target="_blank">🌐 Open</a></div></div>
+      <div class="app-card disabled reveal"><div class="app-icon" style="background:#f0eeeb;border:1px solid var(--border);">🎮</div><div class="app-name">More Games</div><div class="app-desc">New games coming soon!</div><div class="app-btn-wrap"><span class="app-btn app-btn-soon">Coming Soon</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ── MECHANICAL DESIGN ── -->
-<section id="mechanical" class="sec" style="background: linear-gradient(160deg,#fffbf5 0%,#fff7ee 100%); border-top:1px solid #eddfc8; border-bottom:1px solid #eddfc8;">
+<!-- MECHANICAL DESIGN -->
+<section id="mechanical" class="sec" style="background:linear-gradient(160deg,#fffbf5 0%,#fff7ee 100%);border-top:1px solid #eddfc8;border-bottom:1px solid #eddfc8;">
   <div class="sec-inner">
     <div class="sec-tag" style="color:#b45309;">⚙️ Engineering Tools</div>
     <div class="sec-title">Mechanical <span style="color:#b45309;">Design</span> Calculators</div>
-    <p style="font-size:15px;color:var(--text2);max-width:560px;margin-bottom:44px;line-height:1.75;">
-      Professional-grade mechanical engineering calculators — pneumatics, gear systems, beam analysis and more.
-      All tools run in your browser. No install, no account required.
+    <p style="font-size:15px;color:var(--text2);max-width:600px;margin-bottom:44px;line-height:1.75;">
+      Professional-grade mechanical engineering calculators — pneumatics, gear systems, drive selection, conveyor design and more. All tools run in your browser. No install, no account required.
     </p>
 
     <div class="mech-grid">
 
+      <!-- Pneumatic -->
       <div class="mech-card reveal">
-        <div class="mech-card-top">
-          <div class="mech-icon">🔧</div>
-          <span class="mech-badge-live">● Live</span>
-        </div>
+        <div class="mech-card-top"><div class="mech-icon">🔧</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Pneumatic Cylinder Force</div>
-        <p class="mech-card-desc">
-          Calculate extend &amp; retract forces for pneumatic cylinders. Bore, rod diameter, supply &amp; back pressure.
-          Live cross-section diagram. SI / Imperial toggle.
-        </p>
-        <div class="mech-tags">
-          <span class="mech-tag">Pneumatics</span>
-          <span class="mech-tag">Force Calc</span>
-          <span class="mech-tag">SI + IMP</span>
-        </div>
-        <a href="pneumatic-force-calculator.html" target="_blank" class="mech-open-btn">
-          Open Calculator
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </a>
+        <p class="mech-card-desc">Calculate extend &amp; retract forces for pneumatic cylinders. Bore, rod diameter, supply &amp; back pressure. Live cross-section diagram. SI / Imperial toggle.</p>
+        <div class="mech-tags"><span class="mech-tag">Pneumatics</span><span class="mech-tag">Force Calc</span><span class="mech-tag">SI + IMP</span></div>
+        <a href="pneumatic-force-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
-      <div class="mech-card mech-card-soon reveal">
-        <div class="mech-card-top">
-          <div class="mech-icon">⚙️</div>
-          <span class="badge-soon" style="margin-left:0;">Soon</span>
-        </div>
+      <!-- Gear Ratio -->
+      <div class="mech-card reveal">
+        <div class="mech-card-top"><div class="mech-icon">⚙️</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Gear Ratio Calculator</div>
-        <p class="mech-card-desc">
-          Compute gear ratios, output speed and torque for spur, helical &amp; planetary gear systems. Multi-stage support.
-        </p>
-        <div class="mech-tags">
-          <span class="mech-tag">Gears</span>
-          <span class="mech-tag">Torque</span>
-          <span class="mech-tag">Speed</span>
-        </div>
-        <span class="mech-open-btn mech-btn-disabled">Coming Soon</span>
+        <p class="mech-card-desc">Compute gear ratios, output speed and torque for spur, helical &amp; planetary gear systems. Multi-stage support with live animated visualization.</p>
+        <div class="mech-tags"><span class="mech-tag">Gears</span><span class="mech-tag">Torque</span><span class="mech-tag">Speed</span></div>
+        <a href="gear-ratio-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
+      <!-- Beam -->
       <div class="mech-card reveal">
-        <div class="mech-card-top">
-          <div class="mech-icon">📐</div>
-          <span class="mech-badge-live">● Live</span>
-        </div>
+        <div class="mech-card-top"><div class="mech-icon">📐</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Beam Stress &amp; Deflection</div>
-        <p class="mech-card-desc">
-          Simply supported, cantilever &amp; fixed beam analysis. Bending stress, shear force diagrams and max deflection.
-        </p>
-        <div class="mech-tags">
-          <span class="mech-tag">Structural</span>
-          <span class="mech-tag">Bending</span>
-          <span class="mech-tag">Deflection</span>
-        </div>
-        <a href="beam-calculator.html" target="_blank" class="mech-open-btn">
-          Open Calculator
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </a>
+        <p class="mech-card-desc">Simply supported, cantilever &amp; fixed beam analysis. Bending stress, shear force diagrams and max deflection.</p>
+        <div class="mech-tags"><span class="mech-tag">Structural</span><span class="mech-tag">Bending</span><span class="mech-tag">Deflection</span></div>
+        <a href="beam-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
+      <!-- Bolt -->
       <div class="mech-card reveal">
-        <div class="mech-card-top">
-          <div class="mech-icon">🔩</div>
-          <span class="mech-badge-live">● Live</span>
-        </div>
+        <div class="mech-card-top"><div class="mech-icon">🔩</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Bolt Torque Calculator</div>
-        <p class="mech-card-desc">
-          Tightening torque for bolted joints. Metric &amp; UNC/UNF fasteners, friction coefficients and clamp force.
-        </p>
-        <div class="mech-tags">
-          <span class="mech-tag">Fasteners</span>
-          <span class="mech-tag">Torque</span>
-          <span class="mech-tag">Metric</span>
-        </div>
-        <a href="bolt-torque-calculator.html" target="_blank" class="mech-open-btn">
-          Open Calculator
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </a>
+        <p class="mech-card-desc">Tightening torque for bolted joints. Metric &amp; UNC/UNF fasteners, friction coefficients and clamp force.</p>
+        <div class="mech-tags"><span class="mech-tag">Fasteners</span><span class="mech-tag">Torque</span><span class="mech-tag">Metric</span></div>
+        <a href="bolt-torque-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
+      <!-- Hydraulic -->
       <div class="mech-card reveal">
-        <div class="mech-card-top">
-          <div class="mech-icon">💧</div>
-          <span class="mech-badge-live">● Live</span>
-        </div>
+        <div class="mech-card-top"><div class="mech-icon">💧</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Hydraulic Force Calculator</div>
-        <p class="mech-card-desc">
-          Calculate cylinder extend &amp; retract forces for hydraulic systems. Bore, rod diameter, pressure inputs with SI / Imperial unit toggle.
-        </p>
-        <div class="mech-tags">
-          <span class="mech-tag">Hydraulics</span>
-          <span class="mech-tag">Force Calc</span>
-          <span class="mech-tag">SI + IMP</span>
-        </div>
-        <a href="hydraulic_calculator.html" target="_blank" class="mech-open-btn">
-          Open Calculator
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </a>
+        <p class="mech-card-desc">Calculate cylinder extend &amp; retract forces for hydraulic systems. Bore, rod diameter, pressure inputs with SI / Imperial unit toggle.</p>
+        <div class="mech-tags"><span class="mech-tag">Hydraulics</span><span class="mech-tag">Force Calc</span><span class="mech-tag">SI + IMP</span></div>
+        <a href="hydraulic_calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
-      <!-- ✅ NEW: Spring Calculator -->
+      <!-- Spring -->
       <div class="mech-card reveal">
-        <div class="mech-card-top">
-          <div class="mech-icon">🌀</div>
-          <span class="mech-badge-live">● Live</span>
-        </div>
+        <div class="mech-card-top"><div class="mech-icon">🌀</div><span class="mech-badge-live">● Live</span></div>
         <div class="mech-card-name">Spring Calculator</div>
-        <p class="mech-card-desc">
-          Calculate spring constant, deflection, stress and natural frequency for compression, extension &amp; torsion springs. Material library included.
-        </p>
-        <div class="mech-tags">
-          <span class="mech-tag">Springs</span>
-          <span class="mech-tag">Deflection</span>
-          <span class="mech-tag">Stress</span>
-        </div>
-        <a href="spring-calculator.html" target="_blank" class="mech-open-btn">
-          Open Calculator
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </a>
+        <p class="mech-card-desc">Calculate spring constant, deflection, stress and natural frequency for compression, extension &amp; torsion springs. Material library included.</p>
+        <div class="mech-tags"><span class="mech-tag">Springs</span><span class="mech-tag">Deflection</span><span class="mech-tag">Stress</span></div>
+        <a href="spring-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      </div>
+
+      <!-- ✅ Motor & Gearbox Selector -->
+      <div class="mech-card reveal">
+        <div class="mech-card-top"><div class="mech-icon">⚡</div><span class="mech-badge-live">● Live</span></div>
+        <div class="mech-card-name">Motor &amp; Gearbox Selector</div>
+        <p class="mech-card-desc">Select the right motor and gearbox by entering linear velocity, RPM, load torque, duty cycle and ambient temperature. Matches from a real motor &amp; gearbox database with system efficiency summary.</p>
+        <div class="mech-tags"><span class="mech-tag">Motor</span><span class="mech-tag">Gearbox</span><span class="mech-tag">Drive System</span></div>
+        <a href="motor-gearbox-selector.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      </div>
+
+      <!-- ✅ Chain Drive Calculator -->
+      <div class="mech-card reveal">
+        <div class="mech-card-top"><div class="mech-icon">🔗</div><span class="mech-badge-live">● Live</span></div>
+        <div class="mech-card-name">Chain Drive Calculator</div>
+        <p class="mech-card-desc">Design roller chain drives — chain pitch, sprocket teeth, centre distance, chain length, speed ratio and power transmitted. Supports ANSI &amp; ISO chain standards.</p>
+        <div class="mech-tags"><span class="mech-tag">Chain Drive</span><span class="mech-tag">Sprocket</span><span class="mech-tag">Power Trans.</span></div>
+        <a href="chain-drive-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      </div>
+
+      <!-- ✅ Belt Drive Calculator -->
+      <div class="mech-card reveal">
+        <div class="mech-card-top"><div class="mech-icon">🔄</div><span class="mech-badge-live">● Live</span></div>
+        <div class="mech-card-name">Belt Drive Calculator</div>
+        <p class="mech-card-desc">Calculate V-belt and flat belt drives — belt length, speed ratio, tension, power capacity and centre distance. Supports open &amp; cross belt configurations.</p>
+        <div class="mech-tags"><span class="mech-tag">Belt Drive</span><span class="mech-tag">Pulley</span><span class="mech-tag">V-Belt</span></div>
+        <a href="belt-drive-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      </div>
+
+      <!-- ✅ Conveyor Calculator -->
+      <div class="mech-card reveal">
+        <div class="mech-card-top"><div class="mech-icon">🏭</div><span class="mech-badge-live">● Live</span></div>
+        <div class="mech-card-name">Conveyor Calculator</div>
+        <p class="mech-card-desc">Full conveyor system design — belt speed, capacity, motor power, tension and drive requirements. Supports flat, inclined &amp; declined conveyor configurations.</p>
+        <div class="mech-tags"><span class="mech-tag">Conveyor</span><span class="mech-tag">Belt Speed</span><span class="mech-tag">Capacity</span></div>
+        <a href="conveyor-calculator.html" target="_blank" class="mech-open-btn">Open Calculator <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ── PRIVACY ── -->
+<!-- PRIVACY -->
 <section id="privacy" class="sec" style="background:#fff;">
   <div class="privacy-wrap reveal">
     <div class="sec-tag">Legal</div>
     <h2>Privacy Policy</h2>
     <span class="privacy-updated">Last updated: May 2025</span>
-
-    <div class="privacy-block">
-      <h3>1. Information We Collect</h3>
-      <p>TaskJunction does not collect any personal information. We do not require you to create an account or log in.</p>
-    </div>
-    <div class="privacy-block">
-      <h3>2. How the App Works</h3>
-      <p>All tools run locally on your device. We do not store, transmit, or share any user data on our servers.</p>
-    </div>
-    <div class="privacy-block">
-      <h3>3. Permissions Used</h3>
-      <ul>
-        <li><strong>Internet Access:</strong> Required to load tools and resources.</li>
-        <li><strong>Storage Access:</strong> Required only where file saving is supported.</li>
-      </ul>
-    </div>
-    <div class="privacy-block">
-      <h3>4. Third-Party Advertising</h3>
-      <p>This website uses Google AdSense to display advertisements. Google may use cookies to serve ads based on your prior visits. You can opt out via <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ad Settings</a>.</p>
-    </div>
-    <div class="privacy-block">
-      <h3>5. Children's Privacy</h3>
-      <p>Our app and website are not directed at children under 13. We do not knowingly collect data from minors.</p>
-    </div>
-    <div class="privacy-block">
-      <h3>6. Changes to This Policy</h3>
-      <p>We may update this policy occasionally. Continued use of the app after changes implies acceptance.</p>
-    </div>
-    <div class="privacy-block">
-      <h3>7. Contact Us</h3>
-      <p>For any privacy questions, email us at: <a href="mailto:vaibhavdhokpande@gmail.com">vaibhavdhokpande@gmail.com</a></p>
-    </div>
+    <div class="privacy-block"><h3>1. Information We Collect</h3><p>TaskJunction does not collect any personal information. We do not require you to create an account or log in.</p></div>
+    <div class="privacy-block"><h3>2. How the App Works</h3><p>All tools run locally on your device. We do not store, transmit, or share any user data on our servers.</p></div>
+    <div class="privacy-block"><h3>3. Permissions Used</h3><ul><li><strong>Internet Access:</strong> Required to load tools and resources.</li><li><strong>Storage Access:</strong> Required only where file saving is supported.</li></ul></div>
+    <div class="privacy-block"><h3>4. Third-Party Advertising</h3><p>This website uses Google AdSense to display advertisements. Google may use cookies to serve ads based on your prior visits. You can opt out via <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ad Settings</a>.</p></div>
+    <div class="privacy-block"><h3>5. Children's Privacy</h3><p>Our app and website are not directed at children under 13. We do not knowingly collect data from minors.</p></div>
+    <div class="privacy-block"><h3>6. Changes to This Policy</h3><p>We may update this policy occasionally. Continued use of the app after changes implies acceptance.</p></div>
+    <div class="privacy-block"><h3>7. Contact Us</h3><p>For any privacy questions, email us at: <a href="mailto:vaibhavdhokpande@gmail.com">vaibhavdhokpande@gmail.com</a></p></div>
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-logo">Task<em>Junction</em></div>
   <div class="footer-socials">
-    <a href="https://www.linkedin.com/in/vaibhav-dhokpande-a87179253" target="_blank" rel="noopener" class="footer-social">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-    </a>
-    <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-    </a>
-    <a href="https://www.facebook.com/share/17bdCAiE7G/?mibextid=wwXIfr" target="_blank" rel="noopener" class="footer-social">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-    </a>
+    <a href="https://www.linkedin.com/in/vaibhav-dhokpande-a87179253" target="_blank" rel="noopener" class="footer-social"><svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a href="https://twitter.com" target="_blank" rel="noopener" class="footer-social"><svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a href="https://www.facebook.com/share/17bdCAiE7G/?mibextid=wwXIfr" target="_blank" rel="noopener" class="footer-social"><svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
   </div>
   <div class="footer-links">
     <a href="#about">About</a>
@@ -1210,7 +426,6 @@ footer {
 </footer>
 
 <script>
-/* menu */
 function toggleMenu() {
   document.getElementById('menuBtn').classList.toggle('open');
   document.getElementById('dropdown').classList.toggle('show');
@@ -1222,8 +437,6 @@ function closeMenu() {
 document.addEventListener('click', e => {
   if (!document.querySelector('.menu-wrap').contains(e.target)) closeMenu();
 });
-
-/* scroll reveal */
 const reveals = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
