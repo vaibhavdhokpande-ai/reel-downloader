@@ -2,10 +2,10 @@
 
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>PuzzlePals 🧩 — Fun Puzzle Game for Kids!</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --sky: #87CEEB;
@@ -444,148 +444,120 @@ box-shadow: 0 0 10px rgba(255,215,0,0.5);
 .jigsaw-area { flex-direction: column; align-items: center; }
 }
 </style>
-
 </head>
 <body>
-
 <!-- TOP NAV -->
-
-<nav class="top-nav">
-  <a href="index.html" class="nav-logo">Task<span>Junction</span></a>
-  <a href="index.html" class="back-btn">🏠 Back to Home</a>
+<nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
 </nav>
-
 <!-- Clouds -->
-
 <div class="clouds">
-  <div class="cloud cloud-1"></div>
-  <div class="cloud cloud-2"></div>
-  <div class="cloud cloud-3"></div>
+<div class="cloud cloud-1"></div>
+<div class="cloud cloud-2"></div>
+<div class="cloud cloud-3"></div>
 </div>
-
 <div class="game-wrapper">
-
-  <!-- Header -->
-
-  <div class="header">
-    <div class="header-title">🧩 PuzzlePals!</div>
-    <div class="header-sub">Fun games for little explorers! 🌈</div>
-  </div>
-
-  <!-- Score Bar -->
-
-  <div class="score-bar">
-    <div class="score-item">
-      <div class="score-label">⭐ Stars</div>
-      <div class="score-value score-stars" id="totalStars">0</div>
-    </div>
-    <div class="score-item">
-      <div class="score-label">🏆 Level</div>
-      <div class="score-value score-level" id="currentLevel">1</div>
-    </div>
-    <div class="score-item">
-      <div class="score-label">🎮 Moves</div>
-      <div class="score-value score-moves" id="moveCount">0</div>
-    </div>
-  </div>
-
-  <!-- Game Mode Tabs -->
-
-  <div class="mode-tabs">
-    <button class="mode-btn active" onclick="switchMode('memory', this)">🧠 Memory</button>
-    <button class="mode-btn" onclick="switchMode('jigsaw', this)">🧩 Jigsaw</button>
-    <button class="mode-btn" onclick="switchMode('colors', this)">🎨 Colors</button>
-  </div>
-
-  <!-- Level Tabs -->
-
-  <div class="level-tabs" id="levelTabs">
-    <button class="level-tab active" onclick="setLevel('easy', this)">🌱 Easy</button>
-    <button class="level-tab" onclick="setLevel('medium', this)">🌟 Medium</button>
-    <button class="level-tab" onclick="setLevel('hard', this)">🔥 Hard</button>
-  </div>
-
-  <!-- ═══════════════════════════════════ -->
-
-  <!-- MEMORY GAME -->
-
-  <!-- ═══════════════════════════════════ -->
-
-  <div class="game-area" id="memoryGame">
-    <div class="game-title" id="memoryTitle">🧠 Find the Matching Pairs!</div>
-    <div class="progress-wrap"><div class="progress-fill" id="memProgress" style="width:0%"></div></div>
-    <div class="memory-grid easy" id="memoryGrid"></div>
-    <div class="btn-center">
-      <button class="btn btn-primary" onclick="initMemory()">🔄 New Game</button>
-    </div>
-    <div class="win-screen" id="memWin">
-      <div class="win-emoji">🎉</div>
-      <div class="win-title">Amazing!</div>
-      <div class="win-stars" id="memWinStars">⭐⭐⭐</div>
-      <div class="win-msg" id="memWinMsg">You found all the pairs!</div>
-      <button class="btn btn-success" onclick="nextLevel()">Next Level 🚀</button>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════ -->
-
-  <!-- JIGSAW GAME -->
-
-  <!-- ═══════════════════════════════════ -->
-
-  <div class="game-area" id="jigsawGame" style="display:none">
-    <div class="game-title">🧩 Drag the pieces to the right spot!</div>
-    <div class="progress-wrap"><div class="progress-fill" id="jigProgress" style="width:0%"></div></div>
-    <div class="jigsaw-area">
-      <div>
-        <p style="text-align:center;font-weight:800;color:var(--dark);margin-bottom:10px;font-size:13px;">📋 BOARD</p>
-        <div class="puzzle-board" id="puzzleBoard"></div>
-      </div>
-      <div>
-        <p style="text-align:center;font-weight:800;color:var(--dark);margin-bottom:10px;font-size:13px;">🎒 PIECES</p>
-        <div class="puzzle-pieces" id="puzzlePieces"></div>
-      </div>
-    </div>
-    <div class="btn-center">
-      <button class="btn btn-primary" onclick="initJigsaw()">🔄 New Puzzle</button>
-    </div>
-    <div class="win-screen" id="jigWin">
-      <div class="win-emoji">🏆</div>
-      <div class="win-title">Puzzle Complete!</div>
-      <div class="win-stars" id="jigWinStars">⭐⭐⭐</div>
-      <div class="win-msg">You put all pieces in the right place!</div>
-      <button class="btn btn-success" onclick="nextLevel()">Next Level 🚀</button>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════ -->
-
-  <!-- COLOR MATCH GAME -->
-
-  <!-- ═══════════════════════════════════ -->
-
-  <div class="game-area" id="colorsGame" style="display:none">
-    <div class="game-title">🎨 Match the Color!</div>
-    <div class="progress-wrap"><div class="progress-fill" id="colorProgress" style="width:0%"></div></div>
-    <div class="color-match-area">
-      <div class="color-question" id="colorQuestion">What color is this? 🤔</div>
-      <div class="color-display" id="colorDisplay">🎨</div>
-      <div class="color-options" id="colorOptions"></div>
-    </div>
-    <div class="btn-center" style="margin-top:24px;">
-      <button class="btn btn-primary" onclick="initColors()">🔄 New Game</button>
-    </div>
-    <div class="win-screen" id="colorWin">
-      <div class="win-emoji">🌈</div>
-      <div class="win-title">Color Master!</div>
-      <div class="win-stars" id="colorWinStars">⭐⭐⭐</div>
-      <div class="win-msg">You know all the colors!</div>
-      <button class="btn btn-success" onclick="nextLevel()">Next Level 🚀</button>
-    </div>
-  </div>
-
+<!-- Header -->
+<div class="header">
+<div class="header-title">🧩 PuzzlePals!</div>
+<div class="header-sub">Fun games for little explorers! 🌈</div>
 </div>
-
+<!-- Score Bar -->
+<div class="score-bar">
+<div class="score-item">
+<div class="score-label">⭐ Stars</div>
+<div class="score-value score-stars" id="totalStars">0</div>
+</div>
+<div class="score-item">
+<div class="score-label">🏆 Level</div>
+<div class="score-value score-level" id="currentLevel">1</div>
+</div>
+<div class="score-item">
+<div class="score-label">🎮 Moves</div>
+<div class="score-value score-moves" id="moveCount">0</div>
+</div>
+</div>
+<!-- Game Mode Tabs -->
+<div class="mode-tabs">
+<button class="mode-btn active" onclick="switchMode('memory', this)">🧠 Memory</button>
+<button class="mode-btn" onclick="switchMode('jigsaw', this)">🧩 Jigsaw</button>
+<button class="mode-btn" onclick="switchMode('colors', this)">🎨 Colors</button>
+</div>
+<!-- Level Tabs -->
+<div class="level-tabs" id="levelTabs">
+<button class="level-tab active" onclick="setLevel('easy', this)">🌱 Easy</button>
+<button class="level-tab" onclick="setLevel('medium', this)">🌟 Medium</button>
+<button class="level-tab" onclick="setLevel('hard', this)">🔥 Hard</button>
+</div>
+<!-- ═══════════════════════════════════ -->
+<!-- MEMORY GAME -->
+<!-- ═══════════════════════════════════ -->
+<div class="game-area" id="memoryGame">
+<div class="game-title" id="memoryTitle">🧠 Find the Matching Pairs!</div>
+<div class="progress-wrap"><div class="progress-fill" id="memProgress" style="width:0%"></div></div>
+<div class="memory-grid easy" id="memoryGrid"></div>
+<div class="btn-center">
+<button class="btn btn-primary" onclick="initMemory()">🔄 New Game</button>
+</div>
+<div class="win-screen" id="memWin">
+<div class="win-emoji">🎉</div>
+<div class="win-title">Amazing!</div>
+<div class="win-stars" id="memWinStars">⭐⭐⭐</div>
+<div class="win-msg" id="memWinMsg">You found all the pairs!</div>
+<button class="btn btn-success" onclick="nextLevel()">Next Level 🚀</button>
+</div>
+</div>
+<!-- ═══════════════════════════════════ -->
+<!-- JIGSAW GAME -->
+<!-- ═══════════════════════════════════ -->
+<div class="game-area" id="jigsawGame" style="display:none">
+<div class="game-title">🧩 Drag the pieces to the right spot!</div>
+<div class="progress-wrap"><div class="progress-fill" id="jigProgress" style="width:0%"></div></div>
+<div class="jigsaw-area">
+<div>
+<p style="text-align:center;font-weight:800;color:var(--dark);margin-bottom:10px;font-size:13px;">📋 BOARD</p>
+<div class="puzzle-board" id="puzzleBoard"></div>
+</div>
+<div>
+<p style="text-align:center;font-weight:800;color:var(--dark);margin-bottom:10px;font-size:13px;">🎒 PIECES</p>
+<div class="puzzle-pieces" id="puzzlePieces"></div>
+</div>
+</div>
+<div class="btn-center">
+<button class="btn btn-primary" onclick="initJigsaw()">🔄 New Puzzle</button>
+</div>
+<div class="win-screen" id="jigWin">
+<div class="win-emoji">🏆</div>
+<div class="win-title">Puzzle Complete!</div>
+<div class="win-stars" id="jigWinStars">⭐⭐⭐</div>
+<div class="win-msg">You put all pieces in the right place!</div>
+<button class="btn btn-success" onclick="nextLevel()">Next Level 🚀</button>
+</div>
+</div>
+<!-- ═══════════════════════════════════ -->
+<!-- COLOR MATCH GAME -->
+<!-- ═══════════════════════════════════ -->
+<div class="game-area" id="colorsGame" style="display:none">
+<div class="game-title">🎨 Match the Color!</div>
+<div class="progress-wrap"><div class="progress-fill" id="colorProgress" style="width:0%"></div></div>
+<div class="color-match-area">
+<div class="color-question" id="colorQuestion">What color is this? 🤔</div>
+<div class="color-display" id="colorDisplay">🎨</div>
+<div class="color-options" id="colorOptions"></div>
+</div>
+<div class="btn-center" style="margin-top:24px;">
+<button class="btn btn-primary" onclick="initColors()">🔄 New Game</button>
+</div>
+<div class="win-screen" id="colorWin">
+<div class="win-emoji">🌈</div>
+<div class="win-title">Color Master!</div>
+<div class="win-stars" id="colorWinStars">⭐⭐⭐</div>
+<div class="win-msg">You know all the colors!</div>
+<button class="btn btn-success" onclick="nextLevel()">Next Level 🚀</button>
+</div>
+</div>
+</div>
 <script>
 // ─── STATE ───────────────────────────────
 let currentMode = 'memory';
@@ -991,10 +963,18 @@ document.addEventListener('click', (e) => {
   }
 });
 </script>
-
 <div style="text-align:center; padding: 20px; font-family:'Baloo 2',cursive; font-size:14px; font-weight:700; color:rgba(255,255,255,0.8); text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">
   Made by Vaibhav Dhokpande 🎮
 </div>
-
-</body>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
+</footer></body>
 </html>
