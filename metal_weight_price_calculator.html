@@ -1,0 +1,334 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.app{min-height:100vh;background:var(--color-background-tertiary)}
+.header{background:#1a1a2e;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.header-logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px;background:#00ff88;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#000}
+.logo-text{color:#fff;font-weight:500;font-size:16px;letter-spacing:.5px}
+.header-link{color:#00ff88;font-size:13px;text-decoration:none;display:flex;align-items:center;gap:5px;border:1px solid rgba(0,255,136,.3);padding:6px 12px;border-radius:6px;transition:background .15s}
+.header-link:hover{background:rgba(0,255,136,.1)}
+.body{max-width:900px;margin:0 auto;padding:24px 16px 32px}
+.page-title{font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:24px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:20px}
+.section-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px}
+.shape-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.shape-btn{border:1.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 6px;cursor:pointer;text-align:center;transition:all .15s;background:var(--color-background-primary)}
+.shape-btn:hover{border-color:var(--color-border-primary)}
+.shape-btn.active{border-color:#0066cc;background:var(--color-background-info);color:var(--color-text-info)}
+.shape-btn .si{font-size:22px;display:block;margin-bottom:4px}
+.shape-btn .sl{font-size:11px;color:var(--color-text-secondary)}
+.shape-btn.active .sl{color:var(--color-text-info)}
+label{font-size:13px;color:var(--color-text-secondary);display:block;margin-bottom:5px}
+input,select{width:100%;padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:14px;background:var(--color-background-primary);color:var(--color-text-primary)}
+.dim-row{display:grid;gap:10px;margin-bottom:12px}
+.field{margin-bottom:12px}
+.unit-badge{font-size:11px;color:var(--color-text-secondary);margin-top:3px}
+.metal-pills{display:flex;flex-wrap:wrap;gap:7px}
+.mpill{border:1.5px solid var(--color-border-tertiary);border-radius:20px;padding:5px 13px;font-size:12px;cursor:pointer;transition:all .15s;background:var(--color-background-primary);color:var(--color-text-primary)}
+.mpill:hover{border-color:var(--color-border-primary)}
+.mpill.active{background:#1a1a2e;border-color:#1a1a2e;color:#fff}
+.density-row{display:flex;align-items:center;gap:10px;margin-top:12px}
+.density-row span{font-size:12px;color:var(--color-text-secondary)}
+.density-row input{flex:1;max-width:120px}
+.results-card{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border-radius:var(--border-radius-lg);padding:24px;color:#fff;margin-bottom:16px}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.res-block{background:rgba(255,255,255,.07);border-radius:var(--border-radius-md);padding:14px}
+.res-lbl{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.res-val{font-size:22px;font-weight:500}
+.res-unit{font-size:12px;color:rgba(255,255,255,.5);margin-left:4px}
+.price-big{font-size:32px;font-weight:500;color:#00ff88}
+.weight-big{font-size:32px;font-weight:500;color:#60a5fa}
+.calc-btn{width:100%;padding:12px;background:#00ff88;color:#000;border:none;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;cursor:pointer;margin-top:4px;transition:opacity .15s}
+.calc-btn:hover{opacity:.88}
+.price-note{font-size:11px;color:var(--color-text-secondary);margin-top:6px;text-align:center}
+.footer{text-align:center;padding:20px 0 10px;font-size:12px;color:var(--color-text-secondary);border-top:0.5px solid var(--color-border-tertiary)}
+.formula-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;font-size:12px;color:var(--color-text-secondary);margin-top:12px;font-family:var(--font-mono)}
+.tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500;margin-left:6px;background:var(--color-background-success);color:var(--color-text-success)}
+.qty-row{display:flex;align-items:center;gap:8px}
+.qty-row input{max-width:80px}
+</style>
+
+<div class="app">
+<div class="header">
+  <div class="header-logo">
+    <div class="logo-icon">TJ</div>
+    <span class="logo-text">TaskJunction</span>
+  </div>
+  <a href="https://vaibhavdhokpande-ai.github.io/" class="header-link">
+    <i class="ti ti-arrow-left" aria-hidden="true"></i> Back to Home
+  </a>
+</div>
+
+<div class="body">
+  <div class="page-title">Metal Weight &amp; Price Calculator</div>
+  <div class="page-sub">Select shape, material, dimensions and quantity to calculate weight and live price</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="section-label">Step 1 — Select shape</div>
+    <div class="shape-grid" id="shapeGrid">
+      <div class="shape-btn active" data-shape="square_bar" onclick="selectShape(this)">
+        <span class="si">⬛</span><span class="sl">Square Bar</span>
+      </div>
+      <div class="shape-btn" data-shape="rect_bar" onclick="selectShape(this)">
+        <span class="si">▬</span><span class="sl">Rect Bar</span>
+      </div>
+      <div class="shape-btn" data-shape="flat_plate" onclick="selectShape(this)">
+        <span class="si">🟦</span><span class="sl">Flat Plate</span>
+      </div>
+      <div class="shape-btn" data-shape="round_bar" onclick="selectShape(this)">
+        <span class="si">⚫</span><span class="sl">Round Bar</span>
+      </div>
+      <div class="shape-btn" data-shape="hex_bar" onclick="selectShape(this)">
+        <span class="si">⬡</span><span class="sl">Hex Bar</span>
+      </div>
+      <div class="shape-btn" data-shape="hollow_pipe" onclick="selectShape(this)">
+        <span class="si">⭕</span><span class="sl">Hollow Pipe</span>
+      </div>
+      <div class="shape-btn" data-shape="angle" onclick="selectShape(this)">
+        <span class="si">📐</span><span class="sl">Angle/L</span>
+      </div>
+      <div class="shape-btn" data-shape="channel" onclick="selectShape(this)">
+        <span class="si">⊏</span><span class="sl">Channel/C</span>
+      </div>
+      <div class="shape-btn" data-shape="tee" onclick="selectShape(this)">
+        <span class="si">⊤</span><span class="sl">T-Section</span>
+      </div>
+      <div class="shape-btn" data-shape="i_beam" onclick="selectShape(this)">
+        <span class="si">🔩</span><span class="sl">I-Beam</span>
+      </div>
+      <div class="shape-btn" data-shape="square_tube" onclick="selectShape(this)">
+        <span class="si">⬜</span><span class="sl">Square Tube</span>
+      </div>
+      <div class="shape-btn" data-shape="sheet_coil" onclick="selectShape(this)">
+        <span class="si">📄</span><span class="sl">Sheet/Coil</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="section-label">Step 2 — Material &amp; Density</div>
+      <div class="metal-pills" id="metalPills"></div>
+      <div class="density-row">
+        <span>Density (g/cm³):</span>
+        <input type="number" id="densityInput" step="0.01" value="7.85" min="0.1" max="25" oninput="calcWeight()">
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label">Step 3 — Dimensions</div>
+      <div id="dimFields"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="section-label">Step 4 — Quantity &amp; Price/kg</div>
+    <div class="grid3">
+      <div class="field">
+        <label>Quantity (pieces)</label>
+        <input type="number" id="qty" value="1" min="1" oninput="calcWeight()">
+      </div>
+      <div class="field">
+        <label>Price per kg (₹)</label>
+        <input type="number" id="pricePerKg" value="85" min="0" oninput="calcWeight()">
+      </div>
+      <div class="field">
+        <label>Unit</label>
+        <select id="unitSel" onchange="updateUnit()">
+          <option value="mm">Millimeters (mm)</option>
+          <option value="cm">Centimeters (cm)</option>
+          <option value="inch">Inches (in)</option>
+          <option value="m">Meters (m)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-card" id="resultsCard">
+    <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:2px">Live Result</div>
+    <div style="font-size:15px;font-weight:500;margin-bottom:12px" id="resShapeName">Square Bar</div>
+    <div class="res-grid">
+      <div class="res-block">
+        <div class="res-lbl">Unit Weight</div>
+        <div><span class="weight-big" id="resUnitWeight">—</span><span class="res-unit">kg</span></div>
+      </div>
+      <div class="res-block">
+        <div class="res-lbl">Total Weight (qty)</div>
+        <div><span class="weight-big" id="resTotalWeight">—</span><span class="res-unit">kg</span></div>
+      </div>
+      <div class="res-block">
+        <div class="res-lbl">Unit Price</div>
+        <div><span class="price-big" id="resUnitPrice">—</span><span class="res-unit">₹</span></div>
+      </div>
+      <div class="res-block">
+        <div class="res-lbl">Total Price (qty)</div>
+        <div><span class="price-big" id="resTotalPrice">—</span><span class="res-unit">₹</span></div>
+      </div>
+    </div>
+    <div class="formula-box" id="formulaBox" style="margin-top:14px;color:rgba(255,255,255,.5)">Formula will appear here</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Made with <i class="ti ti-heart" style="color:#ef4444;font-size:13px" aria-hidden="true"></i> by <strong>Vaibhav Dhokpande</strong> &nbsp;|&nbsp; TaskJunction &copy; 2025
+</div>
+</div>
+
+<script>
+const metals=[
+  {name:'MS Steel',density:7.85,price:85},
+  {name:'SS 304',density:8.00,price:210},
+  {name:'SS 316',density:8.03,price:260},
+  {name:'Aluminum',density:2.70,price:175},
+  {name:'Copper',density:8.96,price:780},
+  {name:'Brass',density:8.50,price:520},
+  {name:'GI/Zinc',density:7.13,price:210},
+  {name:'Cast Iron',density:7.20,price:65},
+  {name:'Bronze',density:8.80,price:680},
+  {name:'Titanium',density:4.51,price:2800},
+  {name:'Nickel',density:8.90,price:1400},
+  {name:'Lead',density:11.34,price:185},
+  {name:'Custom',density:7.85,price:100},
+];
+
+const shapes={
+  square_bar:{label:'Square Bar',fields:[{id:'side',lbl:'Side'},{id:'length',lbl:'Length'}]},
+  rect_bar:{label:'Rectangular Bar',fields:[{id:'width',lbl:'Width'},{id:'height',lbl:'Height'},{id:'length',lbl:'Length'}]},
+  flat_plate:{label:'Flat Plate',fields:[{id:'width',lbl:'Width'},{id:'thickness',lbl:'Thickness'},{id:'length',lbl:'Length'}]},
+  round_bar:{label:'Round Bar',fields:[{id:'dia',lbl:'Diameter'},{id:'length',lbl:'Length'}]},
+  hex_bar:{label:'Hex Bar (A/F)',fields:[{id:'af',lbl:'Across Flats'},{id:'length',lbl:'Length'}]},
+  hollow_pipe:{label:'Hollow Pipe',fields:[{id:'od',lbl:'Outer Dia'},{id:'wt',lbl:'Wall Thick'},{id:'length',lbl:'Length'}]},
+  angle:{label:'Angle / L-Section',fields:[{id:'a',lbl:'Leg A'},{id:'b',lbl:'Leg B'},{id:'t',lbl:'Thickness'},{id:'length',lbl:'Length'}]},
+  channel:{label:'Channel / C-Section',fields:[{id:'h',lbl:'Height'},{id:'fw',lbl:'Flange Width'},{id:'t',lbl:'Thickness'},{id:'length',lbl:'Length'}]},
+  tee:{label:'T-Section',fields:[{id:'w',lbl:'Width'},{id:'h',lbl:'Height'},{id:'t',lbl:'Thickness'},{id:'length',lbl:'Length'}]},
+  i_beam:{label:'I-Beam',fields:[{id:'h',lbl:'Height'},{id:'fw',lbl:'Flange Width'},{id:'tw',lbl:'Web Thick'},{id:'tf',lbl:'Flange Thick'},{id:'length',lbl:'Length'}]},
+  square_tube:{label:'Square Tube',fields:[{id:'side',lbl:'Side'},{id:'wt',lbl:'Wall Thick'},{id:'length',lbl:'Length'}]},
+  sheet_coil:{label:'Sheet / Coil',fields:[{id:'width',lbl:'Width'},{id:'thickness',lbl:'Thickness'},{id:'length',lbl:'Length'}]},
+};
+
+let currentShape='square_bar';
+let currentMetal=0;
+let unitFactor=1;
+
+function buildPills(){
+  const c=document.getElementById('metalPills');
+  c.innerHTML=metals.map((m,i)=>`<div class="mpill${i===0?' active':''}" onclick="selectMetal(${i})">${m.name}</div>`).join('');
+}
+
+function selectMetal(i){
+  currentMetal=i;
+  document.querySelectorAll('.mpill').forEach((el,j)=>el.classList.toggle('active',j===i));
+  document.getElementById('densityInput').value=metals[i].density;
+  document.getElementById('pricePerKg').value=metals[i].price;
+  calcWeight();
+}
+
+function selectShape(el){
+  document.querySelectorAll('.shape-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  currentShape=el.dataset.shape;
+  buildDimFields();
+  calcWeight();
+}
+
+function buildDimFields(){
+  const sh=shapes[currentShape];
+  const cols=sh.fields.length<=2?'1fr 1fr':'1fr 1fr';
+  const html=sh.fields.map(f=>`
+    <div class="field">
+      <label>${f.lbl}</label>
+      <input type="number" id="dim_${f.id}" value="${f.id==='length'?1000:f.id==='thickness'||f.id==='wt'||f.id==='tw'||f.id==='tf'?6:50}" min="0" step="0.1" oninput="calcWeight()">
+    </div>`).join('');
+  document.getElementById('dimFields').innerHTML=`<div style="display:grid;grid-template-columns:${cols};gap:10px">${html}</div>`;
+}
+
+function getVal(id){
+  const el=document.getElementById('dim_'+id);
+  return el?parseFloat(el.value)||0:0;
+}
+
+function toMM(v){
+  const u=document.getElementById('unitSel').value;
+  if(u==='cm')return v*10;
+  if(u==='inch')return v*25.4;
+  if(u==='m')return v*1000;
+  return v;
+}
+
+function calcVolumeMM3(){
+  const s=currentShape;
+  if(s==='square_bar'){
+    const a=toMM(getVal('side'));
+    return a*a*toMM(getVal('length'));
+  }
+  if(s==='rect_bar'||s==='flat_plate'||s==='sheet_coil'){
+    return toMM(getVal('width'))*toMM(getVal(s==='rect_bar'?'height':'thickness'))*toMM(getVal('length'));
+  }
+  if(s==='round_bar'){
+    const r=toMM(getVal('dia'))/2;
+    return Math.PI*r*r*toMM(getVal('length'));
+  }
+  if(s==='hex_bar'){
+    const af=toMM(getVal('af'));
+    return (Math.sqrt(3)/2)*af*af*toMM(getVal('length'));
+  }
+  if(s==='hollow_pipe'){
+    const od=toMM(getVal('od'));
+    const wt=toMM(getVal('wt'));
+    const id2=od-2*wt;
+    return Math.PI/4*(od*od-id2*id2)*toMM(getVal('length'));
+  }
+  if(s==='angle'){
+    const a=toMM(getVal('a')),b=toMM(getVal('b')),t=toMM(getVal('t')),l=toMM(getVal('length'));
+    return (a+b-t)*t*l;
+  }
+  if(s==='channel'){
+    const h=toMM(getVal('h')),fw=toMM(getVal('fw')),t=toMM(getVal('t')),l=toMM(getVal('length'));
+    return (h*t+2*fw*t)*l;
+  }
+  if(s==='tee'){
+    const w=toMM(getVal('w')),h=toMM(getVal('h')),t=toMM(getVal('t')),l=toMM(getVal('length'));
+    return (w+h-t)*t*l;
+  }
+  if(s==='i_beam'){
+    const h=toMM(getVal('h')),fw=toMM(getVal('fw')),tw=toMM(getVal('tw')),tf=toMM(getVal('tf')),l=toMM(getVal('length'));
+    return (2*fw*tf+(h-2*tf)*tw)*l;
+  }
+  if(s==='square_tube'){
+    const side=toMM(getVal('side')),wt=toMM(getVal('wt')),l=toMM(getVal('length'));
+    const inner=side-2*wt;
+    return (side*side-inner*inner)*l;
+  }
+  return 0;
+}
+
+function calcWeight(){
+  const density=parseFloat(document.getElementById('densityInput').value)||7.85;
+  const pricePerKg=parseFloat(document.getElementById('pricePerKg').value)||85;
+  const qty=parseInt(document.getElementById('qty').value)||1;
+  const vol=calcVolumeMM3();
+  const weightKg=vol*density/1e6;
+  const totalWeight=weightKg*qty;
+  const unitPrice=weightKg*pricePerKg;
+  const totalPrice=unitPrice*qty;
+  document.getElementById('resShapeName').textContent=shapes[currentShape].label+' — '+metals[currentMetal].name;
+  document.getElementById('resUnitWeight').textContent=weightKg.toFixed(3);
+  document.getElementById('resTotalWeight').textContent=totalWeight.toFixed(3);
+  document.getElementById('resUnitPrice').textContent='₹'+unitPrice.toFixed(2);
+  document.getElementById('resTotalPrice').textContent='₹'+totalPrice.toFixed(2);
+  const u=document.getElementById('unitSel').value;
+  document.getElementById('formulaBox').textContent=
+    `Volume = ${vol.toFixed(0)} mm³  |  Weight = Vol × ρ / 1e6  =  ${weightKg.toFixed(4)} kg  |  Price = ${weightKg.toFixed(4)} × ₹${pricePerKg}/kg  =  ₹${unitPrice.toFixed(2)}`;
+}
+
+function updateUnit(){calcWeight();}
+
+buildPills();
+buildDimFields();
+calcWeight();
+</script>
