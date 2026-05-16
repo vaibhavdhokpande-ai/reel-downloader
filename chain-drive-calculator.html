@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>ChainCalc Pro — Chain Drive Selection Calculator</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -186,269 +187,303 @@ input[type=range]:active::-webkit-slider-thumb { transform:scale(1.2); }
 ::-webkit-scrollbar-track { background:var(--bg); }
 ::-webkit-scrollbar-thumb { background:var(--card2); border-radius:2px; }
 </style>
+<style id="aff-css">
+.aff-wrap{max-width:900px;margin:48px auto 0;padding:0 20px;}
+.aff-title{font-family: Arial, sans-serif,'Orbitron',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:#9e9890;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;}
+.aff-title::before{content:'';width:20px;height:1.5px;background:#9e9890;border-radius:2px;}
+.aff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;margin-bottom:12px;}
+.aff-card{background:#ffffff;border:1px solid #e8e2d9;border-radius:16px;padding:20px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;}
+.aff-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#f4600c,#ff7a2e,#fbbf24);opacity:0;transition:opacity .22s;}
+.aff-card:hover{border-color:rgba(244,96,12,.35);transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(244,96,12,.10);}
+.aff-card:hover::before{opacity:1;}
+.aff-card-top{display:flex;align-items:center;gap:12px;}
+.aff-icon{width:44px;height:44px;border-radius:12px;background:#fff0e8;
+  border:1px solid rgba(244,96,12,.15);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;}
+.aff-badge{font-family: Arial, sans-serif,'Share Tech Mono',monospace;font-size:9px;
+  font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(244,96,12,.10);
+  color:#f4600c;border:1px solid rgba(244,96,12,.20);letter-spacing:.06em;
+  text-transform:uppercase;margin-left:auto;}
+.aff-name{font-family: Arial, sans-serif,'Orbitron',sans-serif;font-size:15px;
+  font-weight:600;color:#0f0e0c;letter-spacing:-.01em;line-height:1.3;}
+.aff-desc{font-size:12.5px;color:#5a5650;line-height:1.55;flex:1;}
+.aff-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 18px;border-radius:10px;
+  font-family: Arial, sans-serif,'Exo 2','IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;
+  background:#f4600c;color:#fff;text-decoration:none;
+  transition:background .18s,transform .15s;width:100%;}
+.aff-btn:hover{background:#ff7a2e;transform:translateY(-1px);}
+.aff-disclaimer{font-size:11px;color:#9e9890;text-align:center;
+  font-family: Arial, sans-serif,'Share Tech Mono',monospace;margin-top:4px;}
+</style>
 </head>
 <body>
-
-<nav class="top-nav">
-  <a href="index.html" class="nav-logo">Task<span>Junction</span></a>
-  <a href="index.html" class="back-btn">&#8592; Home</a>
+<nav style="position:sticky;top:0;z-index:1000;background:#ffffff;border-bottom:2px solid #e3eaf4;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;box-shadow:0 2px 10px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
+<a href="index.html" style="font-size:22px;font-weight:700;color:#0a2540;text-decoration:none;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></a>
+<a href="index.html" style="font-size:13px;font-weight:600;color:#2196f3;background:rgba(33,150,243,0.09);border:1.5px solid rgba(33,150,243,0.28);padding:8px 20px;border-radius:8px;text-decoration:none;transition:all 0.18s;">🏠 Home</a>
 </nav>
-
 <div class="wrap">
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-corners"></div>
-    <div class="hero-badge">&#9679; System Active</div>
-    <div class="hero-title">
-      <span class="accent">CHAIN</span>CALC
+<!-- HERO -->
+<div class="hero">
+<div class="hero-corners"></div>
+<div class="hero-badge">● System Active</div>
+<div class="hero-title">
+<span class="accent">CHAIN</span>CALC
       <span class="dim">CHAIN DRIVE SELECTION CALCULATOR</span>
-    </div>
-    <div class="unit-strip">
-      <button class="unit-btn active" id="btn-si"  onclick="setUnit('metric')">SI &middot; METRIC</button>
-      <button class="unit-btn"        id="btn-imp" onclick="setUnit('imperial')">IMP &middot; USC</button>
-    </div>
-  </div>
-
-  <!-- CHAIN RECOMMENDATION -->
-  <div class="chain-rec">
-    <div class="chain-rec-row">
-      <span class="chain-rec-title">&#128279; Recommended Chain</span>
-      <span class="chain-rec-badge" id="rec-ansi">ANSI 50</span>
-    </div>
-    <div class="chain-rec-grid">
-      <div class="chain-rec-item">
-        <div class="chain-rec-item-label">Pitch</div>
-        <div class="chain-rec-item-val" id="rec-pitch">15.875</div>
-        <div style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-top:1px;">mm</div>
-      </div>
-      <div class="chain-rec-item">
-        <div class="chain-rec-item-label">Rated Power</div>
-        <div class="chain-rec-item-val" id="rec-power">—</div>
-        <div style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-top:1px;" id="rec-power-u">kW</div>
-      </div>
-      <div class="chain-rec-item">
-        <div class="chain-rec-item-label">Max Speed</div>
-        <div class="chain-rec-item-val" id="rec-maxspd">—</div>
-        <div style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-top:1px;">RPM</div>
-      </div>
-      <div class="chain-rec-item">
-        <div class="chain-rec-item-label">Break Load</div>
-        <div class="chain-rec-item-val" id="rec-break">—</div>
-        <div style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-top:1px;">kN</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RESULTS ROW 1: 3 cols -->
-  <div class="result-6">
-    <div class="result-card rc-orange">
-      <div class="result-card-label">Design Power</div>
-      <div class="result-val rv-orange" id="r-dpow">&#8212;</div>
-      <div class="result-unit" id="u-dpow">kW</div>
-    </div>
-    <div class="result-card rc-blue">
-      <div class="result-card-label">Trans. Ratio</div>
-      <div class="result-val rv-blue" id="r-ratio">&#8212;</div>
-      <div class="result-unit">i = n&#8321;/n&#8322;</div>
-    </div>
-    <div class="result-card rc-purple">
-      <div class="result-card-label">Chain Velocity</div>
-      <div class="result-val rv-purple" id="r-vel">&#8212;</div>
-      <div class="result-unit" id="u-vel">m/s</div>
-    </div>
-  </div>
-
-  <!-- RESULTS ROW 2: 2 cols -->
-  <div class="result-2">
-    <div class="result-card rc-amber">
-      <div class="result-card-label">Chain Length</div>
-      <div class="result-val rv-amber" id="r-len">&#8212;</div>
-      <div class="result-unit" id="u-len">pitches</div>
-    </div>
-    <div class="result-card rc-teal">
-      <div class="result-card-label">Actual Centre Dist.</div>
-      <div class="result-val rv-teal" id="r-cd">&#8212;</div>
-      <div class="result-unit" id="u-cd">mm</div>
-    </div>
-  </div>
-
-  <!-- STATUS -->
-  <div class="status-card" id="status-card">
-    <div class="status-dot" id="status-dot"></div>
-    <span class="status-text" id="status-text">Computing...</span>
-  </div>
-
-  <!-- METRICS -->
-  <div class="metrics-row">
-    <div class="metric-cell">
-      <div class="metric-cell-label">Safety Factor</div>
-      <div class="metric-cell-val" id="m-sf">&#8212;</div>
-      <div class="metric-cell-unit">n (min 7)</div>
-    </div>
-    <div class="metric-cell">
-      <div class="metric-cell-label">Wrap Angle</div>
-      <div class="metric-cell-val" id="m-wrap">&#8212;</div>
-      <div class="metric-cell-unit">&#176; (min 120&#176;)</div>
-    </div>
-    <div class="metric-cell">
-      <div class="metric-cell-label">Sprocket Teeth</div>
-      <div class="metric-cell-val" id="m-teeth">&#8212;</div>
-      <div class="metric-cell-unit">z&#8321; / z&#8322;</div>
-    </div>
-  </div>
-
-  <!-- DIAGRAM -->
-  <div class="diagram-card">
-    <div class="diagram-label">Chain Drive Layout</div>
-    <svg id="chain-svg" viewBox="0 0 520 130" width="100%" style="display:block;"></svg>
-  </div>
-
-  <!-- CHAIN PITCH SELECT -->
-  <div class="params-label">Chain Standard (ANSI / ISO)</div>
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Chain Pitch</span>
-      <span class="slider-reading" id="r-chain">ANSI 50 &mdash; 15.875 mm</span>
-    </div>
-    <div class="pitch-grid" id="pitch-grid"></div>
-  </div>
-
-  <!-- POWER & SPEED -->
-  <div class="params-label">Power &amp; Speed Inputs</div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Input Power (P)</span>
-      <span class="slider-reading" id="r-power">5.0 kW</span>
-    </div>
-    <input type="range" id="s-power" min="0.1" max="200" value="5" step="0.1" oninput="calc()">
-    <div class="slider-ticks"><span>0.1</span><span>100</span><span>200</span></div>
-  </div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Driver Speed (n&#8321;)</span>
-      <span class="slider-reading" id="r-n1">1450 RPM</span>
-    </div>
-    <input type="range" id="s-n1" min="50" max="3000" value="1450" step="10" oninput="calc()">
-    <div class="slider-ticks"><span>50</span><span>1525</span><span>3000</span></div>
-  </div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Driven Speed (n&#8322;)</span>
-      <span class="slider-reading" id="r-n2">480 RPM</span>
-    </div>
-    <input type="range" id="s-n2" min="50" max="2000" value="480" step="10" oninput="calc()">
-    <div class="slider-ticks"><span>50</span><span>1025</span><span>2000</span></div>
-  </div>
-
-  <!-- SPROCKET TEETH -->
-  <div class="params-label">Sprocket Specification</div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Driver Sprocket Teeth (z&#8321;)</span>
-      <span class="slider-reading" id="r-z1">19</span>
-    </div>
-    <input type="range" id="s-z1" min="17" max="45" value="19" step="1" oninput="calc()">
-    <div class="slider-ticks"><span>17</span><span>31</span><span>45</span></div>
-  </div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Desired Centre Distance</span>
-      <span class="slider-reading" id="r-cdin">400 mm</span>
-    </div>
-    <input type="range" id="s-cd" min="100" max="2000" value="400" step="10" oninput="calc()">
-    <div class="slider-ticks"><span>100</span><span>1050</span><span>2000</span></div>
-  </div>
-
-  <!-- SERVICE CONDITIONS -->
-  <div class="params-label">Service Conditions</div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Load Type</span>
-      <span class="slider-reading" id="r-load">Moderate Shock</span>
-    </div>
-    <div class="sel-row" id="load-row"></div>
-  </div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Operating Hours/Day</span>
-      <span class="slider-reading" id="r-hrs">10&ndash;16 hrs</span>
-    </div>
-    <div class="sel-row" id="hrs-row"></div>
-  </div>
-
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Lubrication Type</span>
-      <span class="slider-reading" id="r-lube">Drip / Oil Bath</span>
-    </div>
-    <div class="sel-row" id="lube-row"></div>
-  </div>
-
-  <!-- SERVICE FACTOR TABLE -->
-  <div class="slider-card">
-    <div class="slider-row">
-      <span class="slider-name">Service Factor (K<sub>s</sub>)</span>
-      <span class="slider-reading" id="r-ks">1.40</span>
-    </div>
-    <table class="sf-table">
-      <thead>
-        <tr>
-          <th>Load Type</th>
-          <th>8&ndash;10 h/day</th>
-          <th>10&ndash;16 h/day</th>
-          <th>16&ndash;24 h/day</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="sf-row-0"><td>Smooth</td><td>1.0</td><td>1.25</td><td>1.50</td></tr>
-        <tr id="sf-row-1"><td>Mod. Shock</td><td>1.25</td><td>1.40</td><td>1.75</td></tr>
-        <tr id="sf-row-2"><td>Heavy Shock</td><td>1.50</td><td>1.75</td><td>2.00</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- FORMULA REFERENCE -->
-  <div class="formula-card">
-    <div class="params-label" style="margin-bottom:8px;">Formula Reference</div>
-    <div class="formula-row">
-      <span class="formula-tag ft-o">RATIO</span>
-      <span class="formula-expr">i = n&#8321;/n&#8322; = z&#8322;/z&#8321; &nbsp;&middot;&nbsp; z&#8322; = z&#8321; &times; i</span>
-    </div>
-    <div class="formula-row">
-      <span class="formula-tag ft-b">DESIGN P</span>
-      <span class="formula-expr">P<sub>d</sub> = P &times; K<sub>s</sub> &times; K<sub>lube</sub> &nbsp;&middot;&nbsp; K<sub>s</sub> = service factor</span>
-    </div>
-    <div class="formula-row">
-      <span class="formula-tag ft-p">VEL</span>
-      <span class="formula-expr">v = z&#8321; &times; n&#8321; &times; p / 60000 &nbsp;(m/s)</span>
-    </div>
-    <div class="formula-row">
-      <span class="formula-tag ft-t">LENGTH</span>
-      <span class="formula-expr">L = 2C/p + (z&#8321;+z&#8322;)/2 + (z&#8322;&minus;z&#8321;)&sup2; &times; p / (4&pi;&sup2;C) &nbsp;(pitches)</span>
-    </div>
-    <div class="formula-row">
-      <span class="formula-tag ft-g">SAFETY</span>
-      <span class="formula-expr">n = F<sub>break</sub> / F<sub>working</sub> &nbsp;&middot;&nbsp; F<sub>w</sub> = P<sub>d</sub>&times;1000/v &nbsp;(min n=7)</span>
-    </div>
-  </div>
-
 </div>
-
-<footer style="position:relative;z-index:1;text-align:center;padding:24px 16px 32px;display:flex;flex-direction:column;align-items:center;gap:8px;">
-  <div style="width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(234,88,12,0.35),transparent);margin-bottom:4px;"></div>
-  <div style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:0.12em;color:rgba(107,133,184,0.5);text-transform:uppercase;">Crafted by</div>
-  <div style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;color:#ea580c;text-shadow:0 0 12px rgba(234,88,12,0.4);">Vaibhav Dhokpande</div>
-  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.16em;color:rgba(58,79,120,0.8);text-transform:uppercase;">&copy; 2025 &middot; ChainCalc Pro</div>
+<div class="unit-strip">
+<button class="unit-btn active" id="btn-si" onclick="setUnit('metric')">SI · METRIC</button>
+<button class="unit-btn" id="btn-imp" onclick="setUnit('imperial')">IMP · USC</button>
+</div>
+</div>
+<!-- CHAIN RECOMMENDATION -->
+<div class="chain-rec">
+<div class="chain-rec-row">
+<span class="chain-rec-title">🔗 Recommended Chain</span>
+<span class="chain-rec-badge" id="rec-ansi">ANSI 50</span>
+</div>
+<div class="chain-rec-grid">
+<div class="chain-rec-item">
+<div class="chain-rec-item-label">Pitch</div>
+<div class="chain-rec-item-val" id="rec-pitch">15.875</div>
+<div style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-top:1px;">mm</div>
+</div>
+<div class="chain-rec-item">
+<div class="chain-rec-item-label">Rated Power</div>
+<div class="chain-rec-item-val" id="rec-power">—</div>
+<div id="rec-power-u" style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-top:1px;">kW</div>
+</div>
+<div class="chain-rec-item">
+<div class="chain-rec-item-label">Max Speed</div>
+<div class="chain-rec-item-val" id="rec-maxspd">—</div>
+<div style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-top:1px;">RPM</div>
+</div>
+<div class="chain-rec-item">
+<div class="chain-rec-item-label">Break Load</div>
+<div class="chain-rec-item-val" id="rec-break">—</div>
+<div style="font-family:var(--mono);font-size:7px;color:var(--text3);margin-top:1px;">kN</div>
+</div>
+</div>
+</div>
+<!-- RESULTS ROW 1: 3 cols -->
+<div class="result-6">
+<div class="result-card rc-orange">
+<div class="result-card-label">Design Power</div>
+<div class="result-val rv-orange" id="r-dpow">—</div>
+<div class="result-unit" id="u-dpow">kW</div>
+</div>
+<div class="result-card rc-blue">
+<div class="result-card-label">Trans. Ratio</div>
+<div class="result-val rv-blue" id="r-ratio">—</div>
+<div class="result-unit">i = n₁/n₂</div>
+</div>
+<div class="result-card rc-purple">
+<div class="result-card-label">Chain Velocity</div>
+<div class="result-val rv-purple" id="r-vel">—</div>
+<div class="result-unit" id="u-vel">m/s</div>
+</div>
+</div>
+<!-- RESULTS ROW 2: 2 cols -->
+<div class="result-2">
+<div class="result-card rc-amber">
+<div class="result-card-label">Chain Length</div>
+<div class="result-val rv-amber" id="r-len">—</div>
+<div class="result-unit" id="u-len">pitches</div>
+</div>
+<div class="result-card rc-teal">
+<div class="result-card-label">Actual Centre Dist.</div>
+<div class="result-val rv-teal" id="r-cd">—</div>
+<div class="result-unit" id="u-cd">mm</div>
+</div>
+</div>
+<!-- STATUS -->
+<div class="status-card" id="status-card">
+<div class="status-dot" id="status-dot"></div>
+<span class="status-text" id="status-text">Computing...</span>
+</div>
+<!-- METRICS -->
+<div class="metrics-row">
+<div class="metric-cell">
+<div class="metric-cell-label">Safety Factor</div>
+<div class="metric-cell-val" id="m-sf">—</div>
+<div class="metric-cell-unit">n (min 7)</div>
+</div>
+<div class="metric-cell">
+<div class="metric-cell-label">Wrap Angle</div>
+<div class="metric-cell-val" id="m-wrap">—</div>
+<div class="metric-cell-unit">° (min 120°)</div>
+</div>
+<div class="metric-cell">
+<div class="metric-cell-label">Sprocket Teeth</div>
+<div class="metric-cell-val" id="m-teeth">—</div>
+<div class="metric-cell-unit">z₁ / z₂</div>
+</div>
+</div>
+<!-- DIAGRAM -->
+<div class="diagram-card">
+<div class="diagram-label">Chain Drive Layout</div>
+<svg id="chain-svg" style="display:block;" viewbox="0 0 520 130" width="100%"></svg>
+</div>
+<!-- CHAIN PITCH SELECT -->
+<div class="params-label">Chain Standard (ANSI / ISO)</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Chain Pitch</span>
+<span class="slider-reading" id="r-chain">ANSI 50 — 15.875 mm</span>
+</div>
+<div class="pitch-grid" id="pitch-grid"></div>
+</div>
+<!-- POWER & SPEED -->
+<div class="params-label">Power &amp; Speed Inputs</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Input Power (P)</span>
+<span class="slider-reading" id="r-power">5.0 kW</span>
+</div>
+<input id="s-power" max="200" min="0.1" oninput="calc()" step="0.1" type="range" value="5"/>
+<div class="slider-ticks"><span>0.1</span><span>100</span><span>200</span></div>
+</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Driver Speed (n₁)</span>
+<span class="slider-reading" id="r-n1">1450 RPM</span>
+</div>
+<input id="s-n1" max="3000" min="50" oninput="calc()" step="10" type="range" value="1450"/>
+<div class="slider-ticks"><span>50</span><span>1525</span><span>3000</span></div>
+</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Driven Speed (n₂)</span>
+<span class="slider-reading" id="r-n2">480 RPM</span>
+</div>
+<input id="s-n2" max="2000" min="50" oninput="calc()" step="10" type="range" value="480"/>
+<div class="slider-ticks"><span>50</span><span>1025</span><span>2000</span></div>
+</div>
+<!-- SPROCKET TEETH -->
+<div class="params-label">Sprocket Specification</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Driver Sprocket Teeth (z₁)</span>
+<span class="slider-reading" id="r-z1">19</span>
+</div>
+<input id="s-z1" max="45" min="17" oninput="calc()" step="1" type="range" value="19"/>
+<div class="slider-ticks"><span>17</span><span>31</span><span>45</span></div>
+</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Desired Centre Distance</span>
+<span class="slider-reading" id="r-cdin">400 mm</span>
+</div>
+<input id="s-cd" max="2000" min="100" oninput="calc()" step="10" type="range" value="400"/>
+<div class="slider-ticks"><span>100</span><span>1050</span><span>2000</span></div>
+</div>
+<!-- SERVICE CONDITIONS -->
+<div class="params-label">Service Conditions</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Load Type</span>
+<span class="slider-reading" id="r-load">Moderate Shock</span>
+</div>
+<div class="sel-row" id="load-row"></div>
+</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Operating Hours/Day</span>
+<span class="slider-reading" id="r-hrs">10–16 hrs</span>
+</div>
+<div class="sel-row" id="hrs-row"></div>
+</div>
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Lubrication Type</span>
+<span class="slider-reading" id="r-lube">Drip / Oil Bath</span>
+</div>
+<div class="sel-row" id="lube-row"></div>
+</div>
+<!-- SERVICE FACTOR TABLE -->
+<div class="slider-card">
+<div class="slider-row">
+<span class="slider-name">Service Factor (K<sub>s</sub>)</span>
+<span class="slider-reading" id="r-ks">1.40</span>
+</div>
+<table class="sf-table">
+<thead>
+<tr>
+<th>Load Type</th>
+<th>8–10 h/day</th>
+<th>10–16 h/day</th>
+<th>16–24 h/day</th>
+</tr>
+</thead>
+<tbody>
+<tr id="sf-row-0"><td>Smooth</td><td>1.0</td><td>1.25</td><td>1.50</td></tr>
+<tr id="sf-row-1"><td>Mod. Shock</td><td>1.25</td><td>1.40</td><td>1.75</td></tr>
+<tr id="sf-row-2"><td>Heavy Shock</td><td>1.50</td><td>1.75</td><td>2.00</td></tr>
+</tbody>
+</table>
+</div>
+<!-- FORMULA REFERENCE -->
+<div class="formula-card">
+<div class="params-label" style="margin-bottom:8px;">Formula Reference</div>
+<div class="formula-row">
+<span class="formula-tag ft-o">RATIO</span>
+<span class="formula-expr">i = n₁/n₂ = z₂/z₁  ·  z₂ = z₁ × i</span>
+</div>
+<div class="formula-row">
+<span class="formula-tag ft-b">DESIGN P</span>
+<span class="formula-expr">P<sub>d</sub> = P × K<sub>s</sub> × K<sub>lube</sub>  ·  K<sub>s</sub> = service factor</span>
+</div>
+<div class="formula-row">
+<span class="formula-tag ft-p">VEL</span>
+<span class="formula-expr">v = z₁ × n₁ × p / 60000  (m/s)</span>
+</div>
+<div class="formula-row">
+<span class="formula-tag ft-t">LENGTH</span>
+<span class="formula-expr">L = 2C/p + (z₁+z₂)/2 + (z₂−z₁)² × p / (4π²C)  (pitches)</span>
+</div>
+<div class="formula-row">
+<span class="formula-tag ft-g">SAFETY</span>
+<span class="formula-expr">n = F<sub>break</sub> / F<sub>working</sub>  ·  F<sub>w</sub> = P<sub>d</sub>×1000/v  (min n=7)</span>
+</div>
+</div>
+</div>
+<div class="aff-wrap" id="aff-universal">
+<div class="aff-title">📚 Recommended Resource</div>
+<div class="aff-grid" style="grid-template-columns:1fr;">
+<div class="aff-card">
+<div class="aff-card-top">
+<div class="aff-icon">📖</div>
+<span class="aff-badge">Amazon</span>
+</div>
+<div class="aff-name">R.S. Khurmi — Theory of Machines &amp; Machine Design</div>
+<div class="aff-desc">The most trusted mechanical engineering reference book for Indian students &amp; professionals.
+        Covers gears, springs, shafts, belts, chains and more — everything this calculator is based on.</div>
+<a class="aff-btn" href="https://amzn.to/4tEIoui" rel="noopener sponsored" target="_blank">
+        🛒 Buy on Amazon India →
+      </a>
+</div>
+</div>
+<p class="aff-disclaimer">* Affiliate link — aapko koi extra cost nahi. Hum small commission earn karte hain.</p>
+</div>
+<footer style="background:#0a2540;color:#fff;padding:44px 24px 32px;text-align:center;font-family:Arial,sans-serif;">
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:-0.01em;">Task<span style="color:#2196f3;">Junction</span></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;">
+<a href="index.html" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;transition:color 0.15s;">Home</a>
+<a href="index.html#apps" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Apps</a>
+<a href="index.html#privacy" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Privacy</a>
+<a href="mailto:vaibhavdhokpande@gmail.com" style="color:rgba(255,255,255,0.65);text-decoration:none;font-size:13px;">Contact</a>
+</div>
+<div style="width:60px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 16px;"></div>
+<p style="font-size:12px;color:rgba(255,255,255,0.38);line-height:1.8;">Made by <span style="color:rgba(255,255,255,0.7);font-weight:600;">Vaibhav Dhokpande</span>  ·  © 2025 TaskJunction. All rights reserved.</p>
 </footer>
-
 <script>
 /* ═══════════════ CHAIN DATA (ANSI) ═══════════════ */
 // pitch(mm), breakLoad(kN), massPerM(kg/m), maxRPM(z=19), ratedPower(kW at 1450rpm z=19)
@@ -761,6 +796,5 @@ buildAllSel();
 highlightSF();
 calc();
 </script>
-
 </body>
 </html>
